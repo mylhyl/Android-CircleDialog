@@ -49,9 +49,9 @@ class BodyTextView extends ScaleTextView {
         setTextColor(textParams.textColor);
         setTextSize(textParams.textSize);
         setText(textParams.text);
+
         int[] padding = textParams.padding;
-        if (padding != null)
-            setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+        if (padding != null) setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
     }
 
     public void refreshText() {

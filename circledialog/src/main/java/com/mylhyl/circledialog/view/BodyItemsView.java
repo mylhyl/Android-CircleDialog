@@ -47,8 +47,7 @@ class BodyItemsView extends ListView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemsParams.dismiss();
-                if (itemsParams.listener != null)
-                    itemsParams.listener.onItemClick(parent, view, position, id);
+                if (itemsParams.listener != null) itemsParams.listener.onItemClick(parent, view, position, id);
             }
         });
 

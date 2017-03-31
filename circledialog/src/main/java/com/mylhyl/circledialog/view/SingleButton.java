@@ -28,8 +28,7 @@ class SingleButton extends ScaleTextView {
             @Override
             public void onClick(View v) {
                 buttonParams.dismiss();
-                if (buttonParams.listener != null)
-                    buttonParams.listener.onClick(v);
+                if (buttonParams.listener != null) buttonParams.listener.onClick(v);
             }
         });
         setText(buttonParams.text);

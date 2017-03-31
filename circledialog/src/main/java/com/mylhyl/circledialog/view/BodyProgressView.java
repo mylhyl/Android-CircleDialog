@@ -61,10 +61,6 @@ class BodyProgressView extends ScaleLinearLayout {
             //有标题有按钮则不用考虑圆角
         else setBackgroundColor(backgroundColor);
 
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, mProgressParams.progressHeight);
-        int[] margins = mProgressParams.margins;
-        if (margins != null)
-            layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
         //进度条
         mProgressBar = new ProgressBar(getContext());
         setFieldValue(mProgressBar, "mOnlyIndeterminate", new Boolean(false));
@@ -76,17 +72,17 @@ class BodyProgressView extends ScaleLinearLayout {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 Drawable d = getMethod("tileify", mProgressBar, new Object[]{layerDrawable, false});
                 mProgressBar.setProgressDrawable(d);
-            } else {
-                mProgressBar.setProgressDrawableTiled(layerDrawable);
-            }
+            } else mProgressBar.setProgressDrawableTiled(layerDrawable);
         } else {
             //使用者自定义xml
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 mProgressBar.setProgressDrawable(context.getDrawable(progressDrawableId));
-            } else {
-                mProgressBar.setProgressDrawable(context.getResources().getDrawable(progressDrawableId));
-            }
+            else mProgressBar.setProgressDrawable(context.getResources().getDrawable(progressDrawableId));
         }
+
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, mProgressParams.progressHeight);
+        int[] margins = mProgressParams.margins;
+        if (margins != null) layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
 
         addView(mProgressBar, layoutParams);
 
@@ -94,9 +90,8 @@ class BodyProgressView extends ScaleLinearLayout {
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
         int[] padding = mProgressParams.padding;
-        if (padding != null) {
-            textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
-        }
+        if (padding != null) textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+
         addView(textView);
 
         mViewUpdateHandler = new Handler() {
@@ -123,9 +118,7 @@ class BodyProgressView extends ScaleLinearLayout {
     }
 
     private void onProgressChanged() {
-        if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0)) {
-            mViewUpdateHandler.sendEmptyMessage(0);
-        }
+        if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0)) mViewUpdateHandler.sendEmptyMessage(0);
     }
 
     private static Drawable getMethod(String MethodName, Object o, Object[] paras) {
@@ -174,8 +167,7 @@ class BodyProgressView extends ScaleLinearLayout {
             try {
                 return superClass.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
-                // Field不在当前类定义,继续向上转型
-                e.printStackTrace();
+                e.printStackTrace();// Field不在当前类定义,继续向上转型
             }
         }
         return null;

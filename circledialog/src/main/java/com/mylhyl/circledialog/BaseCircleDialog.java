@@ -92,14 +92,10 @@ public abstract class BaseCircleDialog extends DialogFragment {
                     .scaleValue(padding[3]));
         }
         //动画
-        if (mAnimStyle != 0) {
-            window.setWindowAnimations(mAnimStyle);
-        }
-        if (isDimEnabled) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        }
+        if (mAnimStyle != 0) window.setWindowAnimations(mAnimStyle);
+
+        if (isDimEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        else window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setAttributes(wlp);
     }
 

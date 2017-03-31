@@ -12,6 +12,6 @@ public class TextParams extends TitleParams {
 
     public TextParams() {
         textColor = CircleColor.content;
-        textSize = CircleDimen.messageTextSize;
+        textSize = CircleDimen.contentTextSize;
     }
 }

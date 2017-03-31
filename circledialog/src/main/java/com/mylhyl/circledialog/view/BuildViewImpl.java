@@ -19,6 +19,7 @@ public class BuildViewImpl implements BuildView {
     private BodyTextView mBodyTextView;
     private BodyItemsView mBodyItemsView;
     private BodyProgressView mBodyProgressView;
+    private BodyInputView mBodyInputView;
     private ItemsButton mItemsButton;
     private MultipleButton mMultipleButton;
     private SingleButton mSingleButton;
@@ -54,9 +55,7 @@ public class BuildViewImpl implements BuildView {
 
     @Override
     public void refreshText() {
-        if (mBodyTextView != null) {
-            mBodyTextView.refreshText();
-        }
+        if (mBodyTextView != null) mBodyTextView.refreshText();
     }
 
     @Override
@@ -77,9 +76,7 @@ public class BuildViewImpl implements BuildView {
 
     @Override
     public void refreshItems() {
-        if (mBodyItemsView != null) {
-            mBodyItemsView.refreshItems();
-        }
+        if (mBodyItemsView != null) mBodyItemsView.refreshItems();
     }
 
     @Override
@@ -93,8 +90,14 @@ public class BuildViewImpl implements BuildView {
 
     @Override
     public void refreshProgress() {
-        if (mBodyProgressView != null) {
-            mBodyProgressView.refreshProgress();
+        if (mBodyProgressView != null) mBodyProgressView.refreshProgress();
+    }
+
+    @Override
+    public void buildInput() {
+        if (mBodyInputView == null) {
+            mBodyInputView = new BodyInputView(mContext, mParams);
+            mRoot.addView(mBodyInputView);
         }
     }
 

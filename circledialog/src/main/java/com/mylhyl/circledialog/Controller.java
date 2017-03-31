@@ -62,7 +62,11 @@ public class Controller {
         //进度条
         else if (mParams.getProgressParams() != null) {
             mCreateView.buildProgress();
-            //有确定并且有取消按钮
+            applyButton();
+        }
+        //输入框
+        else if (mParams.getInputParams() != null) {
+            mCreateView.buildInput();
             applyButton();
         }
     }

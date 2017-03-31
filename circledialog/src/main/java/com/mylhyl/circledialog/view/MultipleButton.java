@@ -39,8 +39,7 @@ class MultipleButton extends ScaleLinearLayout {
             @Override
             public void onClick(View v) {
                 negativeParams.dismiss();
-                if (negativeParams.listener != null)
-                    negativeParams.listener.onClick(v);
+                if (negativeParams.listener != null) negativeParams.listener.onClick(v);
             }
         });
         mNegativeButton.setText(negativeParams.text);
@@ -67,8 +66,7 @@ class MultipleButton extends ScaleLinearLayout {
             @Override
             public void onClick(View v) {
                 mPositiveParams.dismiss();
-                if (mPositiveParams.listener != null)
-                    mPositiveParams.listener.onClick(v);
+                if (mPositiveParams.listener != null) mPositiveParams.listener.onClick(v);
             }
         });
 

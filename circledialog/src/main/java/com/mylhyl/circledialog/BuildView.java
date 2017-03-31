@@ -25,6 +25,8 @@ public interface BuildView {
 
     void refreshProgress();
 
+    void buildInput();
+
     void buildMultipleButton();
 
     void buildSingleButton();

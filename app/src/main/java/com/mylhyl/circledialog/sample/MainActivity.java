@@ -18,9 +18,11 @@ import android.widget.Toast;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
+import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.TextParams;
 
 import java.util.ArrayList;
@@ -115,13 +117,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }, 3000);
                 break;
+            case 4:
+                new CircleDialog.Builder(this)
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelable(false)
+                        .setTitle("输入框")
+                        .setInputHint("请输入条件")
+                        .configInput(new ConfigInput() {
+                            @Override
+                            public void onConfig(InputParams params) {
+//                                params.inputBackgroundResourceId = R.drawable.bg_input;
+                            }
+                        })
+                        .setNegative("取消", null)
+                        .setPositive("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+                break;
             case 5:
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder(this);
                 builder.setTitle("下载")
                         .setProgressText("已经下载")
 //                        .setProgressText("已经下载%s了")
-                        .setProgressDrawable(R.drawable.progress_h)
+                        .setProgressDrawable(R.drawable.bg_progress_h)
                         .show();
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;

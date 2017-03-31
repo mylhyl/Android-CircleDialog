@@ -30,4 +30,8 @@ public class CircleColor {
      * 按钮点击颜色
      */
     public static final int buttonPress = 0xFFEAEAEA;
+    /**
+     * 输入框边框颜色
+     */
+    public static final int inputStroke = 0xFF808080;
 }

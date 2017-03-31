@@ -27,7 +27,8 @@ class TitleView extends ScaleTextView {
         int backgroundColor = titleParams.backgroundColor != 0 ? titleParams.backgroundColor : CircleColor.bgDialog;
 
         //有内容则顶部圆角
-        if (params.getTextParams() != null || params.getItemsParams() != null || params.getProgressParams() != null) {
+        if (params.getTextParams() != null || params.getItemsParams() != null || params.getProgressParams() != null
+                || params.getInputParams() != null) {
             setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams.radius, 0, 0));
         }
         //无内容则全部圆角

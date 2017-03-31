@@ -19,7 +19,7 @@ public class CircleDimen {
     /**
      * 文字消息字体大小
      */
-    public static final int messageTextSize = 50;
+    public static final int contentTextSize = 50;
     /**
      * 文字消息内边距
      */
@@ -50,7 +50,7 @@ public class CircleDimen {
     /**
      * 输入框内容的外边距
      */
-    public static final int[] inputMargins = {50, 45, 50, 45};
+    public static final int[] inputMargins = {50, 20, 50, 40};
     /**
      * 进度条外边距
      */

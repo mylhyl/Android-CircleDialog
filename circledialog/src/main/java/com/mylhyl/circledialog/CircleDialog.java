@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigText;
@@ -19,6 +20,7 @@ import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
+import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -242,6 +244,32 @@ public class CircleDialog {
                 mCircleParams.getDialogParams().gravity = Gravity.CENTER;
             if (mCircleParams.getProgressParams() == null)
                 mCircleParams.setProgressParams(new ProgressParams());
+        }
+
+        public Builder setInputHint(@NonNull String text) {
+            newInputParams();
+            mCircleParams.getInputParams().hintText = text;
+            return this;
+        }
+
+        public Builder setInputHeight(int height) {
+            newInputParams();
+            mCircleParams.getInputParams().inputHeight = height;
+            return this;
+        }
+
+        public Builder configInput(@NonNull ConfigInput configInput) {
+            newInputParams();
+            configInput.onConfig(mCircleParams.getInputParams());
+            return this;
+        }
+
+        private void newInputParams() {
+            //判断是否已经设置过
+            if (mCircleParams.getDialogParams().gravity == Gravity.NO_GRAVITY)
+                mCircleParams.getDialogParams().gravity = Gravity.CENTER;
+            if (mCircleParams.getInputParams() == null)
+                mCircleParams.setInputParams(new InputParams());
         }
 
         public Builder setPositive(@NonNull String text, View.OnClickListener listener) {
