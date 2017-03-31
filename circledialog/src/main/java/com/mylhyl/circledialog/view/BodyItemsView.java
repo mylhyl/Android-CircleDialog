@@ -56,7 +56,12 @@ class BodyItemsView extends ListView {
     }
 
     public void refreshItems() {
-        mAdapter.notifyDataSetChanged();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     static class ItemsAdapter<T> extends BaseAdapter {

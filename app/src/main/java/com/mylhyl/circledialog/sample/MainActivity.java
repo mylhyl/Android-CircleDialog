@@ -144,10 +144,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 5:
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder(this);
-                builder.setTitle("下载")
+                builder.setCancelable(false).setCanceledOnTouchOutside(false)
+                        .setTitle("下载")
                         .setProgressText("已经下载")
 //                        .setProgressText("已经下载%s了")
 //                        .setProgressDrawable(R.drawable.bg_progress_h)
+                        .setNegative("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                timer.cancel();
+                            }
+                        })
                         .show();
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;
@@ -161,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 @Override
                                 public void run() {
                                     builder.setProgressText("下载完成").create();
+                                    timer.cancel();
                                 }
                             });
                         } else {

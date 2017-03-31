@@ -34,7 +34,12 @@ public class Controller {
         mCreateView.refreshProgress();
         //刷新时带动画
         if (mParams.getDialogParams().refreshAnimation != null && getView() != null)
-            getView().startAnimation(mParams.getDialogParams().refreshAnimation);
+            getView().post(new Runnable() {
+                @Override
+                public void run() {
+                    getView().startAnimation(mParams.getDialogParams().refreshAnimation);
+                }
+            });
     }
 
     private void applyRoot() {

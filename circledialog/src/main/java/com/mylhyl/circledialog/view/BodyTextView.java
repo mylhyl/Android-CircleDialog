@@ -56,6 +56,11 @@ class BodyTextView extends ScaleTextView {
 
     public void refreshText() {
         if (mParams.getTextParams() == null) return;
-        setText(mParams.getTextParams().text);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                setText(mParams.getTextParams().text);
+            }
+        });
     }
 }
