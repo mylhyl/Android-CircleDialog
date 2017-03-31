@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
-                , new String[]{"提示框", "确定框", "换头像", "消息框", "输入框", "进度框", "动态改变内容", "动态改变items"}));
+                , new String[]{"提示框", "确定框", "换头像", "消息框", "输入框", "进度框", "动态改变内容"
+                , "动态改变items", "自定义"}));
         listView.setOnItemClickListener(this);
     }
 
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 4:
                 new CircleDialog.Builder(this)
                         .setCanceledOnTouchOutside(false)
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setTitle("输入框")
                         .setInputHint("请输入条件")
                         .configInput(new ConfigInput() {
@@ -228,6 +229,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         builder.create();
                     }
                 }, 3000);
+                break;
+            case 8:
+                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
                 break;
         }
     }

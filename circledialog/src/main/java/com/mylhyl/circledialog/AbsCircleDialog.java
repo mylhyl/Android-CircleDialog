@@ -44,7 +44,7 @@ final class AbsCircleDialog extends BaseCircleDialog {
         DialogParams dialogParams = mParams.getDialogParams();
         setGravity(dialogParams.gravity);
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
-        setCancelable(dialogParams.cancelable);
+        setCanceledBack(dialogParams.cancelable);
         setWidth(dialogParams.width);
         int[] mPadding = dialogParams.mPadding;
         if (mPadding != null)

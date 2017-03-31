@@ -17,10 +17,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -32,6 +32,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
 
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
+    private boolean mCanceledBack = true;//是否返回键关闭
     private float mWidth = 0.9f;//对话框宽度，范围：0-1；1整屏宽
     private int[] mPadding;//对话框与屏幕边缘距离
     private int mAnimStyle;//显示动画
@@ -62,6 +63,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside);
+            dialog.setCancelable(mCanceledBack);
             setDialogGravity(dialog);//设置对话框布局
         }
         super.onStart();
@@ -109,6 +111,12 @@ public abstract class BaseCircleDialog extends DialogFragment {
         }
     }
 
+    public void remove() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.remove(this);
+        ft.addToBackStack(null);
+    }
+
     /**
      * 设置对话框位置
      * {@link Gravity#CENTER 默认}
@@ -127,6 +135,16 @@ public abstract class BaseCircleDialog extends DialogFragment {
      */
     protected void setCanceledOnTouchOutside(boolean cancel) {
         mCanceledOnTouchOutside = cancel;
+    }
+
+    /**
+     * 设置对话框返回键关闭关闭
+     *
+     * @param cancel
+     * @return
+     */
+    protected void setCanceledBack(boolean cancel) {
+        mCanceledBack = cancel;
     }
 
     /**
