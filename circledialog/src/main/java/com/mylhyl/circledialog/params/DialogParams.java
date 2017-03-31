@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.params;
 
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.animation.Animation;
 
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -23,6 +24,7 @@ public class DialogParams implements Serializable {
     private int backgroundColor = Color.TRANSPARENT;//对话框的背景色透明，因为列表模式情况，内容与按钮中间有距离
     public int radius = CircleDimen.radius;//对话框的圆角半径
     public int x, y;
+    public Animation refreshAnimation;//内容刷新动画
 
     public int getBackgroundColor() {
         return backgroundColor;

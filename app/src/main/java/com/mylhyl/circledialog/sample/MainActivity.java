@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,11 +18,9 @@ import android.widget.Toast;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
-import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TextParams;
 
 import java.util.ArrayList;
@@ -111,13 +113,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case 6:
                 final CircleDialog.Builder builder = new CircleDialog.Builder(this);
-                builder.setTitle("动态改变内容")
+                builder.configDialog(new ConfigDialog() {
+                    @Override
+                    public void onConfig(DialogParams params) {
+                        params.gravity = Gravity.TOP;
+                    }
+                })
+                        .setTitle("动态改变内容")
                         .setText("3秒后更新其它内容")
                         .show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         builder.setText("已经更新内容");
+                        builder.configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                TranslateAnimation animation = new TranslateAnimation(15, -15, 0, 0);
+                                animation.setInterpolator(new OvershootInterpolator());
+                                animation.setDuration(100);
+                                animation.setRepeatCount(3);
+                                animation.setRepeatMode(Animation.RESTART);
+                                params.refreshAnimation = animation;
+                            }
+                        });
                         builder.create();
                     }
                 }, 3000);
