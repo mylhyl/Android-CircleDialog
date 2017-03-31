@@ -68,6 +68,7 @@ public class Controller {
         else if (mParams.getInputParams() != null) {
             mCreateView.buildInput();
             applyButton();
+            mCreateView.regInputListener();
         }
     }
 

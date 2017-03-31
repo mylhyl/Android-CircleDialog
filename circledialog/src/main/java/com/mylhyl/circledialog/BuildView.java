@@ -31,5 +31,7 @@ public interface BuildView {
 
     void buildSingleButton();
 
+    void regInputListener();
+
     View getView();
 }

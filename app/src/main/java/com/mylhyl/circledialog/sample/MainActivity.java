@@ -24,6 +24,7 @@ import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.TextParams;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             }
                         })
                         .setNegative("取消", null)
-                        .setPositive("确定", new View.OnClickListener() {
+                        .setPositiveInput("确定", new OnInputClickListener() {
                             @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            public void onClick(String text, View v) {
+                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
                             }
                         })
                         .show();

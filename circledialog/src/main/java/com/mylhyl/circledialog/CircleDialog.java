@@ -25,6 +25,7 @@ import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -280,6 +281,13 @@ public class CircleDialog {
             return this;
         }
 
+        public Builder setPositiveInput(@NonNull String text, OnInputClickListener listener) {
+            newPositiveParams();
+            ButtonParams params = mCircleParams.getPositiveParams();
+            params.text = text;
+            params.inputListener = listener;
+            return this;
+        }
 
         public Builder configPositive(@NonNull ConfigButton configButton) {
             newPositiveParams();

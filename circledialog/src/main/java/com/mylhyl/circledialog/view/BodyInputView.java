@@ -1,7 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.params.ButtonParams;
@@ -67,5 +67,9 @@ class BodyInputView extends ScaleLinearLayout {
         if (margins != null) layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
 
         addView(mEditText, layoutParams);
+    }
+
+    public EditText getInput() {
+        return mEditText;
     }
 }
