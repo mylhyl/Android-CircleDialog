@@ -49,12 +49,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                builder = new CircleDialog.Builder(this);
-                builder.setTitle("标题")
+                new CircleDialog.Builder(this)
+                        .setTitle("标题")
                         .setText("提示框")
                         .setPositive("确定", null)
-                        .create();
-                builder.show();
+                        .show();
                 break;
             case 1:
                 new CircleDialog.Builder(this)
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .configDialog(new ConfigDialog() {
                             @Override
                             public void onConfig(DialogParams params) {
+                                //增加弹出动画
                                 params.animStyle = R.style.dialogWindowAnim;
                             }
                         })
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .configNegative(new ConfigButton() {
                             @Override
                             public void onConfig(ButtonParams params) {
+                                //取消按钮字体颜色
                                 params.textColor = Color.RED;
                             }
                         })
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 builder.setTitle("下载")
                         .setProgressText("已经下载")
 //                        .setProgressText("已经下载%s了")
-                        .setProgressDrawable(R.drawable.bg_progress_h)
+//                        .setProgressDrawable(R.drawable.bg_progress_h)
                         .show();
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;

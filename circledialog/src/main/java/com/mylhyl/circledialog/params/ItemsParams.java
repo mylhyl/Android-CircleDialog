@@ -12,13 +12,14 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
 public abstract class ItemsParams extends BaseParams {
     public abstract void dismiss();
 
-    public AdapterView.OnItemClickListener listener;
-    public int itemHeight = CircleDimen.itemHeight;
-    public int[] padding;
-    public Object items;
+    public AdapterView.OnItemClickListener listener;//item点击事件
+    public int itemHeight = CircleDimen.itemHeight;//item高度
+    public int[] padding;//item内间距
+    public Object items;//数据源：array or list
 
+    //backgroundColor   item背景色
     public ItemsParams() {
-        textColor = CircleColor.content;
-        textSize = CircleDimen.contentTextSize;
+        textColor = CircleColor.content;//item字体色
+        textSize = CircleDimen.contentTextSize;//item字体大小
     }
 }

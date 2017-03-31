@@ -13,13 +13,16 @@ import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 public abstract class ButtonParams extends TitleParams {
     public abstract void dismiss();
 
-    public View.OnClickListener listener;
-    public OnInputClickListener inputListener;
-    public int topMargin;
+    public View.OnClickListener listener;//按钮点击事件
+    public OnInputClickListener inputListener;//输入框确定事件
+    public int topMargin;//按钮框与顶部距离
 
+
+    //backgroundColor   按钮背景颜色
+    //text    按钮文本
     public ButtonParams() {
-        textColor = CircleColor.button;
-        textSize = CircleDimen.footerTextSize;
-        height = CircleDimen.footerHeight;
+        textColor = CircleColor.button;//按钮文本颜色
+        textSize = CircleDimen.footerTextSize;//按钮文本大小
+        height = CircleDimen.footerHeight;//按钮高度
     }
 }
