@@ -97,6 +97,13 @@ public class BuildViewImpl implements BuildView {
     }
 
     @Override
+    public void refreshItems() {
+        if (mBodyItemsView != null) {
+            mBodyItemsView.refreshItems();
+        }
+    }
+
+    @Override
     public View getView() {
         return mRoot;
     }

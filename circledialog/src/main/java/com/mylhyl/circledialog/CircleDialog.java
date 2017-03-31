@@ -34,6 +34,11 @@ public class CircleDialog {
     public DialogFragment create(CircleParams params) {
         if (mDialog == null)
             mDialog = AbsCircleDialog.newAbsCircleDialog(params);
+        else {
+            if (mDialog != null && mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
+                mDialog.refreshView();
+            }
+        }
         return mDialog;
     }
 
@@ -220,7 +225,7 @@ public class CircleDialog {
         }
 
 
-        public Builder configNegative(@NonNull ConfigItems configItems) {
+        public Builder configItems(@NonNull ConfigItems configItems) {
             newItemsParams();
             configItems.onConfig(mCircleParams.getItemsParams());
             return this;

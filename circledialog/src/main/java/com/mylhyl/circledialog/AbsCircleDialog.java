@@ -18,6 +18,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 final class AbsCircleDialog extends BaseCircleDialog {
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
+    private Controller mController;
 
     public static AbsCircleDialog newAbsCircleDialog(CircleParams params) {
         AbsCircleDialog circleDialog = new AbsCircleDialog();
@@ -65,8 +66,12 @@ final class AbsCircleDialog extends BaseCircleDialog {
 
     @Override
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        Controller mController = new Controller(getContext(), mParams);
+        mController = new Controller(getContext(), mParams);
         mParams.dialogFragment = this;
         return mController.createView();
+    }
+
+    public void refreshView() {
+        mController.refreshView();
     }
 }

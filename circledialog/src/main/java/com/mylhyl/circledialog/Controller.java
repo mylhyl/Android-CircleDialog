@@ -28,6 +28,11 @@ public class Controller {
         return getView();
     }
 
+    public void refreshView() {
+        mCreateView.refreshText();
+        mCreateView.refreshItems();
+    }
+
     private void applyRoot() {
         mCreateView.buildRoot();
     }

@@ -14,12 +14,15 @@ import android.widget.Toast;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigText;
-import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
+import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TextParams;
-import com.mylhyl.circledialog.params.TitleParams;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -60,11 +63,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case 2:
                 final String[] items = {"拍照", "从相册选择", "小视频"};
-//                List<People> items = new ArrayList<>();
-//                items.add(new People(1, "拍照"));
-//                items.add(new People(2, "从相册选择"));
-//                items.add(new People(3, "小视频"));
-
                 new CircleDialog.Builder(this)
                         .configDialog(new ConfigDialog() {
                             @Override
@@ -114,14 +112,52 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 6:
                 final CircleDialog.Builder builder = new CircleDialog.Builder(this);
                 builder.setTitle("动态改变内容")
-                        .setText("5秒后更新其它内容")
+                        .setText("3秒后更新其它内容")
                         .show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         builder.setText("已经更新内容");
+                        builder.create();
                     }
-                }, 5000);
+                }, 3000);
+                break;
+            case 7:
+                final List<PictureType> list = new ArrayList<>();
+                list.add(new PictureType(1, "拍照"));
+                list.add(new PictureType(2, "从相册选择"));
+                list.add(new PictureType(3, "小视频"));
+
+                final CircleDialog.Builder builder1 = new CircleDialog.Builder(this);
+                builder1.configDialog(new ConfigDialog() {
+                    @Override
+                    public void onConfig(DialogParams params) {
+                        params.animStyle = R.style.dialogWindowAnim;
+                    }
+                })
+                        .setTitle("动态改变Items")
+                        .setTitleColor(Color.BLUE)
+                        .setItems(list, new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        })
+                        .setNegative("取消", null)
+                        .configNegative(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.textColor = Color.RED;
+                            }
+                        })
+                        .show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.add(new PictureType(4, "摄影"));
+                        builder1.create();
+                    }
+                }, 3000);
                 break;
         }
     }

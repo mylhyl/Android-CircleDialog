@@ -23,5 +23,7 @@ public interface BuildView {
 
     void refreshText();
 
+    void refreshItems();
+
     View getView();
 }
