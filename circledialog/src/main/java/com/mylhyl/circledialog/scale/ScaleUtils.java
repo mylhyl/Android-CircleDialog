@@ -1,4 +1,4 @@
-package com.mylhyl.circledialog.auto;
+package com.mylhyl.circledialog.scale;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -10,9 +10,9 @@ import android.view.WindowManager;
 /**
  * Created by hupei on 2016/3/8 17:19.
  */
-public class AutoUtils {
+public class ScaleUtils {
     public static int scaleValue(int val) {
-        return (int) (val * AutoLayoutConfig.getInstance().getScale());
+        return (int) (val * ScaleLayoutConfig.getInstance().getScale());
     }
 
     public static int[] getRealScreenSize(Context context) {

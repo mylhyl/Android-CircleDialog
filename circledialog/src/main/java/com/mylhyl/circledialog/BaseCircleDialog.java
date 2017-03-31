@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.mylhyl.circledialog.auto.AutoUtils;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -87,8 +87,8 @@ public abstract class BaseCircleDialog extends DialogFragment {
         if (mPadding != null) {
             int[] padding = mPadding;
             wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            window.getDecorView().setPadding(AutoUtils.scaleValue(padding[0]), AutoUtils
-                    .scaleValue(padding[1]), AutoUtils.scaleValue(padding[2]), AutoUtils
+            window.getDecorView().setPadding(ScaleUtils.scaleValue(padding[0]), ScaleUtils
+                    .scaleValue(padding[1]), ScaleUtils.scaleValue(padding[2]), ScaleUtils
                     .scaleValue(padding[3]));
         }
         //动画

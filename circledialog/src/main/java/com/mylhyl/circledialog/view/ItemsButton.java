@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.mylhyl.circledialog.auto.AutoUtils;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -16,7 +16,7 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * 列表对话框的取消按钮视图
  * Created by hupei on 2017/3/30.
  */
-class ItemsButton extends AutoTextView {
+class ItemsButton extends ScaleTextView {
 
     public ItemsButton(Context context, CircleParams params) {
         super(context);
@@ -32,7 +32,7 @@ class ItemsButton extends AutoTextView {
         }
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-        layoutParams.topMargin = AutoUtils.scaleValue(buttonParams.topMargin);
+        layoutParams.topMargin = ScaleUtils.scaleValue(buttonParams.topMargin);
         setLayoutParams(layoutParams);
 
         setClickable(true);

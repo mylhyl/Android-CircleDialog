@@ -1,12 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.mylhyl.circledialog.auto.AutoUtils;
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -19,7 +14,7 @@ import com.mylhyl.circledialog.res.values.CircleColor;
  * 对话框纯文本视图
  * Created by hupei on 2017/3/30.
  */
-class BodyTextView extends AutoTextView {
+class BodyTextView extends ScaleTextView {
     private CircleParams mParams;
 
     public BodyTextView(Context context, CircleParams params) {

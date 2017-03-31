@@ -13,9 +13,9 @@ import com.mylhyl.circledialog.res.values.CircleColor;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-class MultipleButton extends AutoLinearLayout {
+class MultipleButton extends ScaleLinearLayout {
     private ButtonParams mPositiveParams;
-    private AutoTextView mPositiveButton;
+    private ScaleTextView mPositiveButton;
 
     public MultipleButton(Context context, CircleParams params) {
         super(context);
@@ -31,7 +31,7 @@ class MultipleButton extends AutoLinearLayout {
         int radius = params.getDialogParams().radius;
 
         //取消按钮
-        AutoTextView mNegativeButton = new AutoTextView(getContext());
+        ScaleTextView mNegativeButton = new ScaleTextView(getContext());
         mNegativeButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
                 .LayoutParams.WRAP_CONTENT, 1));
         mNegativeButton.setClickable(true);
@@ -58,7 +58,7 @@ class MultipleButton extends AutoLinearLayout {
         addView(dividerView);
 
         //确定按钮
-        mPositiveButton = new AutoTextView(getContext());
+        mPositiveButton = new ScaleTextView(getContext());
         mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
                 .LayoutParams.WRAP_CONTENT, 1));
         mPositiveButton.setClickable(true);

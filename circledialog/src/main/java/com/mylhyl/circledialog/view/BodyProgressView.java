@@ -27,7 +27,7 @@ import java.lang.reflect.Modifier;
  * Created by hupei on 2017/3/31.
  */
 
-class BodyProgressView extends AutoLinearLayout {
+class BodyProgressView extends ScaleLinearLayout {
     private ProgressParams mProgressParams;
     private ProgressBar mProgressBar;
     private Handler mViewUpdateHandler;
@@ -90,7 +90,7 @@ class BodyProgressView extends AutoLinearLayout {
 
         addView(mProgressBar, layoutParams);
 
-        final AutoTextView textView = new AutoTextView(getContext());
+        final ScaleTextView textView = new ScaleTextView(getContext());
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
         int[] padding = mProgressParams.padding;

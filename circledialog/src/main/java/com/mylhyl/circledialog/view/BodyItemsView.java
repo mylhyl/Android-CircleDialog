@@ -114,7 +114,7 @@ class BodyItemsView extends ListView {
             ViewHolder viewHolder;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-                AutoTextView textView = new AutoTextView(mContext);
+                ScaleTextView textView = new ScaleTextView(mContext);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
                 textView.setHeight(mItemsParams.itemHeight);

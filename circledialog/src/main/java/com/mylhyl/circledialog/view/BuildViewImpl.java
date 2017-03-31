@@ -31,7 +31,7 @@ public class BuildViewImpl implements BuildView {
     @Override
     public void buildRoot() {
         if (mRoot == null) {
-            mRoot = new AutoLinearLayout(mContext);
+            mRoot = new ScaleLinearLayout(mContext);
             mRoot.setOrientation(LinearLayout.VERTICAL);
         }
     }

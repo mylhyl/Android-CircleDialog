@@ -1,4 +1,4 @@
-package com.mylhyl.circledialog.auto;
+package com.mylhyl.circledialog.scale;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -7,8 +7,8 @@ import android.content.pm.PackageManager;
 /**
  * Created by hupei on 2016/3/8 17:32.
  */
-public class AutoLayoutConfig {
-    private static AutoLayoutConfig sInstance;
+public class ScaleLayoutConfig {
+    private static ScaleLayoutConfig sInstance;
 
     private static final String KEY_DESIGN_WIDTH = "design_width";
     private static final String KEY_DESIGN_HEIGHT = "design_height";
@@ -21,27 +21,27 @@ public class AutoLayoutConfig {
 
     private float mScale;
 
-    private AutoLayoutConfig() {
+    private ScaleLayoutConfig() {
     }
 
     public static void init(Context context) {
         if (sInstance == null) {
-            sInstance = new AutoLayoutConfig();
-            sInstance.initInternal(context, new AutoScaleAdapter(context));
+            sInstance = new ScaleLayoutConfig();
+            sInstance.initInternal(context, new ScaleAdapter(context));
         }
     }
 
-    public static AutoLayoutConfig getInstance() {
+    public static ScaleLayoutConfig getInstance() {
         if (sInstance == null) {
             throw new IllegalStateException("Must init before using.");
         }
         return sInstance;
     }
 
-    private void initInternal(Context context, AutoScaleAdapter scaleAdapter) {
+    private void initInternal(Context context, ScaleAdapter scaleAdapter) {
         getMetaData(context);
         checkParams();
-        int[] size = AutoUtils.getRealScreenSize(context);
+        int[] size = ScaleUtils.getRealScreenSize(context);
         mScreenWidth = size[0];
         mScreenHeight = size[1];
 

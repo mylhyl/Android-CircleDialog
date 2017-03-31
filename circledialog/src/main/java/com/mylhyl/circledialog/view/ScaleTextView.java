@@ -5,14 +5,14 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.auto.AutoUtils;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 
 /**
  * Created by hupei on 2017/3/29.
  */
 
-class AutoTextView extends TextView {
-    public AutoTextView(Context context) {
+class ScaleTextView extends TextView {
+    public ScaleTextView(Context context) {
         super(context);
         config();
     }
@@ -23,21 +23,21 @@ class AutoTextView extends TextView {
 
     @Override
     public void setHeight(int pixels) {
-        int dimenHeight = AutoUtils.scaleValue(pixels);
+        int dimenHeight = ScaleUtils.scaleValue(pixels);
         super.setHeight(dimenHeight);
     }
 
     @Override
     public void setTextSize(float size) {
-        int dimenTextSize = AutoUtils.scaleValue((int) size);
+        int dimenTextSize = ScaleUtils.scaleValue((int) size);
         setTextSize(TypedValue.COMPLEX_UNIT_PX, dimenTextSize);
     }
 
     public void setAutoPadding(int left, int top, int right, int bottom) {
-        int dimenLeft = AutoUtils.scaleValue(left);
-        int dimenTop = AutoUtils.scaleValue(top);
-        int dimenRight = AutoUtils.scaleValue(right);
-        int dimenBottom = AutoUtils.scaleValue(bottom);
+        int dimenLeft = ScaleUtils.scaleValue(left);
+        int dimenTop = ScaleUtils.scaleValue(top);
+        int dimenRight = ScaleUtils.scaleValue(right);
+        int dimenBottom = ScaleUtils.scaleValue(bottom);
         super.setPadding(dimenLeft, dimenTop, dimenRight, dimenBottom);
     }
 }
