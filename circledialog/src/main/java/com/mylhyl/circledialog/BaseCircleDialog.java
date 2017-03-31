@@ -121,7 +121,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
      * 设置对话框位置
      * {@link Gravity#CENTER 默认}
      *
-     * @param gravity
+     * @param gravity 位置
      */
     protected void setGravity(int gravity) {
         mGravity = gravity;
@@ -130,8 +130,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     /**
      * 设置对话框点击外部关闭
      *
-     * @param cancel
-     * @return
+     * @param cancel true允许
      */
     protected void setCanceledOnTouchOutside(boolean cancel) {
         mCanceledOnTouchOutside = cancel;
@@ -140,8 +139,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     /**
      * 设置对话框返回键关闭关闭
      *
-     * @param cancel
-     * @return
+     * @param cancel true允许
      */
     protected void setCanceledBack(boolean cancel) {
         mCanceledBack = cancel;
@@ -151,7 +149,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
      * 设置对话框宽度
      *
      * @param width 0.0 - 1.0
-     * @return
      */
     protected void setWidth(@FloatRange(from = 0.0, to = 1.0) float width) {
         mWidth = width;
@@ -164,17 +161,15 @@ public abstract class BaseCircleDialog extends DialogFragment {
      * @param top    px
      * @param right  px
      * @param bottom px
-     * @return
      */
     protected void setPadding(int left, int top, int right, int bottom) {
         mPadding = new int[]{left, top, right, bottom};
     }
 
     /**
-     * 动画弹出对话框,style动画资源
+     * 动画弹出对话框
      *
-     * @param animStyle
-     * @return
+     * @param animStyle 样式资源
      */
     protected void setAnimations(int animStyle) {
         mAnimStyle = animStyle;
@@ -184,8 +179,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     /**
      * 设置背景是否昏暗，默认true
      *
-     * @param dimEnabled
-     * @return
+     * @param dimEnabled true昏暗
      */
     protected void setDimEnabled(boolean dimEnabled) {
         isDimEnabled = dimEnabled;
@@ -194,8 +188,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     /**
      * 设置对话框背景色
      *
-     * @param color
-     * @return
+     * @param color 颜色值
      */
     protected void setBackgroundColor(@ColorInt int color) {
         mBackgroundColor = color;
@@ -204,8 +197,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     /**
      * 设置对话框圆角
      *
-     * @param radius
-     * @return
+     * @param radius 半径
      */
     protected void setRadius(int radius) {
         mRadius = radius;
@@ -215,7 +207,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
      * 设置对话框透明度
      *
      * @param alpha 0.0 - 1.0
-     * @return
      */
     protected void setAlpha(@FloatRange(from = 0.0, to = 1.0) float alpha) {
         mAlpha = alpha;

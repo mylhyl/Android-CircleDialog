@@ -67,8 +67,8 @@ public class CircleDialog {
         /**
          * 设置对话框位置
          *
-         * @param gravity
-         * @return
+         * @param gravity 位置
+         * @return builder
          */
         public Builder setGravity(int gravity) {
             mCircleParams.getDialogParams().gravity = gravity;
@@ -78,8 +78,8 @@ public class CircleDialog {
         /**
          * 设置对话框点击外部关闭
          *
-         * @param cancel
-         * @return
+         * @param cancel true允许
+         * @return Builder
          */
         public Builder setCanceledOnTouchOutside(boolean cancel) {
             mCircleParams.getDialogParams().canceledOnTouchOutside = cancel;
@@ -89,8 +89,8 @@ public class CircleDialog {
         /**
          * 设置对话框返回键关闭
          *
-         * @param cancel
-         * @return
+         * @param cancel true允许
+         * @return Builder
          */
         public Builder setCancelable(boolean cancel) {
             mCircleParams.getDialogParams().cancelable = cancel;
@@ -101,7 +101,7 @@ public class CircleDialog {
          * 设置对话框宽度
          *
          * @param width 0.0 - 1.0
-         * @return
+         * @return Builder
          */
         public Builder setWidth(@FloatRange(from = 0.0, to = 1.0) float width) {
             mCircleParams.getDialogParams().width = width;
@@ -111,8 +111,8 @@ public class CircleDialog {
         /**
          * 设置对话框圆角
          *
-         * @param radius
-         * @return
+         * @param radius 半径
+         * @return Builder
          */
         public Builder setRadius(int radius) {
             mCircleParams.getDialogParams().radius = radius;
