@@ -50,11 +50,15 @@ public class CircleDimen {
     /**
      * 输入框内容的外边距
      */
-    public static final int[] InputMargins = {50, 45, 50, 45};
+    public static final int[] inputMargins = {50, 45, 50, 45};
     /**
      * 进度条外边距
      */
     public static final int[] progressMargins = {20, 45, 20, 45};
+    /**
+     * 进度条外边距
+     */
+    public static final int[] progressTextPadding = {0, 0, 0, 45};
     /**
      * 进度条高度
      */

@@ -6,6 +6,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -92,6 +93,10 @@ class BodyProgressView extends AutoLinearLayout {
         final AutoTextView textView = new AutoTextView(getContext());
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
+        int[] padding = mProgressParams.padding;
+        if (padding != null) {
+            textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+        }
         addView(textView);
 
         mViewUpdateHandler = new Handler() {
@@ -102,7 +107,9 @@ class BodyProgressView extends AutoLinearLayout {
                 int max = mProgressBar.getMax();
                 int percent = (int) (((float) progress / (float) max) * 100);
                 String args = percent + "%";
-                textView.setText(String.format(mProgressParams.text, args));
+                if (!TextUtils.isEmpty(mProgressParams.text) && mProgressParams.text.contains("%s"))
+                    textView.setText(String.format(mProgressParams.text, args));
+                else textView.setText(mProgressParams.text + args);
             }
         };
     }

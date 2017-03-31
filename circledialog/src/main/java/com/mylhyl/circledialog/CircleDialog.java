@@ -202,6 +202,12 @@ public class CircleDialog {
                 });
         }
 
+        public Builder setProgressText(@NonNull String text) {
+            newProgressParams();
+            mCircleParams.getProgressParams().text = text;
+            return this;
+        }
+
         public Builder setProgress(int max, int progress) {
             newProgressParams();
             ProgressParams progressParams = mCircleParams.getProgressParams();

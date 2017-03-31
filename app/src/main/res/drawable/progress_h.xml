@@ -5,7 +5,11 @@
     <item android:id="@android:id/background">
         <shape>
             <corners android:radius="10dp" />
-            <solid android:color="#F1F1F1" />
+            <gradient
+                android:angle="270"
+                android:centerY="0.75"
+                android:endColor="#F5F5F5"
+                android:startColor="#BEBEBE" />
         </shape>
     </item>
     <!-- 第二条进度条颜色 -->

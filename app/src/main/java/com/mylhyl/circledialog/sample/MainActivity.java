@@ -18,11 +18,9 @@ import android.widget.Toast;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
-import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TextParams;
 
 import java.util.ArrayList;
@@ -120,15 +118,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 5:
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder(this);
-                builder.setTitle("正在下载");
-                builder.setProgress(100, 0);
-                builder.configProgress(new ConfigProgress() {
-                    @Override
-                    public void onConfig(ProgressParams params) {
-                        params.text = "已经下载%s了";
-                    }
-                });
-                builder.show();
+                builder.setTitle("下载")
+                        .setProgressText("已经下载")
+//                        .setProgressText("已经下载%s了")
+                        .setProgressDrawable(R.drawable.progress_h)
+                        .show();
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;
                     int progress = 0;
@@ -137,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     public void run() {
                         progress++;
                         if (progress >= max) {
-
+                            builder.setText("下载完成").create();
                         } else {
                             builder.setProgress(max, progress);
                             builder.create();
