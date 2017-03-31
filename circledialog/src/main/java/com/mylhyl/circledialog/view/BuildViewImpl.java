@@ -18,9 +18,10 @@ public class BuildViewImpl implements BuildView {
     private TitleView mTitleView;
     private BodyTextView mBodyTextView;
     private BodyItemsView mBodyItemsView;
+    private BodyProgressView mBodyProgressView;
+    private ItemsButton mItemsButton;
     private MultipleButton mMultipleButton;
     private SingleButton mSingleButton;
-    private ItemsButton mItemsButton;
 
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
@@ -52,10 +53,48 @@ public class BuildViewImpl implements BuildView {
     }
 
     @Override
+    public void refreshText() {
+        if (mBodyTextView != null) {
+            mBodyTextView.refreshText();
+        }
+    }
+
+    @Override
     public void buildItems() {
         if (mBodyItemsView == null) {
             mBodyItemsView = new BodyItemsView(mContext, mParams);
             mRoot.addView(mBodyItemsView);
+        }
+    }
+
+    @Override
+    public void buildItemsButton() {
+        if (mItemsButton == null) {
+            mItemsButton = new ItemsButton(mContext, mParams);
+            mRoot.addView(mItemsButton);
+        }
+    }
+
+    @Override
+    public void refreshItems() {
+        if (mBodyItemsView != null) {
+            mBodyItemsView.refreshItems();
+        }
+    }
+
+    @Override
+    public void buildProgress() {
+        if (mBodyProgressView == null) {
+            mBodyProgressView = new BodyProgressView(mContext, mParams);
+            mRoot.addView(mBodyProgressView);
+        }
+    }
+
+
+    @Override
+    public void refreshProgress() {
+        if (mBodyProgressView != null) {
+            mBodyProgressView.refreshProgress();
         }
     }
 
@@ -78,28 +117,6 @@ public class BuildViewImpl implements BuildView {
             dividerViewV.setVertical();
             mRoot.addView(dividerViewV);
             mRoot.addView(mSingleButton);
-        }
-    }
-
-    @Override
-    public void buildItemsButton() {
-        if (mItemsButton == null) {
-            mItemsButton = new ItemsButton(mContext, mParams);
-            mRoot.addView(mItemsButton);
-        }
-    }
-
-    @Override
-    public void refreshText() {
-        if (mBodyTextView != null) {
-            mBodyTextView.refreshText();
-        }
-    }
-
-    @Override
-    public void refreshItems() {
-        if (mBodyItemsView != null) {
-            mBodyItemsView.refreshItems();
         }
     }
 

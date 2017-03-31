@@ -18,15 +18,20 @@ import android.widget.Toast;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
+import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TextParams;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private CircleDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                new CircleDialog.Builder(this)
-                        .setTitle("标题")
+                builder = new CircleDialog.Builder(this);
+                builder.setTitle("标题")
                         .setText("提示框")
                         .setPositive("确定", null)
-                        .show();
+                        .create();
+                builder.show();
                 break;
             case 1:
                 new CircleDialog.Builder(this)
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 final DialogFragment dialogFragment = new CircleDialog.Builder(this)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
-                        .setText("消息框")
+                        .setText("消息框，3秒后自动关闭")
                         .setTextColor(Color.BLACK)
                         .configText(new ConfigText() {
                             @Override
@@ -109,10 +115,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     public void run() {
                         dialogFragment.dismiss();
                     }
-                }, 5000);
+                }, 3000);
+                break;
+            case 5:
+                final Timer timer = new Timer();
+                builder = new CircleDialog.Builder(this);
+                builder.setTitle("正在下载");
+                builder.setProgress(100, 0);
+                builder.configProgress(new ConfigProgress() {
+                    @Override
+                    public void onConfig(ProgressParams params) {
+                        params.text = "已经下载%s了";
+                    }
+                });
+                builder.show();
+                TimerTask timerTask = new TimerTask() {
+                    final int max = 222;
+                    int progress = 0;
+
+                    @Override
+                    public void run() {
+                        progress++;
+                        if (progress >= max) {
+
+                        } else {
+                            builder.setProgress(max, progress);
+                            builder.create();
+                        }
+                    }
+                };
+                timer.schedule(timerTask, 0, 50);
                 break;
             case 6:
-                final CircleDialog.Builder builder = new CircleDialog.Builder(this);
+                builder = new CircleDialog.Builder(this);
                 builder.configDialog(new ConfigDialog() {
                     @Override
                     public void onConfig(DialogParams params) {
@@ -147,8 +182,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 list.add(new PictureType(2, "从相册选择"));
                 list.add(new PictureType(3, "小视频"));
 
-                final CircleDialog.Builder builder1 = new CircleDialog.Builder(this);
-                builder1.configDialog(new ConfigDialog() {
+                builder = new CircleDialog.Builder(this);
+                builder.configDialog(new ConfigDialog() {
                     @Override
                     public void onConfig(DialogParams params) {
                         params.animStyle = R.style.dialogWindowAnim;
@@ -174,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void run() {
                         list.add(new PictureType(4, "摄影"));
-                        builder1.create();
+                        builder.create();
                     }
                 }, 3000);
                 break;

@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog;
 
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -12,12 +13,14 @@ import android.widget.AdapterView;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ItemsParams;
+import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 
@@ -165,6 +168,71 @@ public class CircleDialog {
                 mCircleParams.setTextParams(new TextParams());
         }
 
+        public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.getItemsParams();
+            params.items = items;
+            params.listener = listener;
+            return this;
+        }
+
+
+        public Builder configItems(@NonNull ConfigItems configItems) {
+            newItemsParams();
+            configItems.onConfig(mCircleParams.getItemsParams());
+            return this;
+        }
+
+        private void newItemsParams() {
+            //设置列表特殊的参数
+            DialogParams dialogParams = mCircleParams.getDialogParams();
+            //判断是否已经设置过
+            if (dialogParams.gravity == Gravity.NO_GRAVITY)
+                dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
+            //判断是否已经设置过
+            if (dialogParams.y == 0)
+                dialogParams.y = 20;//底部与屏幕的距离
+
+            if (mCircleParams.getItemsParams() == null)
+                mCircleParams.setItemsParams(new ItemsParams() {
+                    @Override
+                    public void dismiss() {
+                        onDismiss();
+                    }
+                });
+        }
+
+        public Builder setProgress(int max, int progress) {
+            newProgressParams();
+            ProgressParams progressParams = mCircleParams.getProgressParams();
+            progressParams.max = max;
+            progressParams.progress = progress;
+            return this;
+        }
+
+        public Builder setProgressDrawable(@DrawableRes int progressDrawableId) {
+            newProgressParams();
+            mCircleParams.getProgressParams().progressDrawableId = progressDrawableId;
+            return this;
+        }
+
+        public Builder setProgressHeight(int height) {
+            newProgressParams();
+            mCircleParams.getProgressParams().progressHeight = height;
+            return this;
+        }
+
+        public Builder configProgress(@NonNull ConfigProgress configProgress) {
+            newProgressParams();
+            configProgress.onConfig(mCircleParams.getProgressParams());
+            return this;
+        }
+
+        private void newProgressParams() {
+            mCircleParams.getDialogParams().gravity = Gravity.CENTER;
+            if (mCircleParams.getProgressParams() == null)
+                mCircleParams.setProgressParams(new ProgressParams());
+        }
 
         public Builder setPositive(@NonNull String text, View.OnClickListener listener) {
             newPositiveParams();
@@ -209,40 +277,6 @@ public class CircleDialog {
         private void newNegativeParams() {
             if (mCircleParams.getNegativeParams() == null)
                 mCircleParams.setNegativeParams(new ButtonParams() {
-                    @Override
-                    public void dismiss() {
-                        onDismiss();
-                    }
-                });
-        }
-
-        public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
-            newItemsParams();
-            ItemsParams params = mCircleParams.getItemsParams();
-            params.items = items;
-            params.listener = listener;
-            return this;
-        }
-
-
-        public Builder configItems(@NonNull ConfigItems configItems) {
-            newItemsParams();
-            configItems.onConfig(mCircleParams.getItemsParams());
-            return this;
-        }
-
-        private void newItemsParams() {
-            //设置列表特殊的参数
-            DialogParams dialogParams = mCircleParams.getDialogParams();
-            //判断是否已经设置过
-            if (dialogParams.gravity == Gravity.NO_GRAVITY)
-                dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
-            //判断是否已经设置过
-            if (dialogParams.y == 0)
-                dialogParams.y = 20;//底部与屏幕的距离
-
-            if (mCircleParams.getItemsParams() == null)
-                mCircleParams.setItemsParams(new ItemsParams() {
                     @Override
                     public void dismiss() {
                         onDismiss();

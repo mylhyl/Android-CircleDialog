@@ -16,6 +16,7 @@ public final class CircleParams implements Serializable {
     private ButtonParams negativeParams;
     private ButtonParams positiveParams;
     private ItemsParams itemsParams;
+    private ProgressParams progressParams;
 
     public DialogParams getDialogParams() {
         return dialogParams;
@@ -65,4 +66,11 @@ public final class CircleParams implements Serializable {
         this.itemsParams = itemsParams;
     }
 
+    public ProgressParams getProgressParams() {
+        return progressParams;
+    }
+
+    public void setProgressParams(ProgressParams progressParams) {
+        this.progressParams = progressParams;
+    }
 }

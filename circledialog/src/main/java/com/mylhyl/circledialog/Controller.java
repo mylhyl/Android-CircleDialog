@@ -31,6 +31,7 @@ public class Controller {
     public void refreshView() {
         mCreateView.refreshText();
         mCreateView.refreshItems();
+        mCreateView.refreshProgress();
         //刷新时带动画
         if (mParams.getDialogParams().refreshAnimation != null && getView() != null)
             getView().startAnimation(mParams.getDialogParams().refreshAnimation);
@@ -46,20 +47,33 @@ public class Controller {
     }
 
     private void applyBody() {
+        //文本
         if (mParams.getTextParams() != null) {
             mCreateView.buildText();
-            //有确定并且有取消按钮
-            if (mParams.getPositiveParams() != null && mParams.getNegativeParams() != null)
-                mCreateView.buildMultipleButton();
-                //有确定或者有取消按钮
-            else if (mParams.getPositiveParams() != null || mParams.getNegativeParams() != null)
-                mCreateView.buildSingleButton();
-        } else if (mParams.getTitleParams() != null) {
+            applyButton();
+        }
+        //列表
+        else if (mParams.getItemsParams() != null) {
             mCreateView.buildItems();
             //有确定或者有取消按钮
             if (mParams.getPositiveParams() != null || mParams.getNegativeParams() != null)
                 mCreateView.buildItemsButton();
         }
+        //进度条
+        else if (mParams.getProgressParams() != null) {
+            mCreateView.buildProgress();
+            //有确定并且有取消按钮
+            applyButton();
+        }
+    }
+
+    private void applyButton() {
+        //有确定并且有取消按钮
+        if (mParams.getPositiveParams() != null && mParams.getNegativeParams() != null)
+            mCreateView.buildMultipleButton();
+            //有确定或者有取消按钮
+        else if (mParams.getPositiveParams() != null || mParams.getNegativeParams() != null)
+            mCreateView.buildSingleButton();
     }
 
     private View getView() {

@@ -13,17 +13,21 @@ public interface BuildView {
 
     void buildText();
 
+    void refreshText();
+
     void buildItems();
+
+    void buildItemsButton();
+
+    void refreshItems();
+
+    void buildProgress();
+
+    void refreshProgress();
 
     void buildMultipleButton();
 
     void buildSingleButton();
-
-    void buildItemsButton();
-
-    void refreshText();
-
-    void refreshItems();
 
     View getView();
 }

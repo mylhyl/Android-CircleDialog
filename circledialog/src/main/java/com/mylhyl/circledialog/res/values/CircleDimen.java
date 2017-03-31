@@ -55,4 +55,8 @@ public class CircleDimen {
      * 进度条外边距
      */
     public static final int[] progressMargins = {20, 45, 20, 45};
+    /**
+     * 进度条高度
+     */
+    public static final int progressHeight = 10;
 }
