@@ -21,5 +21,7 @@ public interface BuildView {
 
     void buildItemsButton();
 
+    void refreshText();
+
     View getView();
 }

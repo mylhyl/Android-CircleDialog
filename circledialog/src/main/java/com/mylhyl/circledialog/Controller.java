@@ -21,13 +21,14 @@ public class Controller {
         mCreateView = new BuildViewImpl(mContext, mParams);
     }
 
-    public void apply() {
-        applyDialog();
+    public View createView() {
+        applyRoot();
         applyHeader();
         applyBody();
+        return getView();
     }
 
-    private void applyDialog() {
+    private void applyRoot() {
         mCreateView.buildRoot();
     }
 
@@ -53,7 +54,7 @@ public class Controller {
         }
     }
 
-    public View createView() {
+    private View getView() {
         return mCreateView.getView();
     }
 }

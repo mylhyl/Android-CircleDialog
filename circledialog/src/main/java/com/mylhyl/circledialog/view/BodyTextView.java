@@ -35,11 +35,6 @@ class BodyTextView extends AutoTextView {
         ButtonParams negativeParams = params.getNegativeParams();
         ButtonParams positiveParams = params.getPositiveParams();
 
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT);
-//        setLayoutParams(layoutParams);
-//        setGravity(Gravity.CENTER);
-
         //如果标题没有背景色，则使用默认色
         int backgroundColor = textParams.backgroundColor != 0 ? textParams.backgroundColor : CircleColor.bgDialog;
 

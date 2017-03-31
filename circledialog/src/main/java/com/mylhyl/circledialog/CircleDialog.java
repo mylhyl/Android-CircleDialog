@@ -32,7 +32,8 @@ public class CircleDialog {
     }
 
     public DialogFragment create(CircleParams params) {
-        mDialog = AbsCircleDialog.newAbsCircleDialog(params);
+        if (mDialog == null)
+            mDialog = AbsCircleDialog.newAbsCircleDialog(params);
         return mDialog;
     }
 
@@ -180,10 +181,7 @@ public class CircleDialog {
                 mCircleParams.setPositiveParams(new ButtonParams() {
                     @Override
                     public void dismiss() {
-                        if (mCircleParams.dialogFragment != null) {
-                            mCircleParams.dialogFragment.dismiss();
-                            mCircleParams.dialogFragment = null;
-                        }
+                        onDismiss();
                     }
                 });
         }
@@ -208,10 +206,7 @@ public class CircleDialog {
                 mCircleParams.setNegativeParams(new ButtonParams() {
                     @Override
                     public void dismiss() {
-                        if (mCircleParams.dialogFragment != null) {
-                            mCircleParams.dialogFragment.dismiss();
-                            mCircleParams.dialogFragment = null;
-                        }
+                        onDismiss();
                     }
                 });
         }
@@ -245,17 +240,23 @@ public class CircleDialog {
                 mCircleParams.setItemsParams(new ItemsParams() {
                     @Override
                     public void dismiss() {
-                        if (mCircleParams.dialogFragment != null) {
-                            mCircleParams.dialogFragment.dismiss();
-                            mCircleParams.dialogFragment = null;
-                        }
+                        onDismiss();
                     }
                 });
         }
 
+        private void onDismiss() {
+            if (mCircleParams.dialogFragment != null) {
+                mCircleParams.dialogFragment.dismiss();
+                mActivity = null;
+                mCircleParams.dialogFragment = null;
+            }
+        }
+
         public DialogFragment create() {
-            mCircleDialog = new CircleDialog();
-            return mCircleParams.dialogFragment = mCircleDialog.create(mCircleParams);
+            if (mCircleDialog == null)
+                mCircleDialog = new CircleDialog();
+            return mCircleDialog.create(mCircleParams);
         }
 
         public DialogFragment show() {

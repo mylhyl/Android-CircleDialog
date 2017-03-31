@@ -111,6 +111,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }, 5000);
                 break;
+            case 6:
+                final CircleDialog.Builder builder = new CircleDialog.Builder(this);
+                builder.setTitle("动态改变内容")
+                        .setText("5秒后更新其它内容")
+                        .show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        builder.setText("已经更新内容");
+                    }
+                }, 5000);
+                break;
         }
     }
 }
