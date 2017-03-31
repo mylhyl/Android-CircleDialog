@@ -75,7 +75,7 @@ public interface BuildView {
     /**
      * 取出根布局
      *
-     * @return
+     * @return 对话框视图
      */
     View getView();
 }

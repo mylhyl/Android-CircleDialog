@@ -10,17 +10,20 @@ import java.io.Serializable;
  * Created by hupei on 2017/3/30.
  */
 public class TextParams implements Serializable {
-    public int[] padding; //body文本内间距
+    /**
+     * body文本内间距
+     */
+    public int[] padding;
     /**
      * 文本
      */
     public String text;
     /**
-     * body高度
+     * 文本高度
      */
     public int height = CircleDimen.titleHeight;
     /**
-     * 标题背景颜色
+     * 文本背景颜色
      */
     public int backgroundColor;
     /**
