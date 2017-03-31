@@ -6,23 +6,45 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
+import java.io.Serializable;
+
 /**
+ * 按钮参数
  * Created by hupei on 2017/3/30.
  */
-
-public abstract class ButtonParams extends TitleParams {
+public abstract class ButtonParams implements Serializable {
     public abstract void dismiss();
 
-    public View.OnClickListener listener;//按钮点击事件
-    public OnInputClickListener inputListener;//输入框确定事件
-    public int topMargin;//按钮框与顶部距离
-
-
-    //backgroundColor   按钮背景颜色
-    //text    按钮文本
-    public ButtonParams() {
-        textColor = CircleColor.button;//按钮文本颜色
-        textSize = CircleDimen.footerTextSize;//按钮文本大小
-        height = CircleDimen.footerHeight;//按钮高度
-    }
+    /**
+     * 按钮点击事件
+     */
+    public View.OnClickListener listener;
+    /**
+     * 输入框确定事件
+     */
+    public OnInputClickListener inputListener;
+    /**
+     * 按钮框与顶部距离
+     */
+    public int topMargin;
+    /**
+     * 按钮文本颜色
+     */
+    public int textColor = CircleColor.button;
+    /**
+     * 按钮文本大小
+     */
+    public int textSize = CircleDimen.footerTextSize;
+    /**
+     * 按钮高度
+     */
+    public int height = CircleDimen.footerHeight;
+    /**
+     * 按钮背景颜色
+     */
+    public int backgroundColor;
+    /**
+     * 按钮文本
+     */
+    public String text;
 }

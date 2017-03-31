@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.res.drawable;
 import android.graphics.drawable.GradientDrawable;
 
 /**
+ * 输入框背景
  * Created by hupei on 2017/3/31.
  */
 

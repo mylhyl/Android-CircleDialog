@@ -54,8 +54,8 @@ final class AbsCircleDialog extends BaseCircleDialog {
         setBackgroundColor(dialogParams.getBackgroundColor());
         setRadius(dialogParams.radius);
         setAlpha(dialogParams.alpha);
-        setX(dialogParams.x);
-        setY(dialogParams.y);
+        setX(dialogParams.xOff);
+        setY(dialogParams.yOff);
     }
 
     @Override

@@ -195,8 +195,8 @@ public class CircleDialog {
             if (dialogParams.gravity == Gravity.NO_GRAVITY)
                 dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
             //判断是否已经设置过
-            if (dialogParams.y == 0)
-                dialogParams.y = 20;//底部与屏幕的距离
+            if (dialogParams.yOff == 0)
+                dialogParams.yOff = 20;//底部与屏幕的距离
 
             if (mCircleParams.getItemsParams() == null)
                 mCircleParams.setItemsParams(new ItemsParams() {

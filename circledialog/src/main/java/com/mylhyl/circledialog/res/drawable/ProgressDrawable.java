@@ -7,7 +7,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.view.Gravity;
 
 /**
- * 代码进度条
+ * 进度条背景
  * Created by hupei on 2017/3/29.
  */
 public final class ProgressDrawable {
