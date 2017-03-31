@@ -131,10 +131,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     public void run() {
                         progress++;
                         if (progress >= max) {
-                            builder.setText("下载完成").create();
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    builder.setProgressText("下载完成").create();
+                                }
+                            });
                         } else {
-                            builder.setProgress(max, progress);
-                            builder.create();
+                            builder.setProgress(max, progress).create();
                         }
                     }
                 };
@@ -146,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void onConfig(DialogParams params) {
                         params.gravity = Gravity.TOP;
+                        TranslateAnimation animation = new TranslateAnimation(15, -15, 0, 0);
+                        animation.setInterpolator(new OvershootInterpolator());
+                        animation.setDuration(100);
+                        animation.setRepeatCount(3);
+                        animation.setRepeatMode(Animation.RESTART);
+                        params.refreshAnimation = animation;
                     }
                 })
                         .setTitle("动态改变内容")
@@ -154,19 +164,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        builder.setText("已经更新内容");
-                        builder.configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                TranslateAnimation animation = new TranslateAnimation(15, -15, 0, 0);
-                                animation.setInterpolator(new OvershootInterpolator());
-                                animation.setDuration(100);
-                                animation.setRepeatCount(3);
-                                animation.setRepeatMode(Animation.RESTART);
-                                params.refreshAnimation = animation;
-                            }
-                        });
-                        builder.create();
+                        builder.setText("已经更新内容").create();
                     }
                 }, 3000);
                 break;

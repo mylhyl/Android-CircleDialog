@@ -163,7 +163,9 @@ public class CircleDialog {
         }
 
         private void newTextParams() {
-            mCircleParams.getDialogParams().gravity = Gravity.CENTER;
+            //判断是否已经设置过
+            if (mCircleParams.getDialogParams().gravity == Gravity.NO_GRAVITY)
+                mCircleParams.getDialogParams().gravity = Gravity.CENTER;
             if (mCircleParams.getTextParams() == null)
                 mCircleParams.setTextParams(new TextParams());
         }
@@ -235,7 +237,9 @@ public class CircleDialog {
         }
 
         private void newProgressParams() {
-            mCircleParams.getDialogParams().gravity = Gravity.CENTER;
+            //判断是否已经设置过
+            if (mCircleParams.getDialogParams().gravity == Gravity.NO_GRAVITY)
+                mCircleParams.getDialogParams().gravity = Gravity.CENTER;
             if (mCircleParams.getProgressParams() == null)
                 mCircleParams.setProgressParams(new ProgressParams());
         }
