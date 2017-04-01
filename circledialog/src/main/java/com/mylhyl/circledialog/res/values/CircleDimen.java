@@ -20,10 +20,7 @@ public class CircleDimen {
      * 文字消息字体大小
      */
     public static final int contentTextSize = 50;
-    /**
-     * 文字消息内边距
-     */
-    public static final int[] messagePadding = {100, 125, 100, 125};
+
     /**
      * 列表每行高度
      */
@@ -47,18 +44,6 @@ public class CircleDimen {
      */
     public static final int inputHeight = 340;
 
-    /**
-     * 输入框内容的外边距
-     */
-    public static final int[] inputMargins = {50, 20, 50, 40};
-    /**
-     * 进度条外边距
-     */
-    public static final int[] progressMargins = {20, 45, 20, 45};
-    /**
-     * 进度条外边距
-     */
-    public static final int[] progressTextPadding = {0, 0, 0, 45};
     /**
      * 进度条高度
      */

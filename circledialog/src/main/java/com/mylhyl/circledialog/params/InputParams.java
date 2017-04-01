@@ -12,10 +12,12 @@ import java.io.Serializable;
  * Created by hupei on 2017/3/31.
  */
 public class InputParams implements Serializable {
+    private static final int[] MARGINS = {50, 20, 50, 40};
+
     /**
      * 输入框与body视图的距离
      */
-    public int[] margins = CircleDimen.inputMargins;
+    public int[] margins = MARGINS;
     /**
      * 输入框的高度
      */

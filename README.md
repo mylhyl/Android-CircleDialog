@@ -58,7 +58,7 @@ eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhy
                         })
                         .show();
 ```
-[更多具体参数(https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)]
+[更多具体参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
 
 #说明
 

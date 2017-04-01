@@ -10,14 +10,16 @@ import java.io.Serializable;
  * Created by hupei on 2017/3/31.
  */
 public class ProgressParams implements Serializable {
+    private static final int[] MARGINS = {20, 45, 20, 45};
+    private static final int[] TEXT_PADDING = {0, 0, 0, 45};
     /**
      * 进度条与body的边距
      */
-    public int[] margins = CircleDimen.progressMargins;
+    public int[] margins = MARGINS;
     /**
      * 底部文字内边距
      */
-    public int[] padding = CircleDimen.progressTextPadding;
+    public int[] padding = TEXT_PADDING;
     /**
      * 进度条资源背景
      */
