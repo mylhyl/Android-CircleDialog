@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 23
@@ -9,8 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "2017.3.31"
-        multiDexEnabled true
+        versionName "2017.4.1"
     }
     buildTypes {
         release {
@@ -22,99 +21,19 @@ android {
     }
     lintOptions {
         abortOnError false
-    }
-}
-
-// Git仓库的主页
-def siteUrl = 'https://github.com/mylhyl/Android-CircleDialog'
-// Git仓库的url
-def gitUrl = 'https://github.com/mylhyl/Android-CircleDialog.git'
-//唯一包名
-group = "com.mylhyl"
-//版本号
-version = "2.0.0"
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                artifactId 'circleDialog'
-                name 'circleDialog ios style' //添加项目描述
-                url siteUrl
-                //设置开源证书信息
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                //填写开发者基本信息
-                developers {
-                    developer {
-                        id 'mylhyl'
-                        name 'mylhylAndroid'
-                        email 'hupei132@qq.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-android.libraryVariants.all { variant ->
-    println variant.javaCompile.classpath.files
-    if(variant.name == 'release') { //我们只需 release 的 javadoc
-        task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
-            // title = ''
-            // description = ''
-            source = variant.javaCompile.source
-            classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
-            options {
-                encoding "utf-8"
-                links "http://docs.oracle.com/javase/7/docs/api/"
-                linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
-            }
-            exclude '**/BuildConfig.java'
-            exclude '**/R.java'
-        }
-        task("javadoc${variant.name.capitalize()}Jar", type: Jar, dependsOn: "generate${variant.name.capitalize()}Javadoc") {
-            classifier = 'javadoc'
-            from tasks.getByName("generate${variant.name.capitalize()}Javadoc").destinationDir
-        }
-        artifacts {
-            archives tasks.getByName("javadoc${variant.name.capitalize()}Jar")
-        }
-    }
-}
-//配置上传bintray相关信息
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-bintray {
-    //读取bintray帐号和密码。
-    //一般的为了保密和安全性，在项目的local.properties文件中添加两行句话即可：
-    user = properties.getProperty("BINTRAY_USER")
-    key = properties.getProperty("BINTRAY_KEY")
-    configurations = ['archives']
-    pkg {
-        repo = "maven" //上传的中央仓库名称
-        name = "circleDialog" //上传的项目的名字
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true //是否发布
+        checkReleaseBuilds false
     }
 }
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
+}
+
+publish {
+    userOrg = 'mylhyl'
+    groupId = 'com.mylhyl'
+    artifactId = 'circleDialog'
+    version = '2.0.0'
+    description = 'circleDialog ios style'
+    website = "https://github.com/mylhyl/Android-CircleDialog"
 }
