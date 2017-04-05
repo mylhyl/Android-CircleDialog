@@ -2,6 +2,8 @@ package com.mylhyl.circledialog;
 
 import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.view.BuildViewImpl;
@@ -33,11 +35,13 @@ public class Controller {
         mCreateView.refreshItems();
         mCreateView.refreshProgress();
         //刷新时带动画
-        if (mParams.getDialogParams().refreshAnimation != null && getView() != null)
+        if (mParams.getDialogParams().refreshAnimation != 0 && getView() != null)
             getView().post(new Runnable() {
                 @Override
                 public void run() {
-                    getView().startAnimation(mParams.getDialogParams().refreshAnimation);
+                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams.getDialogParams()
+                            .refreshAnimation);
+                    if (animation != null) getView().startAnimation(animation);
                 }
             });
     }

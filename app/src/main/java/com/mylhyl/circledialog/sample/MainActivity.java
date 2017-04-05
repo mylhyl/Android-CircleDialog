@@ -7,9 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.OvershootInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,17 +16,12 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
-import com.mylhyl.circledialog.callback.ConfigProgress;
-import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
-                , new String[]{"提示框", "确定框", "换头像", "消息框", "输入框", "进度框", "等待框", "动态改变内容"
-                , "动态改变items", "自定义dialog"}));
+                , new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框", "动态改变内容"
+                , "自定义dialog"}));
         listView.setOnItemClickListener(this);
     }
 
@@ -73,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .show();
                 break;
             case 2:
+//                final List<PictureType> list = new ArrayList<>();
+//                list.add(new PictureType(1, "拍照"));
+//                list.add(new PictureType(2, "从相册选择"));
+//                list.add(new PictureType(3, "小视频"));
                 final String[] items = {"拍照", "从相册选择", "小视频"};
                 new CircleDialog.Builder(this)
                         .configDialog(new ConfigDialog() {
@@ -101,28 +97,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .show();
                 break;
             case 3:
-                final DialogFragment dialogFragment = new CircleDialog.Builder(this)
-                        .setCanceledOnTouchOutside(false)
-                        .setCancelable(false)
-                        .setText("消息框，3秒后自动关闭")
-                        .setTextColor(Color.BLACK)
-                        .configText(new ConfigText() {
-                            @Override
-                            public void onConfig(TextParams params) {
-                                params.height = 300;
-                                params.textSize = 70;
-                            }
-                        })
-                        .show();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialogFragment.dismiss();
-                    }
-                }, 3000);
-                break;
-            case 4:
                 new CircleDialog.Builder(this)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
@@ -143,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         })
                         .show();
                 break;
-            case 5:
+            case 4:
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder(this);
                 builder.setCancelable(false).setCanceledOnTouchOutside(false)
@@ -180,25 +154,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 };
                 timer.schedule(timerTask, 0, 50);
                 break;
-            case 6:
-                new CircleDialog.Builder(this)
+            case 5:
+                final DialogFragment dialogFragment = new CircleDialog.Builder(this)
                         .setProgressText("登录中...")
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
                         .show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogFragment.dismiss();
+                    }
+                }, 3000);
                 break;
-            case 7:
+            case 6:
                 builder = new CircleDialog.Builder(this);
                 builder.configDialog(new ConfigDialog() {
                     @Override
                     public void onConfig(DialogParams params) {
                         params.gravity = Gravity.TOP;
-                        TranslateAnimation animation = new TranslateAnimation(15, -15, 0, 0);
-                        animation.setInterpolator(new OvershootInterpolator());
-                        animation.setDuration(100);
-                        animation.setRepeatCount(3);
-                        animation.setRepeatMode(Animation.RESTART);
-                        params.refreshAnimation = animation;
+//                        TranslateAnimation refreshAnimation = new TranslateAnimation(15, -15, 0, 0);
+//                        refreshAnimation.setInterpolator(new OvershootInterpolator());
+//                        refreshAnimation.setDuration(100);
+//                        refreshAnimation.setRepeatCount(3);
+//                        refreshAnimation.setRepeatMode(Animation.RESTART);
+                        params.refreshAnimation = R.anim.refresh_animation;
                     }
                 })
                         .setTitle("动态改变内容")
@@ -211,45 +191,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }, 3000);
                 break;
-            case 8:
-                final List<PictureType> list = new ArrayList<>();
-                list.add(new PictureType(1, "拍照"));
-                list.add(new PictureType(2, "从相册选择"));
-                list.add(new PictureType(3, "小视频"));
-
-                builder = new CircleDialog.Builder(this);
-                builder.configDialog(new ConfigDialog() {
-                    @Override
-                    public void onConfig(DialogParams params) {
-                        params.animStyle = R.style.dialogWindowAnim;
-                    }
-                })
-                        .setTitle("动态改变Items")
-                        .setTitleColor(Color.BLUE)
-                        .setItems(list, new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
-                        })
-                        .setNegative("取消", null)
-                        .configNegative(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.textColor = Color.RED;
-                            }
-                        })
-                        .show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        list.add(new PictureType(4, "摄影"));
-                        builder.create();
-                    }
-                }, 3000);
-                break;
-            case 9:
-                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
+            case 7:
+//                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
+                DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
                 break;
         }
     }

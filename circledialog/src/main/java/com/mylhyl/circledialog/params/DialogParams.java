@@ -2,7 +2,6 @@ package com.mylhyl.circledialog.params;
 
 import android.graphics.Color;
 import android.view.Gravity;
-import android.view.animation.Animation;
 
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -38,9 +37,13 @@ public class DialogParams implements Serializable {
      */
     public int[] mPadding;
     /**
-     * 对话框弹出动画,style动画资源
+     * 对话框弹出动画,StyleRes
      */
     public int animStyle;
+    /**
+     * 对话框刷新动画，AnimRes
+     */
+    public int refreshAnimation;
     /**
      * 对话框背景是否昏暗，默认true
      */
@@ -61,10 +64,6 @@ public class DialogParams implements Serializable {
      * 对话框 y 坐标偏移
      */
     public int yOff;
-    /**
-     * 内容刷新动画
-     */
-    public Animation refreshAnimation;
 
     public int getBackgroundColor() {
         return backgroundColor;

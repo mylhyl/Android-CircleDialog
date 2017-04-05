@@ -17,10 +17,10 @@ import com.mylhyl.circledialog.BaseCircleDialog;
 public class DialogLoginConnPc extends BaseCircleDialog implements View.OnClickListener {
 
     public static DialogLoginConnPc getInstance() {
-        DialogLoginConnPc dialogLoginConnPc = new DialogLoginConnPc();
-        dialogLoginConnPc.setCanceledBack(false);
-        dialogLoginConnPc.setCanceledOnTouchOutside(false);
-        return dialogLoginConnPc;
+        DialogLoginConnPc dialogFragment = new DialogLoginConnPc();
+        dialogFragment.setCanceledBack(false);
+        dialogFragment.setCanceledOnTouchOutside(false);
+        return dialogFragment;
     }
 
     @Override

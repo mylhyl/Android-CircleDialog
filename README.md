@@ -1,8 +1,8 @@
 # Android-CircleDialog
-* 相比SuperDialog而言，此库支持横竖屏切换
-* 基于`DialogFragment`封装，支持自定义边框圆角、背景透明度、字体大小与色值等
-* 列表选择框可以接收`List`与`Arrays`的数据源，详细见`demo`
-* 初衷是掌握知识点，此库不一定适合你的产品整体风格，当然能够适合你的项目最好不过，有建议和不足之处欢迎骚扰
+ * 相比SuperDialog而言，此库支持横竖屏切换
+ * 基于`DialogFragment`封装，支持自定义边框圆角、背景透明度、字体大小与色值等
+ * 列表选择框可以接收`List`与`Arrays`的数据源，详细见`demo`
+ * 初衷是掌握知识点，此库不一定适合你的产品整体风格，当然能够适合你的项目最好不过，有建议和不足之处欢迎骚扰
 
 # 知识点
   全代码创建`shape`、`selector`、`Layout`，三大`Layout`不用多讲，肯定都会的，主要是`Drawable`所使用类如下：
@@ -59,18 +59,21 @@ eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhy
                         })
                         .show();
 ```
-[更多具体参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
+[更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
 
 #说明
 
-* 此库自动将px转换百分比，由于 Dialog 布局一般只有微调，暂时只支持textSize，height，padding
-* 默认字体大小;Title、message、button、padding 的px在设计稿为 1080 * 1920 的尺寸
-* 也可自己定义，只需在manifest.xml中加入如下格式
+ * 此库自动将px转换百分比，由于 Dialog 布局一般只有微调，暂时只支持textSize，height，padding
+ * 默认字体大小;Title、message、button、padding 的px在设计稿为 1080 * 1920 的尺寸
+ * 也可自己定义，只需在manifest.xml中加入如下格式
 
 ```xml
-<meta-data android:name="design_width" android:value="1200"/>
-<meta-data android:name="design_height" android:value="1920"/>
+        <meta-data android:name="design_width" android:value="1200"/>
+        <meta-data android:name="design_height" android:value="1920"/>
 ```
+
+#注意
+ * 继承基类`BaseCircleDialog`
 
 QQ交流群:435173211
 

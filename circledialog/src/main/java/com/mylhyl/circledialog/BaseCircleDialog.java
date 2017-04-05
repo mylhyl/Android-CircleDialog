@@ -2,6 +2,7 @@ package com.mylhyl.circledialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -18,7 +19,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 
@@ -30,6 +30,19 @@ public abstract class BaseCircleDialog extends DialogFragment {
 
     public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
 
+    private static final String SAVED_GRAVITY = "circle:baseGravity";
+    private static final String SAVED_TOUCH_OUT = "circle:baseTouchOut";
+    private static final String SAVED_CANCELED_BACK = "circle:baseCanceledBack";
+    private static final String SAVED_WIDTH = "circle:baseWidth";
+    private static final String SAVED_PADDING = "circle:basePadding";
+    private static final String SAVED_ANIM_STYLE = "circle:baseAnimStyle";
+    private static final String SAVED_DIM_ENABLED = "circle:baseDimEnabled";
+    private static final String SAVED_BACKGROUND_COLOR = "circle:baseBackgroundColor";
+    private static final String SAVED_RADIUS = "circle:baseRadius";
+    private static final String SAVED_ALPHA = "circle:baseAlpha";
+    private static final String SAVED_X = "circle:baseX";
+    private static final String SAVED_Y = "circle:baseY";
+
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
     private boolean mCanceledBack = true;//是否返回键关闭
@@ -37,7 +50,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     private int[] mPadding;//对话框与屏幕边缘距离
     private int mAnimStyle;//显示动画
     private boolean isDimEnabled = true;
-    private int mBackgroundColor = CircleColor.bgDialog;//对话框的背景色
+    private int mBackgroundColor = Color.TRANSPARENT;//对话框的背景色
     private int mRadius = CircleDimen.RADIUS;//对话框的圆角半径
     private float mAlpha = 1f;//对话框透明度，范围：0-1；1不透明
     private int mX, mY;
@@ -47,6 +60,37 @@ public abstract class BaseCircleDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         //设置 无标题 无边框
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        if (savedInstanceState != null) {
+            mGravity = savedInstanceState.getInt(SAVED_GRAVITY);
+            mCanceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT);
+            mCanceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK);
+            mWidth = savedInstanceState.getFloat(SAVED_WIDTH);
+            mPadding = savedInstanceState.getIntArray(SAVED_PADDING);
+            mAnimStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE);
+            isDimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED);
+            mBackgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR);
+            mRadius = savedInstanceState.getInt(SAVED_RADIUS);
+            mAlpha = savedInstanceState.getFloat(SAVED_ALPHA);
+            mX = savedInstanceState.getInt(SAVED_X);
+            mY = savedInstanceState.getInt(SAVED_Y);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_GRAVITY, mGravity);
+        outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside);
+        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
+        outState.putFloat(SAVED_WIDTH, mWidth);
+        if (mPadding != null) outState.putIntArray(SAVED_PADDING, mPadding);
+        outState.putInt(SAVED_ANIM_STYLE, mAnimStyle);
+        outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled);
+        outState.putInt(SAVED_BACKGROUND_COLOR, mBackgroundColor);
+        outState.putInt(SAVED_RADIUS, mRadius);
+        outState.putFloat(SAVED_ALPHA, mAlpha);
+        outState.putInt(SAVED_X, mX);
+        outState.putInt(SAVED_Y, mY);
     }
 
     @Override
@@ -167,9 +211,9 @@ public abstract class BaseCircleDialog extends DialogFragment {
     }
 
     /**
-     * 动画弹出对话框
+     * 弹出对话框的动画
      *
-     * @param animStyle 样式资源
+     * @param animStyle StyleRes
      */
     protected void setAnimations(int animStyle) {
         mAnimStyle = animStyle;

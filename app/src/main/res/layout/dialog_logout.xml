@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/but_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/cancel_fork" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingBottom="60px"
+        android:paddingTop="30px">
+
+        <TextView
+            android:layout_width="750px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/c_acacac"
+            android:text="退出后不接收任何消息，但不会删除历史消息数据！" />
+
+        <Button
+            android:id="@+id/logout_ok"
+            android:layout_width="750px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60px"
+            android:background="@drawable/btn_bg_orange"
+            android:text="退出登录"
+            android:textColor="@color/c_e9ad44" />
+
+        <Button
+            android:id="@+id/logout_cancel"
+            android:layout_width="750px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60px"
+            android:background="@drawable/btn_bg_orange"
+            android:text="取消"
+            android:textColor="@color/c_acacac" />
+    </LinearLayout>
+</LinearLayout>
