@@ -33,7 +33,7 @@ publish {
     userOrg = 'mylhyl'
     groupId = 'com.mylhyl'
     artifactId = 'circleDialog'
-    version = '2.1.0'
+    version = '2.1.1'
     description = 'circleDialog ios style'
     website = "https://github.com/mylhyl/Android-CircleDialog"
 }
