@@ -17,11 +17,11 @@ public class TitleParams implements Serializable {
     /**
      * 标题高度
      */
-    public int height = CircleDimen.titleHeight;
+    public int height = CircleDimen.TITLE_HEIGHT;
     /**
      * 标题字体大小
      */
-    public int textSize = CircleDimen.titleTextSize;
+    public int textSize = CircleDimen.TITLE_TEXT_SIZE;
     /**
      * 标题字体颜色
      */

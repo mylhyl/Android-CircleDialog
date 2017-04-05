@@ -207,9 +207,27 @@ public class CircleDialog {
                 });
         }
 
+        /**
+         * 设置进度条文本
+         *
+         * @param text 进度条文本，style = 水平样式时，支持String.format() 例如：已经下载%s
+         * @return
+         */
         public Builder setProgressText(@NonNull String text) {
             newProgressParams();
             mCircleParams.getProgressParams().text = text;
+            return this;
+        }
+
+        /**
+         * 设置进度条样式
+         *
+         * @param style {@link ProgressParams#STYLE_HORIZONTAL 水平样式} or {@link ProgressParams#STYLE_SPINNER}
+         * @return
+         */
+        public Builder setProgressStyle(int style) {
+            newProgressParams();
+            mCircleParams.getProgressParams().style = style;
             return this;
         }
 

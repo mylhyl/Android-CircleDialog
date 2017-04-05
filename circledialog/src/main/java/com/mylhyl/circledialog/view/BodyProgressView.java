@@ -1,8 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -16,11 +14,10 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.drawable.ProgressDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.res.values.CircleDimen;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
@@ -61,52 +58,65 @@ class BodyProgressView extends ScaleLinearLayout {
             //有标题有按钮则不用考虑圆角
         else setBackgroundColor(backgroundColor);
 
-        //进度条
-        mProgressBar = new ProgressBar(getContext());
-        setFieldValue(mProgressBar, "mOnlyIndeterminate", new Boolean(false));
-        mProgressBar.setIndeterminate(false);
-
+        //自定义样式
         int progressDrawableId = mProgressParams.progressDrawableId;
-        if (progressDrawableId == 0) {//库自带
-            LayerDrawable layerDrawable = new ProgressDrawable().getLayerDrawable();
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                Drawable d = getMethod("tileify", mProgressBar, new Object[]{layerDrawable, false});
-                mProgressBar.setProgressDrawable(d);
-            } else mProgressBar.setProgressDrawableTiled(layerDrawable);
-        } else {
-            //使用者自定义xml
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                mProgressBar.setProgressDrawable(context.getDrawable(progressDrawableId));
-            else mProgressBar.setProgressDrawable(context.getResources().getDrawable(progressDrawableId));
+        //水平样式
+        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
+            if (progressDrawableId != 0) {
+                mProgressBar = new ProgressBar(getContext());
+                setFieldValue(mProgressBar, "mOnlyIndeterminate", new Boolean(false));
+                mProgressBar.setIndeterminate(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    mProgressBar.setProgressDrawableTiled(context.getDrawable(progressDrawableId));
+                else mProgressBar.setProgressDrawable(context.getResources().getDrawable(progressDrawableId));
+            } else {
+                mProgressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
+            }
+            mProgressParams.progressHeight = CircleDimen.PROGRESS_HEIGHT_HORIZONTAL;
+        }
+        //旋转样式
+        else {
+            if (progressDrawableId != 0) {
+                mProgressBar = new ProgressBar(getContext());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    mProgressBar.setIndeterminateDrawableTiled(context.getDrawable(progressDrawableId));
+                else mProgressBar.setIndeterminateDrawable(context.getResources().getDrawable(progressDrawableId));
+            } else {
+                mProgressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyle);
+            }
+            mProgressParams.progressHeight = CircleDimen.PROGRESS_HEIGHT_SPINNER;
         }
 
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, mProgressParams.progressHeight);
         int[] margins = mProgressParams.margins;
         if (margins != null) layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
-
         addView(mProgressBar, layoutParams);
 
+        //构建文本
         final ScaleTextView textView = new ScaleTextView(getContext());
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
         int[] padding = mProgressParams.padding;
         if (padding != null) textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
-
         addView(textView);
 
-        mViewUpdateHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                int progress = mProgressBar.getProgress();
-                int max = mProgressBar.getMax();
-                int percent = (int) (((float) progress / (float) max) * 100);
-                String args = percent + "%";
-                if (!TextUtils.isEmpty(mProgressParams.text) && mProgressParams.text.contains("%s"))
-                    textView.setText(String.format(mProgressParams.text, args));
-                else textView.setText(mProgressParams.text + args);
-            }
-        };
+        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
+            mViewUpdateHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    int progress = mProgressBar.getProgress();
+                    int max = mProgressBar.getMax();
+                    int percent = (int) (((float) progress / (float) max) * 100);
+                    String args = percent + "%";
+                    if (!TextUtils.isEmpty(mProgressParams.text) && mProgressParams.text.contains("%s"))
+                        textView.setText(String.format(mProgressParams.text, args));
+                    else textView.setText(mProgressParams.text + args);
+                }
+            };
+        } else {
+            textView.setText(mProgressParams.text);
+        }
     }
 
 
@@ -119,21 +129,6 @@ class BodyProgressView extends ScaleLinearLayout {
 
     private void onProgressChanged() {
         if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0)) mViewUpdateHandler.sendEmptyMessage(0);
-    }
-
-    private static Drawable getMethod(String MethodName, Object o, Object[] paras) {
-        Drawable newDrawable = null;
-        try {
-            Class c[] = new Class[2];
-            c[0] = Drawable.class;
-            c[1] = boolean.class;
-            Method method = ProgressBar.class.getDeclaredMethod(MethodName, c);
-            method.setAccessible(true);
-            newDrawable = (Drawable) method.invoke(o, paras);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return newDrawable;
     }
 
     /**

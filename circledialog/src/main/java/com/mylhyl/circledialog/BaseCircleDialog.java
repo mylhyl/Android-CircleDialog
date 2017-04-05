@@ -38,7 +38,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     private int mAnimStyle;//显示动画
     private boolean isDimEnabled = true;
     private int mBackgroundColor = CircleColor.bgDialog;//对话框的背景色
-    private int mRadius = CircleDimen.radius;//对话框的圆角半径
+    private int mRadius = CircleDimen.RADIUS;//对话框的圆角半径
     private float mAlpha = 1f;//对话框透明度，范围：0-1；1不透明
     private int mX, mY;
 

@@ -21,7 +21,7 @@ public abstract class ItemsParams implements Serializable {
     /**
      * item高度
      */
-    public int itemHeight = CircleDimen.itemHeight;
+    public int itemHeight = CircleDimen.ITEM_HEIGHT;
     /**
      * item内间距
      */
@@ -41,5 +41,5 @@ public abstract class ItemsParams implements Serializable {
     /**
      * item字体大小
      */
-    public int textSize = CircleDimen.contentTextSize;
+    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
 }

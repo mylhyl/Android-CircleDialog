@@ -52,7 +52,7 @@ public class DialogParams implements Serializable {
     /**
      * 对话框的圆角半径
      */
-    public int radius = CircleDimen.radius;
+    public int radius = CircleDimen.RADIUS;
     /**
      * 对话框 x 坐标偏移
      */

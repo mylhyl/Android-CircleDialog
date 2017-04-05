@@ -21,7 +21,7 @@ public class TextParams implements Serializable {
     /**
      * 文本高度
      */
-    public int height = CircleDimen.titleHeight;
+    public int height = CircleDimen.TITLE_HEIGHT;
     /**
      * 文本背景颜色
      */
@@ -33,5 +33,5 @@ public class TextParams implements Serializable {
     /**
      * 文本字体大小
      */
-    public int textSize = CircleDimen.contentTextSize;
+    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
 }

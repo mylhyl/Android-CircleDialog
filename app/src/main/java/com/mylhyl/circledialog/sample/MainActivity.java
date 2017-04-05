@@ -19,10 +19,12 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
+import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
@@ -40,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
-                , new String[]{"提示框", "确定框", "换头像", "消息框", "输入框", "进度框", "动态改变内容"
-                , "动态改变items", "自定义"}));
+                , new String[]{"提示框", "确定框", "换头像", "消息框", "输入框", "进度框", "等待框", "动态改变内容"
+                , "动态改变items", "自定义dialog"}));
         listView.setOnItemClickListener(this);
     }
 
@@ -179,6 +181,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 timer.schedule(timerTask, 0, 50);
                 break;
             case 6:
+                new CircleDialog.Builder(this)
+                        .setProgressText("登录中...")
+                        .setProgressStyle(ProgressParams.STYLE_SPINNER)
+//                        .setProgressDrawable(R.drawable.bg_progress_s)
+                        .show();
+                break;
+            case 7:
                 builder = new CircleDialog.Builder(this);
                 builder.configDialog(new ConfigDialog() {
                     @Override
@@ -202,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }, 3000);
                 break;
-            case 7:
+            case 8:
                 final List<PictureType> list = new ArrayList<>();
                 list.add(new PictureType(1, "拍照"));
                 list.add(new PictureType(2, "从相册选择"));
@@ -239,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }, 3000);
                 break;
-            case 8:
+            case 9:
                 DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
                 break;
         }

@@ -21,7 +21,7 @@ public class InputParams implements Serializable {
     /**
      * 输入框的高度
      */
-    public int inputHeight = CircleDimen.inputHeight;
+    public int inputHeight = CircleDimen.INPUT_HEIGHT;
     /**
      * 输入框提示语
      */
@@ -53,7 +53,7 @@ public class InputParams implements Serializable {
     /**
      * 输入框字体大小
      */
-    public int textSize = CircleDimen.contentTextSize;
+    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
     /**
      * 输入框字体颜色
      */

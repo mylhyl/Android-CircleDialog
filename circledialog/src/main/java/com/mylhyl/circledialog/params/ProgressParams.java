@@ -10,8 +10,23 @@ import java.io.Serializable;
  * Created by hupei on 2017/3/31.
  */
 public class ProgressParams implements Serializable {
+
     private static final int[] MARGINS = {20, 45, 20, 45};
     private static final int[] TEXT_PADDING = {0, 0, 0, 45};
+
+    /**
+     * 水平进度条
+     */
+    public static final int STYLE_HORIZONTAL = 0;
+    /**
+     * 旋转进度条
+     */
+    public static final int STYLE_SPINNER = 1;
+
+    /**
+     * 进度条样式，默认水平样式
+     */
+    public int style = STYLE_HORIZONTAL;
     /**
      * 进度条与body的边距
      */
@@ -27,7 +42,7 @@ public class ProgressParams implements Serializable {
     /**
      * 进度条高度
      */
-    public int progressHeight = CircleDimen.progressHeight;
+    public int progressHeight;
     /**
      * 最大刻度
      */
@@ -52,5 +67,6 @@ public class ProgressParams implements Serializable {
     /**
      * 文本字体大小
      */
-    public int textSize = CircleDimen.contentTextSize;
+    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+
 }

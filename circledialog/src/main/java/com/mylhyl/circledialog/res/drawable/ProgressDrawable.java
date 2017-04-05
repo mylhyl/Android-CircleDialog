@@ -7,9 +7,10 @@ import android.graphics.drawable.LayerDrawable;
 import android.view.Gravity;
 
 /**
- * 进度条背景
+ * 进度条背景，不提供内置水平样式
  * Created by hupei on 2017/3/29.
  */
+@Deprecated
 public final class ProgressDrawable {
     private static final int colorsBg[] = {0xffBEBEBE, 0xffF5F5F5};
     private static final int colorsSecondaryProgress[] = {0xff85B0E9, 0xff165CBC};

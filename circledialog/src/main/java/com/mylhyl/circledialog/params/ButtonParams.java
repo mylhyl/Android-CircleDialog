@@ -34,11 +34,11 @@ public abstract class ButtonParams implements Serializable {
     /**
      * 按钮文本大小
      */
-    public int textSize = CircleDimen.footerTextSize;
+    public int textSize = CircleDimen.FOOTER_TEXT_SIZE;
     /**
      * 按钮高度
      */
-    public int height = CircleDimen.footerHeight;
+    public int height = CircleDimen.FOOTER_HEIGHT;
     /**
      * 按钮背景颜色
      */
