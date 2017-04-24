@@ -3,6 +3,7 @@ package com.mylhyl.circledialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -94,9 +95,14 @@ public abstract class BaseCircleDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View view = createView(getContext(), inflater, container);
-        view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
+        } else {
+            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, mRadius));
+        }
         view.setAlpha(mAlpha);
         return view;
     }

@@ -13,7 +13,7 @@
 
 # 引入
 ```xml
- compile 'com.mylhyl:circleDialog:2.1.2'
+ compile 'com.mylhyl:circleDialog:2.1.4'
 ```
 
 eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
@@ -75,12 +75,16 @@ eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhy
 #注意
  * 继承基类`BaseCircleDialog`背景为透明，自定义layout时按需求设置背景
 
-QQ交流群:435173211
+QQ交流群：553426264
+点击链接加入群【Android-CircleDialog】：https://jq.qq.com/?_wv=1027&k=47ptoki
+<img src="preview/qrcode.gif"/>
 
 #感谢
 [AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)
 
 # 版本
+
+> 2.1.4 minSdkVersion 15
 
 > 2.1.2 修复已知Bug
 
