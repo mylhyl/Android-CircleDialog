@@ -31,7 +31,7 @@ import com.mylhyl.circledialog.view.listener.OnInputClickListener;
  * Created by hupei on 2017/3/29.
  */
 
-public class CircleDialog {
+public final class CircleDialog {
     private AbsCircleDialog mDialog;
 
     private CircleDialog() {

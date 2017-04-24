@@ -13,7 +13,7 @@
 
 # 引入
 ```xml
- compile 'com.mylhyl:circleDialog:2.1.1'
+ compile 'com.mylhyl:circleDialog:2.1.2'
 ```
 
 eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
@@ -81,6 +81,8 @@ QQ交流群:435173211
 [AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)
 
 # 版本
+
+> 2.1.2 修复已知Bug
 
 > 2.1.1 修复`BaseCircleDialog`横竖屏恢复参数
 

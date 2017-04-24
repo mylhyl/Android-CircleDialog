@@ -15,7 +15,7 @@ import com.mylhyl.circledialog.params.DialogParams;
  * Created by hupei on 2017/3/29.
  */
 
-final class AbsCircleDialog extends BaseCircleDialog {
+public final class AbsCircleDialog extends BaseCircleDialog {
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
     private Controller mController;
