@@ -1,6 +1,8 @@
 package com.mylhyl.circledialog.params;
 
 import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -11,7 +13,7 @@ import java.io.Serializable;
  * 输入框参数
  * Created by hupei on 2017/3/31.
  */
-public class InputParams implements Serializable {
+public class InputParams implements Parcelable {
     private static final int[] MARGINS = {50, 20, 50, 40};
 
     /**
@@ -58,4 +60,54 @@ public class InputParams implements Serializable {
      * 输入框字体颜色
      */
     public int textColor = CircleColor.title;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeIntArray(this.margins);
+        dest.writeInt(this.inputHeight);
+        dest.writeString(this.hintText);
+        dest.writeInt(this.hintTextColor);
+        dest.writeInt(this.inputBackgroundResourceId);
+        dest.writeInt(this.strokeWidth);
+        dest.writeInt(this.strokeColor);
+        dest.writeInt(this.inputBackgroundColor);
+        dest.writeInt(this.backgroundColor);
+        dest.writeInt(this.textSize);
+        dest.writeInt(this.textColor);
+    }
+
+    public InputParams() {
+    }
+
+    protected InputParams(Parcel in) {
+        this.margins = in.createIntArray();
+        this.inputHeight = in.readInt();
+        this.hintText = in.readString();
+        this.hintTextColor = in.readInt();
+        this.inputBackgroundResourceId = in.readInt();
+        this.strokeWidth = in.readInt();
+        this.strokeColor = in.readInt();
+        this.inputBackgroundColor = in.readInt();
+        this.backgroundColor = in.readInt();
+        this.textSize = in.readInt();
+        this.textColor = in.readInt();
+    }
+
+    public static final Parcelable.Creator<InputParams> CREATOR = new Parcelable
+            .Creator<InputParams>() {
+        @Override
+        public InputParams createFromParcel(Parcel source) {
+            return new InputParams(source);
+        }
+
+        @Override
+        public InputParams[] newArray(int size) {
+            return new InputParams[size];
+        }
+    };
 }

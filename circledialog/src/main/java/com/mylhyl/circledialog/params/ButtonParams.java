@@ -1,5 +1,7 @@
 package com.mylhyl.circledialog.params;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -12,8 +14,10 @@ import java.io.Serializable;
  * 按钮参数
  * Created by hupei on 2017/3/30.
  */
-public abstract class ButtonParams implements Serializable {
-    public abstract void dismiss();
+public class ButtonParams implements Parcelable {
+    public void dismiss() {
+
+    }
 
     /**
      * 按钮点击事件
@@ -47,4 +51,44 @@ public abstract class ButtonParams implements Serializable {
      * 按钮文本
      */
     public String text;
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.topMargin);
+        dest.writeInt(this.textColor);
+        dest.writeInt(this.textSize);
+        dest.writeInt(this.height);
+        dest.writeInt(this.backgroundColor);
+        dest.writeString(this.text);
+    }
+
+    public ButtonParams() {
+    }
+
+    protected ButtonParams(Parcel in) {
+        this.topMargin = in.readInt();
+        this.textColor = in.readInt();
+        this.textSize = in.readInt();
+        this.height = in.readInt();
+        this.backgroundColor = in.readInt();
+        this.text = in.readString();
+    }
+
+    public static final Parcelable.Creator<ButtonParams> CREATOR = new Parcelable.Creator<ButtonParams>() {
+        @Override
+        public ButtonParams createFromParcel(Parcel source) {
+            return new ButtonParams(source);
+        }
+
+        @Override
+        public ButtonParams[] newArray(int size) {
+            return new ButtonParams[size];
+        }
+    };
 }

@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -23,8 +24,8 @@ class SingleButton extends ScaleTextView {
     }
 
     private void init(CircleParams params) {
-        mButtonParams = params.getNegativeParams() != null ? params.getNegativeParams()
-                : params.getPositiveParams();
+        mButtonParams = params.negativeParams != null ? params.negativeParams : params
+                .positiveParams;
 
         setText(mButtonParams.text);
         setTextSize(mButtonParams.textSize);
@@ -32,10 +33,15 @@ class SingleButton extends ScaleTextView {
         setHeight(mButtonParams.height);
 
         //如果取消按钮没有背景色，则使用默认色
-        int backgroundColor = mButtonParams.backgroundColor != 0 ? mButtonParams.backgroundColor : CircleColor
-                .bgDialog;
-        int radius = params.getDialogParams().radius;
-        setBackground(new SelectorBtn(backgroundColor, 0, 0, radius, radius));
+        int backgroundColor = mButtonParams.backgroundColor != 0 ? mButtonParams.backgroundColor
+                : CircleColor.bgDialog;
+
+        int radius = params.dialogParams.radius;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(new SelectorBtn(backgroundColor, 0, 0, radius, radius));
+        } else {
+            setBackgroundDrawable(new SelectorBtn(backgroundColor, 0, 0, radius, radius));
+        }
 
         regOnClickListener();
     }

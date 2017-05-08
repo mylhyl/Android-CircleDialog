@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -20,19 +21,32 @@ class TitleView extends ScaleTextView {
     }
 
     private void init(CircleParams params) {
-        DialogParams dialogParams = params.getDialogParams();
-        TitleParams titleParams = params.getTitleParams();
+        DialogParams dialogParams = params.dialogParams;
+        TitleParams titleParams = params.titleParams;
 
         //如果标题没有背景色，则使用默认色
-        int backgroundColor = titleParams.backgroundColor != 0 ? titleParams.backgroundColor : CircleColor.bgDialog;
+        int backgroundColor = titleParams.backgroundColor != 0 ? titleParams.backgroundColor :
+                CircleColor.bgDialog;
 
         //有内容则顶部圆角
-        if (params.getTextParams() != null || params.getItemsParams() != null || params.getProgressParams() != null
-                || params.getInputParams() != null) {
-            setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams.radius, 0, 0));
+        if (params.textParams != null || params.itemsParams != null || params.progressParams != null
+                || params.inputParams != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
+                        .radius, 0, 0));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
+                        dialogParams.radius, 0, 0));
+            }
         }
         //无内容则全部圆角
-        else setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
+            }
+        }
 
         setHeight(titleParams.height);
         setTextColor(titleParams.textColor);

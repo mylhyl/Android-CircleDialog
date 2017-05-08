@@ -24,7 +24,7 @@ public final class AbsCircleDialog extends BaseCircleDialog {
         AbsCircleDialog circleDialog = new AbsCircleDialog();
         circleDialog.mParams = params;
         Bundle bundle = new Bundle();
-        bundle.putSerializable(SAVED_PARAMS, params);
+        bundle.putParcelable(SAVED_PARAMS, params);
         circleDialog.setArguments(bundle);
         return circleDialog;
     }
@@ -39,9 +39,9 @@ public final class AbsCircleDialog extends BaseCircleDialog {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mParams = (CircleParams) savedInstanceState.getSerializable(SAVED_PARAMS);
+            mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
         }
-        DialogParams dialogParams = mParams.getDialogParams();
+        DialogParams dialogParams = mParams.dialogParams;
         setGravity(dialogParams.gravity);
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
         setCanceledBack(dialogParams.cancelable);
@@ -51,7 +51,7 @@ public final class AbsCircleDialog extends BaseCircleDialog {
             setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);
         setAnimations(dialogParams.animStyle);
         setDimEnabled(dialogParams.isDimEnabled);
-        setBackgroundColor(dialogParams.getBackgroundColor());
+        setBackgroundColor(dialogParams.backgroundColor);
         setRadius(dialogParams.radius);
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
@@ -61,7 +61,7 @@ public final class AbsCircleDialog extends BaseCircleDialog {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(SAVED_PARAMS, mParams);
+        outState.putParcelable(SAVED_PARAMS, mParams);
     }
 
     @Override

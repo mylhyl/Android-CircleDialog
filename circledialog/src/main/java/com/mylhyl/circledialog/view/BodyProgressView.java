@@ -36,26 +36,46 @@ class BodyProgressView extends ScaleLinearLayout {
 
     private void init(Context context, CircleParams params) {
         setOrientation(LinearLayout.VERTICAL);
-        DialogParams dialogParams = params.getDialogParams();
-        TitleParams titleParams = params.getTitleParams();
-        ButtonParams negativeParams = params.getNegativeParams();
-        ButtonParams positiveParams = params.getPositiveParams();
-        mProgressParams = params.getProgressParams();
+        DialogParams dialogParams = params.dialogParams;
+        TitleParams titleParams = params.titleParams;
+        ButtonParams negativeParams = params.negativeParams;
+        ButtonParams positiveParams = params.positiveParams;
+        mProgressParams = params.progressParams;
 
         //如果没有背景色，则使用默认色
-        int backgroundColor = mProgressParams.backgroundColor != 0 ? mProgressParams.backgroundColor : CircleColor
+        int backgroundColor = mProgressParams.backgroundColor != 0 ? mProgressParams
+                .backgroundColor : CircleColor
                 .bgDialog;
 
         //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null)
-            setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius, dialogParams.radius));
-            //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null))
-            setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams.radius, 0, 0));
-            //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null)
-            setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
-            //有标题有按钮则不用考虑圆角
+        if (titleParams != null && negativeParams == null && positiveParams == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
+                        dialogParams.radius));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
+                        dialogParams.radius));
+            }
+        }
+        //没标题有按钮则顶部圆角
+        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
+                        .radius, 0, 0));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
+                        dialogParams.radius, 0, 0));
+            }
+        }
+        //没标题没按钮则全部圆角
+        else if (titleParams == null && negativeParams == null && positiveParams == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
+            }
+        }
+        //有标题有按钮则不用考虑圆角
         else setBackgroundColor(backgroundColor);
 
         //自定义样式
@@ -68,9 +88,12 @@ class BodyProgressView extends ScaleLinearLayout {
                 mProgressBar.setIndeterminate(false);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     mProgressBar.setProgressDrawableTiled(context.getDrawable(progressDrawableId));
-                else mProgressBar.setProgressDrawable(context.getResources().getDrawable(progressDrawableId));
+                else
+                    mProgressBar.setProgressDrawable(context.getResources().getDrawable
+                            (progressDrawableId));
             } else {
-                mProgressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
+                mProgressBar = new ProgressBar(getContext(), null, android.R.attr
+                        .progressBarStyleHorizontal);
             }
             mProgressParams.progressHeight = CircleDimen.PROGRESS_HEIGHT_HORIZONTAL;
         }
@@ -79,17 +102,22 @@ class BodyProgressView extends ScaleLinearLayout {
             if (progressDrawableId != 0) {
                 mProgressBar = new ProgressBar(getContext());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    mProgressBar.setIndeterminateDrawableTiled(context.getDrawable(progressDrawableId));
-                else mProgressBar.setIndeterminateDrawable(context.getResources().getDrawable(progressDrawableId));
+                    mProgressBar.setIndeterminateDrawableTiled(context.getDrawable
+                            (progressDrawableId));
+                else
+                    mProgressBar.setIndeterminateDrawable(context.getResources().getDrawable
+                            (progressDrawableId));
             } else {
                 mProgressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyle);
             }
             mProgressParams.progressHeight = CircleDimen.PROGRESS_HEIGHT_SPINNER;
         }
 
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, mProgressParams.progressHeight);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, mProgressParams
+                .progressHeight);
         int[] margins = mProgressParams.margins;
-        if (margins != null) layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
+        if (margins != null)
+            layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
         addView(mProgressBar, layoutParams);
 
         //构建文本
@@ -97,7 +125,8 @@ class BodyProgressView extends ScaleLinearLayout {
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
         int[] padding = mProgressParams.padding;
-        if (padding != null) textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+        if (padding != null)
+            textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
         addView(textView);
 
         if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
@@ -109,7 +138,8 @@ class BodyProgressView extends ScaleLinearLayout {
                     int max = mProgressBar.getMax();
                     int percent = (int) (((float) progress / (float) max) * 100);
                     String args = percent + "%";
-                    if (!TextUtils.isEmpty(mProgressParams.text) && mProgressParams.text.contains("%s"))
+                    if (!TextUtils.isEmpty(mProgressParams.text) && mProgressParams.text.contains
+                            ("%s"))
                         textView.setText(String.format(mProgressParams.text, args));
                     else textView.setText(mProgressParams.text + args);
                 }
@@ -128,16 +158,19 @@ class BodyProgressView extends ScaleLinearLayout {
     }
 
     private void onProgressChanged() {
-        if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0)) mViewUpdateHandler.sendEmptyMessage(0);
+        if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0))
+            mViewUpdateHandler.sendEmptyMessage(0);
     }
 
     /**
      * 直接设置对象属性值,无视private/protected修饰符,不经过setter函数.
      */
-    private static void setFieldValue(final Object object, final String fieldName, final Object value) {
+    private static void setFieldValue(final Object object, final String fieldName, final Object
+            value) {
         Field field = getDeclaredField(object, fieldName);
         if (field == null)
-            throw new IllegalArgumentException("Could not find field [" + fieldName + "] on target [" + object + "]");
+            throw new IllegalArgumentException("Could not find field [" + fieldName + "] on " +
+                    "target [" + object + "]");
         makeAccessible(field);
         try {
             field.set(object, value);
@@ -158,7 +191,8 @@ class BodyProgressView extends ScaleLinearLayout {
      */
     @SuppressWarnings("unchecked")
     protected static Field getDeclaredField(final Class clazz, final String fieldName) {
-        for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+        for (Class superClass = clazz; superClass != Object.class; superClass = superClass
+                .getSuperclass()) {
             try {
                 return superClass.getDeclaredField(fieldName);
             } catch (NoSuchFieldException e) {
@@ -172,7 +206,8 @@ class BodyProgressView extends ScaleLinearLayout {
      * 强制转换fileld可访问.
      */
     protected static void makeAccessible(Field field) {
-        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())) {
+        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
+                .getDeclaringClass().getModifiers())) {
             field.setAccessible(true);
         }
     }

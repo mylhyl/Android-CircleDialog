@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,9 +34,10 @@ class BodyItemsView extends ListView {
     }
 
     private void init(Context context, CircleParams params) {
-        final ItemsParams itemsParams = params.getItemsParams();
+        final ItemsParams itemsParams = params.itemsParams;
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
+                .MATCH_PARENT, LayoutParams
                 .MATCH_PARENT);
         setLayoutParams(layoutParams);
 
@@ -47,7 +49,8 @@ class BodyItemsView extends ListView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemsParams.dismiss();
-                if (itemsParams.listener != null) itemsParams.listener.onItemClick(parent, view, position, id);
+                if (itemsParams.listener != null)
+                    itemsParams.listener.onItemClick(parent, view, position, id);
             }
         });
 
@@ -78,11 +81,12 @@ class BodyItemsView extends ListView {
 
         public ItemsAdapter(Context context, CircleParams params) {
             this.mContext = context;
-            this.mTitleParams = params.getTitleParams();
-            this.mItemsParams = params.getItemsParams();
-            this.mRadius = params.getDialogParams().radius;
+            this.mTitleParams = params.titleParams;
+            this.mItemsParams = params.itemsParams;
+            this.mRadius = params.dialogParams.radius;
             //如果没有背景色，则使用默认色
-            this.mBackgroundColor = mItemsParams.backgroundColor != 0 ? mItemsParams.backgroundColor : CircleColor
+            this.mBackgroundColor = mItemsParams.backgroundColor != 0 ? mItemsParams
+                    .backgroundColor : CircleColor
                     .bgDialog;
             Object entity = this.mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
@@ -131,20 +135,43 @@ class BodyItemsView extends ListView {
 
             //top
             if (position == 0 && mTitleParams == null) {
-                if (getCount() == 1)
-                    viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, mRadius, mRadius, mRadius,
-                            mRadius));
-                else
-                    viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, mRadius, mRadius, 0, 0));
+                if (getCount() == 1) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, mRadius,
+                                mRadius, mRadius, mRadius));
+                    } else {
+                        viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor,
+                                mRadius, mRadius, mRadius, mRadius));
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor,
+                                mRadius, mRadius, 0, 0));
+                    } else {
+                        viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor,
+                                mRadius, mRadius, 0, 0));
+                    }
+                }
             }
             //bottom
-            else if (position == getCount() - 1)
-                viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, 0, 0, mRadius, mRadius));
-
-                //middle
-            else
-                viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, 0, 0, 0, 0));
-
+            else if (position == getCount() - 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, 0, 0,
+                            mRadius, mRadius));
+                } else {
+                    viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, 0, 0,
+                            mRadius, mRadius));
+                }
+            }
+            //middle
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, 0, 0, 0, 0));
+                } else {
+                    viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, 0, 0,
+                            0, 0));
+                }
+            }
             viewHolder.item.setText(String.valueOf(getItem(position).toString()));
             return convertView;
         }

@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -24,13 +25,14 @@ class ItemsButton extends ScaleTextView {
     }
 
     private void init(CircleParams params) {
-        ButtonParams negativeParams = params.getNegativeParams();
-        final ButtonParams buttonParams = negativeParams != null ? negativeParams : params.getPositiveParams();
+        ButtonParams negativeParams = params.negativeParams;
+        final ButtonParams buttonParams = negativeParams != null ? negativeParams : params
+                .positiveParams;
         //为列表显示时，设置列表与按钮之间的距离
-        if (params.getItemsParams() != null) buttonParams.topMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
+        if (params.itemsParams != null) buttonParams.topMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup
+                .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         layoutParams.topMargin = ScaleUtils.scaleValue(buttonParams.topMargin);
         setLayoutParams(layoutParams);
 
@@ -48,8 +50,13 @@ class ItemsButton extends ScaleTextView {
         setHeight(buttonParams.height);
 
         //如果取消按钮没有背景色，则使用默认色
-        int backgroundColor = buttonParams.backgroundColor != 0 ? buttonParams.backgroundColor : CircleColor.bgDialog;
-        int radius = params.getDialogParams().radius;
-        setBackground(new SelectorBtn(backgroundColor, radius, radius, radius, radius));
+        int backgroundColor = buttonParams.backgroundColor != 0 ? buttonParams.backgroundColor :
+                CircleColor.bgDialog;
+        int radius = params.dialogParams.radius;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(new SelectorBtn(backgroundColor, radius, radius, radius, radius));
+        } else {
+            setBackgroundDrawable(new SelectorBtn(backgroundColor, radius, radius, radius, radius));
+        }
     }
 }

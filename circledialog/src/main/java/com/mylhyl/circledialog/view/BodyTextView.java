@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -24,25 +25,45 @@ class BodyTextView extends ScaleTextView {
     }
 
     private void init(CircleParams params) {
-        DialogParams dialogParams = params.getDialogParams();
-        TitleParams titleParams = params.getTitleParams();
-        TextParams textParams = params.getTextParams();
-        ButtonParams negativeParams = params.getNegativeParams();
-        ButtonParams positiveParams = params.getPositiveParams();
+        DialogParams dialogParams = params.dialogParams;
+        TitleParams titleParams = params.titleParams;
+        TextParams textParams = params.textParams;
+        ButtonParams negativeParams = params.negativeParams;
+        ButtonParams positiveParams = params.positiveParams;
 
         //如果标题没有背景色，则使用默认色
-        int backgroundColor = textParams.backgroundColor != 0 ? textParams.backgroundColor : CircleColor.bgDialog;
+        int backgroundColor = textParams.backgroundColor != 0 ? textParams.backgroundColor :
+                CircleColor.bgDialog;
 
         //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null)
-            setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius, dialogParams.radius));
-            //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null))
-            setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams.radius, 0, 0));
-            //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null)
-            setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
-            //有标题有按钮则不用考虑圆角
+        if (titleParams != null && negativeParams == null && positiveParams == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
+                        dialogParams.radius));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
+                        dialogParams.radius));
+            }
+        }
+        //没标题有按钮则顶部圆角
+        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
+                        .radius, 0, 0));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
+                        dialogParams.radius, 0, 0));
+            }
+        }
+        //没标题没按钮则全部圆角
+        else if (titleParams == null && negativeParams == null && positiveParams == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
+            } else {
+                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
+            }
+        }
+        //有标题有按钮则不用考虑圆角
         else setBackgroundColor(backgroundColor);
 
         setHeight(textParams.height);
@@ -55,11 +76,11 @@ class BodyTextView extends ScaleTextView {
     }
 
     public void refreshText() {
-        if (mParams.getTextParams() == null) return;
+        if (mParams.textParams == null) return;
         post(new Runnable() {
             @Override
             public void run() {
-                setText(mParams.getTextParams().text);
+                setText(mParams.textParams.text);
             }
         });
     }

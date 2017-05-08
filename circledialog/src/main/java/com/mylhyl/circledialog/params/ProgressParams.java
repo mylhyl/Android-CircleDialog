@@ -1,15 +1,16 @@
 package com.mylhyl.circledialog.params;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
-
-import java.io.Serializable;
 
 /**
  * 进度条参数
  * Created by hupei on 2017/3/31.
  */
-public class ProgressParams implements Serializable {
+public class ProgressParams implements Parcelable {
 
     private static final int[] MARGINS = {20, 45, 20, 45};
     private static final int[] TEXT_PADDING = {0, 0, 0, 45};
@@ -69,4 +70,53 @@ public class ProgressParams implements Serializable {
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.style);
+        dest.writeIntArray(this.margins);
+        dest.writeIntArray(this.padding);
+        dest.writeInt(this.progressDrawableId);
+        dest.writeInt(this.progressHeight);
+        dest.writeInt(this.max);
+        dest.writeInt(this.progress);
+        dest.writeString(this.text);
+        dest.writeInt(this.backgroundColor);
+        dest.writeInt(this.textColor);
+        dest.writeInt(this.textSize);
+    }
+
+    public ProgressParams() {
+    }
+
+    protected ProgressParams(Parcel in) {
+        this.style = in.readInt();
+        this.margins = in.createIntArray();
+        this.padding = in.createIntArray();
+        this.progressDrawableId = in.readInt();
+        this.progressHeight = in.readInt();
+        this.max = in.readInt();
+        this.progress = in.readInt();
+        this.text = in.readString();
+        this.backgroundColor = in.readInt();
+        this.textColor = in.readInt();
+        this.textSize = in.readInt();
+    }
+
+    public static final Parcelable.Creator<ProgressParams> CREATOR = new Parcelable
+            .Creator<ProgressParams>() {
+        @Override
+        public ProgressParams createFromParcel(Parcel source) {
+            return new ProgressParams(source);
+        }
+
+        @Override
+        public ProgressParams[] newArray(int size) {
+            return new ProgressParams[size];
+        }
+    };
 }

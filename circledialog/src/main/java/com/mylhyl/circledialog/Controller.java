@@ -35,11 +35,12 @@ public class Controller {
         mCreateView.refreshItems();
         mCreateView.refreshProgress();
         //刷新时带动画
-        if (mParams.getDialogParams().refreshAnimation != 0 && getView() != null)
+        if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
             getView().post(new Runnable() {
                 @Override
                 public void run() {
-                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams.getDialogParams()
+                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
+                            .dialogParams
                             .refreshAnimation);
                     if (animation != null) getView().startAnimation(animation);
                 }
@@ -51,30 +52,30 @@ public class Controller {
     }
 
     private void applyHeader() {
-        if (mParams.getTitleParams() != null)
+        if (mParams.titleParams != null)
             mCreateView.buildTitle();
     }
 
     private void applyBody() {
         //文本
-        if (mParams.getTextParams() != null) {
+        if (mParams.textParams != null) {
             mCreateView.buildText();
             applyButton();
         }
         //列表
-        else if (mParams.getItemsParams() != null) {
+        else if (mParams.itemsParams != null) {
             mCreateView.buildItems();
             //有确定或者有取消按钮
-            if (mParams.getPositiveParams() != null || mParams.getNegativeParams() != null)
+            if (mParams.positiveParams != null || mParams.negativeParams != null)
                 mCreateView.buildItemsButton();
         }
         //进度条
-        else if (mParams.getProgressParams() != null) {
+        else if (mParams.progressParams != null) {
             mCreateView.buildProgress();
             applyButton();
         }
         //输入框
-        else if (mParams.getInputParams() != null) {
+        else if (mParams.inputParams != null) {
             mCreateView.buildInput();
             applyButton();
             mCreateView.regInputListener();
@@ -83,10 +84,10 @@ public class Controller {
 
     private void applyButton() {
         //有确定并且有取消按钮
-        if (mParams.getPositiveParams() != null && mParams.getNegativeParams() != null)
+        if (mParams.positiveParams != null && mParams.negativeParams != null)
             mCreateView.buildMultipleButton();
             //有确定或者有取消按钮
-        else if (mParams.getPositiveParams() != null || mParams.getNegativeParams() != null)
+        else if (mParams.positiveParams != null || mParams.negativeParams != null)
             mCreateView.buildSingleButton();
     }
 

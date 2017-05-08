@@ -1,19 +1,18 @@
-# Android-CircleDialog
- * 相比SuperDialog而言，此库支持横竖屏切换
- * 基于`DialogFragment`封装，支持自定义边框圆角、背景透明度、字体大小与色值等
- * 列表选择框可以接收`List`与`Arrays`的数据源，详细见`demo`
+# Android-CircleDialog 
+ * 基于`DialogFragment`封装，已封装的对话框类型有，常规对话框、列表框、输入框、进度框；
+ 每个对话框类型也支持自定义边框圆角、背景透明度、字体大小与色值
  * 初衷是掌握知识点，此库不一定适合你的产品整体风格，当然能够适合你的项目最好不过，有建议和不足之处欢迎骚扰
 
 # 知识点
-  全代码创建`shape`、`selector`、`Layout`，三大`Layout`不用多讲，肯定都会的，主要是`Drawable`所使用类如下：
-  * `ShapeDrawable`、`RoundRectShape`、`GradientDrawable`、`ClipDrawable`、`LayerDrawable`、`StateListDrawable`
+  全代码创建`shape`、`selector`、`Layout`，主要是`Drawable`所使用类如下：
+  `ShapeDrawable`、`RoundRectShape`、`GradientDrawable`、`ClipDrawable`、`LayerDrawable`、`StateListDrawable`
 
 # 效果图
 <img src="preview/gif.gif" width="240px"/>
 
 # 引入
 ```xml
- compile 'com.mylhyl:circleDialog:2.1.4'
+ compile 'com.mylhyl:circleDialog:2.1.5'
 ```
 
 eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
@@ -83,6 +82,8 @@ QQ交流群：553426264 [点击链接加入群Android-CircleDialog](https://jq.q
 [AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)
 
 # 版本
+
+> 2.1.5 修复已知Bug
 
 > 2.1.4 minSdkVersion 15
 
