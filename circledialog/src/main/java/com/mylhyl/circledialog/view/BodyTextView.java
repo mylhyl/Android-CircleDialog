@@ -3,10 +3,10 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.os.Build;
 
+import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -30,6 +30,8 @@ class BodyTextView extends ScaleTextView {
         TextParams textParams = params.textParams;
         ButtonParams negativeParams = params.negativeParams;
         ButtonParams positiveParams = params.positiveParams;
+
+        setGravity(textParams.gravity);
 
         //如果标题没有背景色，则使用默认色
         int backgroundColor = textParams.backgroundColor != 0 ? textParams.backgroundColor :
@@ -66,7 +68,8 @@ class BodyTextView extends ScaleTextView {
         //有标题有按钮则不用考虑圆角
         else setBackgroundColor(backgroundColor);
 
-        setHeight(textParams.height);
+//        setHeight(textParams.height);
+        setMinHeight(textParams.height);
         setTextColor(textParams.textColor);
         setTextSize(textParams.textSize);
         setText(textParams.text);

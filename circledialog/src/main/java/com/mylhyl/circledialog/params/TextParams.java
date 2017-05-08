@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.Gravity;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -36,6 +37,8 @@ public class TextParams implements Parcelable {
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
 
+    public int gravity = Gravity.CENTER;
+
     @Override
     public int describeContents() {
         return 0;
@@ -49,6 +52,7 @@ public class TextParams implements Parcelable {
         dest.writeInt(this.backgroundColor);
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
+        dest.writeInt(this.gravity);
     }
 
     public TextParams() {
@@ -61,6 +65,7 @@ public class TextParams implements Parcelable {
         this.backgroundColor = in.readInt();
         this.textColor = in.readInt();
         this.textSize = in.readInt();
+        this.gravity = in.readInt();
     }
 
     public static final Parcelable.Creator<TextParams> CREATOR = new Parcelable

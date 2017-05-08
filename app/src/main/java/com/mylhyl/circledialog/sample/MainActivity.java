@@ -16,10 +16,12 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import java.util.Timer;
@@ -46,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 new CircleDialog.Builder(this)
                         .setTitle("标题")
                         .setText("提示框")
+                        .configText(new ConfigText() {
+                            @Override
+                            public void onConfig(TextParams params) {
+                                params.gravity = Gravity.LEFT;
+                                params.padding = new int[]{50, 50, 50, 50};
+                            }
+                        })
                         .setPositive("确定", null)
                         .show();
                 break;
@@ -82,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .setTitleColor(Color.BLUE)
                         .setItems(items, new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            public void onItemClick(AdapterView<?> parent, View view, int
+                                    position, long id) {
 
                             }
                         })
@@ -173,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void onConfig(DialogParams params) {
                         params.gravity = Gravity.TOP;
-//                        TranslateAnimation refreshAnimation = new TranslateAnimation(15, -15, 0, 0);
+//                        TranslateAnimation refreshAnimation = new TranslateAnimation(15, -15,
+// 0, 0);
 //                        refreshAnimation.setInterpolator(new OvershootInterpolator());
 //                        refreshAnimation.setDuration(100);
 //                        refreshAnimation.setRepeatCount(3);

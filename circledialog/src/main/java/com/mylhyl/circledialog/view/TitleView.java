@@ -24,6 +24,8 @@ class TitleView extends ScaleTextView {
         DialogParams dialogParams = params.dialogParams;
         TitleParams titleParams = params.titleParams;
 
+        setGravity(titleParams.gravity);
+
         //如果标题没有背景色，则使用默认色
         int backgroundColor = titleParams.backgroundColor != 0 ? titleParams.backgroundColor :
                 CircleColor.bgDialog;

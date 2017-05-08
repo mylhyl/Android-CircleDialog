@@ -12,7 +12,7 @@
 
 # 引入
 ```xml
- compile 'com.mylhyl:circleDialog:2.1.5'
+ compile 'com.mylhyl:circleDialog:2.1.6'
 ```
 
 eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
@@ -82,6 +82,8 @@ QQ交流群：553426264 [点击链接加入群Android-CircleDialog](https://jq.q
 [AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)
 
 # 版本
+
+> 2.1.6 增加`text`及`title`参数`gravity`
 
 > 2.1.5 修复已知Bug
 
