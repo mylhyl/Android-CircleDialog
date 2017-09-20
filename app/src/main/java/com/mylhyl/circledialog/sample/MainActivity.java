@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.sample;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,12 +17,11 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
-import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.params.TextParams;
+import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import java.util.Timer;
@@ -37,8 +37,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
                 , new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框", "动态改变内容"
-                , "自定义dialog"}));
+                , "自定义dialog", "list中使用"}));
         listView.setOnItemClickListener(this);
+//        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
 
     @Override
@@ -48,13 +49,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 new CircleDialog.Builder(this)
                         .setTitle("标题")
                         .setText("提示框")
-                        .configText(new ConfigText() {
-                            @Override
-                            public void onConfig(TextParams params) {
-                                params.gravity = Gravity.LEFT;
-                                params.padding = new int[]{50, 50, 50, 50};
-                            }
-                        })
                         .setPositive("确定", null)
                         .show();
                 break;
@@ -205,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 7:
 //                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
                 DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
+                break;
+            case 8:
+                startActivity(new Intent(MainActivity.this, ListViewActivity.class));
                 break;
         }
     }

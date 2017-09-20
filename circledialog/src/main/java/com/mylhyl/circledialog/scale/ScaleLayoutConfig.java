@@ -10,24 +10,32 @@ import android.content.pm.PackageManager;
 public class ScaleLayoutConfig {
     private static ScaleLayoutConfig sInstance;
 
-    private static final String KEY_DESIGN_WIDTH = "design_width";
-    private static final String KEY_DESIGN_HEIGHT = "design_height";
+    private static final String KEY_DESIGN_WIDTH = "circle_dialog_design_width";
+    private static final String KEY_DESIGN_HEIGHT = "circle_dialog_design_height";
+    private static final int DESIGN_WIDTH = 1080;
+    private static final int DESIGN_HEIGHT = 1920;
 
     private int mScreenWidth;
     private int mScreenHeight;
 
-    private int mDesignWidth = 1080;
-    private int mDesignHeight = 1920;
+    private int mDesignWidth = DESIGN_WIDTH;
+    private int mDesignHeight = DESIGN_HEIGHT;
 
     private float mScale;
 
     private ScaleLayoutConfig() {
     }
 
-    public static void init(Context context) {
+    public static void init(Context appContext) {
+        init(appContext, DESIGN_WIDTH, DESIGN_HEIGHT);
+    }
+
+    public static void init(Context appContext, int designWidth, int designHeight) {
         if (sInstance == null) {
             sInstance = new ScaleLayoutConfig();
-            sInstance.initInternal(context, new ScaleAdapter(context));
+            sInstance.mDesignWidth = designWidth;
+            sInstance.mDesignHeight = designHeight;
+            sInstance.initInternal(appContext, new ScaleAdapter(appContext));
         }
     }
 
