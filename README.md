@@ -17,6 +17,10 @@
 
 eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
 
+[下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
+
+<img src="preview/qrdown.png"/>
+
 # 使用
 简单的对话框
 
@@ -58,44 +62,17 @@ eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhy
                         })
                         .show();
 ```
-各种自由配置
-```java
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                
-                            }
-                        })
-                        
-                        .configTitle(new ConfigTitle() {
-                            @Override
-                            public void onConfig(TitleParams params) {
-                                
-                            }
-                        })
-                        
-                        .configText(new ConfigText() {
-                            @Override
-                            public void onConfig(TextParams params) {
-                                
-                            }
-                        })
-```
-
 [更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
 
 #说明
 
  * 此库自动将px转换百分比，由于 Dialog 布局一般只有微调，暂时只支持textSize，height，padding
  * 默认字体大小;Title、message、button、padding 的px在设计稿为 1080 * 1920 的尺寸
- * 也可自己定义，代码中加入ScaleLayoutConfig.init(appContext,480,800),建议在Application中加入
- 或者在 manifest.xml中加入如下格式
+ * 也可自己定义，只需在manifest.xml中加入如下格式
 
 ```xml
-    <application>
         <meta-data android:name="circle_dialog_design_width" android:value="1200"/>
         <meta-data android:name="circle_dialog_design_height" android:value="1920"/>
-    </application>
 ```
 
 #注意
@@ -107,19 +84,3 @@ QQ交流群：553426264 [点击链接加入群Android-CircleDialog](https://jq.q
 
 #感谢
 [AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)
-
-# 版本
-
-> 2.1.6 增加`text`及`title`参数`gravity`
-
-> 2.1.5 修复已知Bug
-
-> 2.1.4 minSdkVersion 15
-
-> 2.1.2 修复已知Bug
-
-> 2.1.1 修复`BaseCircleDialog`横竖屏恢复参数
-
-> 2.1.0 Progress支持旋转样式
-
-> 2.0.0 初始化版本
