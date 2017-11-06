@@ -12,7 +12,7 @@
 
 # 引入
 ```xml
- compile 'com.mylhyl:circleDialog:2.1.6'
+ compile 'com.mylhyl:circleDialog:2.2.0'
 ```
 
 eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
