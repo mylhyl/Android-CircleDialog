@@ -79,4 +79,4 @@ eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhy
  * 继承基类`BaseCircleDialog`背景为透明，自定义layout时按需求设置背景
 
 #感谢
-[AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)
+[AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)；
