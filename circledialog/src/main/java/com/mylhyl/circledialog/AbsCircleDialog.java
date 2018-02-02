@@ -20,6 +20,9 @@ public final class AbsCircleDialog extends BaseCircleDialog {
     private CircleParams mParams;
     private Controller mController;
 
+    public AbsCircleDialog() {
+    }
+
     public static AbsCircleDialog newAbsCircleDialog(CircleParams params) {
         AbsCircleDialog circleDialog = new AbsCircleDialog();
         circleDialog.mParams = params;

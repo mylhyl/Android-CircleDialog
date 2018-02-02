@@ -56,6 +56,9 @@ public abstract class BaseCircleDialog extends DialogFragment {
     private float mAlpha = 1f;//对话框透明度，范围：0-1；1不透明
     private int mX, mY;
 
+    public BaseCircleDialog() {
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,12 +156,13 @@ public abstract class BaseCircleDialog extends DialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
-        if (!isAdded()) {
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.add(this, tag);
-            transaction.commitAllowingStateLoss();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (isAdded()) {
+            transaction.remove(this).commit();
         }
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(this, tag);
+        transaction.commitAllowingStateLoss();
     }
 
     public void remove() {
