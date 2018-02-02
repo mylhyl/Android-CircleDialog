@@ -7,8 +7,6 @@ import android.view.Gravity;
 
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
-import java.io.Serializable;
-
 /**
  * 对话框参数
  * Created by hupei on 2017/3/30.

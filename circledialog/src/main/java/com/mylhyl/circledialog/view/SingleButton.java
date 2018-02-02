@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
 
@@ -16,6 +16,7 @@ import com.mylhyl.circledialog.res.values.CircleColor;
  * Created by hupei on 2017/3/30.
  */
 class SingleButton extends ScaleTextView {
+    private CircleParams mCircleParams;
     private ButtonParams mButtonParams;
 
     public SingleButton(Context context, CircleParams params) {
@@ -24,6 +25,7 @@ class SingleButton extends ScaleTextView {
     }
 
     private void init(CircleParams params) {
+        mCircleParams = params;
         mButtonParams = params.negativeParams != null ? params.negativeParams : params
                 .positiveParams;
 
@@ -50,8 +52,11 @@ class SingleButton extends ScaleTextView {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mButtonParams.dismiss();
-                if (mButtonParams.listener != null) mButtonParams.listener.onClick(v);
+                mCircleParams.dismiss();
+                if (mCircleParams.clickPositiveListener != null)
+                    mCircleParams.clickPositiveListener.onClick(v);
+                else if (mCircleParams.clickNegativeListener != null)
+                    mCircleParams.clickNegativeListener.onClick(v);
             }
         });
     }
@@ -62,9 +67,9 @@ class SingleButton extends ScaleTextView {
             public void onClick(View v) {
                 String text = input.getText().toString();
                 if (!TextUtils.isEmpty(text))
-                    mButtonParams.dismiss();
-                if (mButtonParams.inputListener != null)
-                    mButtonParams.inputListener.onClick(text, v);
+                    mCircleParams.dismiss();
+                if (mCircleParams.inputListener != null)
+                    mCircleParams.inputListener.onClick(text, v);
             }
         });
     }

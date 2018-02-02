@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int
                                     position, long id) {
-
+                                Toast.makeText(MainActivity.this, "点击了：" + items[position]
+                                        , Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegative("取消", null)

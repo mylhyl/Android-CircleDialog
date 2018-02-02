@@ -6,10 +6,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
 
@@ -18,6 +17,7 @@ import com.mylhyl.circledialog.res.values.CircleColor;
  * Created by hupei on 2017/3/30.
  */
 class MultipleButton extends ScaleLinearLayout {
+    private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
     private ScaleTextView mNegativeButton;
@@ -30,7 +30,7 @@ class MultipleButton extends ScaleLinearLayout {
 
     private void init(CircleParams params) {
         setOrientation(HORIZONTAL);
-
+        mCircleParams = params;
         mNegativeParams = params.negativeParams;
         mPositiveParams = params.positiveParams;
 
@@ -108,8 +108,9 @@ class MultipleButton extends ScaleLinearLayout {
         mNegativeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mNegativeParams.dismiss();
-                if (mNegativeParams.listener != null) mNegativeParams.listener.onClick(v);
+                mCircleParams.dismiss();
+                if (mCircleParams.clickNegativeListener != null)
+                    mCircleParams.clickNegativeListener.onClick(v);
             }
         });
     }
@@ -118,8 +119,9 @@ class MultipleButton extends ScaleLinearLayout {
         mPositiveButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPositiveParams.dismiss();
-                if (mPositiveParams.listener != null) mPositiveParams.listener.onClick(v);
+                mCircleParams.dismiss();
+                if (mCircleParams.clickPositiveListener != null)
+                    mCircleParams.clickPositiveListener.onClick(v);
             }
         });
     }
@@ -130,9 +132,9 @@ class MultipleButton extends ScaleLinearLayout {
             public void onClick(View v) {
                 String text = input.getText().toString();
                 if (!TextUtils.isEmpty(text))
-                    mPositiveParams.dismiss();
-                if (mPositiveParams.inputListener != null)
-                    mPositiveParams.inputListener.onClick(text, v);
+                    mCircleParams.dismiss();
+                if (mCircleParams.inputListener != null)
+                    mCircleParams.inputListener.onClick(text, v);
             }
         });
     }

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.BuildView;
-import com.mylhyl.circledialog.params.CircleParams;
+import com.mylhyl.circledialog.CircleParams;
 
 /**
  * Created by hupei on 2017/3/29.

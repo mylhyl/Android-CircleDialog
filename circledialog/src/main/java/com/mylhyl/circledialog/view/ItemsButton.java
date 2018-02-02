@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.CircleParams;
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -24,7 +24,7 @@ class ItemsButton extends ScaleTextView {
         init(params);
     }
 
-    private void init(CircleParams params) {
+    private void init(final CircleParams params) {
         ButtonParams negativeParams = params.negativeParams;
         final ButtonParams buttonParams = negativeParams != null ? negativeParams : params
                 .positiveParams;
@@ -40,8 +40,11 @@ class ItemsButton extends ScaleTextView {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonParams.dismiss();
-                if (buttonParams.listener != null) buttonParams.listener.onClick(v);
+                params.dismiss();
+                if (params.clickPositiveListener != null)
+                    params.clickPositiveListener.onClick(v);
+                else if (params.clickNegativeListener != null)
+                    params.clickNegativeListener.onClick(v);
             }
         });
         setText(buttonParams.text);

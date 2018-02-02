@@ -3,7 +3,6 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.widget.TextView;
 
 import com.mylhyl.circledialog.scale.ScaleUtils;
 
@@ -11,7 +10,7 @@ import com.mylhyl.circledialog.scale.ScaleUtils;
  * Created by hupei on 2017/3/29.
  */
 
-class ScaleTextView extends TextView {
+class ScaleTextView extends android.support.v7.widget.AppCompatTextView {
     public ScaleTextView(Context context) {
         super(context);
         config();

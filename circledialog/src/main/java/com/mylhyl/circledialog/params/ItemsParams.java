@@ -2,25 +2,16 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.AdapterView;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
-
-import java.io.Serializable;
 
 /**
  * items 内容参数
  * Created by hupei on 2017/3/30.
  */
 public class ItemsParams implements Parcelable {
-    public void dismiss() {
-    }
 
-    /**
-     * item点击事件
-     */
-    public AdapterView.OnItemClickListener listener;
     /**
      * item高度
      */

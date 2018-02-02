@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.view.BuildViewImpl;
 
 /**

@@ -3,7 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.os.Build;
 
-import com.mylhyl.circledialog.params.CircleParams;
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;

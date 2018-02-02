@@ -7,8 +7,6 @@ import android.os.Parcelable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
-import java.io.Serializable;
-
 /**
  * 输入框参数
  * Created by hupei on 2017/3/31.

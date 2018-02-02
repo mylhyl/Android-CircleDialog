@@ -3,14 +3,13 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.widget.EditText;
 
 import com.mylhyl.circledialog.scale.ScaleUtils;
 
 /**
  * Created by hupei on 2017/3/31.
  */
-class ScaleEditText extends EditText {
+class ScaleEditText extends android.support.v7.widget.AppCompatEditText {
     public ScaleEditText(Context context) {
         super(context);
         config();

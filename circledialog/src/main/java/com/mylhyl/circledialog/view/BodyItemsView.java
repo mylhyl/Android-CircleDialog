@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.params.CircleParams;
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -33,8 +33,7 @@ class BodyItemsView extends ListView {
         init(context, params);
     }
 
-    private void init(Context context, CircleParams params) {
-        final ItemsParams itemsParams = params.itemsParams;
+    private void init(Context context, final CircleParams params) {
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
                 .MATCH_PARENT, LayoutParams
@@ -48,9 +47,9 @@ class BodyItemsView extends ListView {
         setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                itemsParams.dismiss();
-                if (itemsParams.listener != null)
-                    itemsParams.listener.onItemClick(parent, view, position, id);
+                params.dismiss();
+                if (params.itemListener != null)
+                    params.itemListener.onItemClick(parent, view, position, id);
             }
         });
 

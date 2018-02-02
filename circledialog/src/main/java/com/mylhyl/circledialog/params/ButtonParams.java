@@ -2,31 +2,16 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.view.View;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
-import com.mylhyl.circledialog.view.listener.OnInputClickListener;
-
-import java.io.Serializable;
 
 /**
  * 按钮参数
  * Created by hupei on 2017/3/30.
  */
 public class ButtonParams implements Parcelable {
-    public void dismiss() {
 
-    }
-
-    /**
-     * 按钮点击事件
-     */
-    public View.OnClickListener listener;
-    /**
-     * 输入框确定事件
-     */
-    public OnInputClickListener inputListener;
     /**
      * 按钮框与顶部距离
      */

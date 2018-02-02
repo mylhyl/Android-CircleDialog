@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 
 /**

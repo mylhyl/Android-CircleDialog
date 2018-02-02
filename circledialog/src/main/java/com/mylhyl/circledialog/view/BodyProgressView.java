@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.CircleParams;
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TitleParams;

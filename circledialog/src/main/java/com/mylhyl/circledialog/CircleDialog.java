@@ -18,7 +18,6 @@ import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
@@ -60,7 +59,12 @@ public final class CircleDialog {
 
         public Builder(@NonNull FragmentActivity activity) {
             this.mActivity = activity;
-            mCircleParams = new CircleParams();
+            mCircleParams = new CircleParams() {
+                @Override
+                public void dismiss() {
+                    onDismiss();
+                }
+            };
             mCircleParams.dialogParams = new DialogParams();
         }
 
@@ -177,7 +181,7 @@ public final class CircleDialog {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
-            params.listener = listener;
+            mCircleParams.itemListener = listener;
             return this;
         }
 
@@ -199,12 +203,7 @@ public final class CircleDialog {
                 dialogParams.yOff = 20;//底部与屏幕的距离
 
             if (mCircleParams.itemsParams == null)
-                mCircleParams.itemsParams = new ItemsParams() {
-                    @Override
-                    public void dismiss() {
-                        onDismiss();
-                    }
-                };
+                mCircleParams.itemsParams = new ItemsParams();
         }
 
         /**
@@ -296,7 +295,7 @@ public final class CircleDialog {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
-            params.listener = listener;
+            mCircleParams.clickPositiveListener = listener;
             return this;
         }
 
@@ -304,7 +303,7 @@ public final class CircleDialog {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
-            params.inputListener = listener;
+            mCircleParams.inputListener = listener;
             return this;
         }
 
@@ -316,19 +315,14 @@ public final class CircleDialog {
 
         private void newPositiveParams() {
             if (mCircleParams.positiveParams == null)
-                mCircleParams.positiveParams = new ButtonParams() {
-                    @Override
-                    public void dismiss() {
-                        onDismiss();
-                    }
-                };
+                mCircleParams.positiveParams = new ButtonParams();
         }
 
         public Builder setNegative(@NonNull String text, View.OnClickListener listener) {
             newNegativeParams();
             ButtonParams params = mCircleParams.negativeParams;
             params.text = text;
-            params.listener = listener;
+            mCircleParams.clickNegativeListener = listener;
             return this;
         }
 
@@ -341,12 +335,7 @@ public final class CircleDialog {
 
         private void newNegativeParams() {
             if (mCircleParams.negativeParams == null)
-                mCircleParams.negativeParams = new ButtonParams() {
-                    @Override
-                    public void dismiss() {
-                        onDismiss();
-                    }
-                };
+                mCircleParams.negativeParams = new ButtonParams();
         }
 
         private void onDismiss() {
