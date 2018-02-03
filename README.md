@@ -15,8 +15,6 @@
  compile 'com.mylhyl:circleDialog:2.2.0'
 ```
 
-eclipse 可以[点击这里下载aar文件](http://jcenter.bintray.com/com/mylhyl/circleDialog/), 然后用zip解压取出jar包
-
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
 
 <img src="preview/qrdown.png"/>
