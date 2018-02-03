@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mylhyl.circledialog.sample">
+    package="com.mylhyl.circledialog.sample">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,20 +11,20 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-         <meta-data
-         android:name="circle_dialog_design_width"
-         android:value="480"/>
-         <meta-data
-         android:name="circle_dialog_design_height"
-         android:value="800"/>
-        <activity android:name=".list.ListViewActivity">
-        </activity>
+        <meta-data
+            android:name="circle_dialog_design_width"
+            android:value="1080" />
+        <meta-data
+            android:name="circle_dialog_design_height"
+            android:value="1920" />
+
+        <activity android:name=".list.ListViewActivity"/>
     </application>
 
 </manifest>
