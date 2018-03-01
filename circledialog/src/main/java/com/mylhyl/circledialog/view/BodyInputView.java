@@ -68,6 +68,7 @@ class BodyInputView extends ScaleLinearLayout {
         else setBackgroundColor(backgroundColor);
 
         mEditText = new ScaleEditText(context);
+        mEditText.setInputType(inputParams.inputType);
         mEditText.setHint(inputParams.hintText);
         mEditText.setHintTextColor(inputParams.hintTextColor);
         mEditText.setTextSize(inputParams.textSize);

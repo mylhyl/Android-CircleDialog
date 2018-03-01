@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.params;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.InputType;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -58,6 +59,11 @@ public class InputParams implements Parcelable {
      * 输入框字体颜色
      */
     public int textColor = CircleColor.title;
+
+    /**
+     * 输入类型
+     */
+    public int inputType = InputType.TYPE_CLASS_TEXT;
 
     @Override
     public int describeContents() {
