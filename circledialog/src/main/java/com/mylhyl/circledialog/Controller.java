@@ -33,6 +33,8 @@ public class Controller {
         mCreateView.refreshText();
         mCreateView.refreshItems();
         mCreateView.refreshProgress();
+        mCreateView.refreshMultipleButtonText();
+        mCreateView.refreshSingleButtonText();
         //刷新时带动画
         if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
             getView().post(new Runnable() {

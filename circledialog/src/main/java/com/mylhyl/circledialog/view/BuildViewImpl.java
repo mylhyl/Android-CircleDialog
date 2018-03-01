@@ -113,6 +113,12 @@ public class BuildViewImpl implements BuildView {
     }
 
     @Override
+    public void refreshMultipleButtonText() {
+        if (mMultipleButton != null)
+            mMultipleButton.refreshText();
+    }
+
+    @Override
     public void buildSingleButton() {
         if (mSingleButton == null) {
             mSingleButton = new SingleButton(mContext, mParams);
@@ -121,6 +127,12 @@ public class BuildViewImpl implements BuildView {
             mRoot.addView(dividerViewV);
             mRoot.addView(mSingleButton);
         }
+    }
+
+    @Override
+    public void refreshSingleButtonText() {
+        if (mSingleButton != null)
+            mSingleButton.refreshText();
     }
 
     @Override

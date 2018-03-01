@@ -22,6 +22,12 @@ public class CircleColor {
      * 按钮颜色
      */
     public static final int button = 0xFF007AFF;
+
+    /**
+     * 禁用后的按钮颜色
+     */
+    public static final int buttonDisable = 0xFF898D8B;
+
     /**
      * 线条颜色
      */

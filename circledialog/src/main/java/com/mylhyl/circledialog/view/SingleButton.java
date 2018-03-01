@@ -29,10 +29,9 @@ class SingleButton extends ScaleTextView {
         mButtonParams = params.negativeParams != null ? params.negativeParams : params
                 .positiveParams;
 
-        setText(mButtonParams.text);
         setTextSize(mButtonParams.textSize);
-        setTextColor(mButtonParams.textColor);
         setHeight(mButtonParams.height);
+        handleStyle();
 
         //如果取消按钮没有背景色，则使用默认色
         int backgroundColor = mButtonParams.backgroundColor != 0 ? mButtonParams.backgroundColor
@@ -46,6 +45,13 @@ class SingleButton extends ScaleTextView {
         }
 
         regOnClickListener();
+    }
+
+    private void handleStyle() {
+        setText(mButtonParams.text);
+        setEnabled(!mButtonParams.disable);
+        //禁用按钮则改变文字颜色
+        setTextColor(mButtonParams.disable ? mButtonParams.textColorDisable : mButtonParams.textColor);
     }
 
     private void regOnClickListener() {
@@ -70,6 +76,16 @@ class SingleButton extends ScaleTextView {
                     mCircleParams.dismiss();
                 if (mCircleParams.inputListener != null)
                     mCircleParams.inputListener.onClick(text, v);
+            }
+        });
+    }
+
+    public void refreshText() {
+        if (mButtonParams == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleStyle();
             }
         });
     }

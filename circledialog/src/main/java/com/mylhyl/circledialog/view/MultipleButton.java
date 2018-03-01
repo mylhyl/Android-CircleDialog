@@ -53,10 +53,9 @@ class MultipleButton extends ScaleLinearLayout {
                 ViewGroup
                         .LayoutParams.WRAP_CONTENT, 1));
 
-        mNegativeButton.setText(mNegativeParams.text);
         mNegativeButton.setTextSize(mNegativeParams.textSize);
-        mNegativeButton.setTextColor(mNegativeParams.textColor);
         mNegativeButton.setHeight(mNegativeParams.height);
+        handleNegativeStyle();
 
         //如果取消按钮没有背景色，则使用默认色
         int backgroundNegative = mNegativeParams.backgroundColor != 0 ? mNegativeParams
@@ -74,6 +73,13 @@ class MultipleButton extends ScaleLinearLayout {
         addView(mNegativeButton);
     }
 
+    private void handleNegativeStyle() {
+        mNegativeButton.setText(mNegativeParams.text);
+        mNegativeButton.setEnabled(!mNegativeParams.disable);
+        mNegativeButton.setTextColor(mNegativeParams.disable ?
+                mNegativeParams.textColorDisable : mNegativeParams.textColor);
+    }
+
     private void createPositive(int radius) {
 
         mPositiveButton = new ScaleTextView(getContext());
@@ -81,10 +87,9 @@ class MultipleButton extends ScaleLinearLayout {
                 ViewGroup
                         .LayoutParams.WRAP_CONTENT, 1));
 
-        mPositiveButton.setText(mPositiveParams.text);
         mPositiveButton.setTextSize(mPositiveParams.textSize);
-        mPositiveButton.setTextColor(mPositiveParams.textColor);
         mPositiveButton.setHeight(mPositiveParams.height);
+        handlePositiveStyle();
 
         //如果取消按钮没有背景色，则使用默认色
         int backgroundPositive = mPositiveParams.backgroundColor != 0 ? mPositiveParams
@@ -102,6 +107,13 @@ class MultipleButton extends ScaleLinearLayout {
         regPositiveListener();
 
         addView(mPositiveButton);
+    }
+
+    private void handlePositiveStyle() {
+        mPositiveButton.setText(mPositiveParams.text);
+        mPositiveButton.setEnabled(!mPositiveParams.disable);
+        mPositiveButton.setTextColor(mPositiveParams.disable ?
+                mPositiveParams.textColorDisable : mPositiveParams.textColor);
     }
 
     private void regNegativeListener() {
@@ -135,6 +147,24 @@ class MultipleButton extends ScaleLinearLayout {
                     mCircleParams.dismiss();
                 if (mCircleParams.inputListener != null)
                     mCircleParams.inputListener.onClick(text, v);
+            }
+        });
+    }
+
+    public void refreshText() {
+        if (mNegativeParams == null || mNegativeButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleNegativeStyle();
+            }
+        });
+
+        if (mPositiveParams == null || mPositiveButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handlePositiveStyle();
             }
         });
     }

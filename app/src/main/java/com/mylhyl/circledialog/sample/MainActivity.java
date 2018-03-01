@@ -29,6 +29,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private CircleDialog.Builder builder;
+    int time = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
                 , new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用"}));
+                , "自定义dialog", "list中使用", "倒计时"}));
         listView.setOnItemClickListener(this);
 //        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
@@ -204,6 +205,48 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 8:
                 startActivity(new Intent(MainActivity.this, ListViewActivity.class));
                 break;
+            case 9:
+
+                builder = new CircleDialog.Builder(this)
+                        .setTitle("标题")
+                        .setText("提示框")
+                        .configPositive(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.disable = true;
+                            }
+                        })
+                        .setPositive("确定(" + time + "s)", null)
+                        .setNegative("取消", null);
+
+                builder.show();
+
+                final Handler handler = new Handler();
+                final Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        builder.configPositive(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                --time;
+                                params.text = "确定(" + time + "s)";
+                                if (time == 0) {
+                                    params.disable = false;
+                                    params.text = "确定";
+                                }
+                            }
+                        }).create();
+
+                        if (time == 0)
+                            handler.removeCallbacks(this);
+                        else
+                            handler.postDelayed(this, 1000);
+
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+                break;
         }
     }
+
 }

@@ -63,9 +63,19 @@ public interface BuildView {
     void buildMultipleButton();
 
     /**
+     * 刷新多按钮文字
+     */
+    void refreshMultipleButtonText();
+
+    /**
      * 生成单个按钮布局
      */
     void buildSingleButton();
+
+    /**
+     * 刷新单个按钮文字
+     */
+    void refreshSingleButtonText();
 
     /**
      * 注册输入框确定事件
