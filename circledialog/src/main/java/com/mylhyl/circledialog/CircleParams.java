@@ -43,7 +43,6 @@ public class CircleParams implements Parcelable {
      */
     public AdapterView.OnItemClickListener itemListener;
 
-    public DialogFragment dialogFragment;
     public DialogParams dialogParams;
     public TitleParams titleParams;
     public TextParams textParams;

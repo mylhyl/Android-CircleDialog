@@ -36,18 +36,18 @@ public final class CircleDialog {
     private CircleDialog() {
     }
 
-    public DialogFragment create(CircleParams params) {
+     DialogFragment create(CircleParams params) {
         if (mDialog == null)
             mDialog = AbsCircleDialog.newAbsCircleDialog(params);
         else {
-            if (mDialog != null && mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
+            if (mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
                 mDialog.refreshView();
             }
         }
         return mDialog;
     }
 
-    public void show(FragmentActivity activity) {
+    void show(FragmentActivity activity) {
         mDialog.show(activity.getSupportFragmentManager(), "circleDialog");
     }
 
@@ -91,7 +91,7 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框返回键关闭
+         * 设置对话框返回键关闭`
          *
          * @param cancel true允许
          * @return Builder
@@ -339,10 +339,10 @@ public final class CircleDialog {
         }
 
         private void onDismiss() {
-            if (mCircleParams.dialogFragment != null) {
-                mCircleParams.dialogFragment.dismiss();
+            if (mCircleDialog.mDialog != null) {
+                mCircleDialog.mDialog.dismiss();
                 mActivity = null;
-                mCircleParams.dialogFragment = null;
+                mCircleDialog.mDialog = null;
             }
         }
 
