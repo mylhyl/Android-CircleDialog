@@ -29,6 +29,11 @@ public class CircleParams implements Parcelable {
     public View.OnClickListener clickPositiveListener;
 
     /**
+     * 中间按钮点击事件
+     */
+    public View.OnClickListener clickNeutralListener;
+
+    /**
      * 取消按钮点击事件
      */
     public View.OnClickListener clickNegativeListener;
@@ -52,6 +57,7 @@ public class CircleParams implements Parcelable {
     public ItemsParams itemsParams;
     public ProgressParams progressParams;
     public InputParams inputParams;
+    public ButtonParams neutralParams;
 
     @Override
     public int describeContents() {
@@ -68,6 +74,7 @@ public class CircleParams implements Parcelable {
         dest.writeParcelable(this.itemsParams, flags);
         dest.writeParcelable(this.progressParams, flags);
         dest.writeParcelable(this.inputParams, flags);
+        dest.writeParcelable(this.neutralParams, flags);
     }
 
     public CircleParams() {
@@ -82,6 +89,7 @@ public class CircleParams implements Parcelable {
         this.itemsParams = in.readParcelable(ItemsParams.class.getClassLoader());
         this.progressParams = in.readParcelable(ProgressParams.class.getClassLoader());
         this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
+        this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<CircleParams> CREATOR = new Parcelable.Creator<CircleParams>() {

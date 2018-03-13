@@ -18,10 +18,12 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
                 , new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时"}));
+                , "自定义dialog", "list中使用", "倒计时", "三个按钮"}));
         listView.setOnItemClickListener(this);
 //        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .setCancelable(false)
                         .setTitle("标题")
                         .setText("确定框")
+                        .configText(new ConfigText() {
+                            @Override
+                            public void onConfig(TextParams params) {
+                                params.padding = new int[]{150, 10, 50, 10};
+                            }
+                        })
                         .setNegative("取消", null)
                         .setPositive("确定", new View.OnClickListener() {
                             @Override
@@ -247,6 +255,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 };
                 handler.postDelayed(runnable, 1000);
+                break;
+            case 10:
+                new CircleDialog.Builder(this)
+                        .setTitle("标题")
+                        .setText("提示框")
+                        .setNegative("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNeutral("中间", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setPositive("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
                 break;
         }
     }

@@ -20,8 +20,10 @@ class MultipleButton extends ScaleLinearLayout {
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
+    private ButtonParams mNeutralParams;
     private ScaleTextView mNegativeButton;
     private ScaleTextView mPositiveButton;
+    private ScaleTextView mNeutralButton;
 
     public MultipleButton(Context context, CircleParams params) {
         super(context);
@@ -33,18 +35,28 @@ class MultipleButton extends ScaleLinearLayout {
         mCircleParams = params;
         mNegativeParams = params.negativeParams;
         mPositiveParams = params.positiveParams;
+        mNeutralParams = params.neutralParams;
 
         int radius = params.dialogParams.radius;
 
         //取消按钮
         createNegative(radius);
 
-        //添加二人按钮之间的分隔线
-        DividerView dividerView = new DividerView(getContext());
-        addView(dividerView);
+        //分隔线
+        createDivider();
+
+        if (mNeutralParams != null) {
+            createNeutral();
+            createDivider();
+        }
 
         //确定按钮
         createPositive(radius);
+    }
+
+    private void createDivider() {
+        DividerView dividerView = new DividerView(getContext());
+        addView(dividerView);
     }
 
     private void createNegative(int radius) {
@@ -116,6 +128,40 @@ class MultipleButton extends ScaleLinearLayout {
                 mPositiveParams.textColorDisable : mPositiveParams.textColor);
     }
 
+    private void createNeutral() {
+
+        mNeutralButton = new ScaleTextView(getContext());
+        mNeutralButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup
+                        .LayoutParams.WRAP_CONTENT, 1));
+
+        mNeutralButton.setTextSize(mNeutralParams.textSize);
+        mNeutralButton.setHeight(mNeutralParams.height);
+        handleNeutralStyle();
+
+        //如果取消按钮没有背景色，则使用默认色
+        int backgroundPositive = mNeutralParams.backgroundColor != 0 ? mNeutralParams
+                .backgroundColor : CircleColor.bgDialog;
+
+        //取消按钮右下方为圆角
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mNeutralButton.setBackground(new SelectorBtn(backgroundPositive, 0, 0, 0, 0));
+        } else {
+            mNeutralButton.setBackgroundDrawable(new SelectorBtn(backgroundPositive, 0, 0, 0, 0));
+        }
+
+        regNeutralListener();
+
+        addView(mNeutralButton);
+    }
+
+    private void handleNeutralStyle() {
+        mNeutralButton.setText(mNeutralParams.text);
+        mNeutralButton.setEnabled(!mNeutralParams.disable);
+        mNeutralButton.setTextColor(mNeutralParams.disable ?
+                mNeutralParams.textColorDisable : mNeutralParams.textColor);
+    }
+
     private void regNegativeListener() {
         mNegativeButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -134,6 +180,17 @@ class MultipleButton extends ScaleLinearLayout {
                 mCircleParams.dismiss();
                 if (mCircleParams.clickPositiveListener != null)
                     mCircleParams.clickPositiveListener.onClick(v);
+            }
+        });
+    }
+
+    private void regNeutralListener() {
+        mNeutralButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCircleParams.dismiss();
+                if (mCircleParams.clickNeutralListener != null)
+                    mCircleParams.clickNeutralListener.onClick(v);
             }
         });
     }
@@ -165,6 +222,15 @@ class MultipleButton extends ScaleLinearLayout {
             @Override
             public void run() {
                 handlePositiveStyle();
+            }
+        });
+
+
+        if (mNeutralParams == null || mNeutralButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleNeutralStyle();
             }
         });
     }
