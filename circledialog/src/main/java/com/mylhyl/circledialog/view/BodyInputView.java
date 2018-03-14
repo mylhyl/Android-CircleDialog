@@ -108,10 +108,13 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
 
     @Override
     public void onClick(View view, int which) {
-        String text = mEditText.getText().toString();
-        if (!TextUtils.isEmpty(text) && params.inputListener != null) {
-            params.inputListener.onClick(text, mEditText);
+        if (view instanceof BodyInputView) {
+            BodyInputView inputView = (BodyInputView) view;
+            String text = inputView.getInput().getText().toString();
+            if (!TextUtils.isEmpty(text) && params.inputListener != null) {
+                params.inputListener.onClick(text,  inputView.getInput());
 
+            }
         }
 
     }
