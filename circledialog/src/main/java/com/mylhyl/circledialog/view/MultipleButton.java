@@ -126,18 +126,6 @@ public final class MultipleButton extends ScaleLinearLayout implements Controlle
         mPositiveButton.setOnClickListener(onClickListener);
     }
 
-    public void regOnInputClickListener(final EditText input) {
-        mPositiveButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = input.getText().toString();
-                if (!TextUtils.isEmpty(text))
-//                    mCircleParams.dismiss();
-                    if (mCircleParams.inputListener != null)
-                        mCircleParams.inputListener.onClick(text, v);
-            }
-        });
-    }
 
     public void refreshText() {
         if (mNegativeParams == null || mNegativeButton == null) return;

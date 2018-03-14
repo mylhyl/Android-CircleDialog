@@ -151,16 +151,6 @@ public final  class BuildViewImpl implements BuildView {
         return mSingleButton;
     }
 
-    @Override
-    public void regInputListener() {
-        if (mSingleButton != null && mBodyInputView != null)
-            mSingleButton.regOnInputClickListener(mBodyInputView.getInput());
-
-        if (mMultipleButton != null && mBodyInputView != null)
-            mMultipleButton.regOnInputClickListener(mBodyInputView.getInput());
-
-
-    }
 
     @Override
     public View getView() {

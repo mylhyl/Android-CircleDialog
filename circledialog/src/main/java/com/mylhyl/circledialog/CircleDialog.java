@@ -59,12 +59,7 @@ public final class CircleDialog {
 
         public Builder(@NonNull FragmentActivity activity) {
             this.mActivity = activity;
-            mCircleParams = new CircleParams() {
-//                @Override
-//                public void dismiss() {
-//                    onDismiss();
-//                }
-            };
+            mCircleParams = new CircleParams();
             mCircleParams.dialogParams = new DialogParams();
         }
 

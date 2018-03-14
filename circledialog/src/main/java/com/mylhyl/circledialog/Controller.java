@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 
+import com.mylhyl.circledialog.view.BodyInputView;
 import com.mylhyl.circledialog.view.BodyItemsView;
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.ItemsButton;
@@ -146,9 +148,43 @@ public class Controller {
         }
         //输入框
         else if (mParams.inputParams != null) {
-            mCreateView.buildInput();
-            applyButton();
-            mCreateView.regInputListener();
+            final BodyInputView bodyInputView = mCreateView.buildInput();
+            //有确定并且有取消按钮
+            if (mParams.positiveParams != null && mParams.negativeParams != null) {
+                final MultipleButton multipleButton = mCreateView.buildMultipleButton();
+                multipleButton.regNegativeListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mHandler.obtainMessage(BUTTON_NEGATIVE, bodyInputView).sendToTarget();
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                                .sendToTarget();
+                    }
+                });
+                multipleButton.regPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!TextUtils.isEmpty(bodyInputView.getInput().getText())) {
+                            mHandler.obtainMessage(BUTTON_POSITIVE, bodyInputView).sendToTarget();
+                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                                    .sendToTarget();
+                        }
+
+                    }
+                });
+            }//有确定或者有取消按钮
+            else if (mParams.positiveParams != null || mParams.negativeParams != null) {
+                final SingleButton singleButton = mCreateView.buildSingleButton();
+                singleButton.regOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!TextUtils.isEmpty(bodyInputView.getInput().getText())) {
+                            mHandler.obtainMessage(mParams.positiveParams != null ? BUTTON_POSITIVE : BUTTON_NEGATIVE, bodyInputView).sendToTarget();
+                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                                    .sendToTarget();
+                        }
+                    }
+                });
+            }
         }
     }
 

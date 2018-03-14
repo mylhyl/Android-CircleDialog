@@ -2,8 +2,11 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -15,11 +18,13 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 
 /**
  * Created by hupei on 2017/3/31.
+ *
  * @hide
  */
 
-public final class BodyInputView extends ScaleLinearLayout {
+public final class BodyInputView extends ScaleLinearLayout implements Controller.OnClickListener {
     private ScaleEditText mEditText;
+    private CircleParams params;
 
     public BodyInputView(Context context, CircleParams params) {
         super(context);
@@ -27,6 +32,7 @@ public final class BodyInputView extends ScaleLinearLayout {
     }
 
     private void init(Context context, CircleParams params) {
+        this.params = params;
         DialogParams dialogParams = params.dialogParams;
         TitleParams titleParams = params.titleParams;
         InputParams inputParams = params.inputParams;
@@ -98,5 +104,15 @@ public final class BodyInputView extends ScaleLinearLayout {
 
     public EditText getInput() {
         return mEditText;
+    }
+
+    @Override
+    public void onClick(View view, int which) {
+        String text = mEditText.getText().toString();
+        if (!TextUtils.isEmpty(text) && params.inputListener != null) {
+            params.inputListener.onClick(text, mEditText);
+
+        }
+
     }
 }

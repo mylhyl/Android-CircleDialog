@@ -84,10 +84,6 @@ public interface BuildView {
      */
     SingleButton refreshSingleButtonText();
 
-    /**
-     * 注册输入框确定事件
-     */
-    void regInputListener();
 
     /**
      * 取出根布局

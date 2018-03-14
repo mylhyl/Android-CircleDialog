@@ -61,19 +61,6 @@ public final class SingleButton extends ScaleTextView implements Controller.OnCl
 
     }
 
-    public void regOnInputClickListener(final EditText input) {
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = input.getText().toString();
-                if (!TextUtils.isEmpty(text))
-//                    mCircleParams.dismiss();
-                    if (mCircleParams.inputListener != null)
-                        mCircleParams.inputListener.onClick(text, v);
-            }
-        });
-    }
-
     public void refreshText() {
         if (mButtonParams == null) return;
         post(new Runnable() {
