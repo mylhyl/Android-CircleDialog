@@ -1,6 +1,11 @@
 package com.mylhyl.circledialog;
 
 import android.view.View;
+import android.widget.ListView;
+
+import com.mylhyl.circledialog.view.ItemsButton;
+import com.mylhyl.circledialog.view.MultipleButton;
+import com.mylhyl.circledialog.view.SingleButton;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -10,72 +15,72 @@ public interface BuildView {
     /**
      * 生成根布局
      */
-    void buildRoot();
+    View buildRoot();
 
     /**
      * 生成标题布局
      */
-    void buildTitle();
+    View buildTitle();
 
     /**
      * 生成文本布局
      */
-    void buildText();
+    View buildText();
 
     /**
      * 刷新文本内容
      */
-    void refreshText();
+    View refreshText();
 
     /**
      * 生成列表布局
      */
-    void buildItems();
+    ListView buildItems();
 
     /**
      * 生成列表按钮
      */
-    void buildItemsButton();
+    ItemsButton buildItemsButton();
 
     /**
      * 刷新列表内容
      */
-    void refreshItems();
+    ListView refreshItems();
 
     /**
      * 生成进度条布局
      */
-    void buildProgress();
+    View buildProgress();
 
     /**
      * 刷新进度条
      */
-    void refreshProgress();
+    View refreshProgress();
 
     /**
      * 生成输入布局
      */
-    void buildInput();
+    View buildInput();
 
     /**
      * 生成多按钮布局
      */
-    void buildMultipleButton();
+    MultipleButton buildMultipleButton();
 
     /**
      * 刷新多按钮文字
      */
-    void refreshMultipleButtonText();
+    MultipleButton refreshMultipleButtonText();
 
     /**
      * 生成单个按钮布局
      */
-    void buildSingleButton();
+    SingleButton buildSingleButton();
 
     /**
      * 刷新单个按钮文字
      */
-    void refreshSingleButtonText();
+    SingleButton refreshSingleButtonText();
 
     /**
      * 注册输入框确定事件

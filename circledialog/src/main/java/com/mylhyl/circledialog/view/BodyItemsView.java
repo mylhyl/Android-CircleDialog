@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -43,13 +45,13 @@ class BodyItemsView extends ListView {
         setSelector(new ColorDrawable(Color.TRANSPARENT));
         setDivider(new ColorDrawable(CircleColor.divider));
         setDividerHeight(1);
-
         setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                params.dismiss();
-                if (params.itemListener != null)
+//                params.dismiss();
+                if (params.itemListener != null) {
                     params.itemListener.onItemClick(parent, view, position, id);
+                }
             }
         });
 
@@ -65,6 +67,7 @@ class BodyItemsView extends ListView {
             }
         });
     }
+
 
     static class ItemsAdapter<T> extends BaseAdapter {
         class ViewHolder {

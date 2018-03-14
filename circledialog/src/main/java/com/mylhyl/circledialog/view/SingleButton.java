@@ -1,12 +1,14 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -15,7 +17,11 @@ import com.mylhyl.circledialog.res.values.CircleColor;
  * 对话框单个按钮的视图
  * Created by hupei on 2017/3/30.
  */
-class SingleButton extends ScaleTextView {
+
+/**
+ * @hide
+ */
+public final class SingleButton extends ScaleTextView implements Controller.OnClickListener {
     private CircleParams mCircleParams;
     private ButtonParams mButtonParams;
 
@@ -44,7 +50,6 @@ class SingleButton extends ScaleTextView {
             setBackgroundDrawable(new SelectorBtn(backgroundColor, 0, 0, radius, radius));
         }
 
-        regOnClickListener();
     }
 
     private void handleStyle() {
@@ -54,17 +59,19 @@ class SingleButton extends ScaleTextView {
         setTextColor(mButtonParams.disable ? mButtonParams.textColorDisable : mButtonParams.textColor);
     }
 
-    private void regOnClickListener() {
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCircleParams.dismiss();
-                if (mCircleParams.clickPositiveListener != null)
-                    mCircleParams.clickPositiveListener.onClick(v);
-                else if (mCircleParams.clickNegativeListener != null)
-                    mCircleParams.clickNegativeListener.onClick(v);
-            }
-        });
+    public void regOnClickListener(OnClickListener onClickListener) {
+//        setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCircleParams.dismiss();
+//                if (mCircleParams.clickPositiveListener != null)
+//                    mCircleParams.clickPositiveListener.onClick(v);
+//                else if (mCircleParams.clickNegativeListener != null)
+//                    mCircleParams.clickNegativeListener.onClick(v);
+//            }
+//        });
+        setOnClickListener(onClickListener);
+
     }
 
     public void regOnInputClickListener(final EditText input) {
@@ -73,9 +80,9 @@ class SingleButton extends ScaleTextView {
             public void onClick(View v) {
                 String text = input.getText().toString();
                 if (!TextUtils.isEmpty(text))
-                    mCircleParams.dismiss();
-                if (mCircleParams.inputListener != null)
-                    mCircleParams.inputListener.onClick(text, v);
+//                    mCircleParams.dismiss();
+                    if (mCircleParams.inputListener != null)
+                        mCircleParams.inputListener.onClick(text, v);
             }
         });
     }
@@ -88,5 +95,20 @@ class SingleButton extends ScaleTextView {
                 handleStyle();
             }
         });
+    }
+
+    @Override
+    public void onClick(View view, int which) {
+        if (which == Controller.BUTTON_NEGATIVE) {
+            if (mCircleParams.clickNegativeListener != null) {
+                mCircleParams.clickNegativeListener.onClick(this);
+            }
+        } else if (which == Controller.BUTTON_POSITIVE) {
+            if (mCircleParams.clickPositiveListener != null) {
+                mCircleParams.clickPositiveListener.onClick(this);
+            }
+        }
+
+
     }
 }

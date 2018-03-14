@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.CircleParams;
@@ -17,7 +18,8 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * 列表对话框的取消按钮视图
  * Created by hupei on 2017/3/30.
  */
-class ItemsButton extends ScaleTextView {
+public class ItemsButton extends ScaleTextView implements Controller.OnClickListener {
+    CircleParams params;
 
     public ItemsButton(Context context, CircleParams params) {
         super(context);
@@ -25,6 +27,7 @@ class ItemsButton extends ScaleTextView {
     }
 
     private void init(final CircleParams params) {
+        this.params = params;
         ButtonParams negativeParams = params.negativeParams;
         final ButtonParams buttonParams = negativeParams != null ? negativeParams : params
                 .positiveParams;
@@ -37,16 +40,7 @@ class ItemsButton extends ScaleTextView {
         setLayoutParams(layoutParams);
 
         setClickable(true);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                params.dismiss();
-                if (params.clickPositiveListener != null)
-                    params.clickPositiveListener.onClick(v);
-                else if (params.clickNegativeListener != null)
-                    params.clickNegativeListener.onClick(v);
-            }
-        });
+
         setText(buttonParams.text);
         setTextSize(buttonParams.textSize);
         setTextColor(buttonParams.textColor);
@@ -61,5 +55,19 @@ class ItemsButton extends ScaleTextView {
         } else {
             setBackgroundDrawable(new SelectorBtn(backgroundColor, radius, radius, radius, radius));
         }
+    }
+
+    public void regOnClickListener(OnClickListener onClickListener) {
+
+        setOnClickListener(onClickListener);
+    }
+
+
+    @Override
+    public void onClick(View view, int which) {
+        if (params.clickPositiveListener != null)
+            params.clickPositiveListener.onClick(this);
+        else if (params.clickNegativeListener != null)
+            params.clickNegativeListener.onClick(this);
     }
 }

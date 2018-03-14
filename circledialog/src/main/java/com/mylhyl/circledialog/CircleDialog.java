@@ -36,7 +36,7 @@ public final class CircleDialog {
     private CircleDialog() {
     }
 
-     DialogFragment create(CircleParams params) {
+    public DialogFragment create(CircleParams params) {
         if (mDialog == null)
             mDialog = AbsCircleDialog.newAbsCircleDialog(params);
         else {
@@ -47,7 +47,7 @@ public final class CircleDialog {
         return mDialog;
     }
 
-    void show(FragmentActivity activity) {
+    public void show(FragmentActivity activity) {
         mDialog.show(activity.getSupportFragmentManager(), "circleDialog");
     }
 
@@ -60,10 +60,10 @@ public final class CircleDialog {
         public Builder(@NonNull FragmentActivity activity) {
             this.mActivity = activity;
             mCircleParams = new CircleParams() {
-                @Override
-                public void dismiss() {
-                    onDismiss();
-                }
+//                @Override
+//                public void dismiss() {
+//                    onDismiss();
+//                }
             };
             mCircleParams.dialogParams = new DialogParams();
         }
@@ -91,7 +91,7 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框返回键关闭`
+         * 设置对话框返回键关闭
          *
          * @param cancel true允许
          * @return Builder

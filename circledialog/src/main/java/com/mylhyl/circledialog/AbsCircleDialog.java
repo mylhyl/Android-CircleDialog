@@ -68,7 +68,7 @@ public final class AbsCircleDialog extends BaseCircleDialog {
 
     @Override
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(getContext(), mParams);
+        mController = new Controller(getContext(), mParams,this);
         return mController.createView();
     }
 

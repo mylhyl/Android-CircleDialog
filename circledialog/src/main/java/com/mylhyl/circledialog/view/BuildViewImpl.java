@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
@@ -30,79 +31,89 @@ public class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public void buildRoot() {
+    public View buildRoot() {
         if (mRoot == null) {
             mRoot = new ScaleLinearLayout(mContext);
             mRoot.setOrientation(LinearLayout.VERTICAL);
         }
+        return mRoot;
     }
 
     @Override
-    public void buildTitle() {
+    public View buildTitle() {
         if (mTitleView == null) {
             mTitleView = new TitleView(mContext, mParams);
             mRoot.addView(mTitleView);
         }
+        return mTitleView;
     }
 
     @Override
-    public void buildText() {
+    public View buildText() {
         if (mBodyTextView == null) {
             mBodyTextView = new BodyTextView(mContext, mParams);
             mRoot.addView(mBodyTextView);
         }
+        return mBodyTextView;
     }
 
     @Override
-    public void refreshText() {
+    public View refreshText() {
         if (mBodyTextView != null) mBodyTextView.refreshText();
+        return mBodyTextView;
     }
 
     @Override
-    public void buildItems() {
+    public ListView buildItems() {
         if (mBodyItemsView == null) {
             mBodyItemsView = new BodyItemsView(mContext, mParams);
             mRoot.addView(mBodyItemsView);
         }
+        return mBodyItemsView;
     }
 
     @Override
-    public void buildItemsButton() {
+    public ItemsButton buildItemsButton() {
         if (mItemsButton == null) {
             mItemsButton = new ItemsButton(mContext, mParams);
             mRoot.addView(mItemsButton);
         }
+        return mItemsButton;
     }
 
     @Override
-    public void refreshItems() {
+    public ListView refreshItems() {
         if (mBodyItemsView != null) mBodyItemsView.refreshItems();
+        return mBodyItemsView;
     }
 
     @Override
-    public void buildProgress() {
+    public View buildProgress() {
         if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams);
             mRoot.addView(mBodyProgressView);
         }
+        return mBodyProgressView;
     }
 
 
     @Override
-    public void refreshProgress() {
+    public View refreshProgress() {
         if (mBodyProgressView != null) mBodyProgressView.refreshProgress();
+        return mBodyProgressView;
     }
 
     @Override
-    public void buildInput() {
+    public View buildInput() {
         if (mBodyInputView == null) {
             mBodyInputView = new BodyInputView(mContext, mParams);
             mRoot.addView(mBodyInputView);
         }
+        return mBodyInputView;
     }
 
     @Override
-    public void buildMultipleButton() {
+    public MultipleButton buildMultipleButton() {
         if (mMultipleButton == null) {
             mMultipleButton = new MultipleButton(mContext, mParams);
             DividerView dividerView = new DividerView(mContext);
@@ -110,16 +121,18 @@ public class BuildViewImpl implements BuildView {
             mRoot.addView(dividerView);
             mRoot.addView(mMultipleButton);
         }
+        return mMultipleButton;
     }
 
     @Override
-    public void refreshMultipleButtonText() {
+    public MultipleButton refreshMultipleButtonText() {
         if (mMultipleButton != null)
             mMultipleButton.refreshText();
+        return mMultipleButton;
     }
 
     @Override
-    public void buildSingleButton() {
+    public SingleButton buildSingleButton() {
         if (mSingleButton == null) {
             mSingleButton = new SingleButton(mContext, mParams);
             DividerView dividerViewV = new DividerView(mContext);
@@ -127,12 +140,14 @@ public class BuildViewImpl implements BuildView {
             mRoot.addView(dividerViewV);
             mRoot.addView(mSingleButton);
         }
+        return mSingleButton;
     }
 
     @Override
-    public void refreshSingleButtonText() {
+    public SingleButton refreshSingleButtonText() {
         if (mSingleButton != null)
             mSingleButton.refreshText();
+        return mSingleButton;
     }
 
     @Override
@@ -142,6 +157,8 @@ public class BuildViewImpl implements BuildView {
 
         if (mMultipleButton != null && mBodyInputView != null)
             mMultipleButton.regOnInputClickListener(mBodyInputView.getInput());
+
+
     }
 
     @Override

@@ -20,8 +20,6 @@ import com.mylhyl.circledialog.view.listener.OnInputClickListener;
  */
 
 public class CircleParams implements Parcelable {
-    public void dismiss() {
-    }
 
     /**
      * 确定按钮点击事件
