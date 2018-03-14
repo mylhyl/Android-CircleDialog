@@ -16,9 +16,6 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 对话框单个按钮的视图
  * Created by hupei on 2017/3/30.
- */
-
-/**
  * @hide
  */
 public final class SingleButton extends ScaleTextView implements Controller.OnClickListener {
@@ -60,16 +57,6 @@ public final class SingleButton extends ScaleTextView implements Controller.OnCl
     }
 
     public void regOnClickListener(OnClickListener onClickListener) {
-//        setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mCircleParams.dismiss();
-//                if (mCircleParams.clickPositiveListener != null)
-//                    mCircleParams.clickPositiveListener.onClick(v);
-//                else if (mCircleParams.clickNegativeListener != null)
-//                    mCircleParams.clickNegativeListener.onClick(v);
-//            }
-//        });
         setOnClickListener(onClickListener);
 
     }

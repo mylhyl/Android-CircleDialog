@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -25,10 +24,12 @@ import java.util.List;
 
 /**
  * Created by hupei on 2017/3/30.
+ * @hide
  */
 
-class BodyItemsView extends ListView {
+public final class BodyItemsView extends ListView implements Controller.OnClickListener {
     private BaseAdapter mAdapter;
+    private CircleParams params;
 
     public BodyItemsView(Context context, CircleParams params) {
         super(context);
@@ -41,22 +42,17 @@ class BodyItemsView extends ListView {
                 .MATCH_PARENT, LayoutParams
                 .MATCH_PARENT);
         setLayoutParams(layoutParams);
-
+        this.params = params;
         setSelector(new ColorDrawable(Color.TRANSPARENT));
         setDivider(new ColorDrawable(CircleColor.divider));
         setDividerHeight(1);
-        setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                params.dismiss();
-                if (params.itemListener != null) {
-                    params.itemListener.onItemClick(parent, view, position, id);
-                }
-            }
-        });
 
         mAdapter = new ItemsAdapter(context, params);
         setAdapter(mAdapter);
+    }
+
+    public void regOnItemClickListener(OnItemClickListener onItemClickListener) {
+        setOnItemClickListener(onItemClickListener);
     }
 
     public void refreshItems() {
@@ -66,6 +62,13 @@ class BodyItemsView extends ListView {
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onClick(View view, int which) {
+        if (params.itemListener != null) {
+            params.itemListener.onItemClick((AdapterView<?>) view, view, which, which);
+        }
     }
 
 
@@ -116,7 +119,7 @@ class BodyItemsView extends ListView {
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override

@@ -12,8 +12,9 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 对话框标题
  * Created by hupei on 2017/3/29.
+ * @hide
  */
-class TitleView extends ScaleTextView {
+final class TitleView extends ScaleTextView {
 
     public TitleView(Context context, CircleParams params) {
         super(context);

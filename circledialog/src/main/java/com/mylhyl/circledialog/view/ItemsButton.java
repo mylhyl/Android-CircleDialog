@@ -17,8 +17,9 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
 /**
  * 列表对话框的取消按钮视图
  * Created by hupei on 2017/3/30.
+ * @hide
  */
-public class ItemsButton extends ScaleTextView implements Controller.OnClickListener {
+public final class ItemsButton extends ScaleTextView implements Controller.OnClickListener {
     CircleParams params;
 
     public ItemsButton(Context context, CircleParams params) {

@@ -10,9 +10,10 @@ import com.mylhyl.circledialog.CircleParams;
 
 /**
  * Created by hupei on 2017/3/29.
+ * @hide
  */
 
-public class BuildViewImpl implements BuildView {
+public final  class BuildViewImpl implements BuildView {
     private Context mContext;
     private CircleParams mParams;
     private LinearLayout mRoot;
@@ -64,7 +65,7 @@ public class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public ListView buildItems() {
+    public BodyItemsView buildItems() {
         if (mBodyItemsView == null) {
             mBodyItemsView = new BodyItemsView(mContext, mParams);
             mRoot.addView(mBodyItemsView);
@@ -104,7 +105,7 @@ public class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public View buildInput() {
+    public BodyInputView buildInput() {
         if (mBodyInputView == null) {
             mBodyInputView = new BodyInputView(mContext, mParams);
             mRoot.addView(mBodyInputView);

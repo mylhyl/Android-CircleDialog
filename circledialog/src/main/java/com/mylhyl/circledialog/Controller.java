@@ -7,7 +7,9 @@ import android.os.Message;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 
+import com.mylhyl.circledialog.view.BodyItemsView;
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.ItemsButton;
 import com.mylhyl.circledialog.view.MultipleButton;
@@ -28,23 +30,21 @@ public class Controller {
     /**
      * The identifier for the positive button.
      */
-    public static final int BUTTON_POSITIVE = 1;
+    public static final int BUTTON_POSITIVE = -2;
 
     /**
      * The identifier for the negative button.
      */
-    public static final int BUTTON_NEGATIVE = 2;
+    public static final int BUTTON_NEGATIVE = -3;
 
     /**
      * The identifier for the neutral button.
      */
-    public static final int BUTTON_NEUTRAL = 3;
+    public static final int BUTTON_NEUTRAL = -4;
 
     private BaseCircleDialog mDialog;
 
     public static class ButtonHandler extends Handler {
-
-
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -57,9 +57,12 @@ public class Controller {
 
                 case MSG_DISMISS_DIALOG:
                     ((BaseCircleDialog) msg.obj).dismiss();
+                    break;
+                default:
+                    ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
+                    break;
             }
         }
-
     }
 
     public Controller(Context context, CircleParams params, BaseCircleDialog mDialog) {
@@ -113,14 +116,22 @@ public class Controller {
         }
         //列表
         else if (mParams.itemsParams != null) {
-            mCreateView.buildItems();
+            final BodyItemsView bodyItemsView = mCreateView.buildItems();
+            bodyItemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    mHandler.obtainMessage(position, bodyItemsView).sendToTarget();
+                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                            .sendToTarget();
+                }
+            });
             //有确定或者有取消按钮
             if (mParams.positiveParams != null || mParams.negativeParams != null) {
                 final ItemsButton itemsButton = mCreateView.buildItemsButton();
                 itemsButton.regOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mHandler.obtainMessage(BUTTON_NEGATIVE, itemsButton);
+                        mHandler.obtainMessage(mParams.positiveParams != null ? BUTTON_POSITIVE : BUTTON_NEGATIVE, itemsButton).sendToTarget();
                         mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
                                 .sendToTarget();
                     }
@@ -148,7 +159,7 @@ public class Controller {
             multipleButton.regNegativeListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mHandler.obtainMessage(BUTTON_NEGATIVE, multipleButton);
+                    mHandler.obtainMessage(BUTTON_NEGATIVE, multipleButton).sendToTarget();
                     mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
                             .sendToTarget();
                 }
@@ -183,15 +194,12 @@ public class Controller {
      */
     public interface OnClickListener {
         /**
-         * This method will be invoked when a button in the dialog is clicked.
+         * dialog中可以点击的空间需要继承的接口，通过这个接口调用各自的监听事件
+         * @param view 实现了OnClickListener的view
+         * @param which 点击事件对应的id，如果是列表中的item 则是对应的下标
          *
-         * @param view
-         * @param which The button that was clicked (e.g.
-         *              {@link DialogInterface#BUTTON1}) or the position
-         *              of the item clicked.
          */
-        /* TODO: Change to use BUTTON_POSITIVE after API council */
-        public void onClick(View view, int which);
+        void onClick(View view, int which);
     }
 
     private View getView() {

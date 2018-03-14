@@ -9,8 +9,9 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 分隔线，默认垂直
  * Created by hupei on 2017/3/30.
+ * @hide
  */
-class DividerView extends View {
+final class DividerView extends View {
     public DividerView(Context context) {
         super(context);
         init();

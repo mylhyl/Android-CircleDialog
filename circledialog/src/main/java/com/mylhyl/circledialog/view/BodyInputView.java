@@ -15,9 +15,10 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 
 /**
  * Created by hupei on 2017/3/31.
+ * @hide
  */
 
-class BodyInputView extends ScaleLinearLayout {
+public final class BodyInputView extends ScaleLinearLayout {
     private ScaleEditText mEditText;
 
     public BodyInputView(Context context, CircleParams params) {

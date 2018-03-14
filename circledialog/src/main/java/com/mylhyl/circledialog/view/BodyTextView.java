@@ -14,8 +14,9 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 对话框纯文本视图
  * Created by hupei on 2017/3/30.
+ * @hide
  */
-class BodyTextView extends ScaleTextView {
+final class BodyTextView extends ScaleTextView {
     private CircleParams mParams;
 
     public BodyTextView(Context context, CircleParams params) {

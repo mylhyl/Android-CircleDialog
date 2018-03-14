@@ -22,9 +22,10 @@ import java.lang.reflect.Modifier;
 
 /**
  * Created by hupei on 2017/3/31.
+ * @hide
  */
 
-class BodyProgressView extends ScaleLinearLayout {
+final class BodyProgressView extends ScaleLinearLayout {
     private ProgressParams mProgressParams;
     private ProgressBar mProgressBar;
     private Handler mViewUpdateHandler;

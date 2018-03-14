@@ -3,6 +3,8 @@ package com.mylhyl.circledialog;
 import android.view.View;
 import android.widget.ListView;
 
+import com.mylhyl.circledialog.view.BodyInputView;
+import com.mylhyl.circledialog.view.BodyItemsView;
 import com.mylhyl.circledialog.view.ItemsButton;
 import com.mylhyl.circledialog.view.MultipleButton;
 import com.mylhyl.circledialog.view.SingleButton;
@@ -35,7 +37,7 @@ public interface BuildView {
     /**
      * 生成列表布局
      */
-    ListView buildItems();
+    BodyItemsView buildItems();
 
     /**
      * 生成列表按钮
@@ -60,7 +62,7 @@ public interface BuildView {
     /**
      * 生成输入布局
      */
-    View buildInput();
+    BodyInputView buildInput();
 
     /**
      * 生成多按钮布局
