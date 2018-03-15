@@ -18,8 +18,6 @@ import com.mylhyl.circledialog.view.MultipleButton;
 import com.mylhyl.circledialog.view.SingleButton;
 
 /**
- * handler 使用
- * <p>
  * Created by hupei on 2017/3/29.
  */
 
@@ -226,9 +224,9 @@ public class Controller {
     public interface OnClickListener {
         /**
          * dialog中可以点击的空间需要继承的接口，通过这个接口调用各自的监听事件
-         * @param view 实现了OnClickListener的view
-         * @param which 点击事件对应的id，如果是列表中的item 则是对应的下标
          *
+         * @param view  实现了OnClickListener的view
+         * @param which 点击事件对应的id，如果是列表中的item 则是对应的下标
          */
         void onClick(View view, int which);
     }
