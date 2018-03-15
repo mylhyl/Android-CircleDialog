@@ -1,12 +1,10 @@
 package com.mylhyl.circledialog.sample;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         List<String> data = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时", "三个按钮","原生对话框"});
+                , "自定义dialog", "list中使用", "倒计时", "三个按钮"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , data) {
             @Override
@@ -296,19 +294,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .show();
-                break;
-            case 11:
-                new AlertDialog.Builder(this).setItems(new String[]{"test", "test", "test"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).setNegativeButton("test", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).show();
                 break;
         }
     }
