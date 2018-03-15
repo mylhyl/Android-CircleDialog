@@ -51,6 +51,7 @@ public class Controller {
             switch (msg.what) {
                 case BUTTON_POSITIVE:
                 case BUTTON_NEGATIVE:
+                case BUTTON_NEUTRAL:
                     ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
                     break;
 
