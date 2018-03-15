@@ -50,7 +50,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
         }
         if (mNeutralParams != null) {
             if (mNegativeButton != null) {
-                //分隔线
+                //分隔线 当且仅当前面有按钮这个按钮不为空的时候才需要添加分割线
                 createDivider();
             }
             createNeutral();
@@ -62,7 +62,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
         }
         if (mPositiveParams != null) {
             if (mNeutralButton != null || mNegativeButton != null) {
-                //分隔线
+                //分隔线 当且仅当前面有按钮这个按钮不为空的时候才需要添加分割线
                 createDivider();
             }
             //确定按钮
@@ -73,15 +73,17 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
                     .bgDialog;
         }
 
-        //按钮左下方为圆角
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (mNegativeButton != null) {
+                //右边没按钮则右边是圆角
                 mNegativeButton.setBackground(new SelectorBtn(backgroundNegative, 0, 0, (mNeutralButton == null && mPositiveButton == null) ? radius : 0, radius));
             }
             if (mPositiveButton != null) {
+                //左右没按钮则左右是圆角
                 mPositiveButton.setBackground(new SelectorBtn(backgroundPositive, 0, 0, radius, (mNegativeButton == null && mNeutralButton == null) ? radius : 0));
             }
             if (mNeutralButton != null) {
+                //左边没按钮则左边是圆角
                 mNeutralButton.setBackground(new SelectorBtn(backgroundNeutral, 0, 0, mPositiveButton != null ? 0 : radius, mNegativeButton != null ? 0 : radius));
             }
         } else {
