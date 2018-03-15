@@ -286,6 +286,13 @@ public final class CircleDialog {
                 mCircleParams.inputParams = new InputParams();
         }
 
+        /**
+         * 确定按钮
+         *
+         * @param text
+         * @param listener
+         * @return
+         */
         public Builder setPositive(@NonNull String text, View.OnClickListener listener) {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
@@ -294,6 +301,13 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 输入框的确定按钮
+         *
+         * @param text
+         * @param listener
+         * @return
+         */
         public Builder setPositiveInput(@NonNull String text, OnInputClickListener listener) {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
@@ -302,6 +316,12 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 配置确定按钮
+         *
+         * @param configButton
+         * @return
+         */
         public Builder configPositive(@NonNull ConfigButton configButton) {
             newPositiveParams();
             configButton.onConfig(mCircleParams.positiveParams);
@@ -313,6 +333,13 @@ public final class CircleDialog {
                 mCircleParams.positiveParams = new ButtonParams();
         }
 
+        /**
+         * 取消按钮
+         *
+         * @param text
+         * @param listener
+         * @return
+         */
         public Builder setNegative(@NonNull String text, View.OnClickListener listener) {
             newNegativeParams();
             ButtonParams params = mCircleParams.negativeParams;
@@ -321,7 +348,12 @@ public final class CircleDialog {
             return this;
         }
 
-
+        /**
+         * 配置取消按钮
+         *
+         * @param configButton
+         * @return
+         */
         public Builder configNegative(@NonNull ConfigButton configButton) {
             newNegativeParams();
             configButton.onConfig(mCircleParams.negativeParams);
@@ -331,6 +363,39 @@ public final class CircleDialog {
         private void newNegativeParams() {
             if (mCircleParams.negativeParams == null)
                 mCircleParams.negativeParams = new ButtonParams();
+        }
+
+        /**
+         * 中间按钮
+         *
+         * @param text
+         * @param listener
+         * @return
+         */
+        public Builder setNeutral(@NonNull String text, View.OnClickListener listener) {
+            newNeutralParams();
+            ButtonParams params = mCircleParams.neutralParams;
+            params.text = text;
+            mCircleParams.clickNeutralListener = listener;
+            return this;
+        }
+
+
+        /**
+         * 配置中间按钮
+         *
+         * @param configButton
+         * @return
+         */
+        public Builder configNeutral(@NonNull ConfigButton configButton) {
+            newNeutralParams();
+            configButton.onConfig(mCircleParams.neutralParams);
+            return this;
+        }
+
+        private void newNeutralParams() {
+            if (mCircleParams.neutralParams == null)
+                mCircleParams.neutralParams = new ButtonParams();
         }
 
         private void onDismiss() {

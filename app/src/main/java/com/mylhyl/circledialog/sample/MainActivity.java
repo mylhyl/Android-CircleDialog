@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog.sample;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,8 +23,6 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
-import com.mylhyl.circledialog.scale.ScaleLayoutConfig;
-import com.mylhyl.circledialog.view.MultipleButton;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import java.util.Timer;
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 , new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时"}));
         listView.setOnItemClickListener(this);
-
+//        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
 
     @Override
@@ -251,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 };
                 handler.postDelayed(runnable, 1000);
                 break;
-
         }
     }
 

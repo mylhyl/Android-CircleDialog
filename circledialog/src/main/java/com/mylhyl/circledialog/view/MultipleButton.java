@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -17,10 +15,8 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
- *
- * @hide
  */
-public final class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener {
+class MultipleButton extends ScaleLinearLayout {
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
@@ -72,6 +68,7 @@ public final class MultipleButton extends ScaleLinearLayout implements Controlle
                     radius));
         }
 
+        regNegativeListener();
 
         addView(mNegativeButton);
     }
@@ -107,6 +104,7 @@ public final class MultipleButton extends ScaleLinearLayout implements Controlle
                     radius, 0));
         }
 
+        regPositiveListener();
 
         addView(mPositiveButton);
     }
@@ -118,14 +116,40 @@ public final class MultipleButton extends ScaleLinearLayout implements Controlle
                 mPositiveParams.textColorDisable : mPositiveParams.textColor);
     }
 
-    public void regNegativeListener(OnClickListener onClickListener) {
-        mNegativeButton.setOnClickListener(onClickListener);
+    private void regNegativeListener() {
+        mNegativeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCircleParams.dismiss();
+                if (mCircleParams.clickNegativeListener != null)
+                    mCircleParams.clickNegativeListener.onClick(v);
+            }
+        });
     }
 
-    public void regPositiveListener(OnClickListener onClickListener) {
-        mPositiveButton.setOnClickListener(onClickListener);
+    private void regPositiveListener() {
+        mPositiveButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCircleParams.dismiss();
+                if (mCircleParams.clickPositiveListener != null)
+                    mCircleParams.clickPositiveListener.onClick(v);
+            }
+        });
     }
 
+    public void regOnInputClickListener(final EditText input) {
+        mPositiveButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = input.getText().toString();
+                if (!TextUtils.isEmpty(text))
+                    mCircleParams.dismiss();
+                if (mCircleParams.inputListener != null)
+                    mCircleParams.inputListener.onClick(text, v);
+            }
+        });
+    }
 
     public void refreshText() {
         if (mNegativeParams == null || mNegativeButton == null) return;
@@ -143,19 +167,5 @@ public final class MultipleButton extends ScaleLinearLayout implements Controlle
                 handlePositiveStyle();
             }
         });
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (which == Controller.BUTTON_NEGATIVE) {
-            if (mCircleParams.clickNegativeListener != null) {
-                mCircleParams.clickNegativeListener.onClick(mNegativeButton);
-            }
-        } else if (which == Controller.BUTTON_POSITIVE) {
-            if (mCircleParams.clickPositiveListener != null) {
-                mCircleParams.clickPositiveListener.onClick(mPositiveButton);
-            }
-        }
-
     }
 }
