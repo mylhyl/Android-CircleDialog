@@ -28,6 +28,7 @@ public class Controller {
     private CircleParams mParams;
     private BuildView mCreateView;
     private ButtonHandler mHandler;
+
     private static final int MSG_DISMISS_DIALOG = -1;
     /**
      * The identifier for the positive button.
@@ -39,11 +40,6 @@ public class Controller {
      */
     public static final int BUTTON_NEGATIVE = -3;
 
-    /**
-     * The identifier for the neutral button.
-     */
-    public static final int BUTTON_NEUTRAL = -4;
-
     private BaseCircleDialog mDialog;
 
     public static class ButtonHandler extends Handler {
@@ -53,7 +49,6 @@ public class Controller {
             switch (msg.what) {
                 case BUTTON_POSITIVE:
                 case BUTTON_NEGATIVE:
-                case BUTTON_NEUTRAL:
                     ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
                     break;
 
