@@ -73,17 +73,6 @@ public interface BuildView {
      */
     MultipleButton refreshMultipleButtonText();
 
-//    /**
-//     * 生成单个按钮布局
-//     */
-//    SingleButton buildSingleButton();
-//
-//    /**
-//     * 刷新单个按钮文字
-//     */
-//    SingleButton refreshSingleButtonText();
-
-
     /**
      * 取出根布局
      *

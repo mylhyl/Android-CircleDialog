@@ -131,26 +131,6 @@ public final  class BuildViewImpl implements BuildView {
         return mMultipleButton;
     }
 
-//    @Override
-//    public SingleButton buildSingleButton() {
-//        if (mSingleButton == null) {
-//            mSingleButton = new SingleButton(mContext, mParams);
-//            DividerView dividerViewV = new DividerView(mContext);
-//            dividerViewV.setVertical();
-//            mRoot.addView(dividerViewV);
-//            mRoot.addView(mSingleButton);
-//        }
-//        return mSingleButton;
-//    }
-//
-//    @Override
-//    public SingleButton refreshSingleButtonText() {
-//        if (mSingleButton != null)
-//            mSingleButton.refreshText();
-//        return mSingleButton;
-//    }
-
-
     @Override
     public View getView() {
         return mRoot;

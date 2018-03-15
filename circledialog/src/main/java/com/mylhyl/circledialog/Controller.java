@@ -84,7 +84,6 @@ public class Controller {
         mCreateView.refreshItems();
         mCreateView.refreshProgress();
         mCreateView.refreshMultipleButtonText();
-//        mCreateView.refreshSingleButtonText();
         //刷新时带动画
         if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
             getView().post(new Runnable() {
@@ -145,8 +144,6 @@ public class Controller {
         //输入框
         else if (mParams.inputParams != null) {
             final BodyInputView bodyInputView = mCreateView.buildInput();
-
-
             if (mParams.positiveParams != null || mParams.negativeParams != null||mParams.neutralParams!=null) {
                 final MultipleButton multipleButton = mCreateView.buildMultipleButton();
                 multipleButton.regNegativeListener(new View.OnClickListener() {
