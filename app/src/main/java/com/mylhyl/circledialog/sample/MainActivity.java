@@ -1,34 +1,42 @@
 package com.mylhyl.circledialog.sample;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
     private CircleDialog.Builder builder;
     int time = 30;
 
@@ -36,16 +44,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1
-                , new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时"}));
-        listView.setOnItemClickListener(this);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        List<String> data = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
+                , "进度框", "等待框", "动态改变内容"
+                , "自定义dialog", "list中使用", "倒计时", "三个按钮","原生对话框"});
+        BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
+                , data) {
+            @Override
+            protected void convert(BaseViewHolder helper, String item) {
+                helper.setText(android.R.id.text1, item);
+            }
+        };
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
 //        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
 
     @Override
-    public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
             case 0:
                 new CircleDialog.Builder(this)
@@ -60,6 +79,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .setCancelable(false)
                         .setTitle("标题")
                         .setText("确定框")
+                        .configText(new ConfigText() {
+                            @Override
+                            public void onConfig(TextParams params) {
+                                params.padding = new int[]{150, 10, 50, 10};
+                            }
+                        })
                         .setNegative("取消", null)
                         .setPositive("确定", new View.OnClickListener() {
                             @Override
@@ -248,7 +273,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 };
                 handler.postDelayed(runnable, 1000);
                 break;
+            case 10:
+                new CircleDialog.Builder(this)
+                        .setTitle("标题")
+                        .setText("提示框")
+                        .setNegative("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNeutral("中间", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setPositive("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+                break;
+            case 11:
+                new AlertDialog.Builder(this).setItems(new String[]{"test", "test", "test"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).setNegativeButton("test", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+                break;
         }
     }
-
 }

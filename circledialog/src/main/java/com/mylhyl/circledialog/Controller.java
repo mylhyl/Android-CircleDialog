@@ -38,6 +38,11 @@ public class Controller {
      */
     public static final int BUTTON_NEGATIVE = -3;
 
+    /**
+     * The identifier for the neutral button.
+     */
+    public static final int BUTTON_NEUTRAL = -4;
+
     private BaseCircleDialog mDialog;
 
     public static class ButtonHandler extends Handler {
@@ -132,7 +137,6 @@ public class Controller {
                     }
                 });
             }
-
         }
         //进度条
         else if (mParams.progressParams != null) {
@@ -213,8 +217,6 @@ public class Controller {
                 }
             });
         }
-
-
     }
 
     /**
