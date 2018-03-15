@@ -24,7 +24,6 @@ public final  class BuildViewImpl implements BuildView {
     private BodyInputView mBodyInputView;
     private ItemsButton mItemsButton;
     private MultipleButton mMultipleButton;
-    private SingleButton mSingleButton;
 
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
@@ -132,24 +131,24 @@ public final  class BuildViewImpl implements BuildView {
         return mMultipleButton;
     }
 
-    @Override
-    public SingleButton buildSingleButton() {
-        if (mSingleButton == null) {
-            mSingleButton = new SingleButton(mContext, mParams);
-            DividerView dividerViewV = new DividerView(mContext);
-            dividerViewV.setVertical();
-            mRoot.addView(dividerViewV);
-            mRoot.addView(mSingleButton);
-        }
-        return mSingleButton;
-    }
-
-    @Override
-    public SingleButton refreshSingleButtonText() {
-        if (mSingleButton != null)
-            mSingleButton.refreshText();
-        return mSingleButton;
-    }
+//    @Override
+//    public SingleButton buildSingleButton() {
+//        if (mSingleButton == null) {
+//            mSingleButton = new SingleButton(mContext, mParams);
+//            DividerView dividerViewV = new DividerView(mContext);
+//            dividerViewV.setVertical();
+//            mRoot.addView(dividerViewV);
+//            mRoot.addView(mSingleButton);
+//        }
+//        return mSingleButton;
+//    }
+//
+//    @Override
+//    public SingleButton refreshSingleButtonText() {
+//        if (mSingleButton != null)
+//            mSingleButton.refreshText();
+//        return mSingleButton;
+//    }
 
 
     @Override

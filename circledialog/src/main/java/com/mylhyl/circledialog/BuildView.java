@@ -7,7 +7,6 @@ import com.mylhyl.circledialog.view.BodyInputView;
 import com.mylhyl.circledialog.view.BodyItemsView;
 import com.mylhyl.circledialog.view.ItemsButton;
 import com.mylhyl.circledialog.view.MultipleButton;
-import com.mylhyl.circledialog.view.SingleButton;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -74,15 +73,15 @@ public interface BuildView {
      */
     MultipleButton refreshMultipleButtonText();
 
-    /**
-     * 生成单个按钮布局
-     */
-    SingleButton buildSingleButton();
-
-    /**
-     * 刷新单个按钮文字
-     */
-    SingleButton refreshSingleButtonText();
+//    /**
+//     * 生成单个按钮布局
+//     */
+//    SingleButton buildSingleButton();
+//
+//    /**
+//     * 刷新单个按钮文字
+//     */
+//    SingleButton refreshSingleButtonText();
 
 
     /**
