@@ -2,7 +2,6 @@ package com.mylhyl.circledialog;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
 
