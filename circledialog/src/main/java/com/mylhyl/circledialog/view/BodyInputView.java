@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 
@@ -81,6 +82,7 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
         mEditText.setTextSize(inputParams.textSize);
         mEditText.setTextColor(inputParams.textColor);
         mEditText.setHeight(inputParams.inputHeight);
+        mEditText.setGravity(inputParams.gravity);
 
         int backgroundResourceId = inputParams.inputBackgroundResourceId;
         if (backgroundResourceId == 0) {

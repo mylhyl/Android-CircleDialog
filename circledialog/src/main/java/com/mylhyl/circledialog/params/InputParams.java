@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.InputType;
+import android.view.Gravity;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -64,6 +65,10 @@ public class InputParams implements Parcelable {
      * 输入类型
      */
     public int inputType = InputType.TYPE_CLASS_TEXT;
+    /**
+     * 文字对齐方式，默认左上角
+     */
+    public int gravity = Gravity.LEFT | Gravity.TOP;
 
     @Override
     public int describeContents() {

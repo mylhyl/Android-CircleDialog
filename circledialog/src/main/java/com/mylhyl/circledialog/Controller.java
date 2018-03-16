@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -145,7 +144,7 @@ public class Controller {
         //输入框
         else if (mParams.inputParams != null) {
             final BodyInputView bodyInputView = mCreateView.buildInput();
-            if (mParams.positiveParams != null || mParams.negativeParams != null||mParams.neutralParams!=null) {
+            if (mParams.positiveParams != null || mParams.negativeParams != null || mParams.neutralParams != null) {
                 final MultipleButton multipleButton = mCreateView.buildMultipleButton();
                 multipleButton.regNegativeListener(new View.OnClickListener() {
                     @Override
@@ -182,7 +181,7 @@ public class Controller {
 
     private void applyButton() {
         //有确定并且有取消按钮
-        if (mParams.positiveParams != null || mParams.negativeParams != null||mParams.neutralParams!=null) {
+        if (mParams.positiveParams != null || mParams.negativeParams != null || mParams.neutralParams != null) {
             final MultipleButton multipleButton = mCreateView.buildMultipleButton();
             multipleButton.regNegativeListener(new View.OnClickListener() {
                 @Override

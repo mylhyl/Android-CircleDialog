@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             @Override
                             public void onConfig(InputParams params) {
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
+                                params.gravity = Gravity.CENTER;
                                 params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
                             }
                         })
