@@ -65,14 +65,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
             case 0:
-                new CircleDialog.Builder(this)
+                new CircleDialog.Builder()
                         .setTitle("标题")
                         .setText("提示框")
                         .setPositive("确定", null)
-                        .show();
+                        .show(getSupportFragmentManager());
                 break;
             case 1:
-                new CircleDialog.Builder(this)
+                new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
                         .configDialog(new ConfigDialog() {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.backgroundColorPress = Color.RED;
                             }
                         })
-                        .show();
+                        .show(getSupportFragmentManager());
                 break;
             case 2:
 //                final List<PictureType> list = new ArrayList<>();
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                list.add(new PictureType(2, "从相册选择"));
 //                list.add(new PictureType(3, "小视频"));
                 final String[] items = {"拍照", "从相册选择", "小视频"};
-                new CircleDialog.Builder(this)
+                new CircleDialog.Builder()
                         .configDialog(new ConfigDialog() {
                             @Override
                             public void onConfig(DialogParams params) {
@@ -139,10 +139,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.backgroundColorPress = Color.BLUE;
                             }
                         })
-                        .show();
+                        .show(getSupportFragmentManager());
                 break;
             case 3:
-                new CircleDialog.Builder(this)
+                new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
                         .setTitle("输入框")
@@ -162,11 +162,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .show();
+                        .show(getSupportFragmentManager());
                 break;
             case 4:
                 final Timer timer = new Timer();
-                builder = new CircleDialog.Builder(this);
+                builder = new CircleDialog.Builder();
                 builder.setCancelable(false).setCanceledOnTouchOutside(false)
                         .configDialog(new ConfigDialog() {
                             @Override
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 timer.cancel();
                             }
                         })
-                        .show();
+                        .show(getSupportFragmentManager());
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;
                     int progress = 0;
@@ -208,11 +208,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 timer.schedule(timerTask, 0, 50);
                 break;
             case 5:
-                final DialogFragment dialogFragment = new CircleDialog.Builder(this)
+                final DialogFragment dialogFragment = new CircleDialog.Builder()
                         .setProgressText("登录中...")
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
-                        .show();
+                        .show(getSupportFragmentManager());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 }, 3000);
                 break;
             case 6:
-                builder = new CircleDialog.Builder(this);
+                builder = new CircleDialog.Builder();
                 builder.configDialog(new ConfigDialog() {
                     @Override
                     public void onConfig(DialogParams params) {
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 })
                         .setTitle("动态改变内容")
                         .setText("3秒后更新其它内容")
-                        .show();
+                        .show(getSupportFragmentManager());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 9:
 
-                builder = new CircleDialog.Builder(this)
+                builder = new CircleDialog.Builder()
                         .setTitle("标题")
                         .setText("提示框")
                         .configPositive(new ConfigButton() {
@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setPositive("确定(" + time + "s)", null)
                         .setNegative("取消", null);
 
-                builder.show();
+                builder.show(getSupportFragmentManager());
 
                 final Handler handler = new Handler();
                 final Runnable runnable = new Runnable() {
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 handler.postDelayed(runnable, 1000);
                 break;
             case 10:
-                new CircleDialog.Builder(this)
+                new CircleDialog.Builder()
                         .setTitle("标题")
                         .setText("提示框")
                         .setNegative("取消", new View.OnClickListener() {
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .show();
+                        .show(getSupportFragmentManager());
                 break;
         }
     }

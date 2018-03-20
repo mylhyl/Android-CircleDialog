@@ -18,10 +18,10 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     public void showMyDialog(String string) {
-        new CircleDialog.Builder(this)
+        new CircleDialog.Builder()
                 .setTitle("标题")
                 .setText(string)
                 .setPositive("确定", null)
-                .show();
+                .show(getSupportFragmentManager());
     }
 }
