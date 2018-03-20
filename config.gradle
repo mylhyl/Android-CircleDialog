@@ -1,0 +1,25 @@
+ext {
+
+    android = [
+            compileSdkVersion: 23,
+            buildToolsVersion: "25.0.0",
+            minSdkVersion    : 15,
+            targetSdkVersion : 23,
+            versionCode      : 1,
+            versionName      : "20180320"
+    ]
+
+    dependVersion = [
+            support: "23.4.0"
+    ]
+
+    dependencies = [
+            // support
+            appcompatV7 : "com.android.support:appcompat-v7:${dependVersion.support}",
+            recyclerview: "com.android.support:recyclerview-v7:${dependVersion.support}",
+            leakcanary  : "com.squareup.leakcanary:leakcanary-android:1.5.4"
+    ]
+    publish =[
+        version : "2.4.1"
+    ]
+}
