@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(new ConfigDialog() {
                             @Override
                             public void onConfig(DialogParams params) {
-                                params.backgroundColor = Color.CYAN;
+                                params.backgroundColorPress = Color.CYAN;
                                 //增加弹出动画
                                 params.animStyle = R.style.dialogWindowAnim;
                             }

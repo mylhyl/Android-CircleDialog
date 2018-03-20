@@ -82,6 +82,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
         private List<T> mItems;
         private int mRadius;
         private int mBackgroundColor;
+        private int mBackgroundColorPress;
         private ItemsParams mItemsParams;
         private TitleParams mTitleParams;
 
@@ -94,6 +95,8 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             this.mBackgroundColor = mItemsParams.backgroundColor != 0
                     ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor == 0
                     ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
+            this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
+                    ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
             Object entity = this.mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
                 this.mItems = (List<T>) entity;
@@ -143,7 +146,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             if (position == 0 && mTitleParams == null) {
                 if (getCount() == 1) {
                     final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                            , mItemsParams.backgroundColorPress, mRadius, mRadius, mRadius, mRadius);
+                            , mBackgroundColorPress, mRadius, mRadius, mRadius, mRadius);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         viewHolder.item.setBackground(selectorBtn);
                     } else {
@@ -151,7 +154,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
                     }
                 } else {
                     final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                            , mItemsParams.backgroundColorPress, mRadius, mRadius, 0, 0);
+                            , mBackgroundColorPress, mRadius, mRadius, 0, 0);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         viewHolder.item.setBackground(selectorBtn);
                     } else {
@@ -162,7 +165,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             //bottom
             else if (position == getCount() - 1) {
                 final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                        , mItemsParams.backgroundColorPress, 0, 0, mRadius, mRadius);
+                        , mBackgroundColorPress, 0, 0, mRadius, mRadius);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     viewHolder.item.setBackground(selectorBtn);
                 } else {
@@ -172,7 +175,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             //middle
             else {
                 final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                        , mItemsParams.backgroundColorPress, 0, 0, 0, 0);
+                        , mBackgroundColorPress, 0, 0, 0, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     viewHolder.item.setBackground(selectorBtn);
                 } else {
