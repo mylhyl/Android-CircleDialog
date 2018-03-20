@@ -45,8 +45,9 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             //取消按钮
             createNegative();
             //如果取消按钮没有背景色，则使用默认色
-            backgroundNegative = mNegativeParams.backgroundColor != 0 ? mNegativeParams
-                    .backgroundColor : CircleColor.bgDialog;
+            backgroundNegative = mNegativeParams.backgroundColor != 0
+                    ? mNegativeParams.backgroundColor : params.dialogParams.backgroundColor == 0
+                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
         }
         if (mNeutralParams != null) {
             if (mNegativeButton != null) {
@@ -55,8 +56,9 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             }
             createNeutral();
             //如果取消按钮没有背景色，则使用默认色
-            backgroundNeutral = mNeutralParams.backgroundColor != 0 ? mNeutralParams
-                    .backgroundColor : CircleColor.bgDialog;
+            backgroundNeutral = mNeutralParams.backgroundColor != 0
+                    ? mNeutralParams.backgroundColor : params.dialogParams.backgroundColor == 0
+                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
 
 
         }
@@ -68,38 +70,47 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             //确定按钮
             createPositive();
             //如果取消按钮没有背景色，则使用默认色
-            backgroundPositive = mPositiveParams.backgroundColor != 0 ? mPositiveParams
-                    .backgroundColor : CircleColor
-                    .bgDialog;
+            backgroundPositive = mPositiveParams.backgroundColor != 0
+                    ? mPositiveParams.backgroundColor : params.dialogParams.backgroundColor == 0
+                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (mNegativeButton != null) {
-                //右边没按钮则右边是圆角
-                mNegativeButton.setBackground(new SelectorBtn(backgroundNegative, 0, 0, (mNeutralButton == null && mPositiveButton == null) ? radius : 0, radius));
+        if (mNegativeButton != null && mNegativeParams != null) {
+            //右边没按钮则右边是圆角
+            SelectorBtn selectorBtn = new SelectorBtn(backgroundNegative
+                    , mNegativeParams.backgroundColorPress != 0
+                    ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress
+                    , 0, 0, (mNeutralButton == null && mPositiveButton == null) ? radius : 0, radius);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mNegativeButton.setBackground(selectorBtn);
+            } else {
+                mNegativeButton.setBackgroundDrawable(selectorBtn);
             }
-            if (mPositiveButton != null) {
-                //左右没按钮则左右是圆角
-                mPositiveButton.setBackground(new SelectorBtn(backgroundPositive, 0, 0, radius, (mNegativeButton == null && mNeutralButton == null) ? radius : 0));
-            }
-            if (mNeutralButton != null) {
-                //左边没按钮则左边是圆角
-                mNeutralButton.setBackground(new SelectorBtn(backgroundNeutral, 0, 0, mPositiveButton != null ? 0 : radius, mNegativeButton != null ? 0 : radius));
-            }
-        } else {
-            if (mNegativeButton != null) {
-                mNegativeButton.setBackgroundDrawable(new SelectorBtn(backgroundNegative, 0, 0, (mNeutralButton == null && mPositiveButton == null) ? radius : 0, radius));
-            }
-            if (mPositiveButton != null) {
-                mPositiveButton.setBackgroundDrawable(new SelectorBtn(backgroundPositive, 0, 0, radius, (mNegativeButton == null && mNeutralButton == null) ? radius : 0));
-            }
-            if (mNeutralButton != null) {
-                mNeutralButton.setBackgroundDrawable(new SelectorBtn(backgroundNeutral, 0, 0, mPositiveButton != null ? 0 : radius, mNegativeButton != null ? 0 : radius));
-            }
-
         }
-
-
+        if (mPositiveButton != null && mPositiveParams != null) {
+            //左右没按钮则左右是圆角
+            SelectorBtn selectorBtn = new SelectorBtn(backgroundPositive
+                    , mPositiveParams.backgroundColorPress != 0
+                    ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress
+                    , 0, 0, radius, (mNegativeButton == null && mNeutralButton == null) ? radius : 0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mPositiveButton.setBackground(selectorBtn);
+            } else {
+                mPositiveButton.setBackgroundDrawable(selectorBtn);
+            }
+        }
+        if (mNeutralButton != null && mNeutralParams != null) {
+            //左边没按钮则左边是圆角
+            SelectorBtn selectorBtn = new SelectorBtn(backgroundNeutral
+                    , mNeutralParams.backgroundColorPress != 0
+                    ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress
+                    , 0, 0, mPositiveButton != null ? 0 : radius, mNegativeButton != null ? 0 : radius);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mNeutralButton.setBackground(selectorBtn);
+            } else {
+                mNeutralButton.setBackgroundDrawable(selectorBtn);
+            }
+        }
     }
 
     private void createDivider() {

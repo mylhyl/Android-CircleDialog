@@ -8,8 +8,8 @@ import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TitleParams;
@@ -22,6 +22,7 @@ import java.lang.reflect.Modifier;
 
 /**
  * Created by hupei on 2017/3/31.
+ *
  * @hide
  */
 
@@ -44,9 +45,9 @@ final class BodyProgressView extends ScaleLinearLayout {
         mProgressParams = params.progressParams;
 
         //如果没有背景色，则使用默认色
-        int backgroundColor = mProgressParams.backgroundColor != 0 ? mProgressParams
-                .backgroundColor : CircleColor
-                .bgDialog;
+        int backgroundColor = mProgressParams.backgroundColor != 0
+                ? mProgressParams.backgroundColor : dialogParams.backgroundColor == 0
+                ? CircleColor.bgDialog : dialogParams.backgroundColor;
 
         //有标题没按钮则底部圆角
         if (titleParams != null && negativeParams == null && positiveParams == null) {

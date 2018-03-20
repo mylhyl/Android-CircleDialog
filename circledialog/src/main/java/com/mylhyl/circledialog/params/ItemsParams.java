@@ -36,6 +36,13 @@ public class ItemsParams implements Parcelable {
      * item字体大小
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+    /**
+     * 按下颜色值
+     */
+    public int backgroundColorPress;
+
+    public ItemsParams() {
+    }
 
     @Override
     public int describeContents() {
@@ -49,9 +56,7 @@ public class ItemsParams implements Parcelable {
         dest.writeInt(this.backgroundColor);
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
-    }
-
-    public ItemsParams() {
+        dest.writeInt(this.backgroundColorPress);
     }
 
     protected ItemsParams(Parcel in) {
@@ -60,9 +65,10 @@ public class ItemsParams implements Parcelable {
         this.backgroundColor = in.readInt();
         this.textColor = in.readInt();
         this.textSize = in.readInt();
+        this.backgroundColorPress = in.readInt();
     }
 
-    public static final Parcelable.Creator<ItemsParams> CREATOR = new Parcelable.Creator<ItemsParams>() {
+    public static final Creator<ItemsParams> CREATOR = new Creator<ItemsParams>() {
         @Override
         public ItemsParams createFromParcel(Parcel source) {
             return new ItemsParams(source);

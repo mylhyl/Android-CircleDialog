@@ -3,13 +3,12 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.TitleParams;
@@ -114,7 +113,7 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
             BodyInputView inputView = (BodyInputView) view;
             String text = inputView.getInput().getText().toString();
             if (!TextUtils.isEmpty(text) && params.inputListener != null) {
-                params.inputListener.onClick(text,  inputView.getInput());
+                params.inputListener.onClick(text, inputView.getInput());
 
             }
         }

@@ -17,6 +17,7 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
 /**
  * 列表对话框的取消按钮视图
  * Created by hupei on 2017/3/30.
+ *
  * @hide
  */
 public final class ItemsButton extends ScaleTextView implements Controller.OnClickListener {
@@ -48,13 +49,18 @@ public final class ItemsButton extends ScaleTextView implements Controller.OnCli
         setHeight(buttonParams.height);
 
         //如果取消按钮没有背景色，则使用默认色
-        int backgroundColor = buttonParams.backgroundColor != 0 ? buttonParams.backgroundColor :
-                CircleColor.bgDialog;
+        int backgroundColor = buttonParams.backgroundColor != 0
+                ? buttonParams.backgroundColor : params.dialogParams.backgroundColor == 0
+                ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
         int radius = params.dialogParams.radius;
+        final SelectorBtn selectorBtn = new SelectorBtn(backgroundColor
+                , buttonParams.backgroundColorPress != 0
+                ? buttonParams.backgroundColorPress : params.dialogParams.backgroundColorPress
+                , radius, radius, radius, radius);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(new SelectorBtn(backgroundColor, radius, radius, radius, radius));
+            setBackground(selectorBtn);
         } else {
-            setBackgroundDrawable(new SelectorBtn(backgroundColor, radius, radius, radius, radius));
+            setBackgroundDrawable(selectorBtn);
         }
     }
 

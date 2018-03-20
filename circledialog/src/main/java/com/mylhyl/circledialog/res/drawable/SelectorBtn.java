@@ -12,16 +12,15 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 
 public class SelectorBtn extends StateListDrawable {
 
-    public SelectorBtn(int backgroundColor, int leftTopRadius, int rightTopRadius, int rightBottomRadius, int
-            leftBottomRadius) {
+    public SelectorBtn(int backgroundColor, int backgroundColorPress, int leftTopRadius
+            , int rightTopRadius, int rightBottomRadius, int leftBottomRadius) {
         //按下
-        ShapeDrawable drawablePress = new ShapeDrawable(DrawableHelper.getRoundRectShape(leftTopRadius, rightTopRadius,
-                rightBottomRadius, leftBottomRadius));
-        drawablePress.getPaint().setColor(CircleColor.buttonPress);
+        ShapeDrawable drawablePress = new ShapeDrawable(DrawableHelper.getRoundRectShape(
+                leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius));
+        drawablePress.getPaint().setColor(backgroundColorPress);
         //默认
-        ShapeDrawable defaultDrawable = new ShapeDrawable(DrawableHelper.getRoundRectShape(leftTopRadius,
-                rightTopRadius,
-                rightBottomRadius, leftBottomRadius));
+        ShapeDrawable defaultDrawable = new ShapeDrawable(DrawableHelper.getRoundRectShape(
+                leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius));
         defaultDrawable.getPaint().setColor(backgroundColor);
 
         addState(new int[]{android.R.attr.state_pressed}, drawablePress);

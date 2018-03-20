@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog.params;
 
-import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.InputType;
@@ -47,7 +46,7 @@ public class InputParams implements Parcelable {
     /**
      * 输入框的背景
      */
-    public int inputBackgroundColor = Color.TRANSPARENT;
+    public int inputBackgroundColor;
     /**
      * body视图的背景色
      */
@@ -70,6 +69,9 @@ public class InputParams implements Parcelable {
      */
     public int gravity = Gravity.LEFT | Gravity.TOP;
 
+    public InputParams() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,9 +90,8 @@ public class InputParams implements Parcelable {
         dest.writeInt(this.backgroundColor);
         dest.writeInt(this.textSize);
         dest.writeInt(this.textColor);
-    }
-
-    public InputParams() {
+        dest.writeInt(this.inputType);
+        dest.writeInt(this.gravity);
     }
 
     protected InputParams(Parcel in) {
@@ -105,10 +106,11 @@ public class InputParams implements Parcelable {
         this.backgroundColor = in.readInt();
         this.textSize = in.readInt();
         this.textColor = in.readInt();
+        this.inputType = in.readInt();
+        this.gravity = in.readInt();
     }
 
-    public static final Parcelable.Creator<InputParams> CREATOR = new Parcelable
-            .Creator<InputParams>() {
+    public static final Creator<InputParams> CREATOR = new Creator<InputParams>() {
         @Override
         public InputParams createFromParcel(Parcel source) {
             return new InputParams(source);

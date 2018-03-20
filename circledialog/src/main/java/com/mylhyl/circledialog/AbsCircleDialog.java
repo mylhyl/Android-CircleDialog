@@ -53,7 +53,7 @@ public final class AbsCircleDialog extends BaseCircleDialog {
             setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);
         setAnimations(dialogParams.animStyle);
         setDimEnabled(dialogParams.isDimEnabled);
-        setBackgroundColor(dialogParams.backgroundColor);
+        //setBackgroundColor(dialogParams.backgroundColor);
         setRadius(dialogParams.radius);
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);

@@ -75,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder(this)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColor = Color.DKGRAY;
+                                params.backgroundColorPress = Color.BLUE;
+                            }
+                        })
                         .setTitle("标题")
                         .setText("确定框")
                         .configText(new ConfigText() {
@@ -90,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
                             }
                         })
+                        .configPositive(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.backgroundColorPress = Color.RED;
+                            }
+                        })
                         .show();
                 break;
             case 2:
@@ -102,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(new ConfigDialog() {
                             @Override
                             public void onConfig(DialogParams params) {
+                                params.backgroundColor = Color.CYAN;
                                 //增加弹出动画
                                 params.animStyle = R.style.dialogWindowAnim;
                             }
@@ -122,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             public void onConfig(ButtonParams params) {
                                 //取消按钮字体颜色
                                 params.textColor = Color.RED;
+                                params.backgroundColorPress = Color.BLUE;
                             }
                         })
                         .show();
@@ -153,6 +168,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder(this);
                 builder.setCancelable(false).setCanceledOnTouchOutside(false)
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColor = Color.CYAN;
+                            }
+                        })
                         .setTitle("下载")
                         .setProgressText("已经下载")
 //                        .setProgressText("已经下载%s了")

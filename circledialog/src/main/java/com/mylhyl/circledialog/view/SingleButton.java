@@ -1,11 +1,8 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
@@ -16,8 +13,9 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 对话框单个按钮的视图
  * Created by hupei on 2017/3/30.
+ *
  * @hide
- * @deprecated 
+ * @deprecated
  */
 public final class SingleButton extends ScaleTextView implements Controller.OnClickListener {
     private CircleParams mCircleParams;
@@ -38,16 +36,20 @@ public final class SingleButton extends ScaleTextView implements Controller.OnCl
         handleStyle();
 
         //如果取消按钮没有背景色，则使用默认色
-        int backgroundColor = mButtonParams.backgroundColor != 0 ? mButtonParams.backgroundColor
-                : CircleColor.bgDialog;
+        int backgroundColor = mButtonParams.backgroundColor != 0
+                ? mButtonParams.backgroundColor : params.dialogParams.backgroundColor == 0
+                ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
 
         int radius = params.dialogParams.radius;
+        SelectorBtn selectorBtn = new SelectorBtn(backgroundColor
+                , mButtonParams.backgroundColorPress != 0
+                ? mButtonParams.backgroundColorPress : params.dialogParams.backgroundColorPress
+                , 0, 0, radius, radius);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(new SelectorBtn(backgroundColor, 0, 0, radius, radius));
+            setBackground(selectorBtn);
         } else {
-            setBackgroundDrawable(new SelectorBtn(backgroundColor, 0, 0, radius, radius));
+            setBackgroundDrawable(selectorBtn);
         }
-
     }
 
     private void handleStyle() {
@@ -59,7 +61,6 @@ public final class SingleButton extends ScaleTextView implements Controller.OnCl
 
     public void regOnClickListener(OnClickListener onClickListener) {
         setOnClickListener(onClickListener);
-
     }
 
     public void refreshText() {

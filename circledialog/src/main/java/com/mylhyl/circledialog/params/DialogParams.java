@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Gravity;
 
+import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
 /**
@@ -64,6 +65,13 @@ public class DialogParams implements Parcelable {
      * 对话框 y 坐标偏移
      */
     public int yOff;
+    /**
+     * 按下颜色值
+     */
+    public int backgroundColorPress = CircleColor.buttonPress;
+
+    public DialogParams() {
+    }
 
     @Override
     public int describeContents() {
@@ -85,9 +93,7 @@ public class DialogParams implements Parcelable {
         dest.writeInt(this.radius);
         dest.writeInt(this.xOff);
         dest.writeInt(this.yOff);
-    }
-
-    public DialogParams() {
+        dest.writeInt(this.backgroundColorPress);
     }
 
     protected DialogParams(Parcel in) {
@@ -104,9 +110,10 @@ public class DialogParams implements Parcelable {
         this.radius = in.readInt();
         this.xOff = in.readInt();
         this.yOff = in.readInt();
+        this.backgroundColorPress = in.readInt();
     }
 
-    public static final Parcelable.Creator<DialogParams> CREATOR = new Parcelable.Creator<DialogParams>() {
+    public static final Creator<DialogParams> CREATOR = new Creator<DialogParams>() {
         @Override
         public DialogParams createFromParcel(Parcel source) {
             return new DialogParams(source);

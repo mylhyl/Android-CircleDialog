@@ -46,6 +46,11 @@ public class ButtonParams implements Parcelable {
      */
     public int textColorDisable = CircleColor.buttonDisable;
 
+    /**
+     * 按下颜色值
+     */
+    public int backgroundColorPress;
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,6 +64,9 @@ public class ButtonParams implements Parcelable {
         dest.writeInt(this.height);
         dest.writeInt(this.backgroundColor);
         dest.writeString(this.text);
+        dest.writeByte(this.disable ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.textColorDisable);
+        dest.writeInt(this.backgroundColorPress);
     }
 
     public ButtonParams() {
@@ -71,6 +79,9 @@ public class ButtonParams implements Parcelable {
         this.height = in.readInt();
         this.backgroundColor = in.readInt();
         this.text = in.readString();
+        this.disable = in.readByte() != 0;
+        this.textColorDisable = in.readInt();
+        this.backgroundColorPress = in.readInt();
     }
 
     public static final Parcelable.Creator<ButtonParams> CREATOR = new Parcelable.Creator<ButtonParams>() {

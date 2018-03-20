@@ -14,6 +14,7 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 /**
  * 对话框纯文本视图
  * Created by hupei on 2017/3/30.
+ *
  * @hide
  */
 final class BodyTextView extends ScaleTextView {
@@ -35,8 +36,9 @@ final class BodyTextView extends ScaleTextView {
         setGravity(textParams.gravity);
 
         //如果标题没有背景色，则使用默认色
-        int backgroundColor = textParams.backgroundColor != 0 ? textParams.backgroundColor :
-                CircleColor.bgDialog;
+        int backgroundColor = textParams.backgroundColor != 0
+                ? textParams.backgroundColor : dialogParams.backgroundColor == 0
+                ? CircleColor.bgDialog : dialogParams.backgroundColor;
 
         //有标题没按钮则底部圆角
         if (titleParams != null && negativeParams == null && positiveParams == null) {

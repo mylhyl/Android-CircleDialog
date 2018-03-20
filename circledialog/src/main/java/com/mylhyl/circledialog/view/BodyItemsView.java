@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by hupei on 2017/3/30.
+ *
  * @hide
  */
 
@@ -90,9 +91,9 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             this.mItemsParams = params.itemsParams;
             this.mRadius = params.dialogParams.radius;
             //如果没有背景色，则使用默认色
-            this.mBackgroundColor = mItemsParams.backgroundColor != 0 ? mItemsParams
-                    .backgroundColor : CircleColor
-                    .bgDialog;
+            this.mBackgroundColor = mItemsParams.backgroundColor != 0
+                    ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor == 0
+                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
             Object entity = this.mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
                 this.mItems = (List<T>) entity;
@@ -141,40 +142,41 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             //top
             if (position == 0 && mTitleParams == null) {
                 if (getCount() == 1) {
+                    final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
+                            , mItemsParams.backgroundColorPress, mRadius, mRadius, mRadius, mRadius);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, mRadius,
-                                mRadius, mRadius, mRadius));
+                        viewHolder.item.setBackground(selectorBtn);
                     } else {
-                        viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor,
-                                mRadius, mRadius, mRadius, mRadius));
+                        viewHolder.item.setBackgroundDrawable(selectorBtn);
                     }
                 } else {
+                    final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
+                            , mItemsParams.backgroundColorPress, mRadius, mRadius, 0, 0);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor,
-                                mRadius, mRadius, 0, 0));
+                        viewHolder.item.setBackground(selectorBtn);
                     } else {
-                        viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor,
-                                mRadius, mRadius, 0, 0));
+                        viewHolder.item.setBackgroundDrawable(selectorBtn);
                     }
                 }
             }
             //bottom
             else if (position == getCount() - 1) {
+                final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
+                        , mItemsParams.backgroundColorPress, 0, 0, mRadius, mRadius);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, 0, 0,
-                            mRadius, mRadius));
+                    viewHolder.item.setBackground(selectorBtn);
                 } else {
-                    viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, 0, 0,
-                            mRadius, mRadius));
+                    viewHolder.item.setBackgroundDrawable(selectorBtn);
                 }
             }
             //middle
             else {
+                final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
+                        , mItemsParams.backgroundColorPress, 0, 0, 0, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    viewHolder.item.setBackground(new SelectorBtn(mBackgroundColor, 0, 0, 0, 0));
+                    viewHolder.item.setBackground(selectorBtn);
                 } else {
-                    viewHolder.item.setBackgroundDrawable(new SelectorBtn(mBackgroundColor, 0, 0,
-                            0, 0));
+                    viewHolder.item.setBackgroundDrawable(selectorBtn);
                 }
             }
             viewHolder.item.setText(String.valueOf(getItem(position).toString()));
