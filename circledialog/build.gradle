@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "20180313"
+        versionName "20180320"
     }
     buildTypes {
         release {
@@ -33,7 +33,7 @@ publish {
     userOrg = 'mylhyl'
     groupId = 'com.mylhyl'
     artifactId = 'circleDialog'
-    version = '2.4.0'
+    version = '2.4.1'
     description = 'circleDialog ios style'
     website = "https://github.com/mylhyl/Android-CircleDialog"
 }
