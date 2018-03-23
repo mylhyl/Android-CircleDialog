@@ -37,7 +37,7 @@ public final class ItemsButton extends ScaleTextView implements Controller.OnCli
         if (params.itemsParams != null) buttonParams.topMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup
-                .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.topMargin = ScaleUtils.scaleValue(buttonParams.topMargin);
         setLayoutParams(layoutParams);
 

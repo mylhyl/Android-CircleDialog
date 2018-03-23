@@ -41,7 +41,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
                 .MATCH_PARENT, LayoutParams
-                .MATCH_PARENT);
+                .MATCH_PARENT,1);
         setLayoutParams(layoutParams);
         this.params = params;
         setSelector(new ColorDrawable(Color.TRANSPARENT));
