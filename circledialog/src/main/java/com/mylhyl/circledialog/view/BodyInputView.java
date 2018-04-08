@@ -16,6 +16,8 @@ import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 
+import static com.mylhyl.circledialog.Controller.BUTTON_POSITIVE;
+
 /**
  * Created by hupei on 2017/3/31.
  *
@@ -109,10 +111,10 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
 
     @Override
     public void onClick(View view, int which) {
-        if (view instanceof BodyInputView) {
+        if (view instanceof BodyInputView && which == BUTTON_POSITIVE) {
             BodyInputView inputView = (BodyInputView) view;
             String text = inputView.getInput().getText().toString();
-            if (!TextUtils.isEmpty(text) && params.inputListener != null) {
+            if (params.inputListener != null) {
                 params.inputListener.onClick(text, inputView.getInput());
 
             }

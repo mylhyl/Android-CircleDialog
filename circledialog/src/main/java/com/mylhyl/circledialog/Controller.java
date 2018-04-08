@@ -157,22 +157,19 @@ public class Controller {
                 multipleButton.regPositiveListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!TextUtils.isEmpty(bodyInputView.getInput().getText())) {
-                            mHandler.obtainMessage(BUTTON_POSITIVE, bodyInputView).sendToTarget();
+                        mHandler.obtainMessage(BUTTON_POSITIVE, bodyInputView).sendToTarget();
+                        if (!mParams.inputParams.isManualClose)
                             mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
                                     .sendToTarget();
-                        }
 
                     }
                 });
                 multipleButton.regNeutralListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!TextUtils.isEmpty(bodyInputView.getInput().getText())) {
-                            mHandler.obtainMessage(BUTTON_NEUTRAL, bodyInputView).sendToTarget();
-                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                                    .sendToTarget();
-                        }
+                        mHandler.obtainMessage(BUTTON_NEUTRAL, bodyInputView).sendToTarget();
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                                .sendToTarget();
                     }
                 });
             }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +37,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
     private CircleDialog.Builder builder;
+    private DialogFragment dialogFragment;
     int time = 30;
 
     @Override
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 3:
-                new CircleDialog.Builder()
+                dialogFragment = new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
                         .setTitle("输入框")
@@ -153,13 +155,19 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
                                 params.gravity = Gravity.CENTER;
                                 params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
+                                params.isManualClose = true;
                             }
                         })
                         .setNegative("取消", null)
                         .setPositiveInput("确定", new OnInputClickListener() {
                             @Override
                             public void onClick(String text, View v) {
-                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                                if (TextUtils.isEmpty(text)) {
+                                    Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                                    dialogFragment.dismiss();
+                                }
                             }
                         })
                         .show(getSupportFragmentManager());
