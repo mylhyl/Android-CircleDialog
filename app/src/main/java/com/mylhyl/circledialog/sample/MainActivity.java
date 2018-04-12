@@ -21,12 +21,16 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
+import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
+import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
@@ -123,7 +127,20 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .setTitle("标题")
-                        .setTitleColor(Color.BLUE)
+//                        .setTitleColor(Color.BLUE)
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+//                                params.backgroundColor = Color.RED;
+                            }
+                        })
+                        .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
+                        .configSubTitle(new ConfigSubTitle() {
+                            @Override
+                            public void onConfig(SubTitleParams params) {
+//                                params.backgroundColor = Color.YELLOW;
+                            }
+                        })
                         .setItems(items, new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int

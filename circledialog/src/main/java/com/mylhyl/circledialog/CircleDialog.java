@@ -16,6 +16,7 @@ import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigProgress;
+import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
@@ -23,6 +24,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -160,6 +162,30 @@ public final class CircleDialog {
         private void newTitleParams() {
             if (mCircleParams.titleParams == null)
                 mCircleParams.titleParams = new TitleParams();
+        }
+
+
+        public Builder setSubTitle(@NonNull String text) {
+            newSubTitleParams();
+            mCircleParams.subTitleParams.text = text;
+            return this;
+        }
+
+        public Builder setSubTitleColor(@ColorInt int color) {
+            newSubTitleParams();
+            mCircleParams.subTitleParams.textColor = color;
+            return this;
+        }
+
+        public Builder configSubTitle(@NonNull ConfigSubTitle configSubTitle) {
+            newSubTitleParams();
+            configSubTitle.onConfig(mCircleParams.subTitleParams);
+            return this;
+        }
+
+        private void newSubTitleParams() {
+            if (mCircleParams.subTitleParams == null)
+                mCircleParams.subTitleParams = new SubTitleParams();
         }
 
         public Builder setText(@NonNull String text) {

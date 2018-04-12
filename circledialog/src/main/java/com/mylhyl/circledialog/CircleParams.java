@@ -10,6 +10,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -47,6 +48,7 @@ public class CircleParams implements Parcelable {
 
     public DialogParams dialogParams;
     public TitleParams titleParams;
+    public SubTitleParams subTitleParams;
     public TextParams textParams;
     public ButtonParams negativeParams;
     public ButtonParams positiveParams;
@@ -64,6 +66,7 @@ public class CircleParams implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.dialogParams, flags);
         dest.writeParcelable(this.titleParams, flags);
+        dest.writeParcelable(this.subTitleParams, flags);
         dest.writeParcelable(this.textParams, flags);
         dest.writeParcelable(this.negativeParams, flags);
         dest.writeParcelable(this.positiveParams, flags);
@@ -79,6 +82,7 @@ public class CircleParams implements Parcelable {
     protected CircleParams(Parcel in) {
         this.dialogParams = in.readParcelable(DialogParams.class.getClassLoader());
         this.titleParams = in.readParcelable(TitleParams.class.getClassLoader());
+        this.subTitleParams = in.readParcelable(SubTitleParams.class.getClassLoader());
         this.textParams = in.readParcelable(TextParams.class.getClassLoader());
         this.negativeParams = in.readParcelable(ButtonParams.class.getClassLoader());
         this.positiveParams = in.readParcelable(ButtonParams.class.getClassLoader());
@@ -88,7 +92,8 @@ public class CircleParams implements Parcelable {
         this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<CircleParams> CREATOR = new Parcelable.Creator<CircleParams>() {
+    public static final Parcelable.Creator<CircleParams> CREATOR = new Parcelable
+            .Creator<CircleParams>() {
         @Override
         public CircleParams createFromParcel(Parcel source) {
             return new CircleParams(source);

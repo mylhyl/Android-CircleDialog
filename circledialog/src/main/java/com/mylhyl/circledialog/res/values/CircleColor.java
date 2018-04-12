@@ -15,6 +15,10 @@ public class CircleColor {
      */
     public static final int title = 0xFF000000;
     /**
+     * 副标题颜色
+     */
+    public static final int subtitle = 0x9F000000;
+    /**
      * 消息内容颜色
      */
     public static final int content = 0xFF8F8F8F;

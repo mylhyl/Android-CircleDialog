@@ -16,6 +16,12 @@ public class CircleDimen {
      * 标题字体大小
      */
     public static final int TITLE_TEXT_SIZE = 60;
+
+    /**
+     * 副标题字体大小
+     */
+    public static final int SUBTITLE_TEXT_SIZE = 52;
+
     /**
      * 文字消息字体大小
      */
