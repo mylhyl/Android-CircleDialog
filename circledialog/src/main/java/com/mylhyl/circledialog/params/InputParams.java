@@ -70,7 +70,7 @@ public class InputParams implements Parcelable {
     public int gravity = Gravity.LEFT | Gravity.TOP;
 
     /**
-     * 手动关闭对话框
+     * 是否触发自动关闭对话框
      */
     public boolean isManualClose;
 

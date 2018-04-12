@@ -3,7 +3,6 @@ package com.mylhyl.circledialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -119,8 +118,8 @@ public class Controller {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     mHandler.obtainMessage(position, bodyItemsView).sendToTarget();
-                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                            .sendToTarget();
+                    if (!mParams.itemsParams.isManualClose)
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                 }
             });
             //有确定或者有取消按钮
@@ -129,9 +128,9 @@ public class Controller {
                 itemsButton.regOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mHandler.obtainMessage(mParams.positiveParams != null ? BUTTON_POSITIVE : BUTTON_NEGATIVE, itemsButton).sendToTarget();
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                                .sendToTarget();
+                        mHandler.obtainMessage(mParams.positiveParams != null
+                                ? BUTTON_POSITIVE : BUTTON_NEGATIVE, itemsButton).sendToTarget();
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
             }
@@ -144,14 +143,14 @@ public class Controller {
         //输入框
         else if (mParams.inputParams != null) {
             final BodyInputView bodyInputView = mCreateView.buildInput();
-            if (mParams.positiveParams != null || mParams.negativeParams != null || mParams.neutralParams != null) {
+            if (mParams.positiveParams != null || mParams.negativeParams != null
+                    || mParams.neutralParams != null) {
                 final MultipleButton multipleButton = mCreateView.buildMultipleButton();
                 multipleButton.regNegativeListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mHandler.obtainMessage(BUTTON_NEGATIVE, bodyInputView).sendToTarget();
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                                .sendToTarget();
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
                 multipleButton.regPositiveListener(new View.OnClickListener() {
@@ -159,8 +158,7 @@ public class Controller {
                     public void onClick(View v) {
                         mHandler.obtainMessage(BUTTON_POSITIVE, bodyInputView).sendToTarget();
                         if (!mParams.inputParams.isManualClose)
-                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                                    .sendToTarget();
+                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
 
                     }
                 });
@@ -168,8 +166,7 @@ public class Controller {
                     @Override
                     public void onClick(View v) {
                         mHandler.obtainMessage(BUTTON_NEUTRAL, bodyInputView).sendToTarget();
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                                .sendToTarget();
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
             }

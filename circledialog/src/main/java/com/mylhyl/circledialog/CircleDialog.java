@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
@@ -214,7 +215,8 @@ public final class CircleDialog {
                 mCircleParams.textParams = new TextParams();
         }
 
-        public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
+        public Builder setItems(@NonNull Object items
+                , AdapterView.OnItemClickListener listener) {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
@@ -222,6 +224,26 @@ public final class CircleDialog {
             return this;
         }
 
+        public Builder setItems(@NonNull BaseAdapter adapter
+                , AdapterView.OnItemClickListener listener) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.itemsParams;
+            params.adapter = adapter;
+            mCircleParams.itemListener = listener;
+            return this;
+        }
+
+        /**
+         * 设置items否触发自动关闭对话框，默认自动
+         *
+         * @param manualClose true=手动；false=自动
+         * @return Builder
+         */
+        public Builder setItemsManualClose(boolean manualClose) {
+            newItemsParams();
+            mCircleParams.itemsParams.isManualClose = manualClose;
+            return this;
+        }
 
         public Builder configItems(@NonNull ConfigItems configItems) {
             newItemsParams();
@@ -311,6 +333,18 @@ public final class CircleDialog {
         public Builder setInputHeight(int height) {
             newInputParams();
             mCircleParams.inputParams.inputHeight = height;
+            return this;
+        }
+
+        /**
+         * 设置是否触发自动关闭对话框，默认自动
+         *
+         * @param manualClose true=手动；false=自动
+         * @return Builder
+         */
+        public Builder setInputManualClose(boolean manualClose) {
+            newInputParams();
+            mCircleParams.inputParams.isManualClose = manualClose;
             return this;
         }
 

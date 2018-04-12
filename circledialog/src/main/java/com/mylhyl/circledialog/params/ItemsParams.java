@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -41,6 +42,13 @@ public class ItemsParams implements Parcelable {
      */
     public int backgroundColorPress;
 
+    /**
+     * 是否触发自动关闭对话框
+     */
+    public boolean isManualClose;
+
+    public BaseAdapter adapter;
+
     public ItemsParams() {
     }
 
@@ -57,6 +65,7 @@ public class ItemsParams implements Parcelable {
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
         dest.writeInt(this.backgroundColorPress);
+        dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
     }
 
     protected ItemsParams(Parcel in) {
@@ -66,6 +75,7 @@ public class ItemsParams implements Parcelable {
         this.textColor = in.readInt();
         this.textSize = in.readInt();
         this.backgroundColorPress = in.readInt();
+        this.isManualClose = in.readByte() != 0;
     }
 
     public static final Creator<ItemsParams> CREATOR = new Creator<ItemsParams>() {

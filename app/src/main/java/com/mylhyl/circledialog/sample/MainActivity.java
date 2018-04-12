@@ -31,6 +31,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     private CircleDialog.Builder builder;
     private DialogFragment dialogFragment;
     int time = 30;
+    List<String> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +54,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        List<String> data = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
+        listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时", "三个按钮"});
+                , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义adapter"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
-                , data) {
+                , listData) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
                 helper.setText(android.R.id.text1, item);
@@ -126,21 +128,21 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.animStyle = R.style.dialogWindowAnim;
                             }
                         })
-//                        .setTitle("标题")
+                        .setTitle("标题")
 //                        .setTitleColor(Color.BLUE)
-//                        .configTitle(new ConfigTitle() {
-//                            @Override
-//                            public void onConfig(TitleParams params) {
-////                                params.backgroundColor = Color.RED;
-//                            }
-//                        })
-//                        .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
-//                        .configSubTitle(new ConfigSubTitle() {
-//                            @Override
-//                            public void onConfig(SubTitleParams params) {
-////                                params.backgroundColor = Color.YELLOW;
-//                            }
-//                        })
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+//                                params.backgroundColor = Color.RED;
+                            }
+                        })
+                        .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
+                        .configSubTitle(new ConfigSubTitle() {
+                            @Override
+                            public void onConfig(SubTitleParams params) {
+//                                params.backgroundColor = Color.YELLOW;
+                            }
+                        })
                         .setItems(items, new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int
@@ -164,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
+                        .setInputManualClose(true)
                         .setTitle("输入框")
                         .setInputHint("请输入条件")
                         .configInput(new ConfigInput() {
@@ -172,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
                                 params.gravity = Gravity.CENTER;
                                 params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
-                                params.isManualClose = true;
                             }
                         })
                         .setNegative("取消", null)
@@ -338,6 +340,36 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             @Override
                             public void onClick(View v) {
                                 Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show(getSupportFragmentManager());
+                break;
+            case 11:
+                final String[] objects = {"item0", "item1", "item2", "item3"};
+                final CheckedAdapter checkedAdapter = new CheckedAdapter(this, objects);
+
+                new CircleDialog.Builder()
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColorPress = Color.CYAN;
+                            }
+                        })
+                        .setTitle(listData.get(position))
+                        .setSubTitle("可多选")
+                        .setItems(checkedAdapter, new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                checkedAdapter.toggle(position, objects[position]);
+                            }
+                        })
+                        .setItemsManualClose(true)
+                        .setPositive("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this
+                                        , "选择了：" + checkedAdapter.getSaveChecked().toString()
+                                        , Toast.LENGTH_SHORT).show();
                             }
                         })
                         .show(getSupportFragmentManager());

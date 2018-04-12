@@ -72,7 +72,10 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
         setDivider(new ColorDrawable(CircleColor.divider));
         setDividerHeight(1);
 
-        mAdapter = new ItemsAdapter(context, params);
+        mAdapter = itemsParams.adapter;
+        if (mAdapter == null) {
+            mAdapter = new ItemsAdapter(context, params);
+        }
         setAdapter(mAdapter);
     }
 
