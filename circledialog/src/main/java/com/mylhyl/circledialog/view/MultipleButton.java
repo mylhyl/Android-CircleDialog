@@ -9,7 +9,6 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
-import com.mylhyl.circledialog.res.values.CircleColor;
 
 /**
  * 对话框确定按钮与取消的视图
@@ -46,8 +45,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             createNegative();
             //如果取消按钮没有背景色，则使用默认色
             backgroundNegative = mNegativeParams.backgroundColor != 0
-                    ? mNegativeParams.backgroundColor : params.dialogParams.backgroundColor == 0
-                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
+                    ? mNegativeParams.backgroundColor : params.dialogParams.backgroundColor;
         }
         if (mNeutralParams != null) {
             if (mNegativeButton != null) {
@@ -57,8 +55,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             createNeutral();
             //如果取消按钮没有背景色，则使用默认色
             backgroundNeutral = mNeutralParams.backgroundColor != 0
-                    ? mNeutralParams.backgroundColor : params.dialogParams.backgroundColor == 0
-                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
+                    ? mNeutralParams.backgroundColor : params.dialogParams.backgroundColor;
 
 
         }
@@ -71,8 +68,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             createPositive();
             //如果取消按钮没有背景色，则使用默认色
             backgroundPositive = mPositiveParams.backgroundColor != 0
-                    ? mPositiveParams.backgroundColor : params.dialogParams.backgroundColor == 0
-                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
+                    ? mPositiveParams.backgroundColor : params.dialogParams.backgroundColor;
         }
 
         if (mNegativeButton != null && mNegativeParams != null) {

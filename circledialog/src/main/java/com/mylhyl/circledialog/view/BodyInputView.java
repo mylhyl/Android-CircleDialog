@@ -2,7 +2,6 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,7 +13,6 @@ import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
-import com.mylhyl.circledialog.res.values.CircleColor;
 
 import static com.mylhyl.circledialog.Controller.BUTTON_POSITIVE;
 
@@ -42,8 +40,8 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
         ButtonParams positiveParams = params.positiveParams;
 
         //如果标题没有背景色，则使用默认色
-        int backgroundColor = inputParams.backgroundColor != 0 ? inputParams.backgroundColor :
-                CircleColor.bgDialog;
+        int backgroundColor = inputParams.backgroundColor != 0
+                ? inputParams.backgroundColor : dialogParams.backgroundColor;
 
         //有标题没按钮则底部圆角
         if (titleParams != null && negativeParams == null && positiveParams == null) {

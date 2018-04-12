@@ -6,13 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.mylhyl.circledialog.Controller;
-import com.mylhyl.circledialog.scale.ScaleUtils;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
-import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 
 /**
  * 列表对话框的取消按钮视图
@@ -50,8 +49,7 @@ public final class ItemsButton extends ScaleTextView implements Controller.OnCli
 
         //如果取消按钮没有背景色，则使用默认色
         int backgroundColor = buttonParams.backgroundColor != 0
-                ? buttonParams.backgroundColor : params.dialogParams.backgroundColor == 0
-                ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
+                ? buttonParams.backgroundColor : params.dialogParams.backgroundColor;
         int radius = params.dialogParams.radius;
         final SelectorBtn selectorBtn = new SelectorBtn(backgroundColor
                 , buttonParams.backgroundColorPress != 0

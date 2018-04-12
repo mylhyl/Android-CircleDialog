@@ -14,7 +14,6 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
 import java.lang.reflect.Field;
@@ -46,8 +45,7 @@ final class BodyProgressView extends ScaleLinearLayout {
 
         //如果没有背景色，则使用默认色
         int backgroundColor = mProgressParams.backgroundColor != 0
-                ? mProgressParams.backgroundColor : dialogParams.backgroundColor == 0
-                ? CircleColor.bgDialog : dialogParams.backgroundColor;
+                ? mProgressParams.backgroundColor : dialogParams.backgroundColor;
 
         //有标题没按钮则底部圆角
         if (titleParams != null && negativeParams == null && positiveParams == null) {

@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog.params;
 
-import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Gravity;
@@ -50,9 +49,9 @@ public class DialogParams implements Parcelable {
      */
     public boolean isDimEnabled = true;
     /**
-     * 对话框的背景色透明，因为列表模式情况，内容与按钮中间有距离
+     * 对话框的背景色
      */
-    public int backgroundColor = Color.TRANSPARENT;
+    public int backgroundColor = CircleColor.bgDialog;
     /**
      * 对话框的圆角半径
      */

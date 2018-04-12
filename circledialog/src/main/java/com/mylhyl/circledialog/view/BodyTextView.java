@@ -3,13 +3,12 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.os.Build;
 
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.values.CircleColor;
 
 /**
  * 对话框纯文本视图
@@ -37,8 +36,7 @@ final class BodyTextView extends ScaleTextView {
 
         //如果标题没有背景色，则使用默认色
         int backgroundColor = textParams.backgroundColor != 0
-                ? textParams.backgroundColor : dialogParams.backgroundColor == 0
-                ? CircleColor.bgDialog : dialogParams.backgroundColor;
+                ? textParams.backgroundColor : dialogParams.backgroundColor;
 
         //有标题没按钮则底部圆角
         if (titleParams != null && negativeParams == null && positiveParams == null) {

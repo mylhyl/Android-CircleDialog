@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,7 +31,11 @@ import java.util.List;
 
 public final class BodyItemsView extends ListView implements Controller.OnClickListener {
     private BaseAdapter mAdapter;
-    private CircleParams params;
+    private CircleParams mParams;
+    private TitleParams mTitleParams;
+    private int mRadius;
+    private int mBackgroundColor;
+    private int mBackgroundColorPress;
 
     public BodyItemsView(Context context, CircleParams params) {
         super(context);
@@ -41,9 +46,28 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
                 .MATCH_PARENT, LayoutParams
-                .MATCH_PARENT,1);
+                .MATCH_PARENT, 1);
         setLayoutParams(layoutParams);
-        this.params = params;
+        this.mParams = params;
+        this.mTitleParams = params.titleParams;
+        ItemsParams itemsParams = params.itemsParams;
+
+        this.mRadius = mParams.dialogParams.radius;
+        //如果没有背景色，则使用默认色
+        this.mBackgroundColor = itemsParams.backgroundColor != 0
+                ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
+        this.mBackgroundColorPress = itemsParams.backgroundColorPress != 0
+                ? itemsParams.backgroundColorPress : mParams.dialogParams.backgroundColorPress;
+
+        final SelectorBtn listViewBg = new SelectorBtn(mBackgroundColor, mBackgroundColor
+                , mTitleParams != null ? 0 : mRadius, mTitleParams != null ? 0 : mRadius
+                , mRadius, mRadius);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(listViewBg);
+        } else {
+            setBackgroundDrawable(listViewBg);
+        }
+
         setSelector(new ColorDrawable(Color.TRANSPARENT));
         setDivider(new ColorDrawable(CircleColor.divider));
         setDividerHeight(1);
@@ -67,11 +91,57 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
 
     @Override
     public void onClick(View view, int which) {
-        if (params.itemListener != null) {
-            params.itemListener.onItemClick((AdapterView<?>) view, view, which, which);
+        if (mParams.itemListener != null) {
+            mParams.itemListener.onItemClick((AdapterView<?>) view, view, which, which);
         }
     }
 
+    /****
+     * 拦截触摸事件
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                int x = (int) ev.getX();
+                int y = (int) ev.getY();
+                int position = pointToPosition(x, y);
+                if (position == AdapterView.INVALID_POSITION)
+                    break;
+                else {
+                    //top
+                    if (position == 0 && mTitleParams == null) {
+                        if (position == (getAdapter().getCount() - 1)) {
+                            final SelectorBtn selectorTopOne = new SelectorBtn(mBackgroundColor
+                                    , mBackgroundColorPress, mRadius, mRadius, mRadius, mRadius);
+                            setSelector(selectorTopOne);
+                        } else {
+                            final SelectorBtn selectorTop = new SelectorBtn(mBackgroundColor
+                                    , mBackgroundColorPress, mRadius, mRadius, 0, 0);
+                            setSelector(selectorTop);
+                        }
+                    }
+                    //bottom
+                    else if (position == (getAdapter().getCount() - 1)) {
+                        // 最后一项
+                        final SelectorBtn selectorBottom = new SelectorBtn(mBackgroundColor
+                                , mBackgroundColorPress, 0, 0, mRadius, mRadius);
+                        setSelector(selectorBottom);
+                    }
+                    //middle
+                    else {
+                        // 中间项
+                        final SelectorBtn selectorMiddle = new SelectorBtn(mBackgroundColor
+                                , mBackgroundColorPress, 0, 0, 0, 0);
+                        setSelector(selectorMiddle);
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
 
     static class ItemsAdapter<T> extends BaseAdapter {
         class ViewHolder {
@@ -80,23 +150,12 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
 
         private Context mContext;
         private List<T> mItems;
-        private int mRadius;
-        private int mBackgroundColor;
-        private int mBackgroundColorPress;
         private ItemsParams mItemsParams;
-        private TitleParams mTitleParams;
 
         public ItemsAdapter(Context context, CircleParams params) {
             this.mContext = context;
-            this.mTitleParams = params.titleParams;
             this.mItemsParams = params.itemsParams;
-            this.mRadius = params.dialogParams.radius;
-            //如果没有背景色，则使用默认色
-            this.mBackgroundColor = mItemsParams.backgroundColor != 0
-                    ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor == 0
-                    ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
-            this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
-                    ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
+
             Object entity = this.mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
                 this.mItems = (List<T>) entity;
@@ -140,47 +199,6 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            //top
-            if (position == 0 && mTitleParams == null) {
-                if (getCount() == 1) {
-                    final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                            , mBackgroundColorPress, mRadius, mRadius, mRadius, mRadius);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        viewHolder.item.setBackground(selectorBtn);
-                    } else {
-                        viewHolder.item.setBackgroundDrawable(selectorBtn);
-                    }
-                } else {
-                    final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                            , mBackgroundColorPress, mRadius, mRadius, 0, 0);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        viewHolder.item.setBackground(selectorBtn);
-                    } else {
-                        viewHolder.item.setBackgroundDrawable(selectorBtn);
-                    }
-                }
-            }
-            //bottom
-            else if (position == getCount() - 1) {
-                final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                        , mBackgroundColorPress, 0, 0, mRadius, mRadius);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    viewHolder.item.setBackground(selectorBtn);
-                } else {
-                    viewHolder.item.setBackgroundDrawable(selectorBtn);
-                }
-            }
-            //middle
-            else {
-                final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                        , mBackgroundColorPress, 0, 0, 0, 0);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    viewHolder.item.setBackground(selectorBtn);
-                } else {
-                    viewHolder.item.setBackgroundDrawable(selectorBtn);
-                }
             }
             viewHolder.item.setText(String.valueOf(getItem(position).toString()));
             return convertView;

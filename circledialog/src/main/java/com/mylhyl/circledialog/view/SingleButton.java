@@ -8,7 +8,6 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
-import com.mylhyl.circledialog.res.values.CircleColor;
 
 /**
  * 对话框单个按钮的视图
@@ -37,8 +36,7 @@ public final class SingleButton extends ScaleTextView implements Controller.OnCl
 
         //如果取消按钮没有背景色，则使用默认色
         int backgroundColor = mButtonParams.backgroundColor != 0
-                ? mButtonParams.backgroundColor : params.dialogParams.backgroundColor == 0
-                ? CircleColor.bgDialog : params.dialogParams.backgroundColor;
+                ? mButtonParams.backgroundColor : params.dialogParams.backgroundColor;
 
         int radius = params.dialogParams.radius;
         SelectorBtn selectorBtn = new SelectorBtn(backgroundColor

@@ -126,21 +126,21 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.animStyle = R.style.dialogWindowAnim;
                             }
                         })
-                        .setTitle("标题")
+//                        .setTitle("标题")
 //                        .setTitleColor(Color.BLUE)
-                        .configTitle(new ConfigTitle() {
-                            @Override
-                            public void onConfig(TitleParams params) {
-//                                params.backgroundColor = Color.RED;
-                            }
-                        })
-                        .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
-                        .configSubTitle(new ConfigSubTitle() {
-                            @Override
-                            public void onConfig(SubTitleParams params) {
-//                                params.backgroundColor = Color.YELLOW;
-                            }
-                        })
+//                        .configTitle(new ConfigTitle() {
+//                            @Override
+//                            public void onConfig(TitleParams params) {
+////                                params.backgroundColor = Color.RED;
+//                            }
+//                        })
+//                        .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
+//                        .configSubTitle(new ConfigSubTitle() {
+//                            @Override
+//                            public void onConfig(SubTitleParams params) {
+////                                params.backgroundColor = Color.YELLOW;
+//                            }
+//                        })
                         .setItems(items, new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int

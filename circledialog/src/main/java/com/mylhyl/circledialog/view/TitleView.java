@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.widget.LinearLayout;
 
@@ -10,7 +9,6 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.values.CircleColor;
 
 /**
  * 对话框标题
@@ -63,7 +61,7 @@ final class TitleView extends ScaleLinearLayout {
 
     private void setTitleBg(ScaleTextView tv, CircleParams params, int tbg, int dbg, int radius) {
         //如果标题没有背景色，则使用默认色
-        int bg = tbg != 0 ? tbg : dbg == 0 ? CircleColor.bgDialog : dbg;
+        int bg = tbg != 0 ? tbg : dbg;
 
         //有内容则顶部圆角
         if (params.textParams != null || params.itemsParams != null || params.progressParams != null
@@ -86,7 +84,7 @@ final class TitleView extends ScaleLinearLayout {
 
     private void setSubTitleBg(ScaleTextView tv, int tbg, int dbg) {
         //如果标题没有背景色，则使用默认色
-        int bg = tbg != 0 ? tbg : dbg == 0 ? CircleColor.bgDialog : dbg;
+        int bg = tbg != 0 ? tbg : dbg;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             tv.setBackground(new CircleDrawable(bg, 0));
