@@ -3,23 +3,24 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
  * Created by hupei on 2017/3/29.
+ *
  * @hide
  */
 
-public final  class BuildViewImpl implements BuildView {
+public final class BuildViewImpl implements BuildView {
     private Context mContext;
     private CircleParams mParams;
     private LinearLayout mRoot;
     private TitleView mTitleView;
     private BodyTextView mBodyTextView;
-    private BodyItemsView mBodyItemsView;
+    private ItemsView mItemsView;
     private BodyProgressView mBodyProgressView;
     private BodyInputView mBodyInputView;
     private ItemsButton mItemsButton;
@@ -64,12 +65,17 @@ public final  class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public BodyItemsView buildItems() {
-        if (mBodyItemsView == null) {
-            mBodyItemsView = new BodyItemsView(mContext, mParams);
-            mRoot.addView(mBodyItemsView);
+    public ItemsView buildItems() {
+        if (mItemsView == null) {
+
+            if (mParams.itemListener != null)
+                mItemsView = new BodyItemsView(mContext, mParams);
+            else if (mParams.rvItemListener != null)
+                mItemsView = new BodyItemsRvView(mContext, mParams);
+
+            mRoot.addView(mItemsView.getView());
         }
-        return mBodyItemsView;
+        return mItemsView;
     }
 
     @Override
@@ -82,9 +88,9 @@ public final  class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public ListView refreshItems() {
-        if (mBodyItemsView != null) mBodyItemsView.refreshItems();
-        return mBodyItemsView;
+    public ItemsView refreshItems() {
+        if (mItemsView != null) mItemsView.refreshItems();
+        return mItemsView;
     }
 
     @Override

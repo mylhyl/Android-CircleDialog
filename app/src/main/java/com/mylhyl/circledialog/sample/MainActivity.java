@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -34,7 +35,9 @@ import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
@@ -56,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义adapter"});
+                , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter"
+                , "Rv换头像"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -370,6 +374,54 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 Toast.makeText(MainActivity.this
                                         , "选择了：" + checkedAdapter.getSaveChecked().toString()
                                         , Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show(getSupportFragmentManager());
+                break;
+            case 12:
+                final List<PictureType> list = new ArrayList<>();
+                list.add(new PictureType(1, "拍照"));
+                list.add(new PictureType(2, "从相册选择"));
+                list.add(new PictureType(3, "小视频"));
+                new CircleDialog.Builder()
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColorPress = Color.CYAN;
+                                //增加弹出动画
+                                params.animStyle = R.style.dialogWindowAnim;
+                            }
+                        })
+                        .setTitle("标题")
+                        .setTitleColor(Color.BLUE)
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+//                                params.backgroundColor = Color.RED;
+                            }
+                        })
+                        .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
+                        .configSubTitle(new ConfigSubTitle() {
+                            @Override
+                            public void onConfig(SubTitleParams params) {
+//                                params.backgroundColor = Color.YELLOW;
+                            }
+                        })
+                        .setItems(list,new LinearLayoutManager(MainActivity.this)
+                                , new OnRvItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
+                                        , Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegative("取消", null)
+                        .configNegative(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                //取消按钮字体颜色
+                                params.textColor = Color.RED;
+                                params.backgroundColorPress = Color.BLUE;
                             }
                         })
                         .show(getSupportFragmentManager());

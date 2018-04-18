@@ -19,6 +19,8 @@ import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.view.listener.ItemsView;
+import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +31,7 @@ import java.util.List;
  * @hide
  */
 
-public final class BodyItemsView extends ListView implements Controller.OnClickListener {
+public final class BodyItemsView extends ListView implements Controller.OnClickListener, ItemsView {
     private BaseAdapter mAdapter;
     private CircleParams mParams;
     private TitleParams mTitleParams;
@@ -79,10 +81,22 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
         setAdapter(mAdapter);
     }
 
+    @Override
     public void regOnItemClickListener(OnItemClickListener onItemClickListener) {
         setOnItemClickListener(onItemClickListener);
     }
 
+    @Override
+    public void regOnItemClickListener(OnRvItemClickListener listener) {
+
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
     public void refreshItems() {
         post(new Runnable() {
             @Override

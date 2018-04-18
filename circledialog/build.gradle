@@ -27,6 +27,7 @@ android {
 
 dependencies {
     provided rootProject.ext.dependencies.appcompatV7
+    provided rootProject.ext.dependencies.recyclerview
 }
 
 publish {

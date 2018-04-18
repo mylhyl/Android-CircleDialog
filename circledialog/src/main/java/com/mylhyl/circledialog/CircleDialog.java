@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -215,12 +217,21 @@ public final class CircleDialog {
                 mCircleParams.textParams = new TextParams();
         }
 
-        public Builder setItems(@NonNull Object items
-                , AdapterView.OnItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             mCircleParams.itemListener = listener;
+            return this;
+        }
+
+        public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
+                , OnRvItemClickListener listener) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.itemsParams;
+            params.items = items;
+            mCircleParams.layoutManager = layoutManager;
+            mCircleParams.rvItemListener = listener;
             return this;
         }
 

@@ -9,10 +9,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 
 import com.mylhyl.circledialog.view.BodyInputView;
-import com.mylhyl.circledialog.view.BodyItemsView;
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.ItemsButton;
 import com.mylhyl.circledialog.view.MultipleButton;
+import com.mylhyl.circledialog.view.listener.ItemsView;
+import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -113,15 +114,26 @@ public class Controller {
         }
         //列表
         else if (mParams.itemsParams != null) {
-            final BodyItemsView bodyItemsView = mCreateView.buildItems();
-            bodyItemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    mHandler.obtainMessage(position, bodyItemsView).sendToTarget();
-                    if (!mParams.itemsParams.isManualClose)
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-                }
-            });
+            final ItemsView itemsView = mCreateView.buildItems();
+            if (mParams.itemListener != null) {
+                itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mHandler.obtainMessage(position, itemsView).sendToTarget();
+                        if (!mParams.itemsParams.isManualClose)
+                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                    }
+                });
+            } else if (mParams.rvItemListener != null) {
+                itemsView.regOnItemClickListener(new OnRvItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        mHandler.obtainMessage(position, itemsView).sendToTarget();
+                        if (!mParams.itemsParams.isManualClose)
+                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                    }
+                });
+            }
             //有确定或者有取消按钮
             if (mParams.positiveParams != null || mParams.negativeParams != null) {
                 final ItemsButton itemsButton = mCreateView.buildItemsButton();

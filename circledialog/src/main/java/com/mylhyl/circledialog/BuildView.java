@@ -7,6 +7,7 @@ import com.mylhyl.circledialog.view.BodyInputView;
 import com.mylhyl.circledialog.view.BodyItemsView;
 import com.mylhyl.circledialog.view.ItemsButton;
 import com.mylhyl.circledialog.view.MultipleButton;
+import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -36,7 +37,7 @@ public interface BuildView {
     /**
      * 生成列表布局
      */
-    BodyItemsView buildItems();
+    ItemsView buildItems();
 
     /**
      * 生成列表按钮
@@ -46,7 +47,7 @@ public interface BuildView {
     /**
      * 刷新列表内容
      */
-    ListView refreshItems();
+    ItemsView refreshItems();
 
     /**
      * 生成进度条布局

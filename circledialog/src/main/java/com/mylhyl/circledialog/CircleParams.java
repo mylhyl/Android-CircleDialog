@@ -2,6 +2,7 @@ package com.mylhyl.circledialog;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -14,6 +15,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
  * Created by hupei on 2017/3/30.
@@ -40,6 +42,13 @@ public class CircleParams implements Parcelable {
      * 输入框确定事件
      */
     public OnInputClickListener inputListener;
+
+    public RecyclerView.LayoutManager layoutManager;
+
+    /**
+     * RecyclerView Item点击事件
+     */
+    public OnRvItemClickListener rvItemListener;
 
     /**
      * item点击事件

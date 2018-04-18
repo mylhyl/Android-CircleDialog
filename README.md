@@ -11,8 +11,11 @@
 <img src="preview/gif.gif" width="240px"/>
 
 # 引入
+
+[ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  替换`latestVersion`为左边 Download 图标后面的数字
+
 ```xml
- compile 'com.mylhyl:circleDialog:2.5.0'
+ compile 'com.mylhyl:circleDialog:latestVersion'
 ```
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
