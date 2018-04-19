@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter"
-                , "Rv换头像"});
+                , "Rv换头像", "自定义Rv adapter"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -436,14 +437,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                params.backgroundColor = Color.YELLOW;
                             }
                         })
-                        .setItems(list, new LinearLayoutManager(MainActivity.this)
-                                , new OnRvItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-                                        Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
-                                                , Toast.LENGTH_SHORT).show();
-                                    }
-                                })
+                        .setItems(list, new OnRvItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
+                                        , Toast.LENGTH_SHORT).show();
+                            }
+                        })
                         .setNegative("取消", null)
                         .configNegative(new ConfigButton() {
                             @Override
@@ -454,6 +454,35 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .show(getSupportFragmentManager());
+                break;
+            case 13:
+                final BaseQuickAdapter rvAdapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
+                        , listData) {
+                    @Override
+                    protected void convert(BaseViewHolder helper, String item) {
+                        TextView textView = helper.getView(android.R.id.text1);
+                        textView.setText(item);
+                        textView.setGravity(Gravity.CENTER);
+                    }
+                };
+                dialogFragment = new CircleDialog.Builder()
+                        .setGravity(Gravity.BOTTOM)
+                        .setRadius(0)
+                        .setWidth(1f)
+                        .setYoff(0)
+                        .setTitle("rvAdapter")
+                        .setSubTitle("副标题哦！")
+//                        .setItems(rvAdapter, new LinearLayoutManager(this))
+                        .setItems(rvAdapter, new GridLayoutManager(this, 3))
+                        .setNegative("关闭", null)
+                        .show(getSupportFragmentManager());
+                rvAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        Toast.makeText(MainActivity.this, "点击的是：" + adapter.getData().get(position), Toast.LENGTH_SHORT).show();
+                        dialogFragment.dismiss();
+                    }
+                });
                 break;
         }
     }

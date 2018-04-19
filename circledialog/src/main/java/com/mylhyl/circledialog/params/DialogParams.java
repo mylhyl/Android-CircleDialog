@@ -63,7 +63,7 @@ public class DialogParams implements Parcelable {
     /**
      * 对话框 y 坐标偏移
      */
-    public int yOff;
+    public int yOff = -1;
     /**
      * 按下颜色值
      */

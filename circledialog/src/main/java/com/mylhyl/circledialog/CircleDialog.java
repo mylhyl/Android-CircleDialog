@@ -140,6 +140,17 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置对话框y 坐标偏移
+         *
+         * @param yOff y 坐标偏移量，默认-1
+         * @return Builder
+         */
+        public Builder setYoff(int yOff) {
+            mCircleParams.dialogParams.yOff = yOff;
+            return this;
+        }
+
         public Builder setOnDismissListener(DialogInterface.OnDismissListener listener) {
             mCircleParams.dismissListener = listener;
             return this;
@@ -250,6 +261,14 @@ public final class CircleDialog {
             return this;
         }
 
+        public Builder setItems(@NonNull Object items, OnRvItemClickListener listener) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.itemsParams;
+            params.items = items;
+            mCircleParams.rvItemListener = listener;
+            return this;
+        }
+
         public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
                 , OnRvItemClickListener listener) {
             newItemsParams();
@@ -305,7 +324,7 @@ public final class CircleDialog {
             if (dialogParams.gravity == Gravity.NO_GRAVITY)
                 dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
             //判断是否已经设置过
-            if (dialogParams.yOff == 0)
+            if (dialogParams.yOff == -1)
                 dialogParams.yOff = 20;//底部与屏幕的距离
 
             if (mCircleParams.itemsParams == null)

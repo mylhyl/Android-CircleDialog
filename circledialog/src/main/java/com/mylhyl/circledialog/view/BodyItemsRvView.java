@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,13 +52,31 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
             itemDecoration = new DividerItemDecoration(getContext()
                     , new ColorDrawable(CircleColor.divider), 1);
         addItemDecoration(itemDecoration);
-
-        setLayoutManager(params.itemsParams.layoutManager);
+        if (params.itemsParams.layoutManager != null)
+            setLayoutManager(params.itemsParams.layoutManager);
+        else
+            setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (params.itemsParams.adapterRv == null) {
             mAdapter = new ItemsAdapter(context, mParams);
             setAdapter(mAdapter);
         } else {
+            TitleParams titleParams = params.titleParams;
+            ItemsParams itemsParams = params.itemsParams;
+
+            int radius = mParams.dialogParams.radius;
+            //如果没有背景色，则使用默认色
+            int backgroundColor = itemsParams.backgroundColor != 0
+                    ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
+
+            final SelectorBtn RvBg = new SelectorBtn(backgroundColor, backgroundColor
+                    , titleParams != null ? 0 : radius, titleParams != null ? 0 : radius
+                    , radius, radius);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(RvBg);
+            } else {
+                setBackgroundDrawable(RvBg);
+            }
             setAdapter(params.itemsParams.adapterRv);
         }
     }
