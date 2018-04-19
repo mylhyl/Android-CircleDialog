@@ -46,19 +46,19 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         setLayoutParams(layoutParams);
         this.mParams = params;
 
-        ItemDecoration itemDecoration = mParams.itemsParams.itemDecoration;
+        ItemDecoration itemDecoration = params.itemsParams.itemDecoration;
         if (itemDecoration == null)
             itemDecoration = new DividerItemDecoration(getContext()
                     , new ColorDrawable(CircleColor.divider), 1);
         addItemDecoration(itemDecoration);
 
-        setLayoutManager(mParams.itemsParams.layoutManager);
+        setLayoutManager(params.itemsParams.layoutManager);
 
-        if (mParams.itemsParams.adapterRv == null) {
+        if (params.itemsParams.adapterRv == null) {
             mAdapter = new ItemsAdapter(context, mParams);
             setAdapter(mAdapter);
         } else {
-            setAdapter(mParams.itemsParams.adapterRv);
+            setAdapter(params.itemsParams.adapterRv);
         }
     }
 
@@ -172,7 +172,7 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
             this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
                     ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
 
-            Object entity = this.mItemsParams.items;
+            Object entity = mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
                 this.mItems = (List<T>) entity;
             } else if (entity != null && entity.getClass().isArray()) {

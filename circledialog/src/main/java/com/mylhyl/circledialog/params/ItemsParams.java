@@ -15,29 +15,35 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
 public class ItemsParams implements Parcelable {
 
     /**
+     * 数据源：array or list
+     */
+    public Object items;
+
+    /**
      * item高度
      */
     public int itemHeight = CircleDimen.ITEM_HEIGHT;
+
     /**
      * item内间距
      */
     public int[] padding;
-    /**
-     * 数据源：array or list
-     */
-    public Object items;
+
     /**
      * item背景色
      */
     public int backgroundColor;
+
     /**
      * item字体色
      */
     public int textColor = CircleColor.content;
+
     /**
      * item字体大小
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+
     /**
      * 按下颜色值
      */
@@ -48,16 +54,22 @@ public class ItemsParams implements Parcelable {
      */
     public boolean isManualClose;
 
+
+    /**
+     * ListView 适配器
+     */
     public BaseAdapter adapter;
-    //==============RecyclerView 相关====================
+
     /**
      * RecyclerView 适配器
      */
     public RecyclerView.Adapter adapterRv;
+
     /**
      * RecyclerView 布局管理
      */
     public RecyclerView.LayoutManager layoutManager;
+
     /**
      * RecyclerView 分隔线
      */

@@ -173,7 +173,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             this.mContext = context;
             this.mItemsParams = params.itemsParams;
 
-            Object entity = this.mItemsParams.items;
+            Object entity = mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
                 this.mItems = (List<T>) entity;
             } else if (entity != null && entity.getClass().isArray()) {

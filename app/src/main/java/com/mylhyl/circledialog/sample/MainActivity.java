@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.sample;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,8 +47,10 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
     private CircleDialog.Builder builder;
     private DialogFragment dialogFragment;
-    int time = 30;
-    List<String> listData;
+    private Handler handler;
+    private Runnable runnable;
+    private int time = 30;
+    private List<String> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,18 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("标题")
                         .setText("提示框")
                         .setPositive("确定", null)
+                        .setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialog) {
+                                Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                Toast.makeText(MainActivity.this, "取消了！", Toast.LENGTH_SHORT).show();
+                            }
+                        })
                         .show(getSupportFragmentManager());
                 break;
             case 1:
@@ -239,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 timer.schedule(timerTask, 0, 50);
                 break;
             case 5:
-                final DialogFragment dialogFragment = new CircleDialog.Builder()
+                dialogFragment = new CircleDialog.Builder()
                         .setProgressText("登录中...")
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
@@ -266,15 +281,24 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         params.refreshAnimation = R.anim.refresh_animation;
                     }
                 })
+
                         .setTitle("动态改变内容")
                         .setText("3秒后更新其它内容")
+                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                removeRunnable();
+                            }
+                        })
                         .show(getSupportFragmentManager());
-                new Handler().postDelayed(new Runnable() {
+                handler = new Handler();
+                runnable = new Runnable() {
                     @Override
                     public void run() {
                         builder.setText("已经更新内容").create();
                     }
-                }, 3000);
+                };
+                handler.postDelayed(runnable, 3000);
                 break;
             case 7:
 //                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
@@ -296,11 +320,16 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .setPositive("确定(" + time + "s)", null)
                         .setNegative("取消", null);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        removeRunnable();
+                    }
+                });
+                dialogFragment = builder.show(getSupportFragmentManager());
 
-                builder.show(getSupportFragmentManager());
-
-                final Handler handler = new Handler();
-                final Runnable runnable = new Runnable() {
+                handler = new Handler();
+                runnable = new Runnable() {
                     @Override
                     public void run() {
                         builder.configPositive(new ConfigButton() {
@@ -407,14 +436,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                params.backgroundColor = Color.YELLOW;
                             }
                         })
-                        .setItems(list,new LinearLayoutManager(MainActivity.this)
+                        .setItems(list, new LinearLayoutManager(MainActivity.this)
                                 , new OnRvItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-                        })
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
+                                                , Toast.LENGTH_SHORT).show();
+                                    }
+                                })
                         .setNegative("取消", null)
                         .configNegative(new ConfigButton() {
                             @Override
@@ -427,5 +456,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
         }
+    }
+
+    private void removeRunnable() {
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
+        handler = null;
+        runnable = null;
     }
 }

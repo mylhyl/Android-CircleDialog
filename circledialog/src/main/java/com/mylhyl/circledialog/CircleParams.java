@@ -1,8 +1,8 @@
 package com.mylhyl.circledialog;
 
+import android.content.DialogInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -49,9 +49,24 @@ public class CircleParams implements Parcelable {
     public OnRvItemClickListener rvItemListener;
 
     /**
-     * item点击事件
+     * item 点击事件
      */
     public AdapterView.OnItemClickListener itemListener;
+
+    /**
+     * dialog 关闭事件
+     */
+    public DialogInterface.OnDismissListener dismissListener;
+
+    /**
+     * dialog 取消事件
+     */
+    public DialogInterface.OnCancelListener cancelListener;
+
+    /**
+     * dialog 显示事件
+     */
+    public DialogInterface.OnShowListener showListener;
 
     public DialogParams dialogParams;
     public TitleParams titleParams;

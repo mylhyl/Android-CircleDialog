@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import com.mylhyl.circledialog.params.DialogParams;
  * Created by hupei on 2017/3/29.
  */
 
-public final class AbsCircleDialog extends BaseCircleDialog {
+public final class AbsCircleDialog extends BaseCircleDialog implements DialogInterface.OnShowListener {
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
     private Controller mController;
@@ -34,6 +35,12 @@ public final class AbsCircleDialog extends BaseCircleDialog {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        if (mParams != null) {
+            if (mParams.dismissListener != null)
+                mParams.dismissListener.onDismiss(dialog);
+            if (mParams.cancelListener != null)
+                mParams.cancelListener.onCancel(dialog);
+        }
         mParams = null;
     }
 
@@ -70,6 +77,23 @@ public final class AbsCircleDialog extends BaseCircleDialog {
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
         mController = new Controller(getContext(), mParams, this);
         return mController.createView();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.setOnShowListener(this);
+        }
+    }
+
+    @Override
+    public void onShow(DialogInterface dialog) {
+        if (mParams != null) {
+            if (mParams.showListener != null)
+                mParams.showListener.onShow(dialog);
+        }
     }
 
     public void refreshView() {

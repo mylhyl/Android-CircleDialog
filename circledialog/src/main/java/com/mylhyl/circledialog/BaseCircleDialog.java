@@ -2,6 +2,7 @@ package com.mylhyl.circledialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -163,6 +164,12 @@ public abstract class BaseCircleDialog extends DialogFragment {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.add(this, tag);
         transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        remove();
     }
 
     public void remove() {

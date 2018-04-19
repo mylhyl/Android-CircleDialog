@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog;
 
+import android.content.DialogInterface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
@@ -139,6 +140,21 @@ public final class CircleDialog {
             return this;
         }
 
+        public Builder setOnDismissListener(DialogInterface.OnDismissListener listener) {
+            mCircleParams.dismissListener = listener;
+            return this;
+        }
+
+        public Builder setOnCancelListener(DialogInterface.OnCancelListener listener) {
+            mCircleParams.cancelListener = listener;
+            return this;
+        }
+
+        public Builder setOnShowListener(DialogInterface.OnShowListener listener) {
+            mCircleParams.showListener = listener;
+            return this;
+        }
+
         public Builder configDialog(@NonNull ConfigDialog configDialog) {
             configDialog.onConfig(mCircleParams.dialogParams);
             return this;
@@ -225,6 +241,15 @@ public final class CircleDialog {
             return this;
         }
 
+        public Builder setItems(@NonNull BaseAdapter adapter
+                , AdapterView.OnItemClickListener listener) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.itemsParams;
+            params.adapter = adapter;
+            mCircleParams.itemListener = listener;
+            return this;
+        }
+
         public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
                 , OnRvItemClickListener listener) {
             newItemsParams();
@@ -252,15 +277,6 @@ public final class CircleDialog {
             params.layoutManager = layoutManager;
             params.itemDecoration = itemDecoration;
             params.adapterRv = adapter;
-            return this;
-        }
-
-        public Builder setItems(@NonNull BaseAdapter adapter
-                , AdapterView.OnItemClickListener listener) {
-            newItemsParams();
-            ItemsParams params = mCircleParams.itemsParams;
-            params.adapter = adapter;
-            mCircleParams.itemListener = listener;
             return this;
         }
 
