@@ -33,7 +33,8 @@ public final class ItemsButton extends ScaleTextView implements Controller.OnCli
         final ButtonParams buttonParams = negativeParams != null ? negativeParams : params
                 .positiveParams;
         //为列表显示时，设置列表与按钮之间的距离
-        if (params.itemsParams != null) buttonParams.topMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
+        if (buttonParams.topMargin == -1)
+            buttonParams.topMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup
                 .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

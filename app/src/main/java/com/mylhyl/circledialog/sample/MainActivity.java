@@ -24,12 +24,14 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
+import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -475,6 +477,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                        .setItems(rvAdapter, new LinearLayoutManager(this))
                         .setItems(rvAdapter, new GridLayoutManager(this, 3))
                         .setNegative("关闭", null)
+                        .configNegative(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.topMargin = 0;
+                            }
+                        })
                         .show(getSupportFragmentManager());
                 rvAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
