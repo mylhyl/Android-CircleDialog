@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -24,14 +23,12 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
-import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
-import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -415,30 +412,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 list.add(new PictureType(1, "拍照"));
                 list.add(new PictureType(2, "从相册选择"));
                 list.add(new PictureType(3, "小视频"));
-                new CircleDialog.Builder()
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                params.backgroundColorPress = Color.CYAN;
-                                //增加弹出动画
-                                params.animStyle = R.style.dialogWindowAnim;
-                            }
-                        })
-                        .setTitle("标题")
-                        .setTitleColor(Color.BLUE)
-                        .configTitle(new ConfigTitle() {
-                            @Override
-                            public void onConfig(TitleParams params) {
-//                                params.backgroundColor = Color.RED;
-                            }
-                        })
+                new CircleDialog.Builder().setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
-                        .configSubTitle(new ConfigSubTitle() {
-                            @Override
-                            public void onConfig(SubTitleParams params) {
-//                                params.backgroundColor = Color.YELLOW;
-                            }
-                        })
                         .setItems(list, new OnRvItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -447,14 +422,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .setNegative("取消", null)
-                        .configNegative(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                //取消按钮字体颜色
-                                params.textColor = Color.RED;
-                                params.backgroundColorPress = Color.BLUE;
-                            }
-                        })
                         .show(getSupportFragmentManager());
                 break;
             case 13:
