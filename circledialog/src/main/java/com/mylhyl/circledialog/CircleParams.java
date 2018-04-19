@@ -43,8 +43,6 @@ public class CircleParams implements Parcelable {
      */
     public OnInputClickListener inputListener;
 
-    public RecyclerView.LayoutManager layoutManager;
-
     /**
      * RecyclerView Item点击事件
      */

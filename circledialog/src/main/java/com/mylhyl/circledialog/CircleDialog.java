@@ -230,8 +230,28 @@ public final class CircleDialog {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
-            mCircleParams.layoutManager = layoutManager;
+            params.layoutManager = layoutManager;
             mCircleParams.rvItemListener = listener;
+            return this;
+        }
+
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter
+                , RecyclerView.LayoutManager layoutManager) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.itemsParams;
+            params.layoutManager = layoutManager;
+            params.adapterRv = adapter;
+            return this;
+        }
+
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter
+                , RecyclerView.LayoutManager layoutManager
+                , RecyclerView.ItemDecoration itemDecoration) {
+            newItemsParams();
+            ItemsParams params = mCircleParams.itemsParams;
+            params.layoutManager = layoutManager;
+            params.itemDecoration = itemDecoration;
+            params.adapterRv = adapter;
             return this;
         }
 

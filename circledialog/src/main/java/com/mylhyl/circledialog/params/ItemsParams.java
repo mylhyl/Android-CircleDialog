@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
 import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -48,6 +49,19 @@ public class ItemsParams implements Parcelable {
     public boolean isManualClose;
 
     public BaseAdapter adapter;
+    //==============RecyclerView 相关====================
+    /**
+     * RecyclerView 适配器
+     */
+    public RecyclerView.Adapter adapterRv;
+    /**
+     * RecyclerView 布局管理
+     */
+    public RecyclerView.LayoutManager layoutManager;
+    /**
+     * RecyclerView 分隔线
+     */
+    public RecyclerView.ItemDecoration itemDecoration;
 
     public ItemsParams() {
     }

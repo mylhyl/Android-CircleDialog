@@ -46,18 +46,26 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         setLayoutParams(layoutParams);
         this.mParams = params;
 
-        addItemDecoration(new DividerItemDecoration(getContext()
-                , new ColorDrawable(CircleColor.divider), 1));
+        ItemDecoration itemDecoration = mParams.itemsParams.itemDecoration;
+        if (itemDecoration == null)
+            itemDecoration = new DividerItemDecoration(getContext()
+                    , new ColorDrawable(CircleColor.divider), 1);
+        addItemDecoration(itemDecoration);
 
-        setLayoutManager(mParams.layoutManager);
+        setLayoutManager(mParams.itemsParams.layoutManager);
 
-        mAdapter = new ItemsAdapter(context, mParams);
-        setAdapter(mAdapter);
+        if (mParams.itemsParams.adapterRv == null) {
+            mAdapter = new ItemsAdapter(context, mParams);
+            setAdapter(mAdapter);
+        } else {
+            setAdapter(mParams.itemsParams.adapterRv);
+        }
     }
 
     @Override
     public void regOnItemClickListener(OnRvItemClickListener listener) {
-        mAdapter.setOnItemClickListener(listener);
+        if (mAdapter != null)
+            mAdapter.setOnItemClickListener(listener);
     }
 
     @Override
