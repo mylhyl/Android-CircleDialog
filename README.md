@@ -12,7 +12,7 @@
 
 # 引入
 
-[ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  替换`latestVersion`为左边 Download 图标后面的数字
+[ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  将`latestVersion`替换为左则`Download`图标后面的数字
 
 ```xml
  compile 'com.mylhyl:circleDialog:latestVersion'
