@@ -1,17 +1,17 @@
-package com.mylhyl.circledialog.sample;
+package com.mylhyl.circledialog.sample.entities;
 
 /**
  * Created by hupei on 2017/3/31.
  */
 
-public class PictureType {
+public class PictureTypeEntity {
     public int id;
     public String typeName;
 
-    public PictureType() {
+    public PictureTypeEntity() {
     }
 
-    public PictureType(int id, String typeName) {
+    public PictureTypeEntity(int id, String typeName) {
         this.id = id;
         this.typeName = typeName;
     }

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -18,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.SectionEntity;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
@@ -33,6 +36,8 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.sample.entities.MySectionEntity;
+import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -50,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     private Handler handler;
     private Runnable runnable;
     private int time = 30;
-    private List<String> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
+        List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter"
                 , "Rv换头像", "自定义Rv adapter"});
@@ -133,10 +137,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 2:
-//                final List<PictureType> list = new ArrayList<>();
-//                list.add(new PictureType(1, "拍照"));
-//                list.add(new PictureType(2, "从相册选择"));
-//                list.add(new PictureType(3, "小视频"));
+//                final List<PictureTypeEntity> list = new ArrayList<>();
+//                list.add(new PictureTypeEntity(1, "拍照"));
+//                list.add(new PictureTypeEntity(2, "从相册选择"));
+//                list.add(new PictureTypeEntity(3, "小视频"));
                 final String[] items = {"拍照", "从相册选择", "小视频"};
                 new CircleDialog.Builder()
                         .configDialog(new ConfigDialog() {
@@ -388,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.backgroundColorPress = Color.CYAN;
                             }
                         })
-                        .setTitle(listData.get(position))
+                        .setTitle("带复选的ListView")
                         .setSubTitle("可多选")
                         .setItems(checkedAdapter, new AdapterView.OnItemClickListener() {
                             @Override
@@ -408,13 +412,20 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 12:
-                final List<PictureType> list = new ArrayList<>();
-                list.add(new PictureType(1, "拍照"));
-                list.add(new PictureType(2, "从相册选择"));
-                list.add(new PictureType(3, "小视频"));
-                new CircleDialog.Builder().setTitle("Rv换头像")
+                final List<PictureTypeEntity> list = new ArrayList<>();
+                list.add(new PictureTypeEntity(1, "拍照"));
+                list.add(new PictureTypeEntity(2, "从相册选择"));
+                list.add(new PictureTypeEntity(3, "小视频"));
+                list.add(new PictureTypeEntity(4, "拍照1"));
+                list.add(new PictureTypeEntity(5, "从相册选择1"));
+//                list.add(new PictureTypeEntity(6, "小视频1"));
+//                list.add(new PictureTypeEntity(7, "拍照2"));
+//                list.add(new PictureTypeEntity(8, "从相册选择2"));
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+                new CircleDialog.Builder()
+                        .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
-                        .setItems(list, new OnRvItemClickListener() {
+                        .setItems(list, gridLayoutManager, new OnRvItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
@@ -425,13 +436,26 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 13:
-                final BaseQuickAdapter rvAdapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
-                        , listData) {
+                String[] heads = {"Head1", "Head2"};
+                ArrayList<MySectionEntity> listData = new ArrayList<>();
+                for (int i = 0; i < heads.length; i++) {
+                    listData.add(new MySectionEntity(true, heads[i]));
+                    for (int j = 0; j < (i == 0 ? 3 : 4); j++) {
+                        listData.add(new MySectionEntity(new PictureTypeEntity(j, heads[i] + "：" + j)));
+                    }
+                }
+                final BaseQuickAdapter rvAdapter = new BaseSectionQuickAdapter<MySectionEntity, BaseViewHolder>(
+                        android.R.layout.simple_list_item_1, R.layout.item_rv, listData) {
                     @Override
-                    protected void convert(BaseViewHolder helper, String item) {
+                    protected void convert(BaseViewHolder helper, MySectionEntity item) {
                         TextView textView = helper.getView(android.R.id.text1);
-                        textView.setText(item);
+                        textView.setText(item.t.typeName);
                         textView.setGravity(Gravity.CENTER);
+                    }
+
+                    @Override
+                    protected void convertHead(BaseViewHolder helper, MySectionEntity item) {
+                        helper.setText(R.id.textView2, item.header);
                     }
                 };
                 dialogFragment = new CircleDialog.Builder()
@@ -441,8 +465,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setYoff(0)
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")
-//                        .setItems(rvAdapter, new LinearLayoutManager(this))
-                        .setItems(rvAdapter, new GridLayoutManager(this, 3))
+                        .setItems(rvAdapter, new LinearLayoutManager(this))
                         .setNegative("关闭", null)
                         .configNegative(new ConfigButton() {
                             @Override

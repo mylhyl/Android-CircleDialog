@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 
 public final class BodyItemsRvView extends RecyclerView implements Controller.OnClickListener, ItemsView {
-    private ItemsAdapter mAdapter;
+    private Adapter mAdapter;
     private CircleParams mParams;
 
     public BodyItemsRvView(Context context, CircleParams params) {
@@ -46,23 +47,47 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                 .MATCH_PARENT, 1);
         setLayoutParams(layoutParams);
         this.mParams = params;
+        ItemsParams itemsParams = params.itemsParams;
 
-        ItemDecoration itemDecoration = params.itemsParams.itemDecoration;
+        ItemDecoration itemDecoration = itemsParams.itemDecoration;
         if (itemDecoration == null)
             itemDecoration = new DividerItemDecoration(getContext()
                     , new ColorDrawable(CircleColor.divider), 1);
         addItemDecoration(itemDecoration);
-        if (params.itemsParams.layoutManager != null)
-            setLayoutManager(params.itemsParams.layoutManager);
-        else
-            setLayoutManager(new LinearLayoutManager(getContext()));
 
-        if (params.itemsParams.adapterRv == null) {
+        if (itemsParams.layoutManager == null) {
+            itemsParams.layoutManager = new LinearLayoutManager(getContext());
+        } else {
+            if (itemsParams.layoutManager instanceof GridLayoutManager) {
+                GridLayoutManager gridLayoutManager = (GridLayoutManager) itemsParams.layoutManager;
+                if (gridLayoutManager.getSpanCount() == 1) {
+                    itemsParams.layoutManager = new LinearLayoutManager(getContext());
+                }
+            }
+        }
+        setLayoutManager(params.itemsParams.layoutManager);
+
+        mAdapter = params.itemsParams.adapterRv;
+        if (mAdapter == null) {
             mAdapter = new ItemsAdapter(context, mParams);
-            setAdapter(mAdapter);
+            if (itemsParams.layoutManager instanceof GridLayoutManager) {
+                final GridLayoutManager gridLayoutManager = (GridLayoutManager) itemsParams.layoutManager;
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        int itemCount = mAdapter.getItemCount();
+                        int spanCount = gridLayoutManager.getSpanCount();
+                        int mod = itemCount % spanCount;
+                        if (mod == 0 || position < itemCount - 1) {
+                            return 1;
+                        } else {
+                            return spanCount - mod + 1;
+                        }
+                    }
+                });
+            }
         } else {
             TitleParams titleParams = params.titleParams;
-            ItemsParams itemsParams = params.itemsParams;
 
             int radius = mParams.dialogParams.radius;
             //如果没有背景色，则使用默认色
@@ -77,14 +102,15 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
             } else {
                 setBackgroundDrawable(RvBg);
             }
-            setAdapter(params.itemsParams.adapterRv);
         }
+        setAdapter(mAdapter);
     }
 
     @Override
     public void regOnItemClickListener(OnRvItemClickListener listener) {
-        if (mAdapter != null)
-            mAdapter.setOnItemClickListener(listener);
+        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
+            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
+        }
     }
 
     @Override
@@ -214,48 +240,115 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
 
         @Override
         public void onBindViewHolder(Holder holder, int position) {
-            //top
-            if (position == 0 && mTitleParams == null) {
-                if (getItemCount() == 1) {
-                    final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                            , mBackgroundColorPress, mRadius, mRadius, mRadius, mRadius);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        holder.item.setBackground(selectorBtn);
-                    } else {
-                        holder.item.setBackgroundDrawable(selectorBtn);
-                    }
+            LayoutManager layoutManager = mItemsParams.layoutManager;
+            if (layoutManager instanceof GridLayoutManager) {
+                GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+                glBg(holder, position, gridLayoutManager.getSpanCount());
+            } else if (layoutManager instanceof LinearLayoutManager) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+                if (linearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
+                    llvBg(holder, position);
                 } else {
-                    final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                            , mBackgroundColorPress, mRadius, mRadius, 0, 0);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        holder.item.setBackground(selectorBtn);
-                    } else {
-                        holder.item.setBackgroundDrawable(selectorBtn);
-                    }
+
                 }
             }
-            //bottom
-            else if (position == getItemCount() - 1) {
-                final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                        , mBackgroundColorPress, 0, 0, mRadius, mRadius);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.item.setBackground(selectorBtn);
+            holder.item.setText(String.valueOf(mItems.get(position).toString()));
+        }
+
+        //LinearLayoutManager Vertical Background
+        private void llvBg(Holder holder, int position) {
+            SelectorBtn selectorBtn;
+            //top 且没有标题
+            if (position == 0 && mTitleParams == null) {
+                if (getItemCount() == 1) {
+                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                            , mRadius, mRadius, mRadius, mRadius);
                 } else {
-                    holder.item.setBackgroundDrawable(selectorBtn);
+                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                            , mRadius, mRadius, 0, 0);
                 }
+            }
+            //bottom 有标题与中间一样
+            else if (position == getItemCount() - 1) {
+                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                        , 0, 0, mRadius, mRadius);
             }
             //middle
             else {
-                final SelectorBtn selectorBtn = new SelectorBtn(mBackgroundColor
-                        , mBackgroundColorPress, 0, 0, 0, 0);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.item.setBackground(selectorBtn);
+                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0);
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.item.setBackground(selectorBtn);
+            } else {
+                holder.item.setBackgroundDrawable(selectorBtn);
+            }
+        }
+
+        //GridLayoutManager Background
+        private void glBg(Holder holder, int position, int spanCount) {
+            int itemCount = getItemCount();
+            int mod = itemCount % spanCount;
+            SelectorBtn selectorBtn = null;
+
+            if (itemCount == 1) {
+                if (mTitleParams == null) {
+                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                            , mRadius, mRadius, mRadius, mRadius);
                 } else {
-                    holder.item.setBackgroundDrawable(selectorBtn);
+                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                            , 0, 0, mRadius, mRadius);
+                }
+            } else {
+                //bottom
+                if (itemCount <= spanCount || position >= itemCount - (mod == 0 ? spanCount : mod)) {
+                    int topRadius = itemCount <= spanCount && mTitleParams == null ? mRadius : 0;
+                    if (position % spanCount == 0) {//left
+                        if (mod == 1) {
+                            selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                    , 0, 0, mRadius, mRadius);
+                        } else {
+                            selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                    , topRadius, 0, 0, mRadius);
+                        }
+                    } else {
+                        if (mod == 0) {//full
+                            if (position % spanCount == spanCount - 1) {//right
+                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, topRadius, mRadius, 0);
+                            } else {//middle
+                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, 0, 0, 0);
+                            }
+                        } else {
+                            if (position % spanCount == mod - 1) {//right
+                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, topRadius, mRadius, 0);
+                            } else {//middle
+                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, 0, 0, 0);
+                            }
+                        }
+                    }
+                } else {
+                    if (mTitleParams == null && position % spanCount == 0) {
+                        selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , position < spanCount ? mRadius : 0, 0, 0, 0);
+                    } else if (mTitleParams == null && position % spanCount == spanCount - 1) {//right
+                        selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , 0, position < spanCount ? mRadius : 0, 0, 0);
+                    } else {
+                        selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , 0, 0, 0, 0);
+                    }
                 }
             }
 
-            holder.item.setText(String.valueOf(mItems.get(position).toString()));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.item.setBackground(selectorBtn);
+            } else {
+                holder.item.setBackgroundDrawable(selectorBtn);
+            }
         }
 
         @Override
