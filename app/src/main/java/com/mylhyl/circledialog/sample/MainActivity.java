@@ -26,12 +26,14 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
+import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -425,6 +427,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
+                        .configItems(new ConfigItems() {
+                            @Override
+                            public void onConfig(ItemsParams params) {
+                                params.dividerHeight = 0;
+                            }
+                        })
                         .setItems(list, gridLayoutManager, new OnRvItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {

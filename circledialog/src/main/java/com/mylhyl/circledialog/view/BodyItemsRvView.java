@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -49,23 +50,27 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         this.mParams = params;
         ItemsParams itemsParams = params.itemsParams;
 
-        ItemDecoration itemDecoration = itemsParams.itemDecoration;
-        if (itemDecoration == null)
-            itemDecoration = new DividerItemDecoration(getContext()
-                    , new ColorDrawable(CircleColor.divider), 1);
-        addItemDecoration(itemDecoration);
-
         if (itemsParams.layoutManager == null) {
-            itemsParams.layoutManager = new LinearLayoutManager(getContext());
+            itemsParams.layoutManager = new LinearLayoutManager(getContext()
+                    , itemsParams.linearLayoutManagerOrientation, false);
         } else {
             if (itemsParams.layoutManager instanceof GridLayoutManager) {
                 GridLayoutManager gridLayoutManager = (GridLayoutManager) itemsParams.layoutManager;
                 if (gridLayoutManager.getSpanCount() == 1) {
-                    itemsParams.layoutManager = new LinearLayoutManager(getContext());
+                    itemsParams.layoutManager = new LinearLayoutManager(getContext()
+                            , itemsParams.linearLayoutManagerOrientation, false);
                 }
             }
         }
         setLayoutManager(params.itemsParams.layoutManager);
+
+        ItemDecoration itemDecoration = itemsParams.itemDecoration;
+        if (itemsParams.layoutManager instanceof GridLayoutManager && itemDecoration == null) {
+            itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider), itemsParams.dividerHeight);
+        } else if (itemsParams.layoutManager instanceof LinearLayoutManager && itemDecoration == null) {
+            itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider), itemsParams.dividerHeight);
+        }
+        addItemDecoration(itemDecoration);
 
         mAdapter = params.itemsParams.adapterRv;
         if (mAdapter == null) {
@@ -140,12 +145,12 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         }
     }
 
-    class DividerItemDecoration extends RecyclerView.ItemDecoration {
+    class LinearItemDecoration extends RecyclerView.ItemDecoration {
 
         private Drawable mDivider;
         private int mDividerHeight;
 
-        public DividerItemDecoration(Context context, Drawable divider, int dividerHeight) {
+        public LinearItemDecoration(Drawable divider, int dividerHeight) {
             mDivider = divider;
             mDividerHeight = dividerHeight;
         }
@@ -161,8 +166,8 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
             int left = parent.getPaddingLeft();
             int right = parent.getWidth() - parent.getPaddingRight();
 
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount - 1; i++) {
+            int childCount = parent.getChildCount() - 1;
+            for (int i = 0; i < childCount; i++) {
                 View child = parent.getChildAt(i);
 
                 RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
@@ -172,6 +177,136 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
             }
+        }
+    }
+
+    public class GridItemDecoration extends RecyclerView.ItemDecoration {
+
+        private Drawable mDivider;
+        private int mDividerHeight;
+
+        public GridItemDecoration(Drawable divider, int dividerHeight) {
+            mDivider = divider;
+            mDividerHeight = dividerHeight;
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, State state) {
+            drawHorizontal(c, parent);
+            drawVertical(c, parent);
+        }
+
+        private void drawHorizontal(Canvas c, RecyclerView parent) {
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int left = child.getLeft() - params.leftMargin;
+                final int right = child.getRight() + params.rightMargin + mDividerHeight;
+                final int top = child.getBottom() + params.bottomMargin;
+                final int bottom = top + mDividerHeight;
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        private void drawVertical(Canvas c, RecyclerView parent) {
+            final int childCount = parent.getChildCount() - 1;
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int top = child.getTop() - params.topMargin;
+                final int bottom = child.getBottom() + params.bottomMargin;
+                final int left = child.getRight() + params.rightMargin;
+                final int right = left + mDividerHeight;
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        private boolean isLastColum(RecyclerView parent, int pos, int spanCount, int childCount) {
+            LayoutManager layoutManager = parent.getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager) {
+                // 如果是最后一列，则不需要绘制右边
+                if ((pos + 1) % spanCount == 0) {
+                    return true;
+                }
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                int orientation = ((StaggeredGridLayoutManager) layoutManager).getOrientation();
+                if (orientation == StaggeredGridLayoutManager.VERTICAL) {
+                    // 如果是最后一列，则不需要绘制右边
+                    if ((pos + 1) % spanCount == 0) {
+                        return true;
+                    }
+                } else {
+                    childCount = childCount - childCount % spanCount;
+                    // 如果是最后一列，则不需要绘制右边
+                    if (pos >= childCount) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private boolean isLastRaw(RecyclerView parent, int pos, int spanCount, int childCount) {
+            LayoutManager layoutManager = parent.getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager) {
+                childCount = childCount - childCount % spanCount;
+                // 如果是最后一行，则不需要绘制底部
+                if (pos >= childCount) {
+                    return true;
+                }
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                int orientation = ((StaggeredGridLayoutManager) layoutManager).getOrientation();
+                // StaggeredGridLayoutManager 且纵向滚动
+                if (orientation == StaggeredGridLayoutManager.VERTICAL) {
+                    childCount = childCount - childCount % spanCount;
+                    // 如果是最后一行，则不需要绘制底部
+                    if (pos >= childCount) {
+                        return true;
+                    }
+                }
+                // StaggeredGridLayoutManager 且横向滚动
+                else {
+                    // 如果是最后一行，则不需要绘制底部
+                    if ((pos + 1) % spanCount == 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            // 如果是最后一行，则不需要绘制底部
+            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, mDividerHeight, 0);
+            }
+            // 如果是最后一列，则不需要绘制右边
+            else if (isLastColum(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, 0, mDividerHeight);
+            } else {
+                outRect.set(0, 0, mDividerHeight, mDividerHeight);
+            }
+        }
+
+        private int getSpanCount(RecyclerView parent) {
+            // 列数
+            int spanCount = -1;
+            LayoutManager layoutManager = parent.getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager) {
+
+                spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+            }
+            return spanCount;
         }
     }
 
@@ -204,7 +339,6 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         private int mBackgroundColorPress;
         private ItemsParams mItemsParams;
         private TitleParams mTitleParams;
-        private SelectorBtn bgItemNoRadius;
         private SelectorBtn bgItemAllRadius;
         private SelectorBtn bgItemTopRadius;
         private SelectorBtn bgItemBottomRadius;
@@ -221,7 +355,6 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
             this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
                     ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
 
-            bgItemNoRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0);
             bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
                     , mRadius, mRadius, mRadius, mRadius);
             bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
@@ -242,7 +375,18 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
             ScaleTextView textView = new ScaleTextView(mContext);
-            textView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            LayoutManager layoutManager = mItemsParams.layoutManager;
+            if (layoutManager instanceof LinearLayoutManager) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+                if (linearLayoutManager.getOrientation() == LinearLayoutManager.HORIZONTAL) {
+                    textView.setLayoutParams(new LayoutParams(
+                            LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                    textView.setPadding(10, 0, 10, 0);
+                }
+            } else {
+                textView.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            }
             textView.setTextSize(mItemsParams.textSize);
             textView.setTextColor(mItemsParams.textColor);
             textView.setHeight(mItemsParams.itemHeight);
@@ -261,7 +405,7 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                 if (linearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
                     llvBg(holder, position);
                 } else {
-
+                    llhBg(holder, position);
                 }
             }
             holder.item.setText(String.valueOf(mItems.get(position).toString()));
@@ -269,28 +413,33 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
 
         //LinearLayoutManager Vertical Background
         private void llvBg(Holder holder, int position) {
-            SelectorBtn selectorBtn;
             //top 且没有标题
             if (position == 0 && mTitleParams == null) {
                 if (getItemCount() == 1) {
-                    selectorBtn = bgItemAllRadius;
+                    setItemBg(holder, bgItemAllRadius);
                 } else {
-                    selectorBtn = bgItemTopRadius;
+                    setItemBg(holder, bgItemTopRadius);
                 }
             }
             //bottom 有标题与中间一样
             else if (position == getItemCount() - 1) {
-                selectorBtn = bgItemBottomRadius;
+                setItemBg(holder, bgItemBottomRadius);
             }
             //middle
             else {
-                selectorBtn = bgItemNoRadius;
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
             }
+        }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                holder.item.setBackground(selectorBtn);
+
+        //LinearLayoutManager Horizontal Background
+        private void llhBg(Holder holder, int position) {
+            if (position == 0) {
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, mRadius));
+            } else if (position == getItemCount() - 1) {
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, mRadius, 0));
             } else {
-                holder.item.setBackgroundDrawable(selectorBtn);
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
             }
         }
 
@@ -298,13 +447,12 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         private void glBg(Holder holder, int position, int spanCount) {
             int itemCount = getItemCount();
             int mod = itemCount % spanCount;
-            SelectorBtn selectorBtn = null;
 
             if (itemCount == 1) {
                 if (mTitleParams == null) {
-                    selectorBtn = bgItemAllRadius;
+                    setItemBg(holder, bgItemAllRadius);
                 } else {
-                    selectorBtn = bgItemBottomRadius;
+                    setItemBg(holder, bgItemBottomRadius);
                 }
             } else {
                 //bottom
@@ -312,41 +460,44 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                     int topRadius = itemCount <= spanCount && mTitleParams == null ? mRadius : 0;
                     if (position % spanCount == 0) {//left
                         if (mod == 1) {
-                            selectorBtn = bgItemBottomRadius;
+                            setItemBg(holder, bgItemBottomRadius);
                         } else {
-                            selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                    , topRadius, 0, 0, mRadius);
+                            setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                    , topRadius, 0, 0, mRadius));
                         }
                     } else {
                         if (mod == 0) {//full
                             if (position % spanCount == spanCount - 1) {//right
-                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, topRadius, mRadius, 0);
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, topRadius, mRadius, 0));
                             } else {//middle
-                                selectorBtn = bgItemNoRadius;
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
                             }
                         } else {
                             if (position % spanCount == mod - 1) {//right
-                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, topRadius, mRadius, 0);
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, topRadius, mRadius, 0));
                             } else {//middle
-                                selectorBtn = bgItemNoRadius;
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
                             }
                         }
                     }
                 } else {
                     if (mTitleParams == null && position % spanCount == 0) {
-                        selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , position < spanCount ? mRadius : 0, 0, 0, 0);
+                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , position < spanCount ? mRadius : 0, 0, 0, 0));
                     } else if (mTitleParams == null && position % spanCount == spanCount - 1) {//right
-                        selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , 0, position < spanCount ? mRadius : 0, 0, 0);
+                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , 0, position < spanCount ? mRadius : 0, 0, 0));
                     } else {
-                        selectorBtn = bgItemNoRadius;
+                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , 0, 0, 0, 0));
                     }
                 }
             }
+        }
 
+        private void setItemBg(Holder holder, SelectorBtn selectorBtn) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 holder.item.setBackground(selectorBtn);
             } else {

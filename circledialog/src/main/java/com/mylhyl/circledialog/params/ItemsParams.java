@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.BaseAdapter;
 
@@ -23,6 +24,8 @@ public class ItemsParams implements Parcelable {
      * item高度
      */
     public int itemHeight = CircleDimen.ITEM_HEIGHT;
+
+    public int dividerHeight = 1;
 
     /**
      * item内间距
@@ -69,6 +72,8 @@ public class ItemsParams implements Parcelable {
      * RecyclerView 布局管理
      */
     public RecyclerView.LayoutManager layoutManager;
+
+    public int linearLayoutManagerOrientation = LinearLayoutManager.VERTICAL;
 
     /**
      * RecyclerView 分隔线
