@@ -38,6 +38,10 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
     private int mRadius;
     private int mBackgroundColor;
     private int mBackgroundColorPress;
+    private SelectorBtn bgItemAllRadius;
+    private SelectorBtn bgItemTopRadius;
+    private SelectorBtn bgItemBottomRadius;
+    private SelectorBtn bgItemNoRadius;
 
     public BodyItemsView(Context context, CircleParams params) {
         super(context);
@@ -61,6 +65,7 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
         this.mBackgroundColorPress = itemsParams.backgroundColorPress != 0
                 ? itemsParams.backgroundColorPress : mParams.dialogParams.backgroundColorPress;
 
+
         final SelectorBtn listViewBg = new SelectorBtn(mBackgroundColor, mBackgroundColor
                 , mTitleParams != null ? 0 : mRadius, mTitleParams != null ? 0 : mRadius
                 , mRadius, mRadius);
@@ -69,6 +74,14 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
         } else {
             setBackgroundDrawable(listViewBg);
         }
+
+        bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                , mRadius, mRadius, mRadius, mRadius);
+        bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                , mRadius, mRadius, 0, 0);
+        bgItemBottomRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                , 0, 0, mRadius, mRadius);
+        bgItemNoRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0);
 
         setSelector(new ColorDrawable(Color.TRANSPARENT));
         setDivider(new ColorDrawable(CircleColor.divider));
@@ -129,28 +142,21 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
                     //top
                     if (position == 0 && mTitleParams == null) {
                         if (position == (getAdapter().getCount() - 1)) {
-                            final SelectorBtn selectorTopOne = new SelectorBtn(mBackgroundColor
-                                    , mBackgroundColorPress, mRadius, mRadius, mRadius, mRadius);
-                            setSelector(selectorTopOne);
+                            setSelector(bgItemAllRadius);
                         } else {
-                            final SelectorBtn selectorTop = new SelectorBtn(mBackgroundColor
-                                    , mBackgroundColorPress, mRadius, mRadius, 0, 0);
-                            setSelector(selectorTop);
+
+                            setSelector(bgItemTopRadius);
                         }
                     }
                     //bottom
                     else if (position == (getAdapter().getCount() - 1)) {
                         // 最后一项
-                        final SelectorBtn selectorBottom = new SelectorBtn(mBackgroundColor
-                                , mBackgroundColorPress, 0, 0, mRadius, mRadius);
-                        setSelector(selectorBottom);
+                        setSelector(bgItemBottomRadius);
                     }
                     //middle
                     else {
                         // 中间项
-                        final SelectorBtn selectorMiddle = new SelectorBtn(mBackgroundColor
-                                , mBackgroundColorPress, 0, 0, 0, 0);
-                        setSelector(selectorMiddle);
+                        setSelector(bgItemNoRadius);
                     }
                 }
                 break;

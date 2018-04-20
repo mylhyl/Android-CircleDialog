@@ -204,6 +204,10 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
         private int mBackgroundColorPress;
         private ItemsParams mItemsParams;
         private TitleParams mTitleParams;
+        private SelectorBtn bgItemNoRadius;
+        private SelectorBtn bgItemAllRadius;
+        private SelectorBtn bgItemTopRadius;
+        private SelectorBtn bgItemBottomRadius;
 
         public ItemsAdapter(Context context, CircleParams params) {
             this.mContext = context;
@@ -216,6 +220,14 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                     ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor;
             this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
                     ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
+
+            bgItemNoRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0);
+            bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                    , mRadius, mRadius, mRadius, mRadius);
+            bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                    , mRadius, mRadius, 0, 0);
+            bgItemBottomRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                    , 0, 0, mRadius, mRadius);
 
             Object entity = mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
@@ -261,21 +273,18 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
             //top 且没有标题
             if (position == 0 && mTitleParams == null) {
                 if (getItemCount() == 1) {
-                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                            , mRadius, mRadius, mRadius, mRadius);
+                    selectorBtn = bgItemAllRadius;
                 } else {
-                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                            , mRadius, mRadius, 0, 0);
+                    selectorBtn = bgItemTopRadius;
                 }
             }
             //bottom 有标题与中间一样
             else if (position == getItemCount() - 1) {
-                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                        , 0, 0, mRadius, mRadius);
+                selectorBtn = bgItemBottomRadius;
             }
             //middle
             else {
-                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0);
+                selectorBtn = bgItemNoRadius;
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -293,11 +302,9 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
 
             if (itemCount == 1) {
                 if (mTitleParams == null) {
-                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                            , mRadius, mRadius, mRadius, mRadius);
+                    selectorBtn = bgItemAllRadius;
                 } else {
-                    selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                            , 0, 0, mRadius, mRadius);
+                    selectorBtn = bgItemBottomRadius;
                 }
             } else {
                 //bottom
@@ -305,8 +312,7 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                     int topRadius = itemCount <= spanCount && mTitleParams == null ? mRadius : 0;
                     if (position % spanCount == 0) {//left
                         if (mod == 1) {
-                            selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                    , 0, 0, mRadius, mRadius);
+                            selectorBtn = bgItemBottomRadius;
                         } else {
                             selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
                                     , topRadius, 0, 0, mRadius);
@@ -317,16 +323,14 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                                 selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
                                         , 0, topRadius, mRadius, 0);
                             } else {//middle
-                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, 0, 0, 0);
+                                selectorBtn = bgItemNoRadius;
                             }
                         } else {
                             if (position % spanCount == mod - 1) {//right
                                 selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
                                         , 0, topRadius, mRadius, 0);
                             } else {//middle
-                                selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, 0, 0, 0);
+                                selectorBtn = bgItemNoRadius;
                             }
                         }
                     }
@@ -338,8 +342,7 @@ public final class BodyItemsRvView extends RecyclerView implements Controller.On
                         selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
                                 , 0, position < spanCount ? mRadius : 0, 0, 0);
                     } else {
-                        selectorBtn = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , 0, 0, 0, 0);
+                        selectorBtn = bgItemNoRadius;
                     }
                 }
             }
