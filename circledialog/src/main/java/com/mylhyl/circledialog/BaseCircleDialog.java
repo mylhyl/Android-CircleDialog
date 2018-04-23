@@ -173,7 +173,9 @@ public abstract class BaseCircleDialog extends DialogFragment {
     }
 
     public void remove() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager == null) return;
+        FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.remove(this);
         ft.addToBackStack(null);
     }
