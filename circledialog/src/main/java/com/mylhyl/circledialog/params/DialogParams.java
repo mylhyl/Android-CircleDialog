@@ -12,6 +12,17 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * Created by hupei on 2017/3/30.
  */
 public class DialogParams implements Parcelable {
+    public static final Creator<DialogParams> CREATOR = new Creator<DialogParams>() {
+        @Override
+        public DialogParams createFromParcel(Parcel source) {
+            return new DialogParams(source);
+        }
+
+        @Override
+        public DialogParams[] newArray(int size) {
+            return new DialogParams[size];
+        }
+    };
     /**
      * 对话框的位置
      */
@@ -68,8 +79,27 @@ public class DialogParams implements Parcelable {
      * 按下颜色值
      */
     public int backgroundColorPress = CircleColor.buttonPress;
+    public float maxHeight;//最大高度
 
     public DialogParams() {
+    }
+
+    protected DialogParams(Parcel in) {
+        this.gravity = in.readInt();
+        this.canceledOnTouchOutside = in.readByte() != 0;
+        this.cancelable = in.readByte() != 0;
+        this.alpha = in.readFloat();
+        this.width = in.readFloat();
+        this.mPadding = in.createIntArray();
+        this.animStyle = in.readInt();
+        this.refreshAnimation = in.readInt();
+        this.isDimEnabled = in.readByte() != 0;
+        this.backgroundColor = in.readInt();
+        this.radius = in.readInt();
+        this.xOff = in.readInt();
+        this.yOff = in.readInt();
+        this.backgroundColorPress = in.readInt();
+        this.maxHeight = in.readFloat();
     }
 
     @Override
@@ -93,34 +123,6 @@ public class DialogParams implements Parcelable {
         dest.writeInt(this.xOff);
         dest.writeInt(this.yOff);
         dest.writeInt(this.backgroundColorPress);
+        dest.writeFloat(this.maxHeight);
     }
-
-    protected DialogParams(Parcel in) {
-        this.gravity = in.readInt();
-        this.canceledOnTouchOutside = in.readByte() != 0;
-        this.cancelable = in.readByte() != 0;
-        this.alpha = in.readFloat();
-        this.width = in.readFloat();
-        this.mPadding = in.createIntArray();
-        this.animStyle = in.readInt();
-        this.refreshAnimation = in.readInt();
-        this.isDimEnabled = in.readByte() != 0;
-        this.backgroundColor = in.readInt();
-        this.radius = in.readInt();
-        this.xOff = in.readInt();
-        this.yOff = in.readInt();
-        this.backgroundColorPress = in.readInt();
-    }
-
-    public static final Creator<DialogParams> CREATOR = new Creator<DialogParams>() {
-        @Override
-        public DialogParams createFromParcel(Parcel source) {
-            return new DialogParams(source);
-        }
-
-        @Override
-        public DialogParams[] newArray(int size) {
-            return new DialogParams[size];
-        }
-    };
 }

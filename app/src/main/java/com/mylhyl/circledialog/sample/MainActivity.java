@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.SectionEntity;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
@@ -448,28 +447,28 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 ArrayList<MySectionEntity> listData = new ArrayList<>();
                 for (int i = 0; i < heads.length; i++) {
                     listData.add(new MySectionEntity(true, heads[i]));
-                    for (int j = 0; j < (i == 0 ? 3 : 4); j++) {
+                    for (int j = 0; j < (i == 0 ? 4 : 6); j++) {
                         listData.add(new MySectionEntity(new PictureTypeEntity(j, heads[i] + "：" + j)));
                     }
                 }
                 final BaseQuickAdapter rvAdapter = new BaseSectionQuickAdapter<MySectionEntity, BaseViewHolder>(
                         android.R.layout.simple_list_item_1, R.layout.item_rv, listData) {
                     @Override
+                    protected void convertHead(BaseViewHolder helper, MySectionEntity item) {
+                        helper.setText(R.id.textView2, item.header);
+                    }                    @Override
                     protected void convert(BaseViewHolder helper, MySectionEntity item) {
                         TextView textView = helper.getView(android.R.id.text1);
                         textView.setText(item.t.typeName);
                         textView.setGravity(Gravity.CENTER);
                     }
 
-                    @Override
-                    protected void convertHead(BaseViewHolder helper, MySectionEntity item) {
-                        helper.setText(R.id.textView2, item.header);
-                    }
                 };
                 dialogFragment = new CircleDialog.Builder()
                         .setGravity(Gravity.BOTTOM)
                         .setRadius(0)
                         .setWidth(1f)
+                        .setMaxHeight(0.8f)
                         .setYoff(0)
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")

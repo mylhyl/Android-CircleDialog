@@ -74,15 +74,15 @@ public final class CircleDialog {
             init();
         }
 
+        private void init() {
+            mCircleParams = new CircleParams();
+            mCircleParams.dialogParams = new DialogParams();
+        }
+
         @Deprecated
         public Builder(@NonNull FragmentActivity activity) {
             this.mActivity = activity;
             init();
-        }
-
-        private void init() {
-            mCircleParams = new CircleParams();
-            mCircleParams.dialogParams = new DialogParams();
         }
 
         /**
@@ -126,6 +126,17 @@ public final class CircleDialog {
          */
         public Builder setWidth(@FloatRange(from = 0.0, to = 1.0) float width) {
             mCircleParams.dialogParams.width = width;
+            return this;
+        }
+
+        /**
+         * 设置对话框最大高度
+         *
+         * @param maxHeight 0.0 - 1.0
+         * @return Builder
+         */
+        public Builder setMaxHeight(@FloatRange(from = 0.0, to = 1.0) float maxHeight) {
+            mCircleParams.dialogParams.maxHeight = maxHeight;
             return this;
         }
 
@@ -177,6 +188,11 @@ public final class CircleDialog {
             return this;
         }
 
+        private void newTitleParams() {
+            if (mCircleParams.titleParams == null)
+                mCircleParams.titleParams = new TitleParams();
+        }
+
         public Builder setTitleColor(@ColorInt int color) {
             newTitleParams();
             mCircleParams.titleParams.textColor = color;
@@ -189,16 +205,15 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newTitleParams() {
-            if (mCircleParams.titleParams == null)
-                mCircleParams.titleParams = new TitleParams();
-        }
-
-
         public Builder setSubTitle(@NonNull String text) {
             newSubTitleParams();
             mCircleParams.subTitleParams.text = text;
             return this;
+        }
+
+        private void newSubTitleParams() {
+            if (mCircleParams.subTitleParams == null)
+                mCircleParams.subTitleParams = new SubTitleParams();
         }
 
         public Builder setSubTitleColor(@ColorInt int color) {
@@ -213,15 +228,18 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newSubTitleParams() {
-            if (mCircleParams.subTitleParams == null)
-                mCircleParams.subTitleParams = new SubTitleParams();
-        }
-
         public Builder setText(@NonNull String text) {
             newTextParams();
             mCircleParams.textParams.text = text;
             return this;
+        }
+
+        private void newTextParams() {
+            //判断是否已经设置过
+            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
+                mCircleParams.dialogParams.gravity = Gravity.CENTER;
+            if (mCircleParams.textParams == null)
+                mCircleParams.textParams = new TextParams();
         }
 
         public Builder setTextColor(@ColorInt int color) {
@@ -236,20 +254,26 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newTextParams() {
-            //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
-                mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.textParams == null)
-                mCircleParams.textParams = new TextParams();
-        }
-
         public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             mCircleParams.itemListener = listener;
             return this;
+        }
+
+        private void newItemsParams() {
+            //设置列表特殊的参数
+            DialogParams dialogParams = mCircleParams.dialogParams;
+            //判断是否已经设置过
+            if (dialogParams.gravity == Gravity.NO_GRAVITY)
+                dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
+            //判断是否已经设置过
+            if (dialogParams.yOff == -1)
+                dialogParams.yOff = 20;//底部与屏幕的距离
+
+            if (mCircleParams.itemsParams == null)
+                mCircleParams.itemsParams = new ItemsParams();
         }
 
         public Builder setItems(@NonNull BaseAdapter adapter
@@ -317,20 +341,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newItemsParams() {
-            //设置列表特殊的参数
-            DialogParams dialogParams = mCircleParams.dialogParams;
-            //判断是否已经设置过
-            if (dialogParams.gravity == Gravity.NO_GRAVITY)
-                dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
-            //判断是否已经设置过
-            if (dialogParams.yOff == -1)
-                dialogParams.yOff = 20;//底部与屏幕的距离
-
-            if (mCircleParams.itemsParams == null)
-                mCircleParams.itemsParams = new ItemsParams();
-        }
-
         /**
          * 设置进度条文本
          *
@@ -341,6 +351,14 @@ public final class CircleDialog {
             newProgressParams();
             mCircleParams.progressParams.text = text;
             return this;
+        }
+
+        private void newProgressParams() {
+            //判断是否已经设置过
+            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
+                mCircleParams.dialogParams.gravity = Gravity.CENTER;
+            if (mCircleParams.progressParams == null)
+                mCircleParams.progressParams = new ProgressParams();
         }
 
         /**
@@ -382,18 +400,18 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newProgressParams() {
-            //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
-                mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.progressParams == null)
-                mCircleParams.progressParams = new ProgressParams();
-        }
-
         public Builder setInputHint(@NonNull String text) {
             newInputParams();
             mCircleParams.inputParams.hintText = text;
             return this;
+        }
+
+        private void newInputParams() {
+            //判断是否已经设置过
+            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
+                mCircleParams.dialogParams.gravity = Gravity.CENTER;
+            if (mCircleParams.inputParams == null)
+                mCircleParams.inputParams = new InputParams();
         }
 
         public Builder setInputHeight(int height) {
@@ -420,14 +438,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newInputParams() {
-            //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
-                mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.inputParams == null)
-                mCircleParams.inputParams = new InputParams();
-        }
-
         /**
          * 确定按钮
          *
@@ -441,6 +451,11 @@ public final class CircleDialog {
             params.text = text;
             mCircleParams.clickPositiveListener = listener;
             return this;
+        }
+
+        private void newPositiveParams() {
+            if (mCircleParams.positiveParams == null)
+                mCircleParams.positiveParams = new ButtonParams();
         }
 
         /**
@@ -470,11 +485,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newPositiveParams() {
-            if (mCircleParams.positiveParams == null)
-                mCircleParams.positiveParams = new ButtonParams();
-        }
-
         /**
          * 取消按钮
          *
@@ -490,6 +500,11 @@ public final class CircleDialog {
             return this;
         }
 
+        private void newNegativeParams() {
+            if (mCircleParams.negativeParams == null)
+                mCircleParams.negativeParams = new ButtonParams();
+        }
+
         /**
          * 配置取消按钮
          *
@@ -500,11 +515,6 @@ public final class CircleDialog {
             newNegativeParams();
             configButton.onConfig(mCircleParams.negativeParams);
             return this;
-        }
-
-        private void newNegativeParams() {
-            if (mCircleParams.negativeParams == null)
-                mCircleParams.negativeParams = new ButtonParams();
         }
 
         /**
@@ -522,6 +532,10 @@ public final class CircleDialog {
             return this;
         }
 
+        private void newNeutralParams() {
+            if (mCircleParams.neutralParams == null)
+                mCircleParams.neutralParams = new ButtonParams();
+        }
 
         /**
          * 配置中间按钮
@@ -535,11 +549,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newNeutralParams() {
-            if (mCircleParams.neutralParams == null)
-                mCircleParams.neutralParams = new ButtonParams();
-        }
-
 //        private void onDismiss() {
 //            if (mCircleDialog.mDialog != null) {
 //                mCircleDialog.mDialog.dismiss();
@@ -548,17 +557,17 @@ public final class CircleDialog {
 //            }
 //        }
 
-        public DialogFragment create() {
-            if (mCircleDialog == null)
-                mCircleDialog = new CircleDialog();
-            return mCircleDialog.create(mCircleParams);
-        }
-
         @Deprecated
         public DialogFragment show() {
             DialogFragment dialogFragment = create();
             mCircleDialog.show(mActivity);
             return dialogFragment;
+        }
+
+        public DialogFragment create() {
+            if (mCircleDialog == null)
+                mCircleDialog = new CircleDialog();
+            return mCircleDialog.create(mCircleParams);
         }
 
         public DialogFragment show(FragmentManager manager) {

@@ -33,15 +33,9 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (mParams != null) {
-            if (mParams.dismissListener != null)
-                mParams.dismissListener.onDismiss(dialog);
-            if (mParams.cancelListener != null)
-                mParams.cancelListener.onCancel(dialog);
-        }
-        mParams = null;
+    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
+        mController = new Controller(getContext(), mParams, this);
+        return mController.createView();
     }
 
     @Override
@@ -55,6 +49,7 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
         setCanceledBack(dialogParams.cancelable);
         setWidth(dialogParams.width);
+        setMaxHeight(dialogParams.maxHeight);
         int[] mPadding = dialogParams.mPadding;
         if (mPadding != null)
             setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);
@@ -68,15 +63,21 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(SAVED_PARAMS, mParams);
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mParams != null) {
+            if (mParams.dismissListener != null)
+                mParams.dismissListener.onDismiss(dialog);
+            if (mParams.cancelListener != null)
+                mParams.cancelListener.onCancel(dialog);
+        }
+        mParams = null;
     }
 
     @Override
-    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(getContext(), mParams, this);
-        return mController.createView();
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_PARAMS, mParams);
     }
 
     @Override
