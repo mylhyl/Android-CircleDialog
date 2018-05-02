@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter"
-                , "Rv换头像", "自定义Rv adapter"});
+                , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
+                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -456,7 +456,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                     @Override
                     protected void convertHead(BaseViewHolder helper, MySectionEntity item) {
                         helper.setText(R.id.textView2, item.header);
-                    }                    @Override
+                    }
+
+                    @Override
                     protected void convert(BaseViewHolder helper, MySectionEntity item) {
                         TextView textView = helper.getView(android.R.id.text1);
                         textView.setText(item.t.typeName);
@@ -488,6 +490,36 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         dialogFragment.dismiss();
                     }
                 });
+                break;
+            case 14:
+                final String[] objectsR = {"item0", "item1", "item2", "item3"};
+                final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
+
+                new CircleDialog.Builder()
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColorPress = Color.CYAN;
+                            }
+                        })
+                        .setTitle("带复选的ListView")
+                        .setSubTitle("可多选")
+                        .setItems(checkedAdapterR, new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                checkedAdapterR.toggle(position, objectsR[position]);
+                            }
+                        })
+                        .setItemsManualClose(true)
+                        .setPositive("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this
+                                        , "选择了：" + checkedAdapterR.getSaveChecked().toString()
+                                        , Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show(getSupportFragmentManager());
                 break;
         }
     }

@@ -15,9 +15,15 @@ import android.widget.CheckedTextView;
 
 public class CheckedAdapter extends ArrayAdapter<String> {
     private SparseArray<String> saveChecked = new SparseArray<>();
+    private boolean isSingle;
 
     public CheckedAdapter(@NonNull Context context, String[] objects) {
+        this(context, objects, false);
+    }
+
+    public CheckedAdapter(@NonNull Context context, String[] objects, boolean isSingle) {
         super(context, android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, objects);
+        this.isSingle = isSingle;
     }
 
     @NonNull
@@ -30,10 +36,18 @@ public class CheckedAdapter extends ArrayAdapter<String> {
     }
 
     public void toggle(int key, java.lang.String value) {
-        if (saveChecked.get(key) == null)
+        //单选
+        if (isSingle) {
+            saveChecked.clear();
             saveChecked.put(key, value);
-        else
-            saveChecked.remove(key);
+        }
+        //多选
+        else {
+            if (saveChecked.get(key) == null)
+                saveChecked.put(key, value);
+            else
+                saveChecked.remove(key);
+        }
         notifyDataSetChanged();
     }
 
