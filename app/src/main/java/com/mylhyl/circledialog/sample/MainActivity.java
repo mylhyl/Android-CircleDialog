@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -176,14 +175,16 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .setNegative("取消", null)
-                        .configNegative(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                //取消按钮字体颜色
-                                params.textColor = Color.RED;
-                                params.backgroundColorPress = Color.BLUE;
-                            }
-                        })
+//                        .setNeutral("中间", null)
+//                        .setPositive("确定", null)
+//                        .configNegative(new ConfigButton() {
+//                            @Override
+//                            public void onConfig(ButtonParams params) {
+//                                //取消按钮字体颜色
+//                                params.textColor = Color.RED;
+//                                params.backgroundColorPress = Color.BLUE;
+//                            }
+//                        })
                         .show(getSupportFragmentManager());
                 break;
             case 3:
@@ -504,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .setTitle("带复选的ListView")
-                        .setSubTitle("可多选")
+                        .setSubTitle("单选")
                         .setItems(checkedAdapterR, new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

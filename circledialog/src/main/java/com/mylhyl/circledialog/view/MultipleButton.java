@@ -9,12 +9,15 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
+import com.mylhyl.circledialog.view.listener.ButtonView;
 
 /**
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-public class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener {
+public class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener
+        , ButtonView {
+
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
@@ -72,7 +75,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
         }
 
         if (mNegativeButton != null && mNegativeParams != null) {
-            //右边没按钮则右边是圆角
+            //右边没按钮则右下是圆角
             SelectorBtn selectorBtn = new SelectorBtn(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
                     ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress
@@ -84,7 +87,7 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             }
         }
         if (mPositiveButton != null && mPositiveParams != null) {
-            //左右没按钮则左右是圆角
+            //左边没按钮则左下是圆角
             SelectorBtn selectorBtn = new SelectorBtn(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
                     ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress
@@ -96,11 +99,12 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
             }
         }
         if (mNeutralButton != null && mNeutralParams != null) {
-            //左边没按钮则左边是圆角
+            //左右没按钮则左下右下是圆角
             SelectorBtn selectorBtn = new SelectorBtn(backgroundNeutral
                     , mNeutralParams.backgroundColorPress != 0
                     ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, mPositiveButton != null ? 0 : radius, mNegativeButton != null ? 0 : radius);
+                    , 0, 0, mPositiveButton == null ? radius : 0
+                    , mNegativeButton == null ? radius : 0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNeutralButton.setBackground(selectorBtn);
             } else {
@@ -109,22 +113,33 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
         }
     }
 
+    private void createNegative() {
+        mNegativeButton = new ScaleTextView(getContext());
+        mNegativeButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        handleNegativeStyle();
+        addView(mNegativeButton);
+    }
+
     private void createDivider() {
         DividerView dividerView = new DividerView(getContext());
         addView(dividerView);
     }
 
-    private void createNegative() {
-        mNegativeButton = new ScaleTextView(getContext());
-        mNegativeButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup
-                        .LayoutParams.WRAP_CONTENT, 1));
+    private void createNeutral() {
+        mNeutralButton = new ScaleTextView(getContext());
+        mNeutralButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        handleNeutralStyle();
+        addView(mNeutralButton);
+    }
 
-        mNegativeButton.setTextSize(mNegativeParams.textSize);
-        mNegativeButton.setHeight(mNegativeParams.height);
-        handleNegativeStyle();
-
-        addView(mNegativeButton);
+    private void createPositive() {
+        mPositiveButton = new ScaleTextView(getContext());
+        mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        handlePositiveStyle();
+        addView(mPositiveButton);
     }
 
     private void handleNegativeStyle() {
@@ -132,41 +147,8 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
         mNegativeButton.setEnabled(!mNegativeParams.disable);
         mNegativeButton.setTextColor(mNegativeParams.disable ?
                 mNegativeParams.textColorDisable : mNegativeParams.textColor);
-    }
-
-    private void createPositive() {
-
-        mPositiveButton = new ScaleTextView(getContext());
-        mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup
-                        .LayoutParams.WRAP_CONTENT, 1));
-
-        mPositiveButton.setTextSize(mPositiveParams.textSize);
-        mPositiveButton.setHeight(mPositiveParams.height);
-        handlePositiveStyle();
-
-        addView(mPositiveButton);
-    }
-
-    private void handlePositiveStyle() {
-        mPositiveButton.setText(mPositiveParams.text);
-        mPositiveButton.setEnabled(!mPositiveParams.disable);
-        mPositiveButton.setTextColor(mPositiveParams.disable ?
-                mPositiveParams.textColorDisable : mPositiveParams.textColor);
-    }
-
-    private void createNeutral() {
-
-        mNeutralButton = new ScaleTextView(getContext());
-        mNeutralButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup
-                        .LayoutParams.WRAP_CONTENT, 1));
-
-        mNeutralButton.setTextSize(mNeutralParams.textSize);
-        mNeutralButton.setHeight(mNeutralParams.height);
-        handleNeutralStyle();
-
-        addView(mNeutralButton);
+        mNegativeButton.setTextSize(mNegativeParams.textSize);
+        mNegativeButton.setHeight(mNegativeParams.height);
     }
 
     private void handleNeutralStyle() {
@@ -174,27 +156,41 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
         mNeutralButton.setEnabled(!mNeutralParams.disable);
         mNeutralButton.setTextColor(mNeutralParams.disable ?
                 mNeutralParams.textColorDisable : mNeutralParams.textColor);
+        mNeutralButton.setTextSize(mNeutralParams.textSize);
+        mNeutralButton.setHeight(mNeutralParams.height);
     }
 
+    private void handlePositiveStyle() {
+        mPositiveButton.setText(mPositiveParams.text);
+        mPositiveButton.setEnabled(!mPositiveParams.disable);
+        mPositiveButton.setTextColor(mPositiveParams.disable ?
+                mPositiveParams.textColorDisable : mPositiveParams.textColor);
+        mPositiveButton.setTextSize(mPositiveParams.textSize);
+        mPositiveButton.setHeight(mPositiveParams.height);
+    }
+
+    @Override
     public void regNegativeListener(OnClickListener onClickListener) {
         if (mNegativeButton != null) {
             mNegativeButton.setOnClickListener(onClickListener);
         }
     }
 
+    @Override
     public void regPositiveListener(OnClickListener onClickListener) {
         if (mPositiveButton != null) {
             mPositiveButton.setOnClickListener(onClickListener);
         }
     }
 
+    @Override
     public void regNeutralListener(OnClickListener onClickListener) {
         if (mNeutralButton != null) {
             mNeutralButton.setOnClickListener(onClickListener);
         }
     }
 
-
+    @Override
     public void refreshText() {
         if (mNegativeParams == null || mNegativeButton == null) return;
         post(new Runnable() {
@@ -223,6 +219,11 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
     }
 
     @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
     public void onClick(View view, int which) {
         if (which == Controller.BUTTON_NEGATIVE) {
             if (mCircleParams.clickNegativeListener != null) {
@@ -237,6 +238,5 @@ public class MultipleButton extends ScaleLinearLayout implements Controller.OnCl
                 mCircleParams.clickNeutralListener.onClick(mNeutralButton);
             }
         }
-
     }
 }

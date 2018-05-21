@@ -15,7 +15,7 @@ public class ButtonParams implements Parcelable {
     /**
      * 按钮框与顶部距离
      */
-    public int topMargin = -1;
+    public int topMargin;
     /**
      * 按钮文本颜色
      */

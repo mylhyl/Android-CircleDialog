@@ -1,12 +1,9 @@
 package com.mylhyl.circledialog;
 
 import android.view.View;
-import android.widget.ListView;
 
 import com.mylhyl.circledialog.view.BodyInputView;
-import com.mylhyl.circledialog.view.BodyItemsView;
-import com.mylhyl.circledialog.view.ItemsButton;
-import com.mylhyl.circledialog.view.MultipleButton;
+import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
@@ -42,7 +39,7 @@ public interface BuildView {
     /**
      * 生成列表按钮
      */
-    ItemsButton buildItemsButton();
+    ButtonView buildItemsButton();
 
     /**
      * 刷新列表内容
@@ -67,12 +64,12 @@ public interface BuildView {
     /**
      * 生成多按钮布局
      */
-    MultipleButton buildMultipleButton();
+    ButtonView buildMultipleButton();
 
     /**
      * 刷新多按钮文字
      */
-    MultipleButton refreshMultipleButtonText();
+    ButtonView refreshMultipleButtonText();
 
     /**
      * 取出根布局

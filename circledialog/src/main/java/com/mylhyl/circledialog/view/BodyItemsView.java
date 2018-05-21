@@ -19,6 +19,8 @@ import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.res.values.CircleDimen;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -49,14 +51,20 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
     }
 
     private void init(Context context, final CircleParams params) {
+        this.mParams = params;
+        this.mTitleParams = params.titleParams;
+        ItemsParams itemsParams = params.itemsParams;
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
                 .MATCH_PARENT, LayoutParams
                 .MATCH_PARENT, 1);
+
+        //设置列表与按钮之间的下距离
+        if (itemsParams.bottomMargin == -1) {
+            itemsParams.bottomMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
+        }
+        layoutParams.bottomMargin = ScaleUtils.scaleValue(itemsParams.bottomMargin);
         setLayoutParams(layoutParams);
-        this.mParams = params;
-        this.mTitleParams = params.titleParams;
-        ItemsParams itemsParams = params.itemsParams;
 
         this.mRadius = mParams.dialogParams.radius;
         //如果没有背景色，则使用默认色
@@ -95,6 +103,16 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
     }
 
     @Override
+    public void refreshItems() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
     public void regOnItemClickListener(OnItemClickListener onItemClickListener) {
         setOnItemClickListener(onItemClickListener);
     }
@@ -107,16 +125,6 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
     @Override
     public View getView() {
         return this;
-    }
-
-    @Override
-    public void refreshItems() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
@@ -167,10 +175,6 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
     }
 
     static class ItemsAdapter<T> extends BaseAdapter {
-        class ViewHolder {
-            TextView item;
-        }
-
         private Context mContext;
         private List<T> mItems;
         private ItemsParams mItemsParams;
@@ -225,6 +229,10 @@ public final class BodyItemsView extends ListView implements Controller.OnClickL
             }
             viewHolder.item.setText(String.valueOf(getItem(position).toString()));
             return convertView;
+        }
+
+        class ViewHolder {
+            TextView item;
         }
     }
 }

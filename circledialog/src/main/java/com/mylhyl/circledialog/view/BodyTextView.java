@@ -31,6 +31,7 @@ final class BodyTextView extends ScaleTextView {
         TextParams textParams = params.textParams;
         ButtonParams negativeParams = params.negativeParams;
         ButtonParams positiveParams = params.positiveParams;
+        ButtonParams neutralParams = params.neutralParams;
 
         setGravity(textParams.gravity);
 
@@ -39,7 +40,8 @@ final class BodyTextView extends ScaleTextView {
                 ? textParams.backgroundColor : dialogParams.backgroundColor;
 
         //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null) {
+        if (titleParams != null && negativeParams == null && positiveParams == null
+                && neutralParams == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
                         dialogParams.radius));
@@ -49,7 +51,8 @@ final class BodyTextView extends ScaleTextView {
             }
         }
         //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
+        else if (titleParams == null
+                && (negativeParams != null || positiveParams != null || neutralParams != null)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
                         .radius, 0, 0));
@@ -59,7 +62,8 @@ final class BodyTextView extends ScaleTextView {
             }
         }
         //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null) {
+        else if (titleParams == null && negativeParams == null && positiveParams == null
+                && neutralParams == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
             } else {

@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
@@ -24,7 +25,7 @@ public final class BuildViewImpl implements BuildView {
     private BodyProgressView mBodyProgressView;
     private BodyInputView mBodyInputView;
     private ItemsButton mItemsButton;
-    private MultipleButton mMultipleButton;
+    private ButtonView mMultipleButton;
 
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
@@ -79,7 +80,7 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public ItemsButton buildItemsButton() {
+    public ButtonView buildItemsButton() {
         if (mItemsButton == null) {
             mItemsButton = new ItemsButton(mContext, mParams);
             mRoot.addView(mItemsButton);
@@ -119,19 +120,19 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public MultipleButton buildMultipleButton() {
+    public ButtonView buildMultipleButton() {
         if (mMultipleButton == null) {
             mMultipleButton = new MultipleButton(mContext, mParams);
             DividerView dividerView = new DividerView(mContext);
             dividerView.setVertical();
             mRoot.addView(dividerView);
-            mRoot.addView(mMultipleButton);
+            mRoot.addView(mMultipleButton.getView());
         }
         return mMultipleButton;
     }
 
     @Override
-    public MultipleButton refreshMultipleButtonText() {
+    public ButtonView refreshMultipleButtonText() {
         if (mMultipleButton != null)
             mMultipleButton.refreshText();
         return mMultipleButton;

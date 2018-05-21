@@ -10,8 +10,7 @@ import android.widget.AdapterView;
 
 import com.mylhyl.circledialog.view.BodyInputView;
 import com.mylhyl.circledialog.view.BuildViewImpl;
-import com.mylhyl.circledialog.view.ItemsButton;
-import com.mylhyl.circledialog.view.MultipleButton;
+import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -20,49 +19,24 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
  */
 
 public class Controller {
-    private Context mContext;
-    private CircleParams mParams;
-    private BuildView mCreateView;
-    private ButtonHandler mHandler;
-
-    private static final int MSG_DISMISS_DIALOG = -1;
     /**
      * The identifier for the positive button.
      */
     public static final int BUTTON_POSITIVE = -2;
-
     /**
      * The identifier for the negative button.
      */
     public static final int BUTTON_NEGATIVE = -3;
-
     /**
      * The identifier for the neutral button.
      */
     public static final int BUTTON_NEUTRAL = -4;
-
+    private static final int MSG_DISMISS_DIALOG = -1;
+    private Context mContext;
+    private CircleParams mParams;
+    private BuildView mCreateView;
+    private ButtonHandler mHandler;
     private BaseCircleDialog mDialog;
-
-    public static class ButtonHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case BUTTON_POSITIVE:
-                case BUTTON_NEGATIVE:
-                case BUTTON_NEUTRAL:
-                    ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
-                    break;
-
-                case MSG_DISMISS_DIALOG:
-                    ((BaseCircleDialog) msg.obj).dismiss();
-                    break;
-                default:
-                    ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
-                    break;
-            }
-        }
-    }
 
     public Controller(Context context, CircleParams params, BaseCircleDialog mDialog) {
         this.mContext = context;
@@ -79,24 +53,6 @@ public class Controller {
         return getView();
     }
 
-    public void refreshView() {
-        mCreateView.refreshText();
-        mCreateView.refreshItems();
-        mCreateView.refreshProgress();
-        mCreateView.refreshMultipleButtonText();
-        //刷新时带动画
-        if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
-            getView().post(new Runnable() {
-                @Override
-                public void run() {
-                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
-                            .dialogParams
-                            .refreshAnimation);
-                    if (animation != null) getView().startAnimation(animation);
-                }
-            });
-    }
-
     private void applyRoot() {
         mCreateView.buildRoot();
     }
@@ -110,7 +66,8 @@ public class Controller {
         //文本
         if (mParams.textParams != null) {
             mCreateView.buildText();
-            applyButton();
+            ButtonView buttonView = mCreateView.buildMultipleButton();
+            applyButton(buttonView, null);
         }
         //列表
         else if (mParams.itemsParams != null) {
@@ -134,87 +91,75 @@ public class Controller {
                     }
                 });
             }
-            //有确定或者有取消按钮
-            if (mParams.positiveParams != null || mParams.negativeParams != null) {
-                final ItemsButton itemsButton = mCreateView.buildItemsButton();
-                itemsButton.regOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mHandler.obtainMessage(mParams.positiveParams != null
-                                ? BUTTON_POSITIVE : BUTTON_NEGATIVE, itemsButton).sendToTarget();
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-                    }
-                });
-            }
+            final ButtonView itemsButton = mCreateView.buildItemsButton();
+            applyButton(itemsButton, null);
         }
         //进度条
         else if (mParams.progressParams != null) {
             mCreateView.buildProgress();
-            applyButton();
+            ButtonView buttonView = mCreateView.buildMultipleButton();
+            applyButton(buttonView, null);
         }
         //输入框
         else if (mParams.inputParams != null) {
-            final BodyInputView bodyInputView = mCreateView.buildInput();
-            if (mParams.positiveParams != null || mParams.negativeParams != null
-                    || mParams.neutralParams != null) {
-                final MultipleButton multipleButton = mCreateView.buildMultipleButton();
-                multipleButton.regNegativeListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mHandler.obtainMessage(BUTTON_NEGATIVE, bodyInputView).sendToTarget();
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-                    }
-                });
-                multipleButton.regPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mHandler.obtainMessage(BUTTON_POSITIVE, bodyInputView).sendToTarget();
-                        if (!mParams.inputParams.isManualClose)
-                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-
-                    }
-                });
-                multipleButton.regNeutralListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mHandler.obtainMessage(BUTTON_NEUTRAL, bodyInputView).sendToTarget();
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-                    }
-                });
-            }
+            ButtonView buttonView = mCreateView.buildMultipleButton();
+            BodyInputView bodyInputView = mCreateView.buildInput();
+            applyButton(buttonView, bodyInputView);
         }
     }
 
-    private void applyButton() {
-        //有确定并且有取消按钮
-        if (mParams.positiveParams != null || mParams.negativeParams != null || mParams.neutralParams != null) {
-            final MultipleButton multipleButton = mCreateView.buildMultipleButton();
-            multipleButton.regNegativeListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mHandler.obtainMessage(BUTTON_NEGATIVE, multipleButton).sendToTarget();
-                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                            .sendToTarget();
-                }
-            });
-            multipleButton.regPositiveListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mHandler.obtainMessage(BUTTON_POSITIVE, multipleButton).sendToTarget();
-                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                            .sendToTarget();
-                }
-            });
-            multipleButton.regNeutralListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mHandler.obtainMessage(BUTTON_NEUTRAL, multipleButton).sendToTarget();
-                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                            .sendToTarget();
-                }
-            });
-        }
+    private View getView() {
+        return mCreateView.getView();
+    }
 
+    private void applyButton(final ButtonView viewButton, final View viewClick) {
+
+        viewButton.regNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.obtainMessage(BUTTON_NEGATIVE, viewClick == null
+                        ? viewButton : viewClick).sendToTarget();
+                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                        .sendToTarget();
+            }
+        });
+        viewButton.regPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.obtainMessage(BUTTON_POSITIVE, viewClick == null
+                        ? viewButton : viewClick).sendToTarget();
+                if (mParams.inputParams == null || !mParams.inputParams.isManualClose) {
+                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                }
+            }
+        });
+        viewButton.regNeutralListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.obtainMessage(BUTTON_NEUTRAL, viewClick == null
+                        ? viewButton : viewClick).sendToTarget();
+                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
+                        .sendToTarget();
+            }
+        });
+    }
+
+    public void refreshView() {
+        mCreateView.refreshText();
+        mCreateView.refreshItems();
+        mCreateView.refreshProgress();
+        mCreateView.refreshMultipleButtonText();
+        //刷新时带动画
+        if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
+            getView().post(new Runnable() {
+                @Override
+                public void run() {
+                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
+                            .dialogParams
+                            .refreshAnimation);
+                    if (animation != null) getView().startAnimation(animation);
+                }
+            });
     }
 
     /**
@@ -231,7 +176,24 @@ public class Controller {
         void onClick(View view, int which);
     }
 
-    private View getView() {
-        return mCreateView.getView();
+    public static class ButtonHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case BUTTON_POSITIVE:
+                case BUTTON_NEGATIVE:
+                case BUTTON_NEUTRAL:
+                    ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
+                    break;
+
+                case MSG_DISMISS_DIALOG:
+                    ((BaseCircleDialog) msg.obj).dismiss();
+                    break;
+                default:
+                    ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
+                    break;
+            }
+        }
     }
 }
