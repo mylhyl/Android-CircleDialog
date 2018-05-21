@@ -193,12 +193,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setInputManualClose(true)
                         .setTitle("输入框")
                         .setInputHint("请输入条件")
+                        .setInputText("默认文本")
                         .configInput(new ConfigInput() {
                             @Override
                             public void onConfig(InputParams params) {
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
-                                params.gravity = Gravity.CENTER;
-                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
+//                                params.gravity = Gravity.CENTER;
+//                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
                             }
                         })
                         .setNegative("取消", null)

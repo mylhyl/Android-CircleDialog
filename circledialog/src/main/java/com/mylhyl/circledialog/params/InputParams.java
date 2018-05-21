@@ -13,8 +13,18 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * Created by hupei on 2017/3/31.
  */
 public class InputParams implements Parcelable {
-    private static final int[] MARGINS = {50, 20, 50, 40};
+    public static final Creator<InputParams> CREATOR = new Creator<InputParams>() {
+        @Override
+        public InputParams createFromParcel(Parcel source) {
+            return new InputParams(source);
+        }
 
+        @Override
+        public InputParams[] newArray(int size) {
+            return new InputParams[size];
+        }
+    };
+    private static final int[] MARGINS = {50, 20, 50, 40};
     /**
      * 输入框与body视图的距离
      */
@@ -59,7 +69,6 @@ public class InputParams implements Parcelable {
      * 输入框字体颜色
      */
     public int textColor = CircleColor.title;
-
     /**
      * 输入类型
      */
@@ -68,13 +77,33 @@ public class InputParams implements Parcelable {
      * 文字对齐方式，默认左上角
      */
     public int gravity = Gravity.LEFT | Gravity.TOP;
-
     /**
      * 是否触发自动关闭对话框
      */
     public boolean isManualClose;
+    /**
+     * 文本
+     */
+    public String text;
 
     public InputParams() {
+    }
+
+    protected InputParams(Parcel in) {
+        this.margins = in.createIntArray();
+        this.inputHeight = in.readInt();
+        this.hintText = in.readString();
+        this.hintTextColor = in.readInt();
+        this.inputBackgroundResourceId = in.readInt();
+        this.strokeWidth = in.readInt();
+        this.strokeColor = in.readInt();
+        this.inputBackgroundColor = in.readInt();
+        this.backgroundColor = in.readInt();
+        this.textSize = in.readInt();
+        this.textColor = in.readInt();
+        this.inputType = in.readInt();
+        this.gravity = in.readInt();
+        this.isManualClose = in.readByte() != 0;
     }
 
     @Override
@@ -99,33 +128,4 @@ public class InputParams implements Parcelable {
         dest.writeInt(this.gravity);
         dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
     }
-
-    protected InputParams(Parcel in) {
-        this.margins = in.createIntArray();
-        this.inputHeight = in.readInt();
-        this.hintText = in.readString();
-        this.hintTextColor = in.readInt();
-        this.inputBackgroundResourceId = in.readInt();
-        this.strokeWidth = in.readInt();
-        this.strokeColor = in.readInt();
-        this.inputBackgroundColor = in.readInt();
-        this.backgroundColor = in.readInt();
-        this.textSize = in.readInt();
-        this.textColor = in.readInt();
-        this.inputType = in.readInt();
-        this.gravity = in.readInt();
-        this.isManualClose = in.readByte() != 0;
-    }
-
-    public static final Creator<InputParams> CREATOR = new Creator<InputParams>() {
-        @Override
-        public InputParams createFromParcel(Parcel source) {
-            return new InputParams(source);
-        }
-
-        @Override
-        public InputParams[] newArray(int size) {
-            return new InputParams[size];
-        }
-    };
 }

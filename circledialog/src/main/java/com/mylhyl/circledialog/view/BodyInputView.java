@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -82,6 +83,10 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
         mEditText.setTextColor(inputParams.textColor);
         mEditText.setHeight(inputParams.inputHeight);
         mEditText.setGravity(inputParams.gravity);
+        if (!TextUtils.isEmpty(inputParams.text)) {
+            mEditText.setText(inputParams.text);
+            mEditText.setSelection(inputParams.text.length());
+        }
 
         int backgroundResourceId = inputParams.inputBackgroundResourceId;
         if (backgroundResourceId == 0) {
@@ -103,10 +108,6 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
         addView(mEditText, layoutParams);
     }
 
-    public EditText getInput() {
-        return mEditText;
-    }
-
     @Override
     public void onClick(View view, int which) {
         if (view instanceof BodyInputView && which == BUTTON_POSITIVE) {
@@ -118,5 +119,9 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
             }
         }
 
+    }
+
+    public EditText getInput() {
+        return mEditText;
     }
 }

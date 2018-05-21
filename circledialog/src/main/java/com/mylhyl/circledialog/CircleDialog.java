@@ -400,9 +400,9 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setInputHint(@NonNull String text) {
+        public Builder setInputText(@NonNull String text) {
             newInputParams();
-            mCircleParams.inputParams.hintText = text;
+            mCircleParams.inputParams.text = text;
             return this;
         }
 
@@ -412,6 +412,19 @@ public final class CircleDialog {
                 mCircleParams.dialogParams.gravity = Gravity.CENTER;
             if (mCircleParams.inputParams == null)
                 mCircleParams.inputParams = new InputParams();
+        }
+
+        public Builder setInputText(@NonNull String text, @NonNull String hint) {
+            newInputParams();
+            mCircleParams.inputParams.text = text;
+            mCircleParams.inputParams.hintText = hint;
+            return this;
+        }
+
+        public Builder setInputHint(@NonNull String hint) {
+            newInputParams();
+            mCircleParams.inputParams.hintText = hint;
+            return this;
         }
 
         public Builder setInputHeight(int height) {
