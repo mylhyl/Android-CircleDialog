@@ -29,11 +29,9 @@ import java.util.List;
 
 /**
  * Created by hupei on 2017/3/30.
- *
- * @hide
  */
 
-public final class BodyItemsView extends ListView implements Controller.OnClickListener, ItemsView {
+final class BodyItemsView extends ListView implements Controller.OnClickListener, ItemsView {
     private BaseAdapter mAdapter;
     private CircleParams mParams;
     private TitleParams mTitleParams;

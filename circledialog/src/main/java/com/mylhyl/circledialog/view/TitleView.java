@@ -13,8 +13,6 @@ import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 /**
  * 对话框标题
  * Created by hupei on 2017/3/29.
- *
- * @hide
  */
 final class TitleView extends ScaleLinearLayout {
 

@@ -14,16 +14,15 @@ import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
+import com.mylhyl.circledialog.view.listener.InputView;
 
 import static com.mylhyl.circledialog.Controller.BUTTON_POSITIVE;
 
 /**
  * Created by hupei on 2017/3/31.
- *
- * @hide
  */
 
-public final class BodyInputView extends ScaleLinearLayout implements Controller.OnClickListener {
+final class BodyInputView extends ScaleLinearLayout implements Controller.OnClickListener, InputView {
     private ScaleEditText mEditText;
     private CircleParams params;
 
@@ -121,7 +120,13 @@ public final class BodyInputView extends ScaleLinearLayout implements Controller
 
     }
 
+    @Override
     public EditText getInput() {
         return mEditText;
+    }
+
+    @Override
+    public View getView() {
+        return this;
     }
 }

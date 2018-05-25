@@ -7,12 +7,11 @@ import android.widget.LinearLayout;
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
  * Created by hupei on 2017/3/29.
- *
- * @hide
  */
 
 public final class BuildViewImpl implements BuildView {
@@ -23,7 +22,7 @@ public final class BuildViewImpl implements BuildView {
     private BodyTextView mBodyTextView;
     private ItemsView mItemsView;
     private BodyProgressView mBodyProgressView;
-    private BodyInputView mBodyInputView;
+    private InputView mBodyInputView;
     private ItemsButton mItemsButton;
     private ButtonView mMultipleButton;
 
@@ -111,10 +110,10 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public BodyInputView buildInput() {
+    public InputView buildInput() {
         if (mBodyInputView == null) {
             mBodyInputView = new BodyInputView(mContext, mParams);
-            mRoot.addView(mBodyInputView);
+            mRoot.addView(mBodyInputView.getView());
         }
         return mBodyInputView;
     }

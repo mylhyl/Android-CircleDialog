@@ -15,10 +15,8 @@ import com.mylhyl.circledialog.view.listener.ButtonView;
 /**
  * 列表对话框的取消按钮视图
  * Created by hupei on 2017/3/30.
- *
- * @hide
  */
-public final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickListener
+final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickListener
         , ButtonView {
 
     private CircleParams mCircleParams;

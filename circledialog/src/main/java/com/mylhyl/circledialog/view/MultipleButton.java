@@ -15,7 +15,7 @@ import com.mylhyl.circledialog.view.listener.ButtonView;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-public class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener
+class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener
         , ButtonView {
 
     private CircleParams mCircleParams;

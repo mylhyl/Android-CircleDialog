@@ -32,7 +32,7 @@ import java.util.List;
  * Created by hupei on 2018/4/18.
  */
 
-public final class BodyItemsRvView extends RecyclerView implements Controller.OnClickListener, ItemsView {
+final class BodyItemsRvView extends RecyclerView implements Controller.OnClickListener, ItemsView {
     private Adapter mAdapter;
     private CircleParams mParams;
 

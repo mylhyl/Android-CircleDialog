@@ -13,8 +13,6 @@ import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 /**
  * 对话框纯文本视图
  * Created by hupei on 2017/3/30.
- *
- * @hide
  */
 final class BodyTextView extends ScaleTextView {
     private CircleParams mParams;

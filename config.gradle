@@ -20,6 +20,6 @@ ext {
             leakcanary  : "com.squareup.leakcanary:leakcanary-android:1.5.4"
     ]
     publish =[
-        version : "2.5.5"
+        version : "2.5.6"
     ]
 }

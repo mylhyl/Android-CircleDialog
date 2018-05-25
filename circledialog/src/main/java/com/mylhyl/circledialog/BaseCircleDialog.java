@@ -256,7 +256,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     /**
      * 设置对话框最大高度
      *
-     * @param maxHeight
+     * @param maxHeight 0f - 1f 之间
      */
     protected void setMaxHeight(@FloatRange(from = 0.0, to = 1.0) float maxHeight) {
         mMaxHeight = maxHeight;

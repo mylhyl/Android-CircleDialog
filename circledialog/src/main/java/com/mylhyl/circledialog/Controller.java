@@ -8,9 +8,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 
-import com.mylhyl.circledialog.view.BodyInputView;
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -102,9 +102,9 @@ public class Controller {
         }
         //输入框
         else if (mParams.inputParams != null) {
+            InputView inputView = mCreateView.buildInput();
             ButtonView buttonView = mCreateView.buildMultipleButton();
-            BodyInputView bodyInputView = mCreateView.buildInput();
-            applyButton(buttonView, bodyInputView);
+            applyButton(buttonView, (View) inputView);
         }
     }
 

@@ -21,8 +21,6 @@ import java.lang.reflect.Modifier;
 
 /**
  * Created by hupei on 2017/3/31.
- *
- * @hide
  */
 
 final class BodyProgressView extends ScaleLinearLayout {
@@ -149,19 +147,6 @@ final class BodyProgressView extends ScaleLinearLayout {
         }
     }
 
-
-    public void refreshProgress() {
-        mProgressBar.setMax(mProgressParams.max);
-        mProgressBar.setProgress(mProgressParams.progress);
-        mProgressBar.setSecondaryProgress(mProgressParams.progress + 10);
-        onProgressChanged();
-    }
-
-    private void onProgressChanged() {
-        if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0))
-            mViewUpdateHandler.sendEmptyMessage(0);
-    }
-
     /**
      * 直接设置对象属性值,无视private/protected修饰符,不经过setter函数.
      */
@@ -187,6 +172,16 @@ final class BodyProgressView extends ScaleLinearLayout {
     }
 
     /**
+     * 强制转换fileld可访问.
+     */
+    protected static void makeAccessible(Field field) {
+        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
+                .getDeclaringClass().getModifiers())) {
+            field.setAccessible(true);
+        }
+    }
+
+    /**
      * 循环向上转型,获取类的DeclaredField.
      */
     @SuppressWarnings("unchecked")
@@ -202,13 +197,15 @@ final class BodyProgressView extends ScaleLinearLayout {
         return null;
     }
 
-    /**
-     * 强制转换fileld可访问.
-     */
-    protected static void makeAccessible(Field field) {
-        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
-                .getDeclaringClass().getModifiers())) {
-            field.setAccessible(true);
-        }
+    public void refreshProgress() {
+        mProgressBar.setMax(mProgressParams.max);
+        mProgressBar.setProgress(mProgressParams.progress);
+        mProgressBar.setSecondaryProgress(mProgressParams.progress + 10);
+        onProgressChanged();
+    }
+
+    private void onProgressChanged() {
+        if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0))
+            mViewUpdateHandler.sendEmptyMessage(0);
     }
 }
