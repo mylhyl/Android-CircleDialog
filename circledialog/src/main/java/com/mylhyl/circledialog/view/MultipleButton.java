@@ -224,6 +224,11 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     @Override
+    public boolean isEmpty() {
+        return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
+    }
+
+    @Override
     public void onClick(View view, int which) {
         if (which == Controller.BUTTON_NEGATIVE) {
             if (mCircleParams.clickNegativeListener != null) {

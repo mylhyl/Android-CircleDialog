@@ -17,4 +17,6 @@ public interface ButtonView {
     void refreshText();
 
     View getView();
+
+    boolean isEmpty();
 }

@@ -122,9 +122,11 @@ public final class BuildViewImpl implements BuildView {
     public ButtonView buildMultipleButton() {
         if (mMultipleButton == null) {
             mMultipleButton = new MultipleButton(mContext, mParams);
-            DividerView dividerView = new DividerView(mContext);
-            dividerView.setVertical();
-            mRoot.addView(dividerView);
+            if (!mMultipleButton.isEmpty()) {
+                DividerView dividerView = new DividerView(mContext);
+                dividerView.setVertical();
+                mRoot.addView(dividerView);
+            }
             mRoot.addView(mMultipleButton.getView());
         }
         return mMultipleButton;
