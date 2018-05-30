@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -202,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.padding = new int[]{20, 20, 20, 20};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;
-//                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
+                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                             }
                         })
                         .setNegative("取消", null)
