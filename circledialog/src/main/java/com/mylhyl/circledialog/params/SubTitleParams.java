@@ -17,7 +17,7 @@ public class SubTitleParams implements Parcelable {
      */
     public String text;
     /**
-     * 内间距
+     * 内间距 [left, top, right, bottom]
      */
     public int[] padding = {50, 0, 50, 50};
     /**

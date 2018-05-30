@@ -114,11 +114,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             }
                         })
                         .setTitle("标题")
-                        .setText("确定框")
+                        .setText("冷却风扇口无异物，风机扇叶无损伤，无过热痕迹")
                         .configText(new ConfigText() {
                             @Override
                             public void onConfig(TextParams params) {
-                                params.padding = new int[]{150, 10, 50, 10};
+//                                params.gravity = Gravity.LEFT | Gravity.TOP;
+                                params.padding = new int[]{100, 0, 100, 50};
                             }
                         })
                         .setNegative("取消", null)
@@ -198,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configInput(new ConfigInput() {
                             @Override
                             public void onConfig(InputParams params) {
+                                params.padding = new int[]{20, 20, 20, 20};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;
 //                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;

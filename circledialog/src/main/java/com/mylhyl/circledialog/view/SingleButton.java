@@ -13,10 +13,9 @@ import com.mylhyl.circledialog.res.drawable.SelectorBtn;
  * 对话框单个按钮的视图
  * Created by hupei on 2017/3/30.
  *
- * @hide
  * @deprecated
  */
-public final class SingleButton extends ScaleTextView implements Controller.OnClickListener {
+final class SingleButton extends ScaleTextView implements Controller.OnClickListener {
     private CircleParams mCircleParams;
     private ButtonParams mButtonParams;
 

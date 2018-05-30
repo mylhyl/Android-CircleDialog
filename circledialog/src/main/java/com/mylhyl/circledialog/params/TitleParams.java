@@ -12,6 +12,19 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * Created by hupei on 2017/3/30.
  */
 public class TitleParams implements Parcelable {
+
+    public static final Parcelable.Creator<TitleParams> CREATOR = new Parcelable
+            .Creator<TitleParams>() {
+        @Override
+        public TitleParams createFromParcel(Parcel source) {
+            return new TitleParams(source);
+        }
+
+        @Override
+        public TitleParams[] newArray(int size) {
+            return new TitleParams[size];
+        }
+    };
     /**
      * 标题
      */
@@ -32,8 +45,19 @@ public class TitleParams implements Parcelable {
      * 标题背景颜色
      */
     public int backgroundColor;
-
     public int gravity = Gravity.CENTER;
+
+    public TitleParams() {
+    }
+
+    protected TitleParams(Parcel in) {
+        this.text = in.readString();
+        this.height = in.readInt();
+        this.textSize = in.readInt();
+        this.textColor = in.readInt();
+        this.backgroundColor = in.readInt();
+        this.gravity = in.readInt();
+    }
 
     @Override
     public int describeContents() {
@@ -49,29 +73,4 @@ public class TitleParams implements Parcelable {
         dest.writeInt(this.backgroundColor);
         dest.writeInt(this.gravity);
     }
-
-    public TitleParams() {
-    }
-
-    protected TitleParams(Parcel in) {
-        this.text = in.readString();
-        this.height = in.readInt();
-        this.textSize = in.readInt();
-        this.textColor = in.readInt();
-        this.backgroundColor = in.readInt();
-        this.gravity = in.readInt();
-    }
-
-    public static final Parcelable.Creator<TitleParams> CREATOR = new Parcelable
-            .Creator<TitleParams>() {
-        @Override
-        public TitleParams createFromParcel(Parcel source) {
-            return new TitleParams(source);
-        }
-
-        @Override
-        public TitleParams[] newArray(int size) {
-            return new TitleParams[size];
-        }
-    };
 }

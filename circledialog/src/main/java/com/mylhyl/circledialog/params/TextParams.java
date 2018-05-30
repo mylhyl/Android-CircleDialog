@@ -12,10 +12,25 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * Created by hupei on 2017/3/30.
  */
 public class TextParams implements Parcelable {
+
+    public static final Parcelable.Creator<TextParams> CREATOR = new Parcelable
+            .Creator<TextParams>() {
+        @Override
+        public TextParams createFromParcel(Parcel source) {
+            return new TextParams(source);
+        }
+
+        @Override
+        public TextParams[] newArray(int size) {
+            return new TextParams[size];
+        }
+    };
+
+    private static final int[] PADDING = {50, 0, 50, 50};
     /**
-     * body文本内间距
+     * body文本内间距 [left, top, right, bottom]
      */
-    public int[] padding;
+    public int[] padding = PADDING;
     /**
      * 文本
      */
@@ -36,8 +51,20 @@ public class TextParams implements Parcelable {
      * 文本字体大小
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
-
     public int gravity = Gravity.CENTER;
+
+    public TextParams() {
+    }
+
+    protected TextParams(Parcel in) {
+        this.padding = in.createIntArray();
+        this.text = in.readString();
+        this.height = in.readInt();
+        this.backgroundColor = in.readInt();
+        this.textColor = in.readInt();
+        this.textSize = in.readInt();
+        this.gravity = in.readInt();
+    }
 
     @Override
     public int describeContents() {
@@ -54,30 +81,4 @@ public class TextParams implements Parcelable {
         dest.writeInt(this.textSize);
         dest.writeInt(this.gravity);
     }
-
-    public TextParams() {
-    }
-
-    protected TextParams(Parcel in) {
-        this.padding = in.createIntArray();
-        this.text = in.readString();
-        this.height = in.readInt();
-        this.backgroundColor = in.readInt();
-        this.textColor = in.readInt();
-        this.textSize = in.readInt();
-        this.gravity = in.readInt();
-    }
-
-    public static final Parcelable.Creator<TextParams> CREATOR = new Parcelable
-            .Creator<TextParams>() {
-        @Override
-        public TextParams createFromParcel(Parcel source) {
-            return new TextParams(source);
-        }
-
-        @Override
-        public TextParams[] newArray(int size) {
-            return new TextParams[size];
-        }
-    };
 }

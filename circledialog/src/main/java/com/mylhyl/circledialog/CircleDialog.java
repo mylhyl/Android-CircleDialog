@@ -89,7 +89,7 @@ public final class CircleDialog {
          * 设置对话框位置
          *
          * @param gravity 位置
-         * @return builder
+         * @return this Builder
          */
         public Builder setGravity(int gravity) {
             mCircleParams.dialogParams.gravity = gravity;
@@ -100,7 +100,7 @@ public final class CircleDialog {
          * 设置对话框点击外部关闭
          *
          * @param cancel true允许
-         * @return Builder
+         * @return this Builder
          */
         public Builder setCanceledOnTouchOutside(boolean cancel) {
             mCircleParams.dialogParams.canceledOnTouchOutside = cancel;
@@ -111,7 +111,7 @@ public final class CircleDialog {
          * 设置对话框返回键关闭
          *
          * @param cancel true允许
-         * @return Builder
+         * @return this Builder
          */
         public Builder setCancelable(boolean cancel) {
             mCircleParams.dialogParams.cancelable = cancel;
@@ -122,7 +122,7 @@ public final class CircleDialog {
          * 设置对话框宽度
          *
          * @param width 0.0 - 1.0
-         * @return Builder
+         * @return this Builder
          */
         public Builder setWidth(@FloatRange(from = 0.0, to = 1.0) float width) {
             mCircleParams.dialogParams.width = width;
@@ -133,7 +133,7 @@ public final class CircleDialog {
          * 设置对话框最大高度
          *
          * @param maxHeight 0.0 - 1.0
-         * @return Builder
+         * @return this Builder
          */
         public Builder setMaxHeight(@FloatRange(from = 0.0, to = 1.0) float maxHeight) {
             mCircleParams.dialogParams.maxHeight = maxHeight;
@@ -144,7 +144,7 @@ public final class CircleDialog {
          * 设置对话框圆角
          *
          * @param radius 半径
-         * @return Builder
+         * @return this Builder
          */
         public Builder setRadius(int radius) {
             mCircleParams.dialogParams.radius = radius;
@@ -155,7 +155,7 @@ public final class CircleDialog {
          * 设置对话框y 坐标偏移
          *
          * @param yOff y 坐标偏移量，默认-1
-         * @return Builder
+         * @return this Builder
          */
         public Builder setYoff(int yOff) {
             mCircleParams.dialogParams.yOff = yOff;
@@ -327,7 +327,7 @@ public final class CircleDialog {
          * 设置items否触发自动关闭对话框，默认自动
          *
          * @param manualClose true=手动；false=自动
-         * @return Builder
+         * @return this Builder
          */
         public Builder setItemsManualClose(boolean manualClose) {
             newItemsParams();
@@ -345,7 +345,7 @@ public final class CircleDialog {
          * 设置进度条文本
          *
          * @param text 进度条文本，style = 水平样式时，支持String.format() 例如：已经下载%s
-         * @return
+         * @return this Builder
          */
         public Builder setProgressText(@NonNull String text) {
             newProgressParams();
@@ -366,7 +366,7 @@ public final class CircleDialog {
          *
          * @param style {@link ProgressParams#STYLE_HORIZONTAL 水平样式} or
          *              {@link ProgressParams#STYLE_SPINNER}
-         * @return
+         * @return this Builder
          */
         public Builder setProgressStyle(int style) {
             newProgressParams();
@@ -437,7 +437,7 @@ public final class CircleDialog {
          * 设置是否触发自动关闭对话框，默认自动
          *
          * @param manualClose true=手动；false=自动
-         * @return Builder
+         * @return this Builder
          */
         public Builder setInputManualClose(boolean manualClose) {
             newInputParams();
@@ -456,7 +456,7 @@ public final class CircleDialog {
          *
          * @param text
          * @param listener
-         * @return
+         * @return this Builder
          */
         public Builder setPositive(@NonNull String text, View.OnClickListener listener) {
             newPositiveParams();
@@ -476,7 +476,7 @@ public final class CircleDialog {
          *
          * @param text
          * @param listener
-         * @return
+         * @return this Builder
          */
         public Builder setPositiveInput(@NonNull String text, OnInputClickListener listener) {
             newPositiveParams();
@@ -490,7 +490,7 @@ public final class CircleDialog {
          * 配置确定按钮
          *
          * @param configButton
-         * @return
+         * @return this Builder
          */
         public Builder configPositive(@NonNull ConfigButton configButton) {
             newPositiveParams();
@@ -503,7 +503,7 @@ public final class CircleDialog {
          *
          * @param text
          * @param listener
-         * @return
+         * @return this Builder
          */
         public Builder setNegative(@NonNull String text, View.OnClickListener listener) {
             newNegativeParams();
@@ -522,7 +522,7 @@ public final class CircleDialog {
          * 配置取消按钮
          *
          * @param configButton
-         * @return
+         * @return this Builder
          */
         public Builder configNegative(@NonNull ConfigButton configButton) {
             newNegativeParams();
@@ -535,7 +535,7 @@ public final class CircleDialog {
          *
          * @param text
          * @param listener
-         * @return
+         * @return this Builder
          */
         public Builder setNeutral(@NonNull String text, View.OnClickListener listener) {
             newNeutralParams();
@@ -554,21 +554,13 @@ public final class CircleDialog {
          * 配置中间按钮
          *
          * @param configButton
-         * @return
+         * @return this Builder
          */
         public Builder configNeutral(@NonNull ConfigButton configButton) {
             newNeutralParams();
             configButton.onConfig(mCircleParams.neutralParams);
             return this;
         }
-
-//        private void onDismiss() {
-//            if (mCircleDialog.mDialog != null) {
-//                mCircleDialog.mDialog.dismiss();
-//                mActivity = null;
-//                mCircleDialog.mDialog = null;
-//            }
-//        }
 
         @Deprecated
         public DialogFragment show() {

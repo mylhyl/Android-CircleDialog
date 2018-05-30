@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -75,7 +76,10 @@ final class BodyInputView extends ScaleLinearLayout implements Controller.OnClic
         else setBackgroundColor(backgroundColor);
 
         mEditText = new ScaleEditText(context);
-        mEditText.setInputType(inputParams.inputType);
+        int inputType = inputParams.inputType;
+        if (inputType != InputType.TYPE_NULL) {
+            mEditText.setInputType(inputParams.inputType);
+        }
         mEditText.setHint(inputParams.hintText);
         mEditText.setHintTextColor(inputParams.hintTextColor);
         mEditText.setTextSize(inputParams.textSize);
@@ -104,6 +108,9 @@ final class BodyInputView extends ScaleLinearLayout implements Controller.OnClic
         if (margins != null) {
             layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
         }
+        int[] padding = inputParams.padding;
+        if (padding != null)
+            mEditText.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
         addView(mEditText, layoutParams);
     }
 

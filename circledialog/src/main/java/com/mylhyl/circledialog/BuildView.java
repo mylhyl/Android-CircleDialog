@@ -63,7 +63,7 @@ public interface BuildView {
     /**
      * 生成进度条布局
      *
-     * @return
+     * @return 进度条视图
      */
     View buildProgress();
 

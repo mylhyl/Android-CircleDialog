@@ -29,11 +29,11 @@ public class ProgressParams implements Parcelable {
      */
     public int style = STYLE_HORIZONTAL;
     /**
-     * 进度条与body的边距
+     * 进度条与body的边距 [left, top, right, bottom]
      */
     public int[] margins = MARGINS;
     /**
-     * 底部文字内边距
+     * 底部文字内边距 [left, top, right, bottom]
      */
     public int[] padding = TEXT_PADDING;
     /**

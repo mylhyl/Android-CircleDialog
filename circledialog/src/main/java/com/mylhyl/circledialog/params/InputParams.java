@@ -72,7 +72,7 @@ public class InputParams implements Parcelable {
     /**
      * 输入类型
      */
-    public int inputType = InputType.TYPE_CLASS_TEXT;
+    public int inputType = InputType.TYPE_NULL;
     /**
      * 文字对齐方式，默认左上角
      */
@@ -85,6 +85,10 @@ public class InputParams implements Parcelable {
      * 文本
      */
     public String text;
+    /**
+     * 内间距 [left, top, right, bottom]
+     */
+    public int[] padding;
 
     public InputParams() {
     }
@@ -104,6 +108,8 @@ public class InputParams implements Parcelable {
         this.inputType = in.readInt();
         this.gravity = in.readInt();
         this.isManualClose = in.readByte() != 0;
+        this.text = in.readString();
+        this.padding = in.createIntArray();
     }
 
     @Override
@@ -127,5 +133,7 @@ public class InputParams implements Parcelable {
         dest.writeInt(this.inputType);
         dest.writeInt(this.gravity);
         dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
+        dest.writeString(this.text);
+        dest.writeIntArray(this.padding);
     }
 }
