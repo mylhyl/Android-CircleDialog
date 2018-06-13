@@ -562,6 +562,17 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置自定义等待框视图
+         *
+         * @param progressView
+         * @return
+         */
+        public Builder setProgressView(View progressView) {
+            mCircleParams.progressView = progressView;
+            return this;
+        }
+
         @Deprecated
         public DialogFragment show() {
             DialogFragment dialogFragment = create();

@@ -25,10 +25,12 @@ public final class BuildViewImpl implements BuildView {
     private InputView mBodyInputView;
     private ItemsButton mItemsButton;
     private ButtonView mMultipleButton;
+    private View mCustomProgressView;
 
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
         this.mParams = params;
+        this.mCustomProgressView = mParams.progressView;
     }
 
     @Override
@@ -67,7 +69,6 @@ public final class BuildViewImpl implements BuildView {
     @Override
     public ItemsView buildItems() {
         if (mItemsView == null) {
-
             if (mParams.itemListener != null || mParams.itemsParams.adapter != null)
                 mItemsView = new BodyItemsView(mContext, mParams);
             else if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null)
@@ -95,6 +96,10 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public View buildProgress() {
+        if (mCustomProgressView != null) {
+            mRoot.addView(mCustomProgressView);
+            return mCustomProgressView;
+        }
         if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams);
             mRoot.addView(mBodyProgressView);

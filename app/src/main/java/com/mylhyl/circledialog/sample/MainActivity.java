@@ -11,10 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
-                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)"});
+                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义等待框"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -566,6 +568,17 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                         , Toast.LENGTH_SHORT).show();
                             }
                         })
+                        .show(getSupportFragmentManager());
+                break;
+            case 15:
+                View progressView = LayoutInflater.from(MainActivity.this)
+                        .inflate(R.layout.share_page_loading, (ViewGroup) getWindow().getDecorView()
+                                , false);
+                CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
+                progressView.setBackgroundDrawable(bgCircleDrawable);
+                dialogFragment = new CircleDialog.Builder()
+                        .setWidth(0.7f)
+                        .setProgressView(progressView)
                         .show(getSupportFragmentManager());
                 break;
         }

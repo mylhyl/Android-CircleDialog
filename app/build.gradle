@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         applicationId "com.mylhyl.circledialog.sample"
-        minSdkVersion rootProject.ext.android.minSdkVersion
+        minSdkVersion 16
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.publish.version
@@ -31,4 +31,5 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    compile 'com.airbnb.android:lottie:2.5.4'
 }
