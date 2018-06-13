@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,6 +31,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -565,11 +567,13 @@ public final class CircleDialog {
         /**
          * 设置自定义等待框视图
          *
-         * @param progressView
+         * @param progressViewId
          * @return
          */
-        public Builder setProgressView(View progressView) {
-            mCircleParams.progressView = progressView;
+        public Builder setProgressView(@LayoutRes int progressViewId
+                , OnCreateProgressViewListener listener) {
+            mCircleParams.progressViewId = progressViewId;
+            mCircleParams.createProgressViewListener = listener;
             return this;
         }
 

@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -30,7 +31,6 @@ public final class BuildViewImpl implements BuildView {
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
         this.mParams = params;
-        this.mCustomProgressView = mParams.progressView;
     }
 
     @Override
@@ -95,16 +95,18 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public View buildProgress() {
-        if (mCustomProgressView != null) {
+    public void buildProgress() {
+        int progressViewId = mParams.progressViewId;
+        if (mCustomProgressView == null && progressViewId != 0) {
+            View progressView = LayoutInflater.from(mContext).inflate(progressViewId, mRoot, false);
+            if (mParams.createProgressViewListener != null)
+                mParams.createProgressViewListener.onCreateProgressView(progressView);
+            this.mCustomProgressView = progressView;
             mRoot.addView(mCustomProgressView);
-            return mCustomProgressView;
-        }
-        if (mBodyProgressView == null) {
+        } else if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams);
             mRoot.addView(mBodyProgressView);
         }
-        return mBodyProgressView;
     }
 
 

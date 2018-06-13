@@ -95,7 +95,7 @@ public class Controller {
             applyButton(itemsButton, null);
         }
         //进度条
-        else if (mParams.progressParams != null || mParams.progressView != null) {
+        else if (mParams.progressParams != null || mParams.progressViewId != 0) {
             mCreateView.buildProgress();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);

@@ -13,9 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +42,7 @@ import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
+import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -276,12 +275,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
                         .show(getSupportFragmentManager());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialogFragment.dismiss();
-                    }
-                }, 3000);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        dialogFragment.dismiss();
+//                    }
+//                }, 3000);
                 break;
             case 6:
                 builder = new CircleDialog.Builder();
@@ -571,14 +570,16 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 15:
-                View progressView = LayoutInflater.from(MainActivity.this)
-                        .inflate(R.layout.share_page_loading, (ViewGroup) getWindow().getDecorView()
-                                , false);
-                CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
-                progressView.setBackgroundDrawable(bgCircleDrawable);
+
                 dialogFragment = new CircleDialog.Builder()
                         .setWidth(0.7f)
-                        .setProgressView(progressView)
+                        .setProgressView(R.layout.share_page_loading, new OnCreateProgressViewListener() {
+                            @Override
+                            public void onCreateProgressView(View view) {
+                                CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
+                                view.setBackgroundDrawable(bgCircleDrawable);
+                            }
+                        })
                         .show(getSupportFragmentManager());
                 break;
         }

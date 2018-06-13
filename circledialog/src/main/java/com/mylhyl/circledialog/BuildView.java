@@ -65,7 +65,7 @@ public interface BuildView {
      *
      * @return 进度条视图
      */
-    View buildProgress();
+    void buildProgress();
 
     /**
      * 刷新进度条
