@@ -9,6 +9,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
+import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 
 /**
  * 对话框纯文本视图
@@ -80,6 +81,11 @@ final class BodyTextView extends ScaleTextView {
 
         int[] padding = textParams.padding;
         if (padding != null) setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+
+        OnCreateTextListener createTextListener = params.createTextListener;
+        if (createTextListener != null) {
+            createTextListener.onCreateText(this);
+        }
     }
 
     public void refreshText() {

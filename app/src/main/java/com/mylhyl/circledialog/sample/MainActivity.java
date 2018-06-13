@@ -44,6 +44,7 @@ import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
+import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
@@ -401,6 +402,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             @Override
                             public void onConfig(TextParams params) {
                                 params.styleText = Typeface.BOLD;
+                            }
+                        })
+                        .setOnCreateTextListener(new OnCreateTextListener() {
+                            @Override
+                            public void onCreateText(TextView textBody) {
+                                textBody.setText("重新设置对话框内容");
                             }
                         })
                         .setNegative("取消", new View.OnClickListener() {
