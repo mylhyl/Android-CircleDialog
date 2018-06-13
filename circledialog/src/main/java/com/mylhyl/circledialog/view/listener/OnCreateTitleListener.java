@@ -1,6 +1,6 @@
 package com.mylhyl.circledialog.view.listener;
 
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -8,5 +8,5 @@ import android.widget.TextView;
  */
 
 public interface OnCreateTitleListener {
-    void onCreateTitle(LinearLayout rootView, TextView tvTitle, TextView tvSubTitle);
+    void onCreateTitle(ImageView titleIcon, TextView title, TextView subTitle);
 }

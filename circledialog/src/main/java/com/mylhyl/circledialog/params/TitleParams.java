@@ -54,6 +54,7 @@ public class TitleParams implements Parcelable {
      * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
      */
     public int styleText = Typeface.NORMAL;
+    public int icon;
 
     public TitleParams() {
     }
@@ -66,6 +67,7 @@ public class TitleParams implements Parcelable {
         this.backgroundColor = in.readInt();
         this.gravity = in.readInt();
         this.styleText = in.readInt();
+        this.icon = in.readInt();
     }
 
     @Override
@@ -82,5 +84,6 @@ public class TitleParams implements Parcelable {
         dest.writeInt(this.backgroundColor);
         dest.writeInt(this.gravity);
         dest.writeInt(this.styleText);
+        dest.writeInt(this.icon);
     }
 }

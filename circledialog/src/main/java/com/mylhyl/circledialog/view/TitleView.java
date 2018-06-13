@@ -2,9 +2,9 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
-import android.view.Gravity;
-import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -33,17 +33,42 @@ final class TitleView extends ScaleLinearLayout {
         TitleParams titleParams = params.titleParams;
         SubTitleParams subTitleParams = params.subTitleParams;
 
+
+        ScaleRelativeLayout titleLayout = new ScaleRelativeLayout(getContext());
+        titleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT
+                , LayoutParams.WRAP_CONTENT));
+
+        setTitleBg(titleLayout, params, titleParams.backgroundColor
+                , dialogParams.backgroundColor, dialogParams.radius);
+        //标题图标
+        ImageView ivTitleIcon = new ImageView(getContext());
+        RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.text1);
+        layoutParamsTitleIcon.addRule(RelativeLayout.CENTER_VERTICAL);
+        ivTitleIcon.setLayoutParams(layoutParamsTitleIcon);
+        if (titleParams.icon != 0) {
+            ivTitleIcon.setImageResource(titleParams.icon);
+            ivTitleIcon.setVisibility(VISIBLE);
+        } else {
+            ivTitleIcon.setVisibility(GONE);
+        }
+        titleLayout.addView(ivTitleIcon);
         //标题
         final ScaleTextView tvTitle = new ScaleTextView(getContext());
-        setTitleBg(tvTitle, params, titleParams.backgroundColor
-                , dialogParams.backgroundColor, dialogParams.radius);
+        tvTitle.setId(android.R.id.text1);
+        RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        tvTitle.setLayoutParams(layoutParamsTitle);
         tvTitle.setGravity(titleParams.gravity);
         tvTitle.setHeight(titleParams.height);
         tvTitle.setTextColor(titleParams.textColor);
         tvTitle.setTextSize(titleParams.textSize);
         tvTitle.setText(titleParams.text);
         tvTitle.setTypeface(tvTitle.getTypeface(), titleParams.styleText);
-        addView(tvTitle);
+        titleLayout.addView(tvTitle);
+        addView(titleLayout);
 
         //副标题
         ScaleTextView tvSubTitle = null;
@@ -64,11 +89,11 @@ final class TitleView extends ScaleLinearLayout {
         }
         OnCreateTitleListener createTitleListener = params.createTitleListener;
         if (createTitleListener != null) {
-            createTitleListener.onCreateTitle(this, tvTitle, tvSubTitle);
+            createTitleListener.onCreateTitle(ivTitleIcon, tvTitle, tvSubTitle);
         }
     }
 
-    private void setTitleBg(View tv, CircleParams params, int tbg, int dbg, int radius) {
+    private void setTitleBg(ScaleRelativeLayout tv, CircleParams params, int tbg, int dbg, int radius) {
         //如果标题没有背景色，则使用默认色
         int bg = tbg != 0 ? tbg : dbg;
 

@@ -196,6 +196,12 @@ public final class CircleDialog {
                 mCircleParams.titleParams = new TitleParams();
         }
 
+        public Builder setTitleIcon(@DrawableRes int icon) {
+            newTitleParams();
+            mCircleParams.titleParams.icon = icon;
+            return this;
+        }
+
         public Builder setTitleColor(@ColorInt int color) {
             newTitleParams();
             mCircleParams.titleParams.textColor = color;

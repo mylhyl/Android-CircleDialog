@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -16,7 +15,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -375,19 +374,19 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 10:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .setTitleIcon(R.mipmap.ic_launcher)
                         .configTitle(new ConfigTitle() {
                             @Override
                             public void onConfig(TitleParams params) {
                                 params.styleText = Typeface.BOLD;
-                                params.backgroundColor = Color.YELLOW;
+//                                params.backgroundColor = Color.YELLOW;
                             }
                         })
                         .setOnCreateTitleListener(new OnCreateTitleListener() {
                             @Override
-                            public void onCreateTitle(LinearLayout rootView, TextView tvTitle, TextView tvSubTitle) {
-                                tvTitle.setText("重设标题");
-//                                Drawable icon = getResources().getDrawable(R.mipmap.ic_launcher);
-//                                tvTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+                            public void onCreateTitle(ImageView titleIcon, TextView title, TextView subTitle) {
+                                title.setText("重设标题");
+                                titleIcon.setPadding(0, 0, 30, 0);
                             }
                         })
                         .setSubTitle("副标题")
