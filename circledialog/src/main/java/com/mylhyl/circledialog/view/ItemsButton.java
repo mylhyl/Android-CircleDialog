@@ -11,6 +11,7 @@ import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 
 /**
  * 列表对话框的取消按钮视图
@@ -113,6 +114,11 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
             } else {
                 mNeutralButton.setBackgroundDrawable(selectorBtn);
             }
+        }
+
+        OnCreateButtonListener createButtonListener = mCircleParams.createButtonListener;
+        if (createButtonListener != null) {
+            createButtonListener.onCreateButton(mNegativeButton, mPositiveButton, mNeutralButton);
         }
     }
 

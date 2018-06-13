@@ -14,6 +14,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
@@ -26,6 +27,17 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 public class CircleParams implements Parcelable {
 
+    public static final Creator<CircleParams> CREATOR = new Creator<CircleParams>() {
+        @Override
+        public CircleParams createFromParcel(Parcel source) {
+            return new CircleParams(source);
+        }
+
+        @Override
+        public CircleParams[] newArray(int size) {
+            return new CircleParams[size];
+        }
+    };
     /**
      * 确定按钮点击事件
      */
@@ -76,8 +88,23 @@ public class CircleParams implements Parcelable {
     public OnCreateProgressViewListener createProgressViewListener;
     public OnCreateTitleListener createTitleListener;
     public OnCreateTextListener createTextListener;
+    public OnCreateButtonListener createButtonListener;
 
     public CircleParams() {
+    }
+
+    protected CircleParams(Parcel in) {
+        this.dialogParams = in.readParcelable(DialogParams.class.getClassLoader());
+        this.titleParams = in.readParcelable(TitleParams.class.getClassLoader());
+        this.subTitleParams = in.readParcelable(SubTitleParams.class.getClassLoader());
+        this.textParams = in.readParcelable(TextParams.class.getClassLoader());
+        this.negativeParams = in.readParcelable(ButtonParams.class.getClassLoader());
+        this.positiveParams = in.readParcelable(ButtonParams.class.getClassLoader());
+        this.itemsParams = in.readParcelable(ItemsParams.class.getClassLoader());
+        this.progressParams = in.readParcelable(ProgressParams.class.getClassLoader());
+        this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
+        this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
+        this.progressViewId = in.readInt();
     }
 
     @Override
@@ -99,30 +126,4 @@ public class CircleParams implements Parcelable {
         dest.writeParcelable(this.neutralParams, flags);
         dest.writeInt(this.progressViewId);
     }
-
-    protected CircleParams(Parcel in) {
-        this.dialogParams = in.readParcelable(DialogParams.class.getClassLoader());
-        this.titleParams = in.readParcelable(TitleParams.class.getClassLoader());
-        this.subTitleParams = in.readParcelable(SubTitleParams.class.getClassLoader());
-        this.textParams = in.readParcelable(TextParams.class.getClassLoader());
-        this.negativeParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.positiveParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.itemsParams = in.readParcelable(ItemsParams.class.getClassLoader());
-        this.progressParams = in.readParcelable(ProgressParams.class.getClassLoader());
-        this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
-        this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.progressViewId = in.readInt();
-    }
-
-    public static final Creator<CircleParams> CREATOR = new Creator<CircleParams>() {
-        @Override
-        public CircleParams createFromParcel(Parcel source) {
-            return new CircleParams(source);
-        }
-
-        @Override
-        public CircleParams[] newArray(int size) {
-            return new CircleParams[size];
-        }
-    };
 }

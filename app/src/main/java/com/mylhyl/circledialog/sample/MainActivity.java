@@ -43,6 +43,7 @@ import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
+import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
@@ -444,6 +445,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             @Override
                             public void onConfig(ButtonParams params) {
                                 params.styleText = Typeface.BOLD;
+                            }
+                        })
+                        .setOnCreateButtonListener(new OnCreateButtonListener() {
+                            @Override
+                            public void onCreateButton(TextView negativeButton
+                                    , TextView positiveButton, TextView neutralButton) {
+                                negativeButton.setText("取消？");
+                                positiveButton.setText("确定？");
+                                neutralButton.setText("中间？");
                             }
                         })
                         .show(getSupportFragmentManager());

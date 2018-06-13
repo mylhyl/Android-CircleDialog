@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 
 /**
  * 对话框确定按钮与取消的视图
@@ -111,6 +111,10 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             } else {
                 mNeutralButton.setBackgroundDrawable(selectorBtn);
             }
+        }
+        OnCreateButtonListener createButtonListener = mCircleParams.createButtonListener;
+        if (createButtonListener != null) {
+            createButtonListener.onCreateButton(mNegativeButton, mPositiveButton, mNeutralButton);
         }
     }
 

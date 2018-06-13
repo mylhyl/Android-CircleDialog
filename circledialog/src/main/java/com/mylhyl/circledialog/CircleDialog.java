@@ -31,6 +31,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
@@ -592,6 +593,11 @@ public final class CircleDialog {
                 , OnCreateProgressViewListener listener) {
             mCircleParams.progressViewId = progressViewId;
             mCircleParams.createProgressViewListener = listener;
+            return this;
+        }
+
+        public Builder setOnCreateButtonListener(OnCreateButtonListener listener) {
+            mCircleParams.createButtonListener = listener;
             return this;
         }
 
