@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog.sample;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -14,8 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,32 +20,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.callback.ConfigButton;
-import com.mylhyl.circledialog.callback.ConfigDialog;
-import com.mylhyl.circledialog.callback.ConfigInput;
-import com.mylhyl.circledialog.callback.ConfigItems;
-import com.mylhyl.circledialog.callback.ConfigSubTitle;
-import com.mylhyl.circledialog.callback.ConfigText;
-import com.mylhyl.circledialog.callback.ConfigTitle;
-import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.params.InputParams;
-import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.params.SubTitleParams;
-import com.mylhyl.circledialog.params.TextParams;
-import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
-import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
-import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
-import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
-import com.mylhyl.circledialog.view.listener.OnInputClickListener;
-import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,53 +73,30 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("标题")
                         .setText("提示框")
                         .setPositive("确定", null)
-                        .setOnShowListener(new DialogInterface.OnShowListener() {
-                            @Override
-                            public void onShow(DialogInterface dialog) {
-                                Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                Toast.makeText(MainActivity.this, "取消了！", Toast.LENGTH_SHORT).show();
-                            }
-                        })
+                        .setOnShowListener(dialog ->
+                                Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show())
+                        .setOnCancelListener(dialog ->
+                                Toast.makeText(MainActivity.this, "取消了！", Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
             case 1:
                 new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                params.backgroundColor = Color.DKGRAY;
-                                params.backgroundColorPress = Color.BLUE;
-                            }
+                        .configDialog(params -> {
+                            params.backgroundColor = Color.DKGRAY;
+                            params.backgroundColorPress = Color.BLUE;
                         })
                         .setTitle("标题")
                         .setText("冷却风扇口无异物，风机扇叶无损伤，无过热痕迹")
-                        .configText(new ConfigText() {
-                            @Override
-                            public void onConfig(TextParams params) {
+                        .configText(params -> {
 //                                params.gravity = Gravity.LEFT | Gravity.TOP;
-                                params.padding = new int[]{100, 0, 100, 50};
-                            }
+                            params.padding = new int[]{100, 0, 100, 50};
                         })
                         .setNegative("取消", null)
-                        .setPositive("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .configPositive(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.backgroundColorPress = Color.RED;
-                            }
-                        })
+                        .setPositive("确定", v ->
+                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show())
+                        .configPositive(params -> params.backgroundColorPress = Color.RED)
                         .show(getSupportFragmentManager());
                 break;
             case 2:
@@ -151,37 +106,23 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                list.add(new PictureTypeEntity(3, "小视频"));
                 final String[] items = {"拍照", "从相册选择", "小视频"};
                 new CircleDialog.Builder()
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                params.backgroundColorPress = Color.CYAN;
-                                //增加弹出动画
-                                params.animStyle = R.style.dialogWindowAnim;
-                            }
+                        .configDialog(params -> {
+                            params.backgroundColorPress = Color.CYAN;
+                            //增加弹出动画
+                            params.animStyle = R.style.dialogWindowAnim;
                         })
                         .setTitle("标题")
 //                        .setTitleColor(Color.BLUE)
-                        .configTitle(new ConfigTitle() {
-                            @Override
-                            public void onConfig(TitleParams params) {
+                        .configTitle(params -> {
 //                                params.backgroundColor = Color.RED;
-                            }
                         })
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
-                        .configSubTitle(new ConfigSubTitle() {
-                            @Override
-                            public void onConfig(SubTitleParams params) {
+                        .configSubTitle(params -> {
 //                                params.backgroundColor = Color.YELLOW;
-                            }
                         })
-                        .setItems(items, new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int
-                                    position, long id) {
-                                Toast.makeText(MainActivity.this, "点击了：" + items[position]
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-                        })
+                        .setItems(items, (parent, view1, position1, id) ->
+                                Toast.makeText(MainActivity.this, "点击了：" + items[position1]
+                                        , Toast.LENGTH_SHORT).show())
                         .setNegative("取消", null)
 //                        .setNeutral("中间", null)
 //                        .setPositive("确定", null)
@@ -203,29 +144,23 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("输入框")
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
-                        .configInput(new ConfigInput() {
-                            @Override
-                            public void onConfig(InputParams params) {
-                                params.padding = new int[]{20, 20, 20, 20};
+                        .configInput(params -> {
+                            params.padding = new int[]{20, 20, 20, 20};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;
-                                //密码
+                            //密码
 //                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
 //                                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
-                                //文字加粗
-                                params.styleText = Typeface.BOLD;
-                            }
+                            //文字加粗
+                            params.styleText = Typeface.BOLD;
                         })
                         .setNegative("取消", null)
-                        .setPositiveInput("确定", new OnInputClickListener() {
-                            @Override
-                            public void onClick(String text, View v) {
-                                if (TextUtils.isEmpty(text)) {
-                                    Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-                                    dialogFragment.dismiss();
-                                }
+                        .setPositiveInput("确定", (text, v) -> {
+                            if (TextUtils.isEmpty(text)) {
+                                Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                                dialogFragment.dismiss();
                             }
                         })
                         .show(getSupportFragmentManager());
@@ -234,22 +169,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder();
                 builder.setCancelable(false).setCanceledOnTouchOutside(false)
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                params.backgroundColor = Color.CYAN;
-                            }
-                        })
+                        .configDialog(params -> params.backgroundColor = Color.CYAN)
                         .setTitle("下载")
                         .setProgressText("已经下载")
 //                        .setProgressText("已经下载%s了")
 //                        .setProgressDrawable(R.drawable.bg_progress_h)
-                        .setNegative("取消", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                timer.cancel();
-                            }
-                        })
+                        .setNegative("取消", v -> timer.cancel())
                         .show(getSupportFragmentManager());
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;
@@ -259,12 +184,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                     public void run() {
                         progress++;
                         if (progress >= max) {
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    builder.setProgressText("下载完成").create();
-                                    timer.cancel();
-                                }
+                            MainActivity.this.runOnUiThread(() -> {
+                                builder.setProgressText("下载完成").create();
+                                timer.cancel();
                             });
                         } else {
                             builder.setProgress(max, progress).create();
@@ -288,28 +210,20 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 6:
                 builder = new CircleDialog.Builder();
-                builder.configDialog(new ConfigDialog() {
-                    @Override
-                    public void onConfig(DialogParams params) {
-                        params.gravity = Gravity.TOP;
+                builder.configDialog(params -> {
+                    params.gravity = Gravity.TOP;
 //                        TranslateAnimation refreshAnimation = new TranslateAnimation(15, -15,
 // 0, 0);
 //                        refreshAnimation.setInterpolator(new OvershootInterpolator());
 //                        refreshAnimation.setDuration(100);
 //                        refreshAnimation.setRepeatCount(3);
 //                        refreshAnimation.setRepeatMode(Animation.RESTART);
-                        params.refreshAnimation = R.anim.refresh_animation;
-                    }
+                    params.refreshAnimation = R.anim.refresh_animation;
                 })
 
                         .setTitle("动态改变内容")
                         .setText("3秒后更新其它内容")
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                removeRunnable();
-                            }
-                        })
+                        .setOnDismissListener(dialog -> removeRunnable())
                         .show(getSupportFragmentManager());
                 handler = new Handler();
                 runnable = new Runnable() {
@@ -332,35 +246,22 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 builder = new CircleDialog.Builder()
                         .setTitle("标题")
                         .setText("提示框")
-                        .configPositive(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.disable = true;
-                            }
-                        })
+                        .configPositive(params -> params.disable = true)
                         .setPositive("确定(" + time + "s)", null)
                         .setNegative("取消", null);
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        removeRunnable();
-                    }
-                });
+                builder.setOnDismissListener(dialog -> removeRunnable());
                 dialogFragment = builder.show(getSupportFragmentManager());
 
                 handler = new Handler();
                 runnable = new Runnable() {
                     @Override
                     public void run() {
-                        builder.configPositive(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                --time;
-                                params.text = "确定(" + time + "s)";
-                                if (time == 0) {
-                                    params.disable = false;
-                                    params.text = "确定";
-                                }
+                        builder.configPositive(params -> {
+                            --time;
+                            params.text = "确定(" + time + "s)";
+                            if (time == 0) {
+                                params.disable = false;
+                                params.text = "确定";
                             }
                         }).create();
 
@@ -377,84 +278,32 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setTitle("标题")
                         .setTitleIcon(R.mipmap.ic_launcher)
-                        .configTitle(new ConfigTitle() {
-                            @Override
-                            public void onConfig(TitleParams params) {
-                                params.styleText = Typeface.BOLD;
+                        .configTitle(params -> {
+                            params.styleText = Typeface.BOLD;
 //                                params.backgroundColor = Color.YELLOW;
-                            }
                         })
-                        .setOnCreateTitleListener(new OnCreateTitleListener() {
-                            @Override
-                            public void onCreateTitle(ImageView titleIcon, TextView title, TextView subTitle) {
-                                title.setText("重设标题");
-                                titleIcon.setPadding(0, 0, 30, 0);
-                            }
+                        .setOnCreateTitleListener((titleIcon, title, subTitle) -> {
+                            title.setText("重设标题");
+                            titleIcon.setPadding(0, 0, 30, 0);
                         })
                         .setSubTitle("副标题")
-                        .configSubTitle(new ConfigSubTitle() {
-                            @Override
-                            public void onConfig(SubTitleParams params) {
-                                params.styleText = Typeface.BOLD;
-                            }
-                        })
+                        .configSubTitle(params -> params.styleText = Typeface.BOLD)
                         .setText("提示框")
-                        .configText(new ConfigText() {
-                            @Override
-                            public void onConfig(TextParams params) {
-                                params.styleText = Typeface.BOLD;
-                            }
-                        })
-                        .setOnCreateTextListener(new OnCreateTextListener() {
-                            @Override
-                            public void onCreateText(TextView textBody) {
-                                textBody.setText("重新设置对话框内容");
-                            }
-                        })
-                        .setNegative("取消", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .configNegative(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.styleText = Typeface.BOLD;
-                            }
-                        })
-                        .setNeutral("中间", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .configNeutral(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.styleText = Typeface.BOLD;
-                            }
-                        })
-                        .setPositive("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .configPositive(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.styleText = Typeface.BOLD;
-                            }
-                        })
-                        .setOnCreateButtonListener(new OnCreateButtonListener() {
-                            @Override
-                            public void onCreateButton(TextView negativeButton
-                                    , TextView positiveButton, TextView neutralButton) {
-                                negativeButton.setText("取消？");
-                                positiveButton.setText("确定？");
-                                neutralButton.setText("中间？");
-                            }
+                        .configText(params -> params.styleText = Typeface.BOLD)
+                        .setOnCreateTextListener(textBody -> textBody.setText("重新设置对话框内容"))
+                        .setNegative("取消", v ->
+                                Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show())
+                        .configNegative(params -> params.styleText = Typeface.BOLD)
+                        .setNeutral("中间", v ->
+                                Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show())
+                        .configNeutral(params -> params.styleText = Typeface.BOLD)
+                        .setPositive("确定", v ->
+                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show())
+                        .configPositive(params -> params.styleText = Typeface.BOLD)
+                        .setOnCreateButtonListener((negativeButton, positiveButton, neutralButton) -> {
+                            negativeButton.setText("取消？");
+                            positiveButton.setText("确定？");
+                            neutralButton.setText("中间？");
                         })
                         .show(getSupportFragmentManager());
                 break;
@@ -463,29 +312,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapter = new CheckedAdapter(this, objects);
 
                 new CircleDialog.Builder()
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                params.backgroundColorPress = Color.CYAN;
-                            }
-                        })
+                        .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("可多选")
-                        .setItems(checkedAdapter, new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                checkedAdapter.toggle(position, objects[position]);
-                            }
-                        })
+                        .setItems(checkedAdapter, (parent, view12, position12, id) ->
+                                checkedAdapter.toggle(position12, objects[position12]))
                         .setItemsManualClose(true)
-                        .setPositive("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this
-                                        , "选择了：" + checkedAdapter.getSaveChecked().toString()
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-                        })
+                        .setPositive("确定", v -> Toast.makeText(MainActivity.this
+                                , "选择了：" + checkedAdapter.getSaveChecked().toString()
+                                , Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
             case 12:
@@ -502,19 +337,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
-                        .configItems(new ConfigItems() {
-                            @Override
-                            public void onConfig(ItemsParams params) {
-                                params.dividerHeight = 0;
-                            }
-                        })
-                        .setItems(list, gridLayoutManager, new OnRvItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position)
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-                        })
+                        .configItems(params -> params.dividerHeight = 0)
+                        .setItems(list, gridLayoutManager, (view13, position13) ->
+                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position13)
+                                        , Toast.LENGTH_SHORT).show())
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
@@ -552,19 +378,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("副标题哦！")
                         .setItems(rvAdapter, new LinearLayoutManager(this))
                         .setNegative("关闭", null)
-                        .configNegative(new ConfigButton() {
-                            @Override
-                            public void onConfig(ButtonParams params) {
-                                params.topMargin = 0;
-                            }
-                        })
+                        .configNegative(params -> params.topMargin = 0)
                         .show(getSupportFragmentManager());
-                rvAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        Toast.makeText(MainActivity.this, "点击的是：" + adapter.getData().get(position), Toast.LENGTH_SHORT).show();
-                        dialogFragment.dismiss();
-                    }
+                rvAdapter.setOnItemClickListener((adapter1, view14, position14) -> {
+                    Toast.makeText(MainActivity.this, "点击的是：" + adapter1.getData().get(position14), Toast.LENGTH_SHORT).show();
+                    dialogFragment.dismiss();
                 });
                 break;
             case 14:
@@ -572,41 +390,24 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
 
                 new CircleDialog.Builder()
-                        .configDialog(new ConfigDialog() {
-                            @Override
-                            public void onConfig(DialogParams params) {
-                                params.backgroundColorPress = Color.CYAN;
-                            }
-                        })
+                        .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
-                        .setItems(checkedAdapterR, new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                checkedAdapterR.toggle(position, objectsR[position]);
-                            }
-                        })
+                        .setItems(checkedAdapterR, (parent, view15, position15, id) ->
+                                checkedAdapterR.toggle(position15, objectsR[position15]))
                         .setItemsManualClose(true)
-                        .setPositive("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(MainActivity.this
-                                        , "选择了：" + checkedAdapterR.getSaveChecked().toString()
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-                        })
+                        .setPositive("确定", v -> Toast.makeText(MainActivity.this
+                                , "选择了：" + checkedAdapterR.getSaveChecked().toString()
+                                , Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
             case 15:
 
                 dialogFragment = new CircleDialog.Builder()
                         .setWidth(0.7f)
-                        .setBodyView(R.layout.share_page_loading, new OnCreateBodyViewListener() {
-                            @Override
-                            public void onCreateBodyView(View view) {
-                                CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
-                                view.setBackgroundDrawable(bgCircleDrawable);
-                            }
+                        .setBodyView(R.layout.share_page_loading, view16 -> {
+                            CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
+                            view16.setBackgroundDrawable(bgCircleDrawable);
                         })
                         .show(getSupportFragmentManager());
                 break;

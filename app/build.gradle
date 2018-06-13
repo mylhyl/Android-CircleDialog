@@ -10,6 +10,9 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.publish.version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        jackOptions {
+            enabled=true
+        }
     }
     buildTypes {
         release {
