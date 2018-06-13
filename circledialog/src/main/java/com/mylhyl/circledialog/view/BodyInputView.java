@@ -16,6 +16,7 @@ import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.view.listener.InputView;
+import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 
 import static com.mylhyl.circledialog.Controller.BUTTON_POSITIVE;
 
@@ -113,6 +114,11 @@ final class BodyInputView extends ScaleLinearLayout implements Controller.OnClic
             mEditText.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
         mEditText.setTypeface(mEditText.getTypeface(), inputParams.styleText);
         addView(mEditText, layoutParams);
+
+        OnCreateInputListener createInputListener = params.createInputListener;
+        if (createInputListener != null) {
+            createInputListener.onCreateText(mEditText);
+        }
     }
 
     @Override

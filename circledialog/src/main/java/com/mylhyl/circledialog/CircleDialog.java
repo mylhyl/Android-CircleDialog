@@ -32,6 +32,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
+import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
@@ -488,6 +489,11 @@ public final class CircleDialog {
         public Builder configInput(@NonNull ConfigInput configInput) {
             newInputParams();
             configInput.onConfig(mCircleParams.inputParams);
+            return this;
+        }
+
+        public Builder setOnCreateInputListener(OnCreateInputListener listener) {
+            mCircleParams.createInputListener = listener;
             return this;
         }
 
