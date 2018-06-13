@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,6 +150,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
                 mNegativeParams.textColorDisable : mNegativeParams.textColor);
         mNegativeButton.setTextSize(mNegativeParams.textSize);
         mNegativeButton.setHeight(mNegativeParams.height);
+        mNegativeButton.setTypeface(mNegativeButton.getTypeface(), mNegativeParams.styleText);
     }
 
     private void handleNeutralStyle() {
@@ -158,6 +160,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
                 mNeutralParams.textColorDisable : mNeutralParams.textColor);
         mNeutralButton.setTextSize(mNeutralParams.textSize);
         mNeutralButton.setHeight(mNeutralParams.height);
+        mNeutralButton.setTypeface(mNeutralButton.getTypeface(), mNeutralParams.styleText);
     }
 
     private void handlePositiveStyle() {
@@ -167,6 +170,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
                 mPositiveParams.textColorDisable : mPositiveParams.textColor);
         mPositiveButton.setTextSize(mPositiveParams.textSize);
         mPositiveButton.setHeight(mPositiveParams.height);
+        mPositiveButton.setTypeface(mPositiveButton.getTypeface(), mPositiveParams.styleText);
     }
 
     @Override

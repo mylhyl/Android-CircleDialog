@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.params;
 
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.InputType;
@@ -89,6 +90,14 @@ public class InputParams implements Parcelable {
      * 内间距 [left, top, right, bottom]
      */
     public int[] padding;
+    /**
+     * 字样式
+     * {@linkplain Typeface#NORMAL NORMAL}
+     * {@linkplain Typeface#BOLD BOLD}
+     * {@linkplain Typeface#ITALIC ITALIC}
+     * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
+     */
+    public int styleText = Typeface.NORMAL;
 
     public InputParams() {
     }
@@ -110,6 +119,7 @@ public class InputParams implements Parcelable {
         this.isManualClose = in.readByte() != 0;
         this.text = in.readString();
         this.padding = in.createIntArray();
+        this.styleText = in.readInt();
     }
 
     @Override
@@ -135,5 +145,6 @@ public class InputParams implements Parcelable {
         dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
         dest.writeString(this.text);
         dest.writeIntArray(this.padding);
+        dest.writeInt(this.styleText);
     }
 }

@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.params;
 
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Gravity;
@@ -13,8 +14,7 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  */
 public class TextParams implements Parcelable {
 
-    public static final Parcelable.Creator<TextParams> CREATOR = new Parcelable
-            .Creator<TextParams>() {
+    public static final Creator<TextParams> CREATOR = new Creator<TextParams>() {
         @Override
         public TextParams createFromParcel(Parcel source) {
             return new TextParams(source);
@@ -25,7 +25,6 @@ public class TextParams implements Parcelable {
             return new TextParams[size];
         }
     };
-
     private static final int[] PADDING = {50, 0, 50, 50};
     /**
      * body文本内间距 [left, top, right, bottom]
@@ -52,6 +51,14 @@ public class TextParams implements Parcelable {
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
     public int gravity = Gravity.CENTER;
+    /**
+     * 字样式
+     * {@linkplain Typeface#NORMAL NORMAL}
+     * {@linkplain Typeface#BOLD BOLD}
+     * {@linkplain Typeface#ITALIC ITALIC}
+     * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
+     */
+    public int styleText = Typeface.NORMAL;
 
     public TextParams() {
     }
@@ -64,6 +71,7 @@ public class TextParams implements Parcelable {
         this.textColor = in.readInt();
         this.textSize = in.readInt();
         this.gravity = in.readInt();
+        this.styleText = in.readInt();
     }
 
     @Override
@@ -80,5 +88,6 @@ public class TextParams implements Parcelable {
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
         dest.writeInt(this.gravity);
+        dest.writeInt(this.styleText);
     }
 }

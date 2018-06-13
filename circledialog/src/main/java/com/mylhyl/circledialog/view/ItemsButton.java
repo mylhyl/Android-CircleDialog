@@ -167,6 +167,7 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
                 mNegativeParams.textColorDisable : mNegativeParams.textColor);
         mNegativeButton.setTextSize(mNegativeParams.textSize);
         mNegativeButton.setHeight(mNegativeParams.height);
+        mNegativeButton.setTypeface(mNegativeButton.getTypeface(), mNegativeParams.styleText);
     }
 
     private void handleNeutralStyle() {
@@ -176,6 +177,7 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
                 mNeutralParams.textColorDisable : mNeutralParams.textColor);
         mNeutralButton.setTextSize(mNeutralParams.textSize);
         mNeutralButton.setHeight(mNeutralParams.height);
+        mNeutralButton.setTypeface(mNeutralButton.getTypeface(), mNeutralParams.styleText);
     }
 
     private void handlePositiveStyle() {
@@ -185,6 +187,7 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
                 mPositiveParams.textColorDisable : mPositiveParams.textColor);
         mPositiveButton.setTextSize(mPositiveParams.textSize);
         mPositiveButton.setHeight(mPositiveParams.height);
+        mPositiveButton.setTypeface(mPositiveButton.getTypeface(), mPositiveParams.styleText);
     }
 
     public void regNegativeListener(OnClickListener onClickListener) {

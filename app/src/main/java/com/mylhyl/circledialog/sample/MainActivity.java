@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.sample;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -203,8 +204,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.padding = new int[]{20, 20, 20, 20};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;
-                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
-                                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                                //密码
+//                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+//                                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                                //文字加粗
+                                params.styleText = Typeface.BOLD;
                             }
                         })
                         .setNegative("取消", null)
@@ -367,11 +371,36 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 10:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+                                params.styleText = Typeface.BOLD;
+                            }
+                        })
+                        .setSubTitle("副标题")
+                        .configSubTitle(new ConfigSubTitle() {
+                            @Override
+                            public void onConfig(SubTitleParams params) {
+                                params.styleText = Typeface.BOLD;
+                            }
+                        })
                         .setText("提示框")
+                        .configText(new ConfigText() {
+                            @Override
+                            public void onConfig(TextParams params) {
+                                params.styleText = Typeface.BOLD;
+                            }
+                        })
                         .setNegative("取消", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .configNegative(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.styleText = Typeface.BOLD;
                             }
                         })
                         .setNeutral("中间", new View.OnClickListener() {
@@ -380,10 +409,22 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show();
                             }
                         })
+                        .configNeutral(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.styleText = Typeface.BOLD;
+                            }
+                        })
                         .setPositive("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .configPositive(new ConfigButton() {
+                            @Override
+                            public void onConfig(ButtonParams params) {
+                                params.styleText = Typeface.BOLD;
                             }
                         })
                         .show(getSupportFragmentManager());

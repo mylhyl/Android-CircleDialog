@@ -122,6 +122,7 @@ final class BodyProgressView extends ScaleLinearLayout {
         final ScaleTextView textView = new ScaleTextView(getContext());
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
+        textView.setTypeface(textView.getTypeface(), mProgressParams.styleText);
         int[] padding = mProgressParams.padding;
         if (padding != null)
             textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);

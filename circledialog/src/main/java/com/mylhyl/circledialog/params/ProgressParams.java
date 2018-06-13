@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.params;
 
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,9 +13,6 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  */
 public class ProgressParams implements Parcelable {
 
-    private static final int[] MARGINS = {20, 45, 20, 45};
-    private static final int[] TEXT_PADDING = {0, 0, 0, 45};
-
     /**
      * 水平进度条
      */
@@ -23,7 +21,19 @@ public class ProgressParams implements Parcelable {
      * 旋转进度条
      */
     public static final int STYLE_SPINNER = 1;
+    public static final Creator<ProgressParams> CREATOR = new Creator<ProgressParams>() {
+        @Override
+        public ProgressParams createFromParcel(Parcel source) {
+            return new ProgressParams(source);
+        }
 
+        @Override
+        public ProgressParams[] newArray(int size) {
+            return new ProgressParams[size];
+        }
+    };
+    private static final int[] MARGINS = {20, 45, 20, 45};
+    private static final int[] TEXT_PADDING = {0, 0, 0, 45};
     /**
      * 进度条样式，默认水平样式
      */
@@ -56,7 +66,6 @@ public class ProgressParams implements Parcelable {
      * 进度条显示的文字，支持String.format() 例如：已经下载%s
      */
     public String text = "";
-
     /**
      * body背景颜色
      */
@@ -69,6 +78,32 @@ public class ProgressParams implements Parcelable {
      * 文本字体大小
      */
     public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+    /**
+     * 字样式
+     * {@linkplain Typeface#NORMAL NORMAL}
+     * {@linkplain Typeface#BOLD BOLD}
+     * {@linkplain Typeface#ITALIC ITALIC}
+     * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
+     */
+    public int styleText = Typeface.NORMAL;
+
+    public ProgressParams() {
+    }
+
+    protected ProgressParams(Parcel in) {
+        this.style = in.readInt();
+        this.margins = in.createIntArray();
+        this.padding = in.createIntArray();
+        this.progressDrawableId = in.readInt();
+        this.progressHeight = in.readInt();
+        this.max = in.readInt();
+        this.progress = in.readInt();
+        this.text = in.readString();
+        this.backgroundColor = in.readInt();
+        this.textColor = in.readInt();
+        this.textSize = in.readInt();
+        this.styleText = in.readInt();
+    }
 
     @Override
     public int describeContents() {
@@ -88,35 +123,6 @@ public class ProgressParams implements Parcelable {
         dest.writeInt(this.backgroundColor);
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
+        dest.writeInt(this.styleText);
     }
-
-    public ProgressParams() {
-    }
-
-    protected ProgressParams(Parcel in) {
-        this.style = in.readInt();
-        this.margins = in.createIntArray();
-        this.padding = in.createIntArray();
-        this.progressDrawableId = in.readInt();
-        this.progressHeight = in.readInt();
-        this.max = in.readInt();
-        this.progress = in.readInt();
-        this.text = in.readString();
-        this.backgroundColor = in.readInt();
-        this.textColor = in.readInt();
-        this.textSize = in.readInt();
-    }
-
-    public static final Parcelable.Creator<ProgressParams> CREATOR = new Parcelable
-            .Creator<ProgressParams>() {
-        @Override
-        public ProgressParams createFromParcel(Parcel source) {
-            return new ProgressParams(source);
-        }
-
-        @Override
-        public ProgressParams[] newArray(int size) {
-            return new ProgressParams[size];
-        }
-    };
 }

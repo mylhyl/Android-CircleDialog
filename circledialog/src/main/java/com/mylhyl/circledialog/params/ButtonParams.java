@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.params;
 
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,6 +13,17 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  */
 public class ButtonParams implements Parcelable {
 
+    public static final Creator<ButtonParams> CREATOR = new Creator<ButtonParams>() {
+        @Override
+        public ButtonParams createFromParcel(Parcel source) {
+            return new ButtonParams(source);
+        }
+
+        @Override
+        public ButtonParams[] newArray(int size) {
+            return new ButtonParams[size];
+        }
+    };
     /**
      * 按钮框与顶部距离
      */
@@ -36,7 +48,6 @@ public class ButtonParams implements Parcelable {
      * 按钮文本
      */
     public String text;
-
     /**
      * 是否禁用按钮
      */
@@ -45,11 +56,34 @@ public class ButtonParams implements Parcelable {
      * 禁用后的按钮文本颜色
      */
     public int textColorDisable = CircleColor.buttonDisable;
-
     /**
      * 按下颜色值
      */
     public int backgroundColorPress;
+    /**
+     * 字样式
+     * {@linkplain Typeface#NORMAL NORMAL}
+     * {@linkplain Typeface#BOLD BOLD}
+     * {@linkplain Typeface#ITALIC ITALIC}
+     * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
+     */
+    public int styleText = Typeface.NORMAL;
+
+    public ButtonParams() {
+    }
+
+    protected ButtonParams(Parcel in) {
+        this.topMargin = in.readInt();
+        this.textColor = in.readInt();
+        this.textSize = in.readInt();
+        this.height = in.readInt();
+        this.backgroundColor = in.readInt();
+        this.text = in.readString();
+        this.disable = in.readByte() != 0;
+        this.textColorDisable = in.readInt();
+        this.backgroundColorPress = in.readInt();
+        this.styleText = in.readInt();
+    }
 
     @Override
     public int describeContents() {
@@ -67,32 +101,6 @@ public class ButtonParams implements Parcelable {
         dest.writeByte(this.disable ? (byte) 1 : (byte) 0);
         dest.writeInt(this.textColorDisable);
         dest.writeInt(this.backgroundColorPress);
+        dest.writeInt(this.styleText);
     }
-
-    public ButtonParams() {
-    }
-
-    protected ButtonParams(Parcel in) {
-        this.topMargin = in.readInt();
-        this.textColor = in.readInt();
-        this.textSize = in.readInt();
-        this.height = in.readInt();
-        this.backgroundColor = in.readInt();
-        this.text = in.readString();
-        this.disable = in.readByte() != 0;
-        this.textColorDisable = in.readInt();
-        this.backgroundColorPress = in.readInt();
-    }
-
-    public static final Parcelable.Creator<ButtonParams> CREATOR = new Parcelable.Creator<ButtonParams>() {
-        @Override
-        public ButtonParams createFromParcel(Parcel source) {
-            return new ButtonParams(source);
-        }
-
-        @Override
-        public ButtonParams[] newArray(int size) {
-            return new ButtonParams[size];
-        }
-    };
 }

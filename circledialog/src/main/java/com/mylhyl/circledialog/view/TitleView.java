@@ -38,6 +38,7 @@ final class TitleView extends ScaleLinearLayout {
         tvTitle.setTextColor(titleParams.textColor);
         tvTitle.setTextSize(titleParams.textSize);
         tvTitle.setText(titleParams.text);
+        tvTitle.setTypeface(tvTitle.getTypeface(), titleParams.styleText);
         addView(tvTitle);
 
         //副标题
@@ -53,6 +54,7 @@ final class TitleView extends ScaleLinearLayout {
             int[] padding = subTitleParams.padding;
             if (padding != null)
                 tvSubTitle.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+            tvSubTitle.setTypeface(tvSubTitle.getTypeface(), subTitleParams.styleText);
             addView(tvSubTitle);
         }
     }

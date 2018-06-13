@@ -111,6 +111,7 @@ final class BodyInputView extends ScaleLinearLayout implements Controller.OnClic
         int[] padding = inputParams.padding;
         if (padding != null)
             mEditText.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+        mEditText.setTypeface(mEditText.getTypeface(), inputParams.styleText);
         addView(mEditText, layoutParams);
     }
 
