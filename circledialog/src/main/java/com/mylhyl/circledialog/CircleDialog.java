@@ -31,10 +31,10 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
-import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -426,13 +426,12 @@ public final class CircleDialog {
         /**
          * 设置自定义等待框视图
          *
-         * @param progressViewId
+         * @param bodyViewId
          * @return
          */
-        public Builder setProgressView(@LayoutRes int progressViewId
-                , OnCreateProgressViewListener listener) {
-            mCircleParams.progressViewId = progressViewId;
-            mCircleParams.createProgressViewListener = listener;
+        public Builder setBodyView(@LayoutRes int bodyViewId, OnCreateBodyViewListener listener) {
+            mCircleParams.bodyViewId = bodyViewId;
+            mCircleParams.createBodyViewListener = listener;
             return this;
         }
 

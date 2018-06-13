@@ -43,8 +43,8 @@ import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
+import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
-import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
-                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义等待框"});
+                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -601,9 +601,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                 dialogFragment = new CircleDialog.Builder()
                         .setWidth(0.7f)
-                        .setProgressView(R.layout.share_page_loading, new OnCreateProgressViewListener() {
+                        .setBodyView(R.layout.share_page_loading, new OnCreateBodyViewListener() {
                             @Override
-                            public void onCreateProgressView(View view) {
+                            public void onCreateBodyView(View view) {
                                 CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
                                 view.setBackgroundDrawable(bgCircleDrawable);
                             }

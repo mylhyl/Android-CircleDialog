@@ -17,7 +17,7 @@ import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
-import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
+import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -86,8 +86,8 @@ public class CircleParams implements Parcelable {
     public ProgressParams progressParams;
     public InputParams inputParams;
     public ButtonParams neutralParams;
-    public int progressViewId;
-    public OnCreateProgressViewListener createProgressViewListener;
+    public int bodyViewId;
+    public OnCreateBodyViewListener createBodyViewListener;
     public OnCreateProgressListener createProgressListener;
     public OnCreateTitleListener createTitleListener;
     public OnCreateTextListener createTextListener;
@@ -108,7 +108,7 @@ public class CircleParams implements Parcelable {
         this.progressParams = in.readParcelable(ProgressParams.class.getClassLoader());
         this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
         this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.progressViewId = in.readInt();
+        this.bodyViewId = in.readInt();
     }
 
     @Override
@@ -128,6 +128,6 @@ public class CircleParams implements Parcelable {
         dest.writeParcelable(this.progressParams, flags);
         dest.writeParcelable(this.inputParams, flags);
         dest.writeParcelable(this.neutralParams, flags);
-        dest.writeInt(this.progressViewId);
+        dest.writeInt(this.bodyViewId);
     }
 }

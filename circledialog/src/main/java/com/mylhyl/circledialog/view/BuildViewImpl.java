@@ -26,7 +26,7 @@ public final class BuildViewImpl implements BuildView {
     private InputView mBodyInputView;
     private ItemsButton mItemsButton;
     private ButtonView mMultipleButton;
-    private View mCustomProgressView;
+    private View mCustomBodyView;
 
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
@@ -49,6 +49,16 @@ public final class BuildViewImpl implements BuildView {
             mRoot.addView(mTitleView);
         }
         return mTitleView;
+    }
+
+    @Override
+    public View buildCustomBodyView() {
+        if (mCustomBodyView == null) {
+            View bodyView = LayoutInflater.from(mContext).inflate(mParams.bodyViewId, mRoot, false);
+            this.mCustomBodyView = bodyView;
+            mRoot.addView(mCustomBodyView);
+        }
+        return mCustomBodyView;
     }
 
     @Override
@@ -95,18 +105,12 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public void buildProgress() {
-        int progressViewId = mParams.progressViewId;
-        if (mCustomProgressView == null && progressViewId != 0) {
-            View progressView = LayoutInflater.from(mContext).inflate(progressViewId, mRoot, false);
-            if (mParams.createProgressViewListener != null)
-                mParams.createProgressViewListener.onCreateProgressView(progressView);
-            this.mCustomProgressView = progressView;
-            mRoot.addView(mCustomProgressView);
-        } else if (mBodyProgressView == null) {
+    public View buildProgress() {
+        if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams);
             mRoot.addView(mBodyProgressView);
         }
+        return mBodyProgressView;
     }
 
 

@@ -6,6 +6,6 @@ import android.view.View;
  * Created by hupei on 2018/6/13.
  */
 
-public interface OnCreateProgressViewListener {
-    void onCreateProgressView(View view);
+public interface OnCreateBodyViewListener {
+    void onCreateBodyView(View view);
 }

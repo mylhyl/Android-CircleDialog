@@ -63,8 +63,14 @@ public class Controller {
     }
 
     private void applyBody() {
+        //自定义内容视图
+        if (mParams.bodyViewId != 0) {
+            View bodyView = mCreateView.buildCustomBodyView();
+            if (mParams.createBodyViewListener != null)
+                mParams.createBodyViewListener.onCreateBodyView(bodyView);
+        }
         //文本
-        if (mParams.textParams != null) {
+        else if (mParams.textParams != null) {
             mCreateView.buildText();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
@@ -95,7 +101,7 @@ public class Controller {
             applyButton(itemsButton, null);
         }
         //进度条
-        else if (mParams.progressParams != null || mParams.progressViewId != 0) {
+        else if (mParams.progressParams != null) {
             mCreateView.buildProgress();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);

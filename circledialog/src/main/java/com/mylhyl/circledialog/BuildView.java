@@ -25,6 +25,8 @@ public interface BuildView {
      */
     View buildTitle();
 
+    View buildCustomBodyView();
+
     /**
      * 生成文本布局
      *
@@ -65,7 +67,7 @@ public interface BuildView {
      *
      * @return 进度条视图
      */
-    void buildProgress();
+    View buildProgress();
 
     /**
      * 刷新进度条
