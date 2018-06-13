@@ -32,6 +32,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
+import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
@@ -421,6 +422,24 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置自定义等待框视图
+         *
+         * @param progressViewId
+         * @return
+         */
+        public Builder setProgressView(@LayoutRes int progressViewId
+                , OnCreateProgressViewListener listener) {
+            mCircleParams.progressViewId = progressViewId;
+            mCircleParams.createProgressViewListener = listener;
+            return this;
+        }
+
+        public Builder setOnCreateProgressListener(OnCreateProgressListener listener) {
+            mCircleParams.createProgressListener = listener;
+            return this;
+        }
+
         public Builder setInputText(@NonNull String text) {
             newInputParams();
             mCircleParams.inputParams.text = text;
@@ -580,19 +599,6 @@ public final class CircleDialog {
         public Builder configNeutral(@NonNull ConfigButton configButton) {
             newNeutralParams();
             configButton.onConfig(mCircleParams.neutralParams);
-            return this;
-        }
-
-        /**
-         * 设置自定义等待框视图
-         *
-         * @param progressViewId
-         * @return
-         */
-        public Builder setProgressView(@LayoutRes int progressViewId
-                , OnCreateProgressViewListener listener) {
-            mCircleParams.progressViewId = progressViewId;
-            mCircleParams.createProgressViewListener = listener;
             return this;
         }
 

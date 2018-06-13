@@ -15,6 +15,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
+import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -128,7 +129,8 @@ final class BodyProgressView extends ScaleLinearLayout {
             textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
         addView(textView);
 
-        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
+        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL
+                && !TextUtils.isEmpty(mProgressParams.text)) {
             mViewUpdateHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -137,14 +139,18 @@ final class BodyProgressView extends ScaleLinearLayout {
                     int max = mProgressBar.getMax();
                     int percent = (int) (((float) progress / (float) max) * 100);
                     String args = percent + "%";
-                    if (!TextUtils.isEmpty(mProgressParams.text) && mProgressParams.text.contains
-                            ("%s"))
+                    if (mProgressParams.text.contains("%s"))
                         textView.setText(String.format(mProgressParams.text, args));
                     else textView.setText(mProgressParams.text + args);
                 }
             };
         } else {
             textView.setText(mProgressParams.text);
+        }
+
+        OnCreateProgressListener createProgressListener = params.createProgressListener;
+        if (createProgressListener != null) {
+            createProgressListener.onCreateProgressView(mProgressBar, textView);
         }
     }
 
