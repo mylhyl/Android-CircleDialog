@@ -454,8 +454,8 @@ public final class CircleDialog {
         /**
          * 确定按钮
          *
-         * @param text
-         * @param listener
+         * @param text     按钮文本
+         * @param listener 事件
          * @return this Builder
          */
         public Builder setPositive(@NonNull String text, View.OnClickListener listener) {
@@ -474,8 +474,8 @@ public final class CircleDialog {
         /**
          * 输入框的确定按钮
          *
-         * @param text
-         * @param listener
+         * @param text     按钮文本
+         * @param listener 事件
          * @return this Builder
          */
         public Builder setPositiveInput(@NonNull String text, OnInputClickListener listener) {
@@ -489,7 +489,7 @@ public final class CircleDialog {
         /**
          * 配置确定按钮
          *
-         * @param configButton
+         * @param configButton configButton
          * @return this Builder
          */
         public Builder configPositive(@NonNull ConfigButton configButton) {
@@ -501,8 +501,8 @@ public final class CircleDialog {
         /**
          * 取消按钮
          *
-         * @param text
-         * @param listener
+         * @param text     按钮文本
+         * @param listener 事件
          * @return this Builder
          */
         public Builder setNegative(@NonNull String text, View.OnClickListener listener) {
@@ -521,7 +521,7 @@ public final class CircleDialog {
         /**
          * 配置取消按钮
          *
-         * @param configButton
+         * @param configButton configButton
          * @return this Builder
          */
         public Builder configNegative(@NonNull ConfigButton configButton) {
@@ -533,8 +533,8 @@ public final class CircleDialog {
         /**
          * 中间按钮
          *
-         * @param text
-         * @param listener
+         * @param text     按钮文本
+         * @param listener 事件
          * @return this Builder
          */
         public Builder setNeutral(@NonNull String text, View.OnClickListener listener) {
@@ -553,7 +553,7 @@ public final class CircleDialog {
         /**
          * 配置中间按钮
          *
-         * @param configButton
+         * @param configButton configButton
          * @return this Builder
          */
         public Builder configNeutral(@NonNull ConfigButton configButton) {
