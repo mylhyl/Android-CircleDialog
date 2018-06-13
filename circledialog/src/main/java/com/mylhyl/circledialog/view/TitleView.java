@@ -2,6 +2,8 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
@@ -9,6 +11,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
+import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 
 /**
  * 对话框标题
@@ -23,6 +26,7 @@ final class TitleView extends ScaleLinearLayout {
 
     private void init(CircleParams params) {
 
+        setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
 
         DialogParams dialogParams = params.dialogParams;
@@ -42,8 +46,9 @@ final class TitleView extends ScaleLinearLayout {
         addView(tvTitle);
 
         //副标题
+        ScaleTextView tvSubTitle = null;
         if (subTitleParams != null) {
-            final ScaleTextView tvSubTitle = new ScaleTextView(getContext());
+            tvSubTitle = new ScaleTextView(getContext());
             setSubTitleBg(tvSubTitle, subTitleParams.backgroundColor, dialogParams.backgroundColor);
             tvSubTitle.setGravity(subTitleParams.gravity);
             if (subTitleParams.height != 0)
@@ -57,9 +62,13 @@ final class TitleView extends ScaleLinearLayout {
             tvSubTitle.setTypeface(tvSubTitle.getTypeface(), subTitleParams.styleText);
             addView(tvSubTitle);
         }
+        OnCreateTitleListener createTitleListener = params.createTitleListener;
+        if (createTitleListener != null) {
+            createTitleListener.onCreateTitle(this, tvTitle, tvSubTitle);
+        }
     }
 
-    private void setTitleBg(ScaleTextView tv, CircleParams params, int tbg, int dbg, int radius) {
+    private void setTitleBg(View tv, CircleParams params, int tbg, int dbg, int radius) {
         //如果标题没有背景色，则使用默认色
         int bg = tbg != 0 ? tbg : dbg;
 

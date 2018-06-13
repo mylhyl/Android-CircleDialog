@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
+import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -376,6 +379,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             @Override
                             public void onConfig(TitleParams params) {
                                 params.styleText = Typeface.BOLD;
+                                params.backgroundColor = Color.YELLOW;
+                            }
+                        })
+                        .setOnCreateTitleListener(new OnCreateTitleListener() {
+                            @Override
+                            public void onCreateTitle(LinearLayout rootView, TextView tvTitle, TextView tvSubTitle) {
+                                tvTitle.setText("重设标题");
+//                                Drawable icon = getResources().getDrawable(R.mipmap.ic_launcher);
+//                                tvTitle.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                             }
                         })
                         .setSubTitle("副标题")

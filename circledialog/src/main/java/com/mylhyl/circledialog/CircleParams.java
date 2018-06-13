@@ -15,6 +15,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressViewListener;
+import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -72,6 +73,7 @@ public class CircleParams implements Parcelable {
     public ButtonParams neutralParams;
     public int progressViewId;
     public OnCreateProgressViewListener createProgressViewListener;
+    public OnCreateTitleListener createTitleListener;
 
     public CircleParams() {
     }
