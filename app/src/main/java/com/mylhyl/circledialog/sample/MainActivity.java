@@ -22,11 +22,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
+import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
-import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -404,9 +405,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 15:
 
                 dialogFragment = new CircleDialog.Builder()
+                        .setTitle("提示")
                         .setWidth(0.7f)
                         .setBodyView(R.layout.share_page_loading, view16 -> {
-                            CircleDrawable bgCircleDrawable = new CircleDrawable(Color.WHITE, 30);
+                            CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.bgDialog
+                                    , 0, 0, CircleDimen.RADIUS, CircleDimen.RADIUS);
                             view16.setBackgroundDrawable(bgCircleDrawable);
                         })
                         .show(getSupportFragmentManager());

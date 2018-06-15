@@ -99,7 +99,7 @@ final class TitleView extends ScaleLinearLayout {
 
         //有内容则顶部圆角
         if (params.textParams != null || params.itemsParams != null || params.progressParams != null
-                || params.inputParams != null) {
+                || params.inputParams != null || params.bodyViewId != 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 tv.setBackground(new CircleDrawable(bg, radius, radius, 0, 0));
             } else {
