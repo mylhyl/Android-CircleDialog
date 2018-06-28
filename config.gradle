@@ -1,5 +1,4 @@
 ext {
-
     android = [
             compileSdkVersion: 27,
             buildToolsVersion: "27.0.2",
@@ -19,6 +18,7 @@ ext {
             recyclerview: "com.android.support:recyclerview-v7:${dependVersion.support}",
             leakcanary  : "com.squareup.leakcanary:leakcanary-android:1.5.4"
     ]
+
     publish =[
         version : "2.6.2"
     ]
