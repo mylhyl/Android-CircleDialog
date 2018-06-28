@@ -219,15 +219,13 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             this.mTvCounter = textView;
             if (mEditText != null) {
                 String defText = mEditText.getText().toString();
-                if (!TextUtils.isEmpty(defText)) {
-                    int currentLen = maxLen - chineseLength(defText);
-                    if (params.inputCounterChangeListener != null) {
-                        String counterText = params.inputCounterChangeListener
-                                .onCounterChange(maxLen, currentLen);
-                        mTvCounter.setText(counterText == null ? "" : counterText);
-                    } else {
-                        mTvCounter.setText(String.valueOf(currentLen));
-                    }
+                int currentLen = maxLen - chineseLength(defText);
+                if (params.inputCounterChangeListener != null) {
+                    String counterText = params.inputCounterChangeListener
+                            .onCounterChange(maxLen, currentLen);
+                    mTvCounter.setText(counterText == null ? "" : counterText);
+                } else {
+                    mTvCounter.setText(String.valueOf(currentLen));
                 }
             }
         }
