@@ -25,11 +25,11 @@ public class InputParams implements Parcelable {
             return new InputParams[size];
         }
     };
-    private static final int[] MARGINS = {50, 20, 50, 40};
+
     /**
      * 输入框与body视图的距离
      */
-    public int[] margins = MARGINS;
+    public int[] margins = CircleDimen.INPUT_MARGINS;
     /**
      * 输入框的高度
      */
@@ -89,7 +89,7 @@ public class InputParams implements Parcelable {
     /**
      * 内间距 [left, top, right, bottom]
      */
-    public int[] padding;
+    public int[] padding = CircleDimen.INPUT_PADDING;
     /**
      * 字样式
      * {@linkplain Typeface#NORMAL NORMAL}
@@ -98,6 +98,15 @@ public class InputParams implements Parcelable {
      * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
      */
     public int styleText = Typeface.NORMAL;
+    /**
+     * 输入框限制字符数量，如counter=50：中(占2个)英(1个)文总字符数
+     */
+    public int maxLen;
+    /**
+     * 外边距 [右，下]
+     */
+    public int[] counterMargins = CircleDimen.INPUT_COUNTER_MARGINS;
+    public int counterColor = CircleColor.inputCounter;
 
     public InputParams() {
     }
@@ -120,6 +129,8 @@ public class InputParams implements Parcelable {
         this.text = in.readString();
         this.padding = in.createIntArray();
         this.styleText = in.readInt();
+        this.maxLen = in.readInt();
+        this.counterColor = in.readInt();
     }
 
     @Override
@@ -146,5 +157,7 @@ public class InputParams implements Parcelable {
         dest.writeString(this.text);
         dest.writeIntArray(this.padding);
         dest.writeInt(this.styleText);
+        dest.writeInt(this.maxLen);
+        dest.writeInt(this.counterColor);
     }
 }

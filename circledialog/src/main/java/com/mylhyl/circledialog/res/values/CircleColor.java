@@ -44,4 +44,5 @@ public class CircleColor {
      * 输入框边框颜色
      */
     public static final int inputStroke = 0xFF808080;
+    public static final int inputCounter = 0xFF808080;
 }

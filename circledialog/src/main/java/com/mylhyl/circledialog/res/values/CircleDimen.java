@@ -57,4 +57,12 @@ public class CircleDimen {
      * 转换进度条高度
      */
     public static final int PROGRESS_HEIGHT_SPINNER = 80;
+
+    public static final int[] INPUT_MARGINS = {50, 20, 50, 40};
+    public static final int[] INPUT_PADDING = {20, 20, 20, 20};
+    public static final int[] INPUT_COUNTER_MARGINS = {10, 10};
+    /**
+     * 输入框计数器的字体大小
+     */
+    public static final int INPUT_COUNTER__TEXT_SIZE = 35;
 }

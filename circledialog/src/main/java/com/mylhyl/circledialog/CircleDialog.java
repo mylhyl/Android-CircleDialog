@@ -38,6 +38,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -470,6 +471,43 @@ public final class CircleDialog {
         public Builder setInputHeight(int height) {
             newInputParams();
             mCircleParams.inputParams.inputHeight = height;
+            return this;
+        }
+
+        /**
+         * 输入框最大字符数量
+         *
+         * @param maxLen
+         * @return
+         */
+        public Builder setInputCounter(int maxLen) {
+            newInputParams();
+            mCircleParams.inputParams.maxLen = maxLen;
+            return this;
+        }
+
+        /**
+         * 输入框最大字符数量颜色
+         *
+         * @param color 色值
+         * @return
+         */
+        public Builder setInputCounterColor(@ColorInt int color) {
+            newInputParams();
+            mCircleParams.inputParams.counterColor = color;
+            return this;
+        }
+
+        /**
+         * 输入框最大字符数量
+         *
+         * @param maxLen
+         * @return
+         */
+        public Builder setInputCounter(int maxLen, OnInputCounterChangeListener listener) {
+            newInputParams();
+            mCircleParams.inputParams.maxLen = maxLen;
+            mCircleParams.inputCounterChangeListener = listener;
             return this;
         }
 

@@ -44,7 +44,7 @@ final class TitleView extends ScaleLinearLayout {
         ImageView ivTitleIcon = new ImageView(getContext());
         RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.text1);
+        layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.title);
         layoutParamsTitleIcon.addRule(RelativeLayout.CENTER_VERTICAL);
         ivTitleIcon.setLayoutParams(layoutParamsTitleIcon);
         if (titleParams.icon != 0) {
@@ -56,7 +56,7 @@ final class TitleView extends ScaleLinearLayout {
         titleLayout.addView(ivTitleIcon);
         //标题
         final ScaleTextView tvTitle = new ScaleTextView(getContext());
-        tvTitle.setId(android.R.id.text1);
+        tvTitle.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
