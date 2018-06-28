@@ -477,8 +477,8 @@ public final class CircleDialog {
         /**
          * 输入框最大字符数量
          *
-         * @param maxLen
-         * @return
+         * @param maxLen 字符数量
+         * @return Builder
          */
         public Builder setInputCounter(int maxLen) {
             newInputParams();
@@ -490,7 +490,7 @@ public final class CircleDialog {
          * 输入框最大字符数量颜色
          *
          * @param color 色值
-         * @return
+         * @return Builder
          */
         public Builder setInputCounterColor(@ColorInt int color) {
             newInputParams();
@@ -501,8 +501,9 @@ public final class CircleDialog {
         /**
          * 输入框最大字符数量
          *
-         * @param maxLen
-         * @return
+         * @param maxLen   字符数量
+         * @param listener 字符计数器改变事件
+         * @return Builder
          */
         public Builder setInputCounter(int maxLen, OnInputCounterChangeListener listener) {
             newInputParams();
