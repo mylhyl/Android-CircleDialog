@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    //buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         applicationId "com.mylhyl.circledialog.sample"
         minSdkVersion 16
@@ -10,9 +10,9 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.publish.version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        jackOptions {
-            enabled=true
-        }
+//        jackOptions {
+//            enabled=true
+//        }
     }
     buildTypes {
         release {
@@ -22,17 +22,20 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':circledialog')
-    compile rootProject.ext.dependencies.appcompatV7
-    compile rootProject.ext.dependencies.recyclerview
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
-
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    compile 'com.airbnb.android:lottie:2.5.4'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':circledialog')
+    implementation rootProject.ext.dependencies.appcompatV7
+    implementation rootProject.ext.dependencies.recyclerview
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    implementation 'com.airbnb.android:lottie:2.5.4'
 }

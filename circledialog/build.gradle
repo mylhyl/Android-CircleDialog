@@ -4,7 +4,7 @@ apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    //buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
@@ -26,15 +26,15 @@ android {
 }
 
 dependencies {
-    provided rootProject.ext.dependencies.appcompatV7
-    provided rootProject.ext.dependencies.recyclerview
+    compileOnly rootProject.ext.dependencies.appcompatV7
+    compileOnly rootProject.ext.dependencies.recyclerview
 }
 
 publish {
     userOrg = 'mylhyl'
     groupId = 'com.mylhyl'
     artifactId = 'circleDialog'
-    version = rootProject.ext.publish.version
-    description = 'circleDialog ios style'
+    publishVersion = rootProject.ext.publish.version
+    desc = 'circleDialog ios style'
     website = "https://github.com/mylhyl/Android-CircleDialog"
 }
