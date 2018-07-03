@@ -32,7 +32,7 @@
             .setWidth(from = 0.0, to = 1.0)//宽度
             .setMaxHeight(from = 0.0, to = 1.0)//最大高度
             .setRadius(radius)//圆角半径
-            .setYoff()对话框y 坐标偏移
+            .setYoff()//对话框y坐标偏移
             .configDialog(ConfigDialog)//配置对话框更多的属性
             .setOnShowListener()//对话框显示监听事件
             .setOnDismissListener()//对话框关闭监听事件
@@ -117,7 +117,8 @@
 ```
 
 * 自定义对话框
-
+1、完全重新设计可继承`BaseCircleDialog`，此基类提供了对话框的常用属性
+2、如果只是对话框内容的部分满足不了你，可以使用下面的方式
 ```java
         new CircleDialog.Builder(this)
             //不影响顶部标题和底部按钮部份
