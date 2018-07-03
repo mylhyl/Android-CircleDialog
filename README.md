@@ -116,8 +116,8 @@
             .show();
 ```
 
-* 自定义对话框
-1、完全重新设计可继承`BaseCircleDialog`，此基类提供了对话框的常用属性
+* 自定义对话框  
+1、完全重新设计可继承`BaseCircleDialog`，此基类提供了对话框的常用属性  
 2、如果只是对话框内容的部分满足不了你，可以使用下面的方式
 ```java
         new CircleDialog.Builder(this)
