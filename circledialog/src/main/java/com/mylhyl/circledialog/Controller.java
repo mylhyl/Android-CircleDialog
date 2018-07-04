@@ -66,6 +66,8 @@ public class Controller {
         //自定义内容视图
         if (mParams.bodyViewId != 0) {
             View bodyView = mCreateView.buildCustomBodyView();
+            ButtonView buttonView = mCreateView.buildMultipleButton();
+            applyButton(buttonView, null);
             if (mParams.createBodyViewListener != null)
                 mParams.createBodyViewListener.onCreateBodyView(bodyView);
         }
