@@ -116,6 +116,20 @@
             .show();
 ```
 
+* lottie动画框
+```java
+        new CircleDialog.Builder()
+            .setTitle("提示")
+            .setWidth(0.7f)
+            .setLottieAnimation("loading.json")//动画文件 assets 中
+            .setLottieLoop(true)//循环
+            .playLottieAnimation()//动画开始
+            .setLottieSize(width, height)//只是动画宽高
+            .setLottieText("正在加载...")
+            .setOnCreateLottieListener(OnCreateLottieListener)//更多属性配置
+            .show(getSupportFragmentManager());
+``
+
 * 自定义对话框  
 1、完全重新设计可继承`BaseCircleDialog`，此基类提供了对话框的常用属性  
 2、如果只是对话框内容的部分满足不了你，可以使用下面的方式
@@ -123,6 +137,15 @@
         new CircleDialog.Builder(this)
             //不影响顶部标题和底部按钮部份
             .setBodyView(@LayoutRes int bodyViewId, OnCreateBodyViewListener listener)
+```
+
+* 全局配置属性值
+```java
+        //建议在Application配置
+        static {
+            CircleDimen.DIALOG_RADIUS = 20;
+            //CircleColor.
+        }
 ```
 [更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
 
