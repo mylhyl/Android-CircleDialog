@@ -36,9 +36,13 @@ public class CircleColor {
     public static int ITEM_CONTENT_TEXT = 0xFF8F8F8F;
 
     /**
-     * 底部按钮文字颜色
+     * 确定按钮文字颜色
      */
-    public static int FOOTER_BUTTON_TEXT = 0xFF007AFF;
+    public static int FOOTER_BUTTON_TEXT_POSITIVE = 0xFF007AFF;
+    /**
+     * 取消按钮文字颜色
+     */
+    public static int FOOTER_BUTTON_TEXT_NEGATIVE = 0xFF464646;
 
     /**
      * 禁用后的按钮颜色

@@ -32,6 +32,7 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -648,8 +649,10 @@ public final class CircleDialog {
         }
 
         private void newNegativeParams() {
-            if (mCircleParams.negativeParams == null)
+            if (mCircleParams.negativeParams == null) {
                 mCircleParams.negativeParams = new ButtonParams();
+                mCircleParams.negativeParams.textColor = CircleColor.FOOTER_BUTTON_TEXT_NEGATIVE;
+            }
         }
 
         /**

@@ -36,6 +36,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
+    //全局配置
+    static {
+        CircleDimen.DIALOG_RADIUS = 20;
+        //CircleColor.
+    }
+
     private CircleDialog.Builder builder;
     private DialogFragment dialogFragment;
     private Handler handler;

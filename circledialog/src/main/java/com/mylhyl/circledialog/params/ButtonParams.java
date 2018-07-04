@@ -31,7 +31,7 @@ public class ButtonParams implements Parcelable {
     /**
      * 按钮文本颜色
      */
-    public int textColor = CircleColor.FOOTER_BUTTON_TEXT;
+    public int textColor = CircleColor.FOOTER_BUTTON_TEXT_POSITIVE;
     /**
      * 按钮文本大小
      */
