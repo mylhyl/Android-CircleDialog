@@ -24,7 +24,7 @@ public class LottieParams implements Parcelable {
             return new LottieParams[size];
         }
     };
-    private static final int[] TEXT_MARGINS = {0, 60, 0, 30};
+
     /**
      * 进度条与body的边距 [left, top, right, bottom]
      */
@@ -33,9 +33,9 @@ public class LottieParams implements Parcelable {
      * 底部文字内边距 [left, top, right, bottom]
      */
     public int[] textPadding;
-    public int[] textMargins = TEXT_MARGINS;
-    public int lottieHeight = 270;
-    public int lottieWidth = 270;
+    public int[] textMargins = CircleDimen.LOTTIE_TEXT_MARGINS;
+    public int lottieHeight = CircleDimen.LOTTIE_HEIGHT;
+    public int lottieWidth = CircleDimen.LOTTIE_WIDTH;
     public int animationResId;
     public String animationFileName;
     public boolean autoPlay;
@@ -51,11 +51,11 @@ public class LottieParams implements Parcelable {
     /**
      * 文本字体颜色
      */
-    public int textColor = CircleColor.content;
+    public int textColor = CircleColor.LOADING_TEXT;
     /**
      * 文本字体大小
      */
-    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+    public int textSize = CircleDimen.LOADING_TEXT_SIZE;
     /**
      * 字样式
      * {@linkplain Typeface#NORMAL NORMAL}

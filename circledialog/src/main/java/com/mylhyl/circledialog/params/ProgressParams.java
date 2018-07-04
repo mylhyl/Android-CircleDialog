@@ -32,8 +32,7 @@ public class ProgressParams implements Parcelable {
             return new ProgressParams[size];
         }
     };
-    private static final int[] MARGINS = {20, 45, 20, 45};
-    private static final int[] TEXT_PADDING = {0, 0, 0, 45};
+
     /**
      * 进度条样式，默认水平样式
      */
@@ -41,11 +40,11 @@ public class ProgressParams implements Parcelable {
     /**
      * 进度条与body的边距 [left, top, right, bottom]
      */
-    public int[] margins = MARGINS;
+    public int[] margins = CircleDimen.PROGRESS_MARGINS;
     /**
      * 底部文字内边距 [left, top, right, bottom]
      */
-    public int[] padding = TEXT_PADDING;
+    public int[] padding = CircleDimen.PROGRESS_TEXT_PADDING;
     /**
      * 进度条资源背景
      */
@@ -73,11 +72,11 @@ public class ProgressParams implements Parcelable {
     /**
      * 文本字体颜色
      */
-    public int textColor = CircleColor.content;
+    public int textColor = CircleColor.LOADING_TEXT;
     /**
      * 文本字体大小
      */
-    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+    public int textSize = CircleDimen.LOADING_TEXT_SIZE;
     /**
      * 字样式
      * {@linkplain Typeface#NORMAL NORMAL}

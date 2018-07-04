@@ -46,11 +46,11 @@ public class ItemsParams implements Parcelable {
     /**
      * item字体色
      */
-    public int textColor = CircleColor.content;
+    public int textColor = CircleColor.ITEM_CONTENT_TEXT;
     /**
      * item字体大小
      */
-    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+    public int textSize = CircleDimen.ITEM_CONTENT_TEXT_SIZE;
     /**
      * 按下颜色值
      */

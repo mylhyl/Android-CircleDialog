@@ -25,11 +25,11 @@ public class TextParams implements Parcelable {
             return new TextParams[size];
         }
     };
-    private static final int[] PADDING = {50, 0, 50, 50};
+
     /**
      * body文本内间距 [left, top, right, bottom]
      */
-    public int[] padding = PADDING;
+    public int[] padding = CircleDimen.TEXT_PADDING;
     /**
      * 文本
      */
@@ -37,7 +37,7 @@ public class TextParams implements Parcelable {
     /**
      * 文本高度
      */
-    public int height = CircleDimen.TITLE_HEIGHT;
+    public int height = CircleDimen.TEXT_HEIGHT;
     /**
      * 文本背景颜色
      */
@@ -45,7 +45,7 @@ public class TextParams implements Parcelable {
     /**
      * 文本字体颜色
      */
-    public int textColor = CircleColor.content;
+    public int textColor = CircleColor.CONTENT;
     /**
      * 文本字体大小
      */

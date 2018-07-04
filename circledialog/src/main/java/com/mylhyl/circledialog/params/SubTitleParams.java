@@ -31,7 +31,7 @@ public class SubTitleParams implements Parcelable {
     /**
      * 内间距 [left, top, right, bottom]
      */
-    public int[] padding = {50, 0, 50, 50};
+    public int[] padding = CircleDimen.SUBTITLE_PADDING;
     /**
      * 标题高度
      */
@@ -43,7 +43,7 @@ public class SubTitleParams implements Parcelable {
     /**
      * 标题字体颜色
      */
-    public int textColor = CircleColor.subtitle;
+    public int textColor = CircleColor.SUBTITLE_TEXT;
     /**
      * 标题背景颜色
      */

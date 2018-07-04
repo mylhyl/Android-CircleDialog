@@ -41,7 +41,7 @@ public class InputParams implements Parcelable {
     /**
      * 输入框提示语颜色
      */
-    public int hintTextColor = CircleColor.content;
+    public int hintTextColor = CircleColor.INPUT_TEXT_HINT;
     /**
      * 输入框背景资源文件
      */
@@ -53,7 +53,7 @@ public class InputParams implements Parcelable {
     /**
      * 输入框边框线条颜色
      */
-    public int strokeColor = CircleColor.inputStroke;
+    public int strokeColor = CircleColor.INPUT_STROKE;
     /**
      * 输入框的背景
      */
@@ -65,11 +65,11 @@ public class InputParams implements Parcelable {
     /**
      * 输入框字体大小
      */
-    public int textSize = CircleDimen.CONTENT_TEXT_SIZE;
+    public int textSize = CircleDimen.INPUT_TEXT_SIZE;
     /**
      * 输入框字体颜色
      */
-    public int textColor = CircleColor.title;
+    public int textColor = CircleColor.INPUT_TEXT;
     /**
      * 输入类型
      */
@@ -106,7 +106,7 @@ public class InputParams implements Parcelable {
      * 外边距 [右，下]
      */
     public int[] counterMargins = CircleDimen.INPUT_COUNTER_MARGINS;
-    public int counterColor = CircleColor.inputCounter;
+    public int counterColor = CircleColor.INPUT_COUNTER_TEXT;
 
     public InputParams() {
     }

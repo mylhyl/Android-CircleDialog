@@ -31,15 +31,15 @@ public class ButtonParams implements Parcelable {
     /**
      * 按钮文本颜色
      */
-    public int textColor = CircleColor.button;
+    public int textColor = CircleColor.FOOTER_BUTTON_TEXT;
     /**
      * 按钮文本大小
      */
-    public int textSize = CircleDimen.FOOTER_TEXT_SIZE;
+    public int textSize = CircleDimen.FOOTER_BUTTON_TEXT_SIZE;
     /**
      * 按钮高度
      */
-    public int height = CircleDimen.FOOTER_HEIGHT;
+    public int height = CircleDimen.FOOTER_BUTTON_HEIGHT;
     /**
      * 按钮背景颜色
      */
@@ -55,7 +55,7 @@ public class ButtonParams implements Parcelable {
     /**
      * 禁用后的按钮文本颜色
      */
-    public int textColorDisable = CircleColor.buttonDisable;
+    public int textColorDisable = CircleColor.FOOTER_BUTTON_DISABLE;
     /**
      * 按下颜色值
      */

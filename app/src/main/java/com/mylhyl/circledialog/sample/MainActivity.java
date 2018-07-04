@@ -411,8 +411,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("提示")
                         .setWidth(0.7f)
                         .setBodyView(R.layout.share_page_loading, view16 -> {
-                            CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.bgDialog
-                                    , 0, 0, CircleDimen.RADIUS, CircleDimen.RADIUS);
+                            CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
+                                    , 0, 0, CircleDimen.DIALOG_RADIUS, CircleDimen.DIALOG_RADIUS);
                             view16.setBackgroundDrawable(bgCircleDrawable);
                         })
                         .show(getSupportFragmentManager());
