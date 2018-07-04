@@ -128,7 +128,7 @@
             .setLottieText("正在加载...")
             .setOnCreateLottieListener(OnCreateLottieListener)//更多属性配置
             .show(getSupportFragmentManager());
-``
+```
 
 * 自定义对话框  
 1、完全重新设计可继承`BaseCircleDialog`，此基类提供了对话框的常用属性  
