@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
-                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"});
+                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"
+                , "lottie动画框"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -414,6 +415,16 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                     , 0, 0, CircleDimen.RADIUS, CircleDimen.RADIUS);
                             view16.setBackgroundDrawable(bgCircleDrawable);
                         })
+                        .show(getSupportFragmentManager());
+                break;
+            case 16:
+                new CircleDialog.Builder()
+                        .setTitle("提示")
+                        .setWidth(0.7f)
+                        .setLottieAnimation("loading.json")
+                        .setLottieLoop(true)
+                        .playLottieAnimation()
+                        .setLottieText("正在加载...")
                         .show(getSupportFragmentManager());
                 break;
         }

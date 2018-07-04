@@ -16,10 +16,11 @@ ext {
             // support
             appcompatV7 : "com.android.support:appcompat-v7:${dependVersion.support}",
             recyclerview: "com.android.support:recyclerview-v7:${dependVersion.support}",
-            leakcanary  : "com.squareup.leakcanary:leakcanary-android:1.5.4"
+            leakcanary  : "com.squareup.leakcanary:leakcanary-android:1.5.4",
+            lottie      : "com.airbnb.android:lottie:2.5.4"
     ]
 
-    publish =[
-        version : "2.6.3"
+    publish = [
+            version: "2.6.3"
     ]
 }

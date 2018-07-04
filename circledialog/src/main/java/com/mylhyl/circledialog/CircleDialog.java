@@ -27,6 +27,7 @@ import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
+import com.mylhyl.circledialog.params.LottieParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -34,6 +35,7 @@ import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
+import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
@@ -527,6 +529,54 @@ public final class CircleDialog {
         public Builder configInput(@NonNull ConfigInput configInput) {
             newInputParams();
             configInput.onConfig(mCircleParams.inputParams);
+            return this;
+        }
+
+        public Builder setLottieAnimation(String animationFileName) {
+            newLottieParams();
+            mCircleParams.lottieParams.animationFileName = animationFileName;
+            return this;
+        }
+
+        private void newLottieParams() {
+            if (mCircleParams.lottieParams == null) {
+                mCircleParams.lottieParams = new LottieParams();
+            }
+        }
+
+        public Builder setLottieAnimation(int animationResId) {
+            newLottieParams();
+            mCircleParams.lottieParams.animationResId = animationResId;
+            return this;
+        }
+
+        public Builder playLottieAnimation() {
+            newLottieParams();
+            mCircleParams.lottieParams.autoPlay = true;
+            return this;
+        }
+
+        public Builder setLottieLoop(boolean loop) {
+            newLottieParams();
+            mCircleParams.lottieParams.loop = loop;
+            return this;
+        }
+
+        public Builder setLottieText(String text) {
+            newLottieParams();
+            mCircleParams.lottieParams.text = text;
+            return this;
+        }
+
+        public Builder setLottieSize(int width, int height) {
+            newLottieParams();
+            mCircleParams.lottieParams.lottieWidth = width;
+            mCircleParams.lottieParams.lottieHeight = height;
+            return this;
+        }
+
+        public Builder setOnCreateLottieListener(OnCreateLottieListener listener) {
+            mCircleParams.createLottieListener = listener;
             return this;
         }
 

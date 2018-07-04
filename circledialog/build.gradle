@@ -28,6 +28,7 @@ android {
 dependencies {
     compileOnly rootProject.ext.dependencies.appcompatV7
     compileOnly rootProject.ext.dependencies.recyclerview
+    compileOnly rootProject.ext.dependencies.lottie
 }
 
 publish {
