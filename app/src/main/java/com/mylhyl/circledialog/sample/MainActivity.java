@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setCancelable(true)
                         .setInputManualClose(true)
                         .setTitle("输入框")
+                        .setSubTitle("提示人物是什么？")
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
                         .setInputCounter(20)
@@ -297,7 +298,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             titleIcon.setPadding(0, 0, 30, 0);
                         })
                         .setSubTitle("副标题")
-                        .configSubTitle(params -> params.styleText = Typeface.BOLD)
+                        .configSubTitle(params -> {
+                            params.styleText = Typeface.BOLD;
+                            params.gravity = Gravity.LEFT;
+                        })
                         .setText("提示框")
                         .configText(params -> params.styleText = Typeface.BOLD)
                         .setOnCreateTextListener(textBody -> textBody.setText("重新设置对话框内容"))
@@ -426,6 +430,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 16:
                 new CircleDialog.Builder()
                         .setTitle("提示")
+                        .setSubTitle("副提示语")
                         .setWidth(0.7f)
                         .setLottieAnimation("loading.json")
                         .setLottieLoop(true)
