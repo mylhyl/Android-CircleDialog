@@ -430,8 +430,9 @@ public final class CircleDialog {
         /**
          * 设置自定义等待框视图
          *
-         * @param bodyViewId
-         * @return
+         * @param bodyViewId resLayoutId
+         * @param listener   listener
+         * @return Builder
          */
         public Builder setBodyView(@LayoutRes int bodyViewId, OnCreateBodyViewListener listener) {
             mCircleParams.bodyViewId = bodyViewId;
