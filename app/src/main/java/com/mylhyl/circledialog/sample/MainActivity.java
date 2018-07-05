@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("提示人物是什么？")
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
-//                        .autoInputShowKeyboard()
+                        .autoInputShowKeyboard()
                         .setInputCounter(20)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
                         .configInput(params -> {

@@ -338,7 +338,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
                 InputMethodManager manager = ((InputMethodManager) getActivity()
                         .getSystemService(Activity.INPUT_METHOD_SERVICE));
                 if (getActivity().getCurrentFocus() != null)
-                    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
     }
