@@ -459,6 +459,12 @@ public final class CircleDialog {
                 mCircleParams.inputParams = new InputParams();
         }
 
+        public Builder autoInputShowKeyboard() {
+            newInputParams();
+            mCircleParams.inputParams.showSoftKeyboard = true;
+            return this;
+        }
+
         public Builder setInputText(@NonNull String text, @NonNull String hint) {
             newInputParams();
             mCircleParams.inputParams.text = text;

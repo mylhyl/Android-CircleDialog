@@ -93,6 +93,7 @@
             .setInputHeight(height)//输入框高度
             .setInputCounter(maxLen)//输入框的最大字符数，默认格式在输入右下角例如：20
             .setInputCounterColor(color)//最大字符数文字的颜色值
+            .autoInputShowKeyboard();//自动弹出键盘
             //输入框的最大字符数
             //OnInputCounterChangeListener灵活配置格式例如：maxLen - currentLen + "/" + maxLen 最终效果是：10/20
             .setInputCounter(maxLen, OnInputCounterChangeListener)

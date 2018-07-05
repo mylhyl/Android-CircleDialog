@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.EditText;
 
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.listener.ButtonView;
@@ -46,11 +47,10 @@ public class Controller {
         mCreateView = new BuildViewImpl(mContext, mParams);
     }
 
-    public View createView() {
+    public void createView() {
         applyRoot();
         applyHeader();
         applyBody();
-        return getView();
     }
 
     private void applyRoot() {
@@ -122,10 +122,6 @@ public class Controller {
         }
     }
 
-    private View getView() {
-        return mCreateView.getView();
-    }
-
     private void applyButton(final ButtonView viewButton, final View viewClick) {
 
         viewButton.regNegativeListener(new View.OnClickListener() {
@@ -158,6 +154,11 @@ public class Controller {
         });
     }
 
+    EditText getInputEdit() {
+        if (mCreateView == null) return null;
+        return mCreateView.getInputView().getInput();
+    }
+
     public void refreshView() {
         mCreateView.refreshText();
         mCreateView.refreshItems();
@@ -174,6 +175,10 @@ public class Controller {
                     if (animation != null) getView().startAnimation(animation);
                 }
             });
+    }
+
+    View getView() {
+        return mCreateView.getView();
     }
 
     /**

@@ -14,6 +14,7 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * Created by hupei on 2017/3/31.
  */
 public class InputParams implements Parcelable {
+
     public static final Creator<InputParams> CREATOR = new Creator<InputParams>() {
         @Override
         public InputParams createFromParcel(Parcel source) {
@@ -25,7 +26,6 @@ public class InputParams implements Parcelable {
             return new InputParams[size];
         }
     };
-
     /**
      * 输入框与body视图的距离
      */
@@ -107,6 +107,10 @@ public class InputParams implements Parcelable {
      */
     public int[] counterMargins = CircleDimen.INPUT_COUNTER_MARGINS;
     public int counterColor = CircleColor.INPUT_COUNTER_TEXT;
+    /**
+     * 显示软键盘
+     */
+    public boolean showSoftKeyboard;
 
     public InputParams() {
     }
@@ -130,7 +134,9 @@ public class InputParams implements Parcelable {
         this.padding = in.createIntArray();
         this.styleText = in.readInt();
         this.maxLen = in.readInt();
+        this.counterMargins = in.createIntArray();
         this.counterColor = in.readInt();
+        this.showSoftKeyboard = in.readByte() != 0;
     }
 
     @Override
@@ -158,6 +164,8 @@ public class InputParams implements Parcelable {
         dest.writeIntArray(this.padding);
         dest.writeInt(this.styleText);
         dest.writeInt(this.maxLen);
+        dest.writeIntArray(this.counterMargins);
         dest.writeInt(this.counterColor);
+        dest.writeByte(this.showSoftKeyboard ? (byte) 1 : (byte) 0);
     }
 }
