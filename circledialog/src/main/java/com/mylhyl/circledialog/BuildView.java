@@ -108,4 +108,6 @@ public interface BuildView {
      * @return 对话框视图
      */
     View getView();
+
+    InputView getInputView();
 }

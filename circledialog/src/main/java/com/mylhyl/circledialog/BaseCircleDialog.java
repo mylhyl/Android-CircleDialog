@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
@@ -326,5 +328,18 @@ public abstract class BaseCircleDialog extends DialogFragment {
 
     protected void setY(int y) {
         mY = y;
+    }
+
+    //显示键盘
+    protected void showSoftInputView(final View view) {
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager manager = ((InputMethodManager) getActivity()
+                        .getSystemService(Activity.INPUT_METHOD_SERVICE));
+                if (getActivity().getCurrentFocus() != null)
+                    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
     }
 }

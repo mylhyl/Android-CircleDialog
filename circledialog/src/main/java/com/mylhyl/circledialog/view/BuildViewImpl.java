@@ -163,4 +163,9 @@ public final class BuildViewImpl implements BuildView {
     public View getView() {
         return mRoot;
     }
+
+    @Override
+    public InputView getInputView() {
+        return mBodyInputView;
+    }
 }

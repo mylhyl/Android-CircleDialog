@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.mylhyl.circledialog.params.DialogParams;
 
@@ -33,9 +35,21 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
+                && mController != null) {
+            EditText editText = mController.getInputEdit();
+            if (editText != null) showSoftInputView(editText);
+        }
+    }
+
+    @Override
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
         mController = new Controller(getContext().getApplicationContext(), mParams, this);
-        return mController.createView();
+        mController.createView();
+        View view = mController.getView();
+        return view;
     }
 
     @Override
@@ -91,9 +105,8 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
 
     @Override
     public void onShow(DialogInterface dialog) {
-        if (mParams != null) {
-            if (mParams.showListener != null)
-                mParams.showListener.onShow(dialog);
+        if (mParams != null && mParams.showListener != null) {
+            mParams.showListener.onShow(dialog);
         }
     }
 
