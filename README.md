@@ -99,7 +99,8 @@
             .setInputCounter(maxLen, OnInputCounterChangeListener)
             .setInputManualClose(boolean)//点击确定按钮时是否关闭对话框，默认关闭
             .configInput(ConfigInput)//配置输入框更多的属性
-            //添加按钮，参考普通对话框
+            .setPositiveInput("确定", OnInputClickListener)
+            //添加取消按钮，参考普通对话框
             .show();
 ```
 
