@@ -388,7 +388,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                 };
                 dialogFragment = new CircleDialog.Builder()
-                        .setGravity(Gravity.BOTTOM)
                         .setRadius(0)
                         .setWidth(1f)
                         .setMaxHeight(0.8f)
