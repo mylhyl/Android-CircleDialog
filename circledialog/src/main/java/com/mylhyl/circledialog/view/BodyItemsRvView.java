@@ -23,6 +23,7 @@ import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -50,6 +51,8 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
                 .MATCH_PARENT, LayoutParams
                 .MATCH_PARENT, 1);
 
+        //设置列表与按钮之间的下距离
+        layoutParams.bottomMargin = ScaleUtils.scaleValue(itemsParams.bottomMargin);
         setLayoutParams(layoutParams);
 
         if (itemsParams.layoutManager == null) {
@@ -200,6 +203,9 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
                     textView.setLayoutParams(new LayoutParams(
                             LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                     textView.setPadding(10, 0, 10, 0);
+                } else {
+                    textView.setLayoutParams(new LayoutParams(
+                            LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                 }
             } else {
                 textView.setLayoutParams(new LayoutParams(
@@ -440,7 +446,7 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
             }
         }
 
-        private boolean isLastColum(RecyclerView parent, int pos, int spanCount, int childCount) {
+        private boolean isLastColumn(RecyclerView parent, int pos, int spanCount, int childCount) {
             LayoutManager layoutManager = parent.getLayoutManager();
             if (layoutManager instanceof GridLayoutManager) {
                 // 如果是最后一列，则不需要绘制右边
@@ -503,7 +509,7 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
                 outRect.set(0, 0, mDividerHeight, 0);
             }
             // 如果是最后一列，则不需要绘制右边
-            else if (isLastColum(parent, itemPosition, spanCount, childCount)) {
+            else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
                 outRect.set(0, 0, 0, mDividerHeight);
             } else {
                 outRect.set(0, 0, mDividerHeight, mDividerHeight);

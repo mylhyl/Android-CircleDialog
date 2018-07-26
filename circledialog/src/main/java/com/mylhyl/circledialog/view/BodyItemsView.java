@@ -20,7 +20,6 @@ import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
-import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
@@ -59,9 +58,6 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
                 .MATCH_PARENT, 1);
 
         //设置列表与按钮之间的下距离
-        if (itemsParams.bottomMargin == -1) {
-            itemsParams.bottomMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
-        }
         layoutParams.bottomMargin = ScaleUtils.scaleValue(itemsParams.bottomMargin);
         setLayoutParams(layoutParams);
 

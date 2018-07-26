@@ -79,7 +79,7 @@ public class ItemsParams implements Parcelable {
     /**
      * 列表与底部按钮的距离
      */
-    public int bottomMargin = -1;
+    public int bottomMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
 
     public ItemsParams() {
     }
