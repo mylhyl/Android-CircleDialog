@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -42,13 +43,14 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
     }
 
     private void init(Context context, final CircleParams params) {
+        this.mParams = params;
+        ItemsParams itemsParams = params.itemsParams;
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
                 .MATCH_PARENT, LayoutParams
                 .MATCH_PARENT, 1);
+
         setLayoutParams(layoutParams);
-        this.mParams = params;
-        ItemsParams itemsParams = params.itemsParams;
 
         if (itemsParams.layoutManager == null) {
             itemsParams.layoutManager = new LinearLayoutManager(getContext()
@@ -112,18 +114,6 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
     }
 
     @Override
-    public void regOnItemClickListener(OnRvItemClickListener listener) {
-        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
-            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
-        }
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
-    @Override
     public void refreshItems() {
         post(new Runnable() {
             @Override
@@ -139,9 +129,233 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
     }
 
     @Override
+    public void regOnItemClickListener(OnRvItemClickListener listener) {
+        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
+            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
+        }
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
     public void onClick(View view, int which) {
         if (mParams.rvItemListener != null) {
             mParams.rvItemListener.onItemClick(view, which);
+        }
+    }
+
+    static class ItemsAdapter<T> extends Adapter<ItemsAdapter.Holder> {
+
+        private OnRvItemClickListener mItemClickListener;
+        private Context mContext;
+        private List<T> mItems;
+        private int mRadius;
+        private int mBackgroundColor;
+        private int mBackgroundColorPress;
+        private ItemsParams mItemsParams;
+        private TitleParams mTitleParams;
+        private SelectorBtn bgItemAllRadius;
+        private SelectorBtn bgItemTopRadius;
+        private SelectorBtn bgItemBottomRadius;
+
+        public ItemsAdapter(Context context, CircleParams params) {
+            this.mContext = context;
+            this.mTitleParams = params.titleParams;
+            this.mItemsParams = params.itemsParams;
+            this.mRadius = params.dialogParams.radius;
+
+            //如果没有背景色，则使用默认色
+            this.mBackgroundColor = mItemsParams.backgroundColor != 0
+                    ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor;
+            this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
+                    ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
+
+            bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                    , mRadius, mRadius, mRadius, mRadius);
+            bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                    , mRadius, mRadius, 0, 0);
+            bgItemBottomRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                    , 0, 0, mRadius, mRadius);
+
+            Object entity = mItemsParams.items;
+            if (entity != null && entity instanceof Iterable) {
+                this.mItems = (List<T>) entity;
+            } else if (entity != null && entity.getClass().isArray()) {
+                this.mItems = Arrays.asList((T[]) entity);
+            } else {
+                throw new IllegalArgumentException("entity must be an Array or an Iterable.");
+            }
+        }
+
+        @Override
+        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+            ScaleTextView textView = new ScaleTextView(mContext);
+            LayoutManager layoutManager = mItemsParams.layoutManager;
+            if (layoutManager instanceof LinearLayoutManager) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+                if (linearLayoutManager.getOrientation() == LinearLayoutManager.HORIZONTAL) {
+                    textView.setLayoutParams(new LayoutParams(
+                            LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                    textView.setPadding(10, 0, 10, 0);
+                }
+            } else {
+                textView.setLayoutParams(new LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            }
+            textView.setTextSize(mItemsParams.textSize);
+            textView.setTextColor(mItemsParams.textColor);
+            textView.setHeight(mItemsParams.itemHeight);
+            Holder holder = new Holder(textView, mItemClickListener);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(Holder holder, int position) {
+            LayoutManager layoutManager = mItemsParams.layoutManager;
+            if (layoutManager instanceof GridLayoutManager) {
+                GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+                glBg(holder, position, gridLayoutManager.getSpanCount());
+            } else if (layoutManager instanceof LinearLayoutManager) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+                if (linearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
+                    llvBg(holder, position);
+                } else {
+                    llhBg(holder, position);
+                }
+            }
+            String label;
+            T item = mItems.get(position);
+            if (item instanceof CircleItemLabel) {
+                label = ((CircleItemLabel) item).getItemLabel();
+            } else {
+                label = item.toString();
+            }
+            holder.item.setText(String.valueOf(label));
+        }
+
+        //GridLayoutManager Background
+        private void glBg(Holder holder, int position, int spanCount) {
+            int itemCount = getItemCount();
+            int mod = itemCount % spanCount;
+
+            if (itemCount == 1) {
+                if (mTitleParams == null) {
+                    setItemBg(holder, bgItemAllRadius);
+                } else {
+                    setItemBg(holder, bgItemBottomRadius);
+                }
+            } else {
+                //bottom
+                if (itemCount <= spanCount || position >= itemCount - (mod == 0 ? spanCount : mod)) {
+                    int topRadius = itemCount <= spanCount && mTitleParams == null ? mRadius : 0;
+                    if (position % spanCount == 0) {//left
+                        if (mod == 1) {
+                            setItemBg(holder, bgItemBottomRadius);
+                        } else {
+                            setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                    , topRadius, 0, 0, mRadius));
+                        }
+                    } else {
+                        if (mod == 0) {//full
+                            if (position % spanCount == spanCount - 1) {//right
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, topRadius, mRadius, 0));
+                            } else {//middle
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
+                            }
+                        } else {
+                            if (position % spanCount == mod - 1) {//right
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                        , 0, topRadius, mRadius, 0));
+                            } else {//middle
+                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
+                            }
+                        }
+                    }
+                } else {
+                    if (mTitleParams == null && position % spanCount == 0) {
+                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , position < spanCount ? mRadius : 0, 0, 0, 0));
+                    } else if (mTitleParams == null && position % spanCount == spanCount - 1) {//right
+                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , 0, position < spanCount ? mRadius : 0, 0, 0));
+                    } else {
+                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
+                                , 0, 0, 0, 0));
+                    }
+                }
+            }
+        }
+
+        //LinearLayoutManager Vertical Background
+        private void llvBg(Holder holder, int position) {
+            //top 且没有标题
+            if (position == 0 && mTitleParams == null) {
+                if (getItemCount() == 1) {
+                    setItemBg(holder, bgItemAllRadius);
+                } else {
+                    setItemBg(holder, bgItemTopRadius);
+                }
+            }
+            //bottom 有标题与中间一样
+            else if (position == getItemCount() - 1) {
+                setItemBg(holder, bgItemBottomRadius);
+            }
+            //middle
+            else {
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
+            }
+        }
+
+
+        //LinearLayoutManager Horizontal Background
+        private void llhBg(Holder holder, int position) {
+            if (position == 0) {
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, mRadius));
+            } else if (position == getItemCount() - 1) {
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, mRadius, 0));
+            } else {
+                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
+            }
+        }
+
+        private void setItemBg(Holder holder, SelectorBtn selectorBtn) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.item.setBackground(selectorBtn);
+            } else {
+                holder.item.setBackgroundDrawable(selectorBtn);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return mItems == null ? 0 : mItems.size();
+        }
+
+        public void setOnItemClickListener(OnRvItemClickListener listener) {
+            this.mItemClickListener = listener;
+        }
+
+        static class Holder extends RecyclerView.ViewHolder implements OnClickListener {
+            OnRvItemClickListener mItemClickListener;
+            TextView item;
+
+            public Holder(TextView itemView, OnRvItemClickListener listener) {
+                super(itemView);
+                item = itemView;
+                mItemClickListener = listener;
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(v, getAdapterPosition());
+                }
+            }
         }
     }
 
@@ -307,211 +521,6 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
                 spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
             }
             return spanCount;
-        }
-    }
-
-    static class ItemsAdapter<T> extends Adapter<ItemsAdapter.Holder> {
-
-        static class Holder extends RecyclerView.ViewHolder implements OnClickListener {
-            OnRvItemClickListener mItemClickListener;
-            TextView item;
-
-            public Holder(TextView itemView, OnRvItemClickListener listener) {
-                super(itemView);
-                item = itemView;
-                mItemClickListener = listener;
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(v, getAdapterPosition());
-                }
-            }
-        }
-
-        private OnRvItemClickListener mItemClickListener;
-        private Context mContext;
-        private List<T> mItems;
-        private int mRadius;
-        private int mBackgroundColor;
-        private int mBackgroundColorPress;
-        private ItemsParams mItemsParams;
-        private TitleParams mTitleParams;
-        private SelectorBtn bgItemAllRadius;
-        private SelectorBtn bgItemTopRadius;
-        private SelectorBtn bgItemBottomRadius;
-
-        public ItemsAdapter(Context context, CircleParams params) {
-            this.mContext = context;
-            this.mTitleParams = params.titleParams;
-            this.mItemsParams = params.itemsParams;
-            this.mRadius = params.dialogParams.radius;
-
-            //如果没有背景色，则使用默认色
-            this.mBackgroundColor = mItemsParams.backgroundColor != 0
-                    ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor;
-            this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
-                    ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
-
-            bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                    , mRadius, mRadius, mRadius, mRadius);
-            bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                    , mRadius, mRadius, 0, 0);
-            bgItemBottomRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                    , 0, 0, mRadius, mRadius);
-
-            Object entity = mItemsParams.items;
-            if (entity != null && entity instanceof Iterable) {
-                this.mItems = (List<T>) entity;
-            } else if (entity != null && entity.getClass().isArray()) {
-                this.mItems = Arrays.asList((T[]) entity);
-            } else {
-                throw new IllegalArgumentException("entity must be an Array or an Iterable.");
-            }
-        }
-
-        @Override
-        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            ScaleTextView textView = new ScaleTextView(mContext);
-            LayoutManager layoutManager = mItemsParams.layoutManager;
-            if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                if (linearLayoutManager.getOrientation() == LinearLayoutManager.HORIZONTAL) {
-                    textView.setLayoutParams(new LayoutParams(
-                            LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-                    textView.setPadding(10, 0, 10, 0);
-                }
-            } else {
-                textView.setLayoutParams(new LayoutParams(
-                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-            }
-            textView.setTextSize(mItemsParams.textSize);
-            textView.setTextColor(mItemsParams.textColor);
-            textView.setHeight(mItemsParams.itemHeight);
-            Holder holder = new Holder(textView, mItemClickListener);
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(Holder holder, int position) {
-            LayoutManager layoutManager = mItemsParams.layoutManager;
-            if (layoutManager instanceof GridLayoutManager) {
-                GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
-                glBg(holder, position, gridLayoutManager.getSpanCount());
-            } else if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                if (linearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
-                    llvBg(holder, position);
-                } else {
-                    llhBg(holder, position);
-                }
-            }
-            holder.item.setText(String.valueOf(mItems.get(position).toString()));
-        }
-
-        //LinearLayoutManager Vertical Background
-        private void llvBg(Holder holder, int position) {
-            //top 且没有标题
-            if (position == 0 && mTitleParams == null) {
-                if (getItemCount() == 1) {
-                    setItemBg(holder, bgItemAllRadius);
-                } else {
-                    setItemBg(holder, bgItemTopRadius);
-                }
-            }
-            //bottom 有标题与中间一样
-            else if (position == getItemCount() - 1) {
-                setItemBg(holder, bgItemBottomRadius);
-            }
-            //middle
-            else {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-            }
-        }
-
-
-        //LinearLayoutManager Horizontal Background
-        private void llhBg(Holder holder, int position) {
-            if (position == 0) {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, mRadius));
-            } else if (position == getItemCount() - 1) {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, mRadius, 0));
-            } else {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-            }
-        }
-
-        //GridLayoutManager Background
-        private void glBg(Holder holder, int position, int spanCount) {
-            int itemCount = getItemCount();
-            int mod = itemCount % spanCount;
-
-            if (itemCount == 1) {
-                if (mTitleParams == null) {
-                    setItemBg(holder, bgItemAllRadius);
-                } else {
-                    setItemBg(holder, bgItemBottomRadius);
-                }
-            } else {
-                //bottom
-                if (itemCount <= spanCount || position >= itemCount - (mod == 0 ? spanCount : mod)) {
-                    int topRadius = itemCount <= spanCount && mTitleParams == null ? mRadius : 0;
-                    if (position % spanCount == 0) {//left
-                        if (mod == 1) {
-                            setItemBg(holder, bgItemBottomRadius);
-                        } else {
-                            setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                    , topRadius, 0, 0, mRadius));
-                        }
-                    } else {
-                        if (mod == 0) {//full
-                            if (position % spanCount == spanCount - 1) {//right
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, topRadius, mRadius, 0));
-                            } else {//middle
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-                            }
-                        } else {
-                            if (position % spanCount == mod - 1) {//right
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, topRadius, mRadius, 0));
-                            } else {//middle
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-                            }
-                        }
-                    }
-                } else {
-                    if (mTitleParams == null && position % spanCount == 0) {
-                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , position < spanCount ? mRadius : 0, 0, 0, 0));
-                    } else if (mTitleParams == null && position % spanCount == spanCount - 1) {//right
-                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , 0, position < spanCount ? mRadius : 0, 0, 0));
-                    } else {
-                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , 0, 0, 0, 0));
-                    }
-                }
-            }
-        }
-
-        private void setItemBg(Holder holder, SelectorBtn selectorBtn) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                holder.item.setBackground(selectorBtn);
-            } else {
-                holder.item.setBackgroundDrawable(selectorBtn);
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return mItems == null ? 0 : mItems.size();
-        }
-
-        public void setOnItemClickListener(OnRvItemClickListener listener) {
-            this.mItemClickListener = listener;
         }
     }
 }

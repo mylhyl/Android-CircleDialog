@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -225,7 +226,14 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.item.setText(String.valueOf(getItem(position).toString()));
+            String label;
+            T item = getItem(position);
+            if (item instanceof CircleItemLabel) {
+                label = ((CircleItemLabel) item).getItemLabel();
+            } else {
+                label = item.toString();
+            }
+            viewHolder.item.setText(String.valueOf(label));
             return convertView;
         }
 

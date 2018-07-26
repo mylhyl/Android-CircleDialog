@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 2:
-//                final List<PictureTypeEntity> list = new ArrayList<>();
-//                list.add(new PictureTypeEntity(1, "拍照"));
-//                list.add(new PictureTypeEntity(2, "从相册选择"));
-//                list.add(new PictureTypeEntity(3, "小视频"));
-                final String[] items = {"拍照", "从相册选择", "小视频"};
+                final List<PictureTypeEntity> items = new ArrayList<>();
+                items.add(new PictureTypeEntity(1, "拍照"));
+                items.add(new PictureTypeEntity(2, "从相册选择"));
+                items.add(new PictureTypeEntity(3, "小视频"));
+//                final String[] items = {"拍照", "从相册选择", "小视频"};
                 new CircleDialog.Builder()
                         .configDialog(params -> {
                             params.backgroundColorPress = Color.CYAN;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                params.backgroundColor = Color.YELLOW;
                         })
                         .setItems(items, (parent, view1, position1, id) ->
-                                Toast.makeText(MainActivity.this, "点击了：" + items[position1]
+                                Toast.makeText(MainActivity.this, "点击了：" + items.get(position1)
                                         , Toast.LENGTH_SHORT).show())
                         .setNegative("取消", null)
 //                        .setNeutral("中间", null)

@@ -81,6 +81,8 @@
             .configItems(ConfigItems)//配置列表更多的属性
             //添加按钮，参考普通对话框
             .show();
+
+            //绑定的数据实体类可重写toString方法显示Item的内容，也可以实现接口`CirleItemLabel`接口
 ```
 
 * 输入对话框
