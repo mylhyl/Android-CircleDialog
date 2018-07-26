@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.sample;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class DialogLoginConnPc extends BaseCircleDialog implements View.OnClickL
         DialogLoginConnPc dialogFragment = new DialogLoginConnPc();
         dialogFragment.setCanceledBack(false);
         dialogFragment.setCanceledOnTouchOutside(false);
+        dialogFragment.setBackgroundColor(Color.WHITE);
         return dialogFragment;
     }
 

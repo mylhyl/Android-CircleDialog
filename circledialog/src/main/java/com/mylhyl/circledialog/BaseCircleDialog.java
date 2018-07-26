@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
@@ -331,14 +332,14 @@ public abstract class BaseCircleDialog extends DialogFragment {
     }
 
     //显示键盘
-    protected void showSoftInputView(final View view) {
-        view.post(new Runnable() {
+    protected void showSoftInputView(final EditText editText) {
+        editText.post(new Runnable() {
             @Override
             public void run() {
                 InputMethodManager manager = ((InputMethodManager) getActivity()
                         .getSystemService(Activity.INPUT_METHOD_SERVICE));
                 if (getActivity().getCurrentFocus() != null)
-                    manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    manager.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
             }
         });
     }
