@@ -25,11 +25,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.callback.ConfigItems;
-import com.mylhyl.circledialog.callback.ConfigTitle;
-import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -256,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 handler.postDelayed(runnable, 3000);
                 break;
             case 7:
-//                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
                 DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
                 break;
             case 8:
@@ -428,12 +423,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 15:
                 dialogFragment = new CircleDialog.Builder()
                         .setTitle("提示")
-                        .setWidth(0.7f)
-                        .setBodyView(R.layout.share_page_loading, view16 -> {
+                        .setBodyView(R.layout.dialog_login_conn_pic, view16 -> {
                             CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
-                                    , 0, 0, CircleDimen.DIALOG_RADIUS, CircleDimen.DIALOG_RADIUS);
+                                    , 0, 0, 0, 0);
                             view16.setBackgroundDrawable(bgCircleDrawable);
                         })
+                        .setNegative("关闭", null)
                         .show(getSupportFragmentManager());
                 break;
             case 16:
@@ -468,6 +463,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         textView.setText(item.getTitle());
                         textView.setCompoundDrawablesWithIntrinsicBounds(null, item.getIcon(), null, null);
                         textView.setGravity(Gravity.CENTER);
+                        TypedValue typedValue = new TypedValue();
+                        helper.itemView.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
+                        textView.setBackgroundResource(typedValue.resourceId);
                     }
                 };
                 weiboRvAdapter.setOnItemClickListener((adapter12, view17, position16) -> {
