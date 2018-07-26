@@ -62,7 +62,8 @@
             .configNegative(ConfigButton)//配置取消按钮更多的属性
             .setNeutral("中间", OnClickListener)
             .configNeutral(ConfigButton)//配置中间按钮更多的属性
-            .setOnCreateButtonListener(OnCreateButtonListener)//如果 configPositive configNegative configNeutral 不能满足你，此监听器可以帮助你
+            //如果 configPositive configNegative configNeutral 不能满足你，此监听器可以帮助你
+            .setOnCreateButtonListener(OnCreateButtonListener)
             .show();
 ```
 
@@ -82,7 +83,7 @@
             //添加按钮，参考普通对话框
             .show();
 
-            //绑定的数据实体类可重写toString方法显示Item的内容，也可以实现接口`CirleItemLabel`接口
+            //绑定的数据实体类可重写toString方法显示Item的内容，也可以实现接口`CircleItemLabel`接口
 ```
 
 * 输入对话框
