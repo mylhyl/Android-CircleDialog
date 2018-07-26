@@ -42,7 +42,7 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         this.params = params;
         DialogParams dialogParams = params.dialogParams;
         TitleParams titleParams = params.titleParams;
-        InputParams inputParams = params.inputParams;
+        final InputParams inputParams = params.inputParams;
         ButtonParams negativeParams = params.negativeParams;
         ButtonParams positiveParams = params.positiveParams;
 
@@ -91,7 +91,15 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         mEditText.setHintTextColor(inputParams.hintTextColor);
         mEditText.setTextSize(inputParams.textSize);
         mEditText.setTextColor(inputParams.textColor);
-        mEditText.setHeight(inputParams.inputHeight);
+        mEditText.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                int height = v.getHeight();
+                if (inputParams.inputHeight > height) {
+                    mEditText.setHeight(inputParams.inputHeight);
+                }
+            }
+        });
         mEditText.setGravity(inputParams.gravity);
         if (!TextUtils.isEmpty(inputParams.text)) {
             mEditText.setText(inputParams.text);
