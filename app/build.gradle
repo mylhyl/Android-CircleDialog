@@ -34,7 +34,7 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompatV7
     implementation rootProject.ext.dependencies.recyclerview
     implementation rootProject.ext.dependencies.lottie
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+    implementation rootProject.ext.dependencies.baseRvAdapter
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'

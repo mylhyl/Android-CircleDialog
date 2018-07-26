@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/moments"
+        android:icon="@mipmap/ic_share_moments"
+        android:title="@string/moments"/>
+    <item
+        android:id="@+id/wechat"
+        android:icon="@mipmap/ic_share_wechat"
+        android:title="@string/wechat"/>
+    <item
+        android:id="@+id/weibo"
+        android:icon="@mipmap/ic_share_weibo"
+        android:title="@string/weibo"/>
+    <item
+        android:id="@+id/qq"
+        android:icon="@mipmap/ic_share_qq"
+        android:title="@string/qq"/>
+    <item
+        android:id="@+id/qzone"
+        android:icon="@mipmap/ic_share_qzone"
+        android:title="@string/qzone"/>
+    <item
+        android:id="@+id/action_social_share"
+        android:icon="@mipmap/ic_action_social_share"
+        android:title="@string/share"/>
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@mipmap/ic_action_action_delete"
+        android:title="@string/delete"/>
+    <item
+        android:id="@+id/action_content_add"
+        android:icon="@mipmap/ic_action_content_add"
+        android:title="@string/add_item"/>
+    <item
+        android:id="@+id/ic_github"
+        android:icon="@mipmap/ic_github"
+        android:title="@string/source_on_github"/>
+</menu>

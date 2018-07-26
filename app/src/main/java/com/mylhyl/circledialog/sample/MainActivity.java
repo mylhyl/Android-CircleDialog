@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.SupportMenuInflater;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,12 +25,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.callback.ConfigTitle;
+import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
+import com.mylhyl.circledialog.sample.entities.WeiBoItem;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 
@@ -60,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
                 , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"
-                , "lottie动画框"});
+                , "lottie动画框", "仿微博分享"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -416,7 +426,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 15:
-
                 dialogFragment = new CircleDialog.Builder()
                         .setTitle("提示")
                         .setWidth(0.7f)
@@ -436,6 +445,46 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setLottieLoop(true)
                         .playLottieAnimation()
                         .setLottieText("正在加载...")
+                        .show(getSupportFragmentManager());
+                break;
+            case 17:
+                MenuInflater menuInflater = new SupportMenuInflater(this);
+                MenuBuilder menuBuilder = new MenuBuilder(this);
+                menuInflater.inflate(R.menu.menu_share_grid, menuBuilder);
+                List<WeiBoItem> weiBoItems = new ArrayList<>();
+                for (int i = 0; i < menuBuilder.size(); i++) {
+                    MenuItem menuItem = menuBuilder.getItem(i);
+                    weiBoItems.add(new WeiBoItem(menuItem.getItemId(), menuItem.getTitle().toString()
+                            , menuItem.getIcon()));
+                }
+
+                final BaseQuickAdapter weiboRvAdapter = new BaseQuickAdapter<WeiBoItem, BaseViewHolder>(
+                        android.R.layout.simple_list_item_1, weiBoItems) {
+
+                    @Override
+                    protected void convert(BaseViewHolder helper, WeiBoItem item) {
+                        TextView textView = helper.getView(android.R.id.text1);
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+                        textView.setText(item.getTitle());
+                        textView.setCompoundDrawablesWithIntrinsicBounds(null, item.getIcon(), null, null);
+                        textView.setGravity(Gravity.CENTER);
+                    }
+                };
+                weiboRvAdapter.setOnItemClickListener((adapter12, view17, position16) -> {
+                    WeiBoItem item = weiBoItems.get(position16);
+                    Toast.makeText(MainActivity.this, "" + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    dialogFragment.dismissAllowingStateLoss();
+                });
+
+                dialogFragment = new CircleDialog.Builder()
+                        .setRadius(0)
+                        .setWidth(1)
+                        .setYoff(0)
+                        .setTitle("分享到")
+                        .configTitle(params -> params.gravity = Gravity.LEFT)
+                        .configItems(params -> params.dividerHeight = 0)
+                        .setItems(weiboRvAdapter, new GridLayoutManager(this, 5))
+                        .configItems(params -> params.bottomMargin = 0)
                         .show(getSupportFragmentManager());
                 break;
         }
