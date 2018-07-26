@@ -37,6 +37,8 @@ final class TitleView extends ScaleLinearLayout {
         ScaleRelativeLayout titleLayout = new ScaleRelativeLayout(getContext());
         titleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT
                 , LayoutParams.WRAP_CONTENT));
+        titleLayout.setGravity(titleParams.gravity);
+        titleLayout.setPadding(50, 0, 50, 0);
 
         setTitleBg(titleLayout, params, titleParams.backgroundColor
                 , dialogParams.backgroundColor, dialogParams.radius);
@@ -61,7 +63,6 @@ final class TitleView extends ScaleLinearLayout {
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
         tvTitle.setLayoutParams(layoutParamsTitle);
-        tvTitle.setGravity(titleParams.gravity);
         tvTitle.setHeight(titleParams.height);
         tvTitle.setTextColor(titleParams.textColor);
         tvTitle.setTextSize(titleParams.textSize);
