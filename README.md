@@ -84,6 +84,7 @@
             .show();
 
             //绑定的数据实体类可重写toString方法显示Item的内容，也可以实现接口`CircleItemLabel`接口
+            //注意：默认设置了setYoff(20)
 ```
 
 * 输入对话框
