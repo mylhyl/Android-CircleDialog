@@ -396,6 +396,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")
                         .setItems(rvAdapter, new LinearLayoutManager(this))
+                        .configItems(params -> params.bottomMargin = 0)
                         .setNegative("关闭", null)
                         .configNegative(params -> params.topMargin = 0)
                         .show(getSupportFragmentManager());
