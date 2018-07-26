@@ -51,14 +51,14 @@ public abstract class BaseCircleDialog extends DialogFragment {
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
     private boolean mCanceledBack = true;//是否返回键关闭
-    private float mWidth = 0.9f;//对话框宽度，范围：0-1；1整屏宽
+    private float mWidth = CircleDimen.DIALOG_WIDTH;//对话框宽度，范围：0-1；1整屏宽
     private float mMaxHeight;//对话框高度，范围：0-1；1整屏高
     private int[] mPadding;//对话框与屏幕边缘距离
     private int mAnimStyle;//显示动画
     private boolean isDimEnabled = true;
     private int mBackgroundColor = Color.TRANSPARENT;//对话框的背景色
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
-    private float mAlpha = 1f;//对话框透明度，范围：0-1；1不透明
+    private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
     private int mX, mY;
     private View.OnLayoutChangeListener mOnLayoutChangeListener;
 
