@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         };
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-//        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
 
     @Override
