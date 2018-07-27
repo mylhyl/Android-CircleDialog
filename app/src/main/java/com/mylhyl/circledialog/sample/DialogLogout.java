@@ -19,8 +19,7 @@ public class DialogLogout extends BaseCircleDialog implements View.OnClickListen
         DialogLogout dialogFragment = new DialogLogout();
         dialogFragment.setCanceledBack(false);
         dialogFragment.setCanceledOnTouchOutside(false);
-        dialogFragment.setGravity(Gravity.BOTTOM);
-        dialogFragment.setWidth(1f);
+        dialogFragment.bottomFull();
         return dialogFragment;
     }
 

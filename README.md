@@ -27,6 +27,7 @@
 ```java
         new CircleDialog.Builder(this)
             .setGravity(Gravity)//位置，默认居中
+            .bottomFull()//底部位置且充满宽
             .setCanceledOnTouchOutside(boolean)//触摸外部关闭，默认true
             .setCancelable(boolean)//返回键关闭，默认true
             .setWidth(from = 0.0, to = 1.0)//宽度

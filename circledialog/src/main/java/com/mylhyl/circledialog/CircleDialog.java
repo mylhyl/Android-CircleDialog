@@ -173,6 +173,14 @@ public final class CircleDialog {
             return this;
         }
 
+        public Builder bottomFull() {
+            mCircleParams.dialogParams.gravity = Gravity.BOTTOM;
+            mCircleParams.dialogParams.radius = 0;
+            mCircleParams.dialogParams.width = 1f;
+            mCircleParams.dialogParams.yOff = 0;
+            return this;
+        }
+
         public Builder setOnDismissListener(DialogInterface.OnDismissListener listener) {
             mCircleParams.dismissListener = listener;
             return this;

@@ -331,6 +331,16 @@ public abstract class BaseCircleDialog extends DialogFragment {
         mY = y;
     }
 
+    /**
+     * 底部位置且充满宽
+     */
+    protected void bottomFull() {
+        this.mGravity = Gravity.BOTTOM;
+        this.mRadius = 0;
+        this.mWidth = 1f;
+        this.mY = 0;
+    }
+
     //显示键盘
     protected void showSoftInputView(final EditText editText) {
         editText.post(new Runnable() {

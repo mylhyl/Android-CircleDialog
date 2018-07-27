@@ -476,9 +476,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 });
 
                 dialogFragment = new CircleDialog.Builder()
-                        .setRadius(0)
-                        .setWidth(1)
-                        .setYoff(0)
+                        .bottomFull()
                         .setTitle("分享到")
                         .configTitle(params -> params.gravity = Gravity.LEFT)
                         .configItems(params -> params.dividerHeight = 0)
