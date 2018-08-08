@@ -85,8 +85,9 @@ public final class BuildViewImpl implements BuildView {
             else if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null)
                 mItemsView = new BodyItemsRvView(mContext, mParams);
 
-            mRoot.addView(mItemsView.getView());
         }
+        if (mItemsView != null)
+            mRoot.addView(mItemsView.getView());
         return mItemsView;
     }
 

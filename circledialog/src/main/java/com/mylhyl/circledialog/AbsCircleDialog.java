@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.mylhyl.circledialog.params.DialogParams;
@@ -35,6 +34,14 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
     }
 
     @Override
+    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
+        mController = new Controller(getContext().getApplicationContext(), mParams, this);
+        mController.createView();
+        View view = mController.getView();
+        return view;
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
@@ -42,14 +49,6 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
             EditText editText = mController.getInputEdit();
             if (editText != null) showSoftInputView(editText);
         }
-    }
-
-    @Override
-    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(getContext().getApplicationContext(), mParams, this);
-        mController.createView();
-        View view = mController.getView();
-        return view;
     }
 
     @Override
@@ -69,7 +68,6 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
             setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);
         setAnimations(dialogParams.animStyle);
         setDimEnabled(dialogParams.isDimEnabled);
-        //setBackgroundColor(dialogParams.backgroundColor);
         setRadius(dialogParams.radius);
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);

@@ -66,8 +66,7 @@ public abstract class BaseCircleDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = createView(getContext(), inflater, container);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
@@ -78,20 +77,22 @@ public abstract class BaseCircleDialog extends DialogFragment {
         return view;
     }
 
+    public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
+
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMaxHeight > 0) {
             mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
                 @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                public void onLayoutChange(View v, int left, int top, int right, int bottom
+                        , int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     int height = v.getHeight();
                     DisplayMetrics dm = getDisplayMetrics();
                     int maxHeight = (int) (dm.heightPixels * mMaxHeight);
                     if (height > maxHeight) {
                         view.setLayoutParams(new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                                , maxHeight));
+                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
                     }
                 }
             };
@@ -106,8 +107,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm;
     }
-
-    public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
 
     @Override
     public void show(FragmentManager manager, String tag) {
@@ -152,6 +151,14 @@ public abstract class BaseCircleDialog extends DialogFragment {
         remove();
     }
 
+    public void remove() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager == null) return;
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.remove(this);
+        ft.addToBackStack(null);
+    }
+
     @Override
     public void onStart() {
         Dialog dialog = getDialog();
@@ -161,24 +168,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
             setDialogGravity(dialog);//设置对话框布局
         }
         super.onStart();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(SAVED_GRAVITY, mGravity);
-        outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside);
-        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
-        outState.putFloat(SAVED_WIDTH, mWidth);
-        outState.putFloat(SAVED_HEIGHT_MAX, mMaxHeight);
-        if (mPadding != null) outState.putIntArray(SAVED_PADDING, mPadding);
-        outState.putInt(SAVED_ANIM_STYLE, mAnimStyle);
-        outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled);
-        outState.putInt(SAVED_BACKGROUND_COLOR, mBackgroundColor);
-        outState.putInt(SAVED_RADIUS, mRadius);
-        outState.putFloat(SAVED_ALPHA, mAlpha);
-        outState.putInt(SAVED_X, mX);
-        outState.putInt(SAVED_Y, mY);
     }
 
     /**
@@ -211,12 +200,22 @@ public abstract class BaseCircleDialog extends DialogFragment {
         window.setAttributes(wlp);
     }
 
-    public void remove() {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager == null) return;
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.remove(this);
-        ft.addToBackStack(null);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_GRAVITY, mGravity);
+        outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside);
+        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
+        outState.putFloat(SAVED_WIDTH, mWidth);
+        outState.putFloat(SAVED_HEIGHT_MAX, mMaxHeight);
+        if (mPadding != null) outState.putIntArray(SAVED_PADDING, mPadding);
+        outState.putInt(SAVED_ANIM_STYLE, mAnimStyle);
+        outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled);
+        outState.putInt(SAVED_BACKGROUND_COLOR, mBackgroundColor);
+        outState.putInt(SAVED_RADIUS, mRadius);
+        outState.putFloat(SAVED_ALPHA, mAlpha);
+        outState.putInt(SAVED_X, mX);
+        outState.putInt(SAVED_Y, mY);
     }
 
     /**

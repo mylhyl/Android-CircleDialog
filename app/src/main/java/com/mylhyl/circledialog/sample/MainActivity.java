@@ -25,6 +25,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -406,13 +408,21 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 });
                 break;
             case 14:
-                final String[] objectsR = {"item0", "item1", "item2", "item3"};
+                final String[] objectsR = {"item0", "item1", "item2", "item3", "item4", "item5"
+                        , "item6", "item7", "item8", "item9", "item10"};
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
 
                 new CircleDialog.Builder()
+                        .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
+                        .configItems(new ConfigItems() {
+                            @Override
+                            public void onConfig(ItemsParams params) {
+                                params.bottomMargin = 100;
+                            }
+                        })
                         .setItems(checkedAdapterR, (parent, view15, position15, id) ->
                                 checkedAdapterR.toggle(position15, objectsR[position15]))
                         .setItemsManualClose(true)
