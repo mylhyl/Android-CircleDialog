@@ -34,14 +34,8 @@ import java.util.List;
 final class BodyItemsView extends ListView implements Controller.OnClickListener, ItemsView {
     private BaseAdapter mAdapter;
     private CircleParams mParams;
-    private TitleParams mTitleParams;
-    private int mRadius;
     private int mBackgroundColor;
     private int mBackgroundColorPress;
-    private SelectorBtn bgItemAllRadius;
-    private SelectorBtn bgItemTopRadius;
-    private SelectorBtn bgItemBottomRadius;
-    private SelectorBtn bgItemNoRadius;
 
     public BodyItemsView(Context context, CircleParams params) {
         super(context);
@@ -50,43 +44,19 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
 
     private void init(Context context, final CircleParams params) {
         this.mParams = params;
-        this.mTitleParams = params.titleParams;
         ItemsParams itemsParams = params.itemsParams;
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
-                .MATCH_PARENT, LayoutParams
-                .MATCH_PARENT, 1);
-
-        //设置列表与按钮之间的下距离
-        layoutParams.bottomMargin = ScaleUtils.scaleValue(itemsParams.bottomMargin);
-        setLayoutParams(layoutParams);
-
-        this.mRadius = mParams.dialogParams.radius;
         //如果没有背景色，则使用默认色
         this.mBackgroundColor = itemsParams.backgroundColor != 0
                 ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
         this.mBackgroundColorPress = itemsParams.backgroundColorPress != 0
                 ? itemsParams.backgroundColorPress : mParams.dialogParams.backgroundColorPress;
 
+        setBackgroundColor(mBackgroundColor);
 
-        final SelectorBtn listViewBg = new SelectorBtn(mBackgroundColor, mBackgroundColor
-                , mTitleParams != null ? 0 : mRadius, mTitleParams != null ? 0 : mRadius
-                , mRadius, mRadius);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(listViewBg);
-        } else {
-            setBackgroundDrawable(listViewBg);
-        }
+        SelectorBtn  bgItemNoRadius = new SelectorBtn(Color.TRANSPARENT, mBackgroundColorPress, 0, 0, 0, 0);
 
-        bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                , mRadius, mRadius, mRadius, mRadius);
-        bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                , mRadius, mRadius, 0, 0);
-        bgItemBottomRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                , 0, 0, mRadius, mRadius);
-        bgItemNoRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0);
-
-        setSelector(new ColorDrawable(Color.TRANSPARENT));
+        setSelector(bgItemNoRadius);
         setDivider(new ColorDrawable(CircleColor.divider));
         setDividerHeight(itemsParams.dividerHeight);
 
@@ -127,46 +97,6 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
         if (mParams.itemListener != null) {
             mParams.itemListener.onItemClick((AdapterView<?>) view, view, which, which);
         }
-    }
-
-    /****
-     * 拦截触摸事件
-     */
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                int x = (int) ev.getX();
-                int y = (int) ev.getY();
-                int position = pointToPosition(x, y);
-                if (position == AdapterView.INVALID_POSITION)
-                    break;
-                else {
-                    //top
-                    if (position == 0 && mTitleParams == null) {
-                        if (position == (getAdapter().getCount() - 1)) {
-                            setSelector(bgItemAllRadius);
-                        } else {
-
-                            setSelector(bgItemTopRadius);
-                        }
-                    }
-                    //bottom
-                    else if (position == (getAdapter().getCount() - 1)) {
-                        // 最后一项
-                        setSelector(bgItemBottomRadius);
-                    }
-                    //middle
-                    else {
-                        // 中间项
-                        setSelector(bgItemNoRadius);
-                    }
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-        return super.onInterceptTouchEvent(ev);
     }
 
     static class ItemsAdapter<T> extends BaseAdapter {

@@ -12,18 +12,9 @@ import com.mylhyl.circledialog.view.listener.ItemsView;
 
 public interface BuildView {
     /**
-     * 生成根布局
-     *
-     * @return 根视图
-     */
-    View buildRoot();
-
-    /**
      * 生成标题布局
-     *
-     * @return 标题视图
      */
-    View buildTitle();
+    void buildTitleView();
 
     View buildCustomBodyView();
 
@@ -32,21 +23,19 @@ public interface BuildView {
      *
      * @return 文本视图
      */
-    View buildText();
+    void buildTextView();
 
     /**
      * 刷新文本内容
-     *
-     * @return 文本视图
      */
-    View refreshText();
+    void refreshTextView();
 
     /**
      * 生成列表布局
      *
      * @return 列表视图
      */
-    ItemsView buildItems();
+    ItemsView buildItemsView();
 
     /**
      * 生成列表按钮
@@ -57,17 +46,13 @@ public interface BuildView {
 
     /**
      * 刷新列表内容
-     *
-     * @return 列表视图
      */
-    ItemsView refreshItems();
+    void refreshItems();
 
     /**
      * 生成进度条布局
-     *
-     * @return 进度条视图
      */
-    View buildProgress();
+    void buildProgress();
 
     /**
      * 生成lottie动画框
@@ -76,10 +61,8 @@ public interface BuildView {
 
     /**
      * 刷新进度条
-     *
-     * @return 进度条视图
      */
-    View refreshProgress();
+    void refreshProgress();
 
     /**
      * 生成输入布局
@@ -97,17 +80,15 @@ public interface BuildView {
 
     /**
      * 刷新多按钮文字
-     *
-     * @return 按钮视图
      */
-    ButtonView refreshMultipleButtonText();
+    void refreshMultipleButtonText();
 
     /**
      * 取出根布局
      *
      * @return 对话框视图
      */
-    View getView();
+    View getRootView();
 
     InputView getInputView();
 }

@@ -29,6 +29,7 @@ dependencies {
     implementation project(':circledialog')
     implementation rootProject.ext.dependencies.appcompatV7
     implementation rootProject.ext.dependencies.recyclerview
+    implementation rootProject.ext.dependencies.cardview
     implementation rootProject.ext.dependencies.lottie
     implementation rootProject.ext.dependencies.baseRvAdapter
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'

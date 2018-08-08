@@ -1,12 +1,16 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
@@ -32,28 +36,18 @@ public final class BuildViewImpl implements BuildView {
     public BuildViewImpl(Context context, CircleParams params) {
         this.mContext = context;
         this.mParams = params;
+        this.mRoot = new ScaleLinearLayout(mContext);
+        this.mRoot.setOrientation(LinearLayout.VERTICAL);
     }
 
     @Override
-    public View buildRoot() {
-        if (mRoot == null) {
-            mRoot = new ScaleLinearLayout(mContext);
-            mRoot.setOrientation(LinearLayout.VERTICAL);
-        }
-        return mRoot;
-    }
-
-    @Override
-    public View buildTitle() {
-        if (mTitleView == null) {
-            mTitleView = new TitleView(mContext, mParams);
-            mRoot.addView(mTitleView);
-        }
-        return mTitleView;
+    public void buildTitleView() {
+        if (mTitleView == null) mTitleView = new TitleView(mContext, mParams);
     }
 
     @Override
     public View buildCustomBodyView() {
+        addTitleView();
         if (mCustomBodyView == null) {
             View bodyView = LayoutInflater.from(mContext).inflate(mParams.bodyViewId, mRoot, false);
             this.mCustomBodyView = bodyView;
@@ -63,22 +57,21 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public View buildText() {
+    public void buildTextView() {
+        addTitleView();
         if (mBodyTextView == null) {
             mBodyTextView = new BodyTextView(mContext, mParams);
             mRoot.addView(mBodyTextView);
         }
-        return mBodyTextView;
     }
 
     @Override
-    public View refreshText() {
+    public void refreshTextView() {
         if (mBodyTextView != null) mBodyTextView.refreshText();
-        return mBodyTextView;
     }
 
     @Override
-    public ItemsView buildItems() {
+    public ItemsView buildItemsView() {
         if (mItemsView == null) {
             if (mParams.itemListener != null || mParams.itemsParams.adapter != null)
                 mItemsView = new BodyItemsView(mContext, mParams);
@@ -86,8 +79,26 @@ public final class BuildViewImpl implements BuildView {
                 mItemsView = new BodyItemsRvView(mContext, mParams);
 
         }
-        if (mItemsView != null)
-            mRoot.addView(mItemsView.getView());
+        if (mItemsView != null) {
+            CardView cardView = new CardView(mContext);
+            cardView.setCardElevation(0f);
+            cardView.setCardBackgroundColor(Color.TRANSPARENT);
+            cardView.setRadius(mParams.dialogParams.radius);
+
+            ScaleLinearLayout linearLayout = new ScaleLinearLayout(mContext);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            if (mTitleView != null)
+                linearLayout.addView(mTitleView);
+            linearLayout.addView(mItemsView.getView());
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+            //设置列表与按钮之间的下距离
+            layoutParams.bottomMargin = ScaleUtils.scaleValue(mParams.itemsParams.bottomMargin);
+            cardView.setLayoutParams(layoutParams);
+            cardView.addView(linearLayout);
+            mRoot.addView(cardView);
+        }
         return mItemsView;
     }
 
@@ -101,37 +112,36 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public ItemsView refreshItems() {
+    public void refreshItems() {
         if (mItemsView != null) mItemsView.refreshItems();
-        return mItemsView;
     }
 
     @Override
-    public View buildProgress() {
+    public void buildProgress() {
+        addTitleView();
         if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams);
             mRoot.addView(mBodyProgressView);
         }
-        return mBodyProgressView;
     }
 
     @Override
     public void buildLottie() {
+        addTitleView();
         if (mBodyLottieView == null) {
             mBodyLottieView = new BodyLottieView(mContext, mParams);
             mRoot.addView(mBodyLottieView);
         }
     }
 
-
     @Override
-    public View refreshProgress() {
+    public void refreshProgress() {
         if (mBodyProgressView != null) mBodyProgressView.refreshProgress();
-        return mBodyProgressView;
     }
 
     @Override
     public InputView buildInput() {
+        addTitleView();
         if (mBodyInputView == null) {
             mBodyInputView = new BodyInputView(mContext, mParams);
             mRoot.addView(mBodyInputView.getView());
@@ -148,25 +158,28 @@ public final class BuildViewImpl implements BuildView {
                 dividerView.setVertical();
                 mRoot.addView(dividerView);
             }
-            mRoot.addView(mMultipleButton.getView());
         }
-        return mMultipleButton;
-    }
-
-    @Override
-    public ButtonView refreshMultipleButtonText() {
         if (mMultipleButton != null)
-            mMultipleButton.refreshText();
+            mRoot.addView(mMultipleButton.getView());
         return mMultipleButton;
     }
 
     @Override
-    public View getView() {
+    public void refreshMultipleButtonText() {
+        if (mMultipleButton != null) mMultipleButton.refreshText();
+    }
+
+    @Override
+    public View getRootView() {
         return mRoot;
     }
 
     @Override
     public InputView getInputView() {
         return mBodyInputView;
+    }
+
+    private void addTitleView() {
+        if (mRoot != null && mTitleView != null) mRoot.addView(mTitleView);
     }
 }

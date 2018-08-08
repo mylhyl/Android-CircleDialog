@@ -48,18 +48,14 @@ public class Controller {
     }
 
     public void createView() {
-        applyRoot();
         applyHeader();
         applyBody();
     }
 
-    private void applyRoot() {
-        mCreateView.buildRoot();
-    }
 
     private void applyHeader() {
         if (mParams.titleParams != null)
-            mCreateView.buildTitle();
+            mCreateView.buildTitleView();
     }
 
     private void applyBody() {
@@ -73,13 +69,13 @@ public class Controller {
         }
         //文本
         else if (mParams.textParams != null) {
-            mCreateView.buildText();
+            mCreateView.buildTextView();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
         }
         //列表
         else if (mParams.itemsParams != null) {
-            final ItemsView itemsView = mCreateView.buildItems();
+            final ItemsView itemsView = mCreateView.buildItemsView();
             if (mParams.itemListener != null) {
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -160,7 +156,7 @@ public class Controller {
     }
 
     public void refreshView() {
-        mCreateView.refreshText();
+        mCreateView.refreshTextView();
         mCreateView.refreshItems();
         mCreateView.refreshProgress();
         mCreateView.refreshMultipleButtonText();
@@ -178,7 +174,7 @@ public class Controller {
     }
 
     View getView() {
-        return mCreateView.getView();
+        return mCreateView.getRootView();
     }
 
     /**

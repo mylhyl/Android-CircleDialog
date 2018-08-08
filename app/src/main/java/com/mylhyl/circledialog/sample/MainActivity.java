@@ -25,8 +25,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.callback.ConfigItems;
-import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -379,13 +377,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         android.R.layout.simple_list_item_1, R.layout.item_rv, listData) {
                     @Override
                     protected void convertHead(BaseViewHolder helper, MySectionEntity item) {
-                        helper.setText(R.id.textView2, item.header);
+                        helper.setText(R.id.textView2, item.header)
+                                .setTextColor(R.id.textView2, Color.BLACK);
                     }
 
                     @Override
                     protected void convert(BaseViewHolder helper, MySectionEntity item) {
                         TextView textView = helper.getView(android.R.id.text1);
                         textView.setText(item.t.typeName);
+                        textView.setTextColor(Color.BLACK);
                         textView.setGravity(Gravity.CENTER);
                     }
 
@@ -417,12 +417,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
-                        .configItems(new ConfigItems() {
-                            @Override
-                            public void onConfig(ItemsParams params) {
-                                params.bottomMargin = 100;
-                            }
-                        })
+                        .configItems(params -> params.bottomMargin = 100)
                         .setItems(checkedAdapterR, (parent, view15, position15, id) ->
                                 checkedAdapterR.toggle(position15, objectsR[position15]))
                         .setItemsManualClose(true)
