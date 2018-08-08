@@ -25,6 +25,8 @@ public final class BuildViewImpl implements BuildView {
     private LinearLayout mRoot;
     private TitleView mTitleView;
     private BodyTextView mBodyTextView;
+    private CardView mItemsRootView;
+    private ScaleLinearLayout mItemsContentView;
     private ItemsView mItemsView;
     private BodyProgressView mBodyProgressView;
     private BodyLottieView mBodyLottieView;
@@ -41,13 +43,15 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public void buildTitleView() {
-        if (mTitleView == null) mTitleView = new TitleView(mContext, mParams);
+    public void buildTitleViewForRoot() {
+        if (mTitleView == null) {
+            mTitleView = new TitleView(mContext, mParams);
+            mRoot.addView(mTitleView);
+        }
     }
 
     @Override
     public View buildCustomBodyView() {
-        addTitleView();
         if (mCustomBodyView == null) {
             View bodyView = LayoutInflater.from(mContext).inflate(mParams.bodyViewId, mRoot, false);
             this.mCustomBodyView = bodyView;
@@ -58,7 +62,6 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public void buildTextView() {
-        addTitleView();
         if (mBodyTextView == null) {
             mBodyTextView = new BodyTextView(mContext, mParams);
             mRoot.addView(mBodyTextView);
@@ -71,34 +74,52 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
-    public ItemsView buildItemsView() {
-        if (mItemsView == null) {
-            if (mParams.itemListener != null || mParams.itemsParams.adapter != null)
-                mItemsView = new BodyItemsView(mContext, mParams);
-            else if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null)
-                mItemsView = new BodyItemsRvView(mContext, mParams);
-
-        }
-        if (mItemsView != null) {
-            CardView cardView = new CardView(mContext);
-            cardView.setCardElevation(0f);
-            cardView.setCardBackgroundColor(Color.TRANSPARENT);
-            cardView.setRadius(mParams.dialogParams.radius);
-
-            ScaleLinearLayout linearLayout = new ScaleLinearLayout(mContext);
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            if (mTitleView != null)
-                linearLayout.addView(mTitleView);
-            linearLayout.addView(mItemsView.getView());
+    public void buildItemsRootView() {
+        if (mItemsRootView == null) {
+            mItemsRootView = new CardView(mContext);
+            mItemsRootView.setCardElevation(0f);
+            mItemsRootView.setCardBackgroundColor(Color.TRANSPARENT);
+            mItemsRootView.setRadius(mParams.dialogParams.radius);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
             //设置列表与按钮之间的下距离
             layoutParams.bottomMargin = ScaleUtils.scaleValue(mParams.itemsParams.bottomMargin);
-            cardView.setLayoutParams(layoutParams);
-            cardView.addView(linearLayout);
-            mRoot.addView(cardView);
+            mItemsRootView.setLayoutParams(layoutParams);
+            mRoot.addView(mItemsRootView);
         }
+    }
+
+    @Override
+    public void buildItemsContentView() {
+        if (mItemsContentView == null) {
+            mItemsContentView = new ScaleLinearLayout(mContext);
+            mItemsContentView.setOrientation(LinearLayout.VERTICAL);
+            mItemsRootView.addView(mItemsContentView);
+        }
+    }
+
+    @Override
+    public void buildItemsTitleView() {
+        if (mTitleView == null) {
+            mTitleView = new TitleView(mContext, mParams);
+            mItemsContentView.addView(mTitleView);
+        }
+    }
+
+    @Override
+    public ItemsView buildItemsListView() {
+        if (mItemsView == null) mItemsView = new BodyItemsListView(mContext, mParams);
+
+        mItemsContentView.addView(mItemsView.getView());
+        return mItemsView;
+    }
+
+    @Override
+    public ItemsView buildItemsRecyclerView() {
+        if (mItemsView == null) mItemsView = new BodyItemsRecyclerView(mContext, mParams);
+
+        mItemsContentView.addView(mItemsView.getView());
         return mItemsView;
     }
 
@@ -118,7 +139,6 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public void buildProgress() {
-        addTitleView();
         if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams);
             mRoot.addView(mBodyProgressView);
@@ -127,7 +147,6 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public void buildLottie() {
-        addTitleView();
         if (mBodyLottieView == null) {
             mBodyLottieView = new BodyLottieView(mContext, mParams);
             mRoot.addView(mBodyLottieView);
@@ -141,7 +160,6 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public InputView buildInput() {
-        addTitleView();
         if (mBodyInputView == null) {
             mBodyInputView = new BodyInputView(mContext, mParams);
             mRoot.addView(mBodyInputView.getView());
@@ -172,14 +190,5 @@ public final class BuildViewImpl implements BuildView {
     @Override
     public View getRootView() {
         return mRoot;
-    }
-
-    @Override
-    public InputView getInputView() {
-        return mBodyInputView;
-    }
-
-    private void addTitleView() {
-        if (mRoot != null && mTitleView != null) mRoot.addView(mTitleView);
     }
 }

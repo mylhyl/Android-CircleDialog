@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.mylhyl.circledialog.params.DialogParams;
 
@@ -46,8 +45,7 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
         super.onViewCreated(view, savedInstanceState);
         if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
                 && mController != null) {
-            EditText editText = mController.getInputEdit();
-            if (editText != null) showSoftInputView(editText);
+            setSoftInputMode();
         }
     }
 

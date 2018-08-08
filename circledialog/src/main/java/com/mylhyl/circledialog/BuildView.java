@@ -11,10 +11,8 @@ import com.mylhyl.circledialog.view.listener.ItemsView;
  */
 
 public interface BuildView {
-    /**
-     * 生成标题布局
-     */
-    void buildTitleView();
+
+    void buildTitleViewForRoot();
 
     View buildCustomBodyView();
 
@@ -30,12 +28,15 @@ public interface BuildView {
      */
     void refreshTextView();
 
-    /**
-     * 生成列表布局
-     *
-     * @return 列表视图
-     */
-    ItemsView buildItemsView();
+    void buildItemsRootView();
+
+    void buildItemsContentView();
+
+    void buildItemsTitleView();
+
+    ItemsView buildItemsListView();
+    ItemsView buildItemsRecyclerView();
+
 
     /**
      * 生成列表按钮
@@ -90,5 +91,4 @@ public interface BuildView {
      */
     View getRootView();
 
-    InputView getInputView();
 }

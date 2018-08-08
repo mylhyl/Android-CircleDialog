@@ -3,13 +3,10 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,10 +14,8 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.ItemsParams;
-import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
 import com.mylhyl.circledialog.res.values.CircleColor;
-import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -31,13 +26,13 @@ import java.util.List;
  * Created by hupei on 2017/3/30.
  */
 
-final class BodyItemsView extends ListView implements Controller.OnClickListener, ItemsView {
+final class BodyItemsListView extends ListView implements Controller.OnClickListener, ItemsView {
     private BaseAdapter mAdapter;
     private CircleParams mParams;
     private int mBackgroundColor;
     private int mBackgroundColorPress;
 
-    public BodyItemsView(Context context, CircleParams params) {
+    public BodyItemsListView(Context context, CircleParams params) {
         super(context);
         init(context, params);
     }
@@ -54,7 +49,7 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
 
         setBackgroundColor(mBackgroundColor);
 
-        SelectorBtn  bgItemNoRadius = new SelectorBtn(Color.TRANSPARENT, mBackgroundColorPress, 0, 0, 0, 0);
+        SelectorBtn bgItemNoRadius = new SelectorBtn(Color.TRANSPARENT, mBackgroundColorPress, 0, 0, 0, 0);
 
         setSelector(bgItemNoRadius);
         setDivider(new ColorDrawable(CircleColor.divider));

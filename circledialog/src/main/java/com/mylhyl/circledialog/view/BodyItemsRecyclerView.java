@@ -34,11 +34,11 @@ import java.util.List;
  * Created by hupei on 2018/4/18.
  */
 
-final class BodyItemsRvView extends RecyclerView implements Controller.OnClickListener, ItemsView {
+final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnClickListener, ItemsView {
     private Adapter mAdapter;
     private CircleParams mParams;
 
-    public BodyItemsRvView(Context context, CircleParams params) {
+    public BodyItemsRecyclerView(Context context, CircleParams params) {
         super(context);
         init(context, params);
     }

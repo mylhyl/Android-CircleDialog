@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.EditText;
 
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.listener.ButtonView;
@@ -48,19 +47,10 @@ public class Controller {
     }
 
     public void createView() {
-        applyHeader();
-        applyBody();
-    }
-
-
-    private void applyHeader() {
-        if (mParams.titleParams != null)
-            mCreateView.buildTitleView();
-    }
-
-    private void applyBody() {
         //自定义内容视图
         if (mParams.bodyViewId != 0) {
+            if (mParams.titleParams != null)
+                mCreateView.buildTitleViewForRoot();
             View bodyView = mCreateView.buildCustomBodyView();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
@@ -69,14 +59,20 @@ public class Controller {
         }
         //文本
         else if (mParams.textParams != null) {
+            if (mParams.titleParams != null)
+                mCreateView.buildTitleViewForRoot();
             mCreateView.buildTextView();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
         }
         //列表
         else if (mParams.itemsParams != null) {
-            final ItemsView itemsView = mCreateView.buildItemsView();
-            if (mParams.itemListener != null) {
+            mCreateView.buildItemsRootView();
+            mCreateView.buildItemsContentView();
+            mCreateView.buildItemsTitleView();
+
+            if (mParams.itemListener != null || mParams.itemsParams.adapter != null) {
+                final ItemsView itemsView = mCreateView.buildItemsListView();
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -85,7 +81,8 @@ public class Controller {
                             mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
-            } else if (mParams.rvItemListener != null) {
+            } else if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null) {
+                final ItemsView itemsView = mCreateView.buildItemsRecyclerView();
                 itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -100,18 +97,24 @@ public class Controller {
         }
         //进度条
         else if (mParams.progressParams != null) {
+            if (mParams.titleParams != null)
+                mCreateView.buildTitleViewForRoot();
             mCreateView.buildProgress();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
         }
         //输入框
         else if (mParams.inputParams != null) {
+            if (mParams.titleParams != null)
+                mCreateView.buildTitleViewForRoot();
             InputView inputView = mCreateView.buildInput();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, (View) inputView);
         }
         //lottie动画框
         else if (mParams.lottieParams != null) {
+            if (mParams.titleParams != null)
+                mCreateView.buildTitleViewForRoot();
             mCreateView.buildLottie();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
@@ -150,11 +153,6 @@ public class Controller {
         });
     }
 
-    EditText getInputEdit() {
-        if (mCreateView == null) return null;
-        return mCreateView.getInputView().getInput();
-    }
-
     public void refreshView() {
         mCreateView.refreshTextView();
         mCreateView.refreshItems();
@@ -177,10 +175,6 @@ public class Controller {
         return mCreateView.getRootView();
     }
 
-    /**
-     * Interface used to allow the creator of a dialog to run some code when an
-     * item on the dialog is clicked..
-     */
     public interface OnClickListener {
         /**
          * dialog中可以点击的空间需要继承的接口，通过这个接口调用各自的监听事件
