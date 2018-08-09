@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -13,17 +14,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.ItemsParams;
-import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.res.drawable.SelectorBtn;
+import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.res.values.CircleColor;
-import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -47,33 +45,30 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
         this.mParams = params;
         ItemsParams itemsParams = params.itemsParams;
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams
-                .MATCH_PARENT, LayoutParams
-                .MATCH_PARENT, 1);
-
-        //设置列表与按钮之间的下距离
-        layoutParams.bottomMargin = ScaleUtils.scaleValue(itemsParams.bottomMargin);
-        setLayoutParams(layoutParams);
+        //如果没有背景色，则使用默认色
+        int backgroundColor = itemsParams.backgroundColor != 0
+                ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
+        setBackgroundColor(backgroundColor);
 
         if (itemsParams.layoutManager == null) {
             itemsParams.layoutManager = new LinearLayoutManager(getContext()
                     , itemsParams.linearLayoutManagerOrientation, false);
-        } else {
-            if (itemsParams.layoutManager instanceof GridLayoutManager) {
-                GridLayoutManager gridLayoutManager = (GridLayoutManager) itemsParams.layoutManager;
-                if (gridLayoutManager.getSpanCount() == 1) {
-                    itemsParams.layoutManager = new LinearLayoutManager(getContext()
-                            , itemsParams.linearLayoutManagerOrientation, false);
-                }
+        } else if (itemsParams.layoutManager instanceof GridLayoutManager) {
+            GridLayoutManager gridLayoutManager = (GridLayoutManager) itemsParams.layoutManager;
+            if (gridLayoutManager.getSpanCount() == 1) {
+                itemsParams.layoutManager = new LinearLayoutManager(getContext()
+                        , itemsParams.linearLayoutManagerOrientation, false);
             }
         }
         setLayoutManager(params.itemsParams.layoutManager);
 
         ItemDecoration itemDecoration = itemsParams.itemDecoration;
         if (itemsParams.layoutManager instanceof GridLayoutManager && itemDecoration == null) {
-            itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider), itemsParams.dividerHeight);
+            itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
+                    , itemsParams.dividerHeight);
         } else if (itemsParams.layoutManager instanceof LinearLayoutManager && itemDecoration == null) {
-            itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider), itemsParams.dividerHeight);
+            itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
+                    , itemsParams.dividerHeight);
         }
         addItemDecoration(itemDecoration);
 
@@ -95,22 +90,6 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
                         }
                     }
                 });
-            }
-        } else {
-            TitleParams titleParams = params.titleParams;
-
-            int radius = mParams.dialogParams.radius;
-            //如果没有背景色，则使用默认色
-            int backgroundColor = itemsParams.backgroundColor != 0
-                    ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
-
-            final SelectorBtn RvBg = new SelectorBtn(backgroundColor, backgroundColor
-                    , titleParams != null ? 0 : radius, titleParams != null ? 0 : radius
-                    , radius, radius);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(RvBg);
-            } else {
-                setBackgroundDrawable(RvBg);
             }
         }
         setAdapter(mAdapter);
@@ -155,33 +134,14 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
         private OnRvItemClickListener mItemClickListener;
         private Context mContext;
         private List<T> mItems;
-        private int mRadius;
-        private int mBackgroundColor;
         private int mBackgroundColorPress;
         private ItemsParams mItemsParams;
-        private TitleParams mTitleParams;
-        private SelectorBtn bgItemAllRadius;
-        private SelectorBtn bgItemTopRadius;
-        private SelectorBtn bgItemBottomRadius;
 
         public ItemsAdapter(Context context, CircleParams params) {
             this.mContext = context;
-            this.mTitleParams = params.titleParams;
             this.mItemsParams = params.itemsParams;
-            this.mRadius = params.dialogParams.radius;
-
-            //如果没有背景色，则使用默认色
-            this.mBackgroundColor = mItemsParams.backgroundColor != 0
-                    ? mItemsParams.backgroundColor : params.dialogParams.backgroundColor;
             this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
                     ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
-
-            bgItemAllRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                    , mRadius, mRadius, mRadius, mRadius);
-            bgItemTopRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                    , mRadius, mRadius, 0, 0);
-            bgItemBottomRadius = new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                    , 0, 0, mRadius, mRadius);
 
             Object entity = mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {
@@ -220,17 +180,10 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
 
         @Override
         public void onBindViewHolder(Holder holder, int position) {
-            LayoutManager layoutManager = mItemsParams.layoutManager;
-            if (layoutManager instanceof GridLayoutManager) {
-                GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
-                glBg(holder, position, gridLayoutManager.getSpanCount());
-            } else if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                if (linearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
-                    llvBg(holder, position);
-                } else {
-                    llhBg(holder, position);
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.item.setBackground(new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress));
+            } else {
+                holder.item.setBackgroundDrawable(new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress));
             }
             String label;
             T item = mItems.get(position);
@@ -240,100 +193,6 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
                 label = item.toString();
             }
             holder.item.setText(String.valueOf(label));
-        }
-
-        //GridLayoutManager Background
-        private void glBg(Holder holder, int position, int spanCount) {
-            int itemCount = getItemCount();
-            int mod = itemCount % spanCount;
-
-            if (itemCount == 1) {
-                if (mTitleParams == null) {
-                    setItemBg(holder, bgItemAllRadius);
-                } else {
-                    setItemBg(holder, bgItemBottomRadius);
-                }
-            } else {
-                //bottom
-                if (itemCount <= spanCount || position >= itemCount - (mod == 0 ? spanCount : mod)) {
-                    int topRadius = itemCount <= spanCount && mTitleParams == null ? mRadius : 0;
-                    if (position % spanCount == 0) {//left
-                        if (mod == 1) {
-                            setItemBg(holder, bgItemBottomRadius);
-                        } else {
-                            setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                    , topRadius, 0, 0, mRadius));
-                        }
-                    } else {
-                        if (mod == 0) {//full
-                            if (position % spanCount == spanCount - 1) {//right
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, topRadius, mRadius, 0));
-                            } else {//middle
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-                            }
-                        } else {
-                            if (position % spanCount == mod - 1) {//right
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                        , 0, topRadius, mRadius, 0));
-                            } else {//middle
-                                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-                            }
-                        }
-                    }
-                } else {
-                    if (mTitleParams == null && position % spanCount == 0) {
-                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , position < spanCount ? mRadius : 0, 0, 0, 0));
-                    } else if (mTitleParams == null && position % spanCount == spanCount - 1) {//right
-                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , 0, position < spanCount ? mRadius : 0, 0, 0));
-                    } else {
-                        setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress
-                                , 0, 0, 0, 0));
-                    }
-                }
-            }
-        }
-
-        //LinearLayoutManager Vertical Background
-        private void llvBg(Holder holder, int position) {
-            //top 且没有标题
-            if (position == 0 && mTitleParams == null) {
-                if (getItemCount() == 1) {
-                    setItemBg(holder, bgItemAllRadius);
-                } else {
-                    setItemBg(holder, bgItemTopRadius);
-                }
-            }
-            //bottom 有标题与中间一样
-            else if (position == getItemCount() - 1) {
-                setItemBg(holder, bgItemBottomRadius);
-            }
-            //middle
-            else {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-            }
-        }
-
-
-        //LinearLayoutManager Horizontal Background
-        private void llhBg(Holder holder, int position) {
-            if (position == 0) {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, mRadius));
-            } else if (position == getItemCount() - 1) {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, mRadius, 0));
-            } else {
-                setItemBg(holder, new SelectorBtn(mBackgroundColor, mBackgroundColorPress, 0, 0, 0, 0));
-            }
-        }
-
-        private void setItemBg(Holder holder, SelectorBtn selectorBtn) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                holder.item.setBackground(selectorBtn);
-            } else {
-                holder.item.setBackgroundDrawable(selectorBtn);
-            }
         }
 
         @Override

@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
                 , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"
-                , "lottie动画框", "仿微博分享"});
+                , "lottie动画框", "仿微博分享", "Rv Vertical"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -487,6 +487,30 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configItems(params -> params.dividerHeight = 0)
                         .setItems(weiboRvAdapter, new GridLayoutManager(this, 5))
                         .configItems(params -> params.bottomMargin = 0)
+                        .show(getSupportFragmentManager());
+                break;
+            case 18:
+                final List<PictureTypeEntity> rvlistForh = new ArrayList<>();
+                rvlistForh.add(new PictureTypeEntity(1, "拍照"));
+                rvlistForh.add(new PictureTypeEntity(2, "从相册选择"));
+                rvlistForh.add(new PictureTypeEntity(3, "小视频"));
+                rvlistForh.add(new PictureTypeEntity(4, "拍照1"));
+                rvlistForh.add(new PictureTypeEntity(5, "从相册选择1"));
+                rvlistForh.add(new PictureTypeEntity(6, "小视频1"));
+                rvlistForh.add(new PictureTypeEntity(7, "拍照2"));
+                rvlistForh.add(new PictureTypeEntity(8, "从相册选择3"));
+                rvlistForh.add(new PictureTypeEntity(9, "小视频4"));
+                new CircleDialog.Builder()
+                        .setMaxHeight(0.7f)
+                        .configDialog(params -> params.backgroundColorPress = Color.CYAN)
+                        .setTitle("Rv Vertical")
+                        .configItems(params -> params.dividerHeight = 1)
+                        .setItems(rvlistForh, new LinearLayoutManager(this)
+                                , (view13, position13) ->
+                                        Toast.makeText(MainActivity.this
+                                                , "点击了：" + rvlistForh.get(position13)
+                                                , Toast.LENGTH_SHORT).show())
+                        .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
         }

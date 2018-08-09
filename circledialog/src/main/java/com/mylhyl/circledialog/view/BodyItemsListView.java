@@ -14,7 +14,7 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.ItemsParams;
-import com.mylhyl.circledialog.res.drawable.SelectorBtn;
+import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
@@ -49,9 +49,9 @@ final class BodyItemsListView extends ListView implements Controller.OnClickList
 
         setBackgroundColor(mBackgroundColor);
 
-        SelectorBtn bgItemNoRadius = new SelectorBtn(Color.TRANSPARENT, mBackgroundColorPress, 0, 0, 0, 0);
+        CircleDrawableSelector bgItemNotRadius = new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress);
 
-        setSelector(bgItemNoRadius);
+        setSelector(bgItemNotRadius);
         setDivider(new ColorDrawable(CircleColor.divider));
         setDividerHeight(itemsParams.dividerHeight);
 

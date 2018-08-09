@@ -8,7 +8,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 
 class DrawableHelper {
 
-    public static RoundRectShape getRoundRectShape(int leftTop, int rightTop, int rightBottom, int leftBottom) {
+    static RoundRectShape getRoundRectShape(int leftTop, int rightTop, int rightBottom, int leftBottom) {
         float outerRadii[] = new float[8];
         if (leftTop > 0) {
             outerRadii[0] = leftTop;

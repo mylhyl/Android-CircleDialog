@@ -3,16 +3,17 @@ package com.mylhyl.circledialog.res.drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 
-import com.mylhyl.circledialog.res.values.CircleColor;
-
 /**
- * 按钮的背景，有点击效果
  * Created by hupei on 2017/3/30.
  */
 
-public class SelectorBtn extends StateListDrawable {
+public class CircleDrawableSelector extends StateListDrawable {
 
-    public SelectorBtn(int backgroundColor, int backgroundColorPress, int leftTopRadius
+    public CircleDrawableSelector(int backgroundColor, int backgroundColorPress) {
+        this(backgroundColor, backgroundColorPress, 0, 0, 0, 0);
+    }
+
+    public CircleDrawableSelector(int backgroundColor, int backgroundColorPress, int leftTopRadius
             , int rightTopRadius, int rightBottomRadius, int leftBottomRadius) {
         //按下
         ShapeDrawable drawablePress = new ShapeDrawable(DrawableHelper.getRoundRectShape(

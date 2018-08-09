@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.res.drawable.SelectorBtn;
+import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
@@ -78,7 +78,7 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
         if (mNegativeButton != null && mNegativeParams != null) {
             //右边没按钮则右下是圆角
             int rightRadius = (mNeutralButton == null && mPositiveButton == null) ? radius : 0;
-            SelectorBtn selectorBtn = new SelectorBtn(backgroundNegative
+            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
                     ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress
                     , radius, rightRadius, rightRadius, radius);
@@ -91,7 +91,7 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
         if (mPositiveButton != null && mPositiveParams != null) {
             //左边没按钮则左下是圆角
             int leftRadius = (mNegativeButton == null && mNeutralButton == null) ? radius : 0;
-            SelectorBtn selectorBtn = new SelectorBtn(backgroundPositive
+            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
                     ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress
                     , leftRadius, radius, radius, leftRadius);
@@ -105,7 +105,7 @@ final class ItemsButton extends ScaleLinearLayout implements Controller.OnClickL
             //左右没按钮则左下右下是圆角
             int leftRadius = mNegativeButton == null ? radius : 0;
             int rightRadius = mPositiveButton == null ? radius : 0;
-            SelectorBtn selectorBtn = new SelectorBtn(backgroundNeutral
+            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNeutral
                     , mNeutralParams.backgroundColorPress != 0
                     ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress
                     , leftRadius, rightRadius, rightRadius, leftRadius);
