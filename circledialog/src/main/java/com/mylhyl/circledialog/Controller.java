@@ -196,7 +196,7 @@ public class Controller {
                     break;
 
                 case MSG_DISMISS_DIALOG:
-                    ((BaseCircleDialog) msg.obj).dismiss();
+                    ((BaseCircleDialog) msg.obj).dismissAllowingStateLoss();
                     break;
                 default:
                     ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
