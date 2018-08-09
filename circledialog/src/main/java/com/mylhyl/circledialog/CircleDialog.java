@@ -467,9 +467,15 @@ public final class CircleDialog {
                 mCircleParams.inputParams = new InputParams();
         }
 
-        public Builder autoInputShowKeyboard() {
+        /**
+         * 是否自动显示键盘，默认不显示
+         *
+         * @param show true=显示；false=隐藏
+         * @return Builder
+         */
+        public Builder setInputShowKeyboard(boolean show) {
             newInputParams();
-            mCircleParams.inputParams.showSoftKeyboard = true;
+            mCircleParams.inputParams.showSoftKeyboard = show;
             return this;
         }
 
@@ -539,6 +545,18 @@ public final class CircleDialog {
         public Builder setInputManualClose(boolean manualClose) {
             newInputParams();
             mCircleParams.inputParams.isManualClose = manualClose;
+            return this;
+        }
+
+        /**
+         * 是否禁止输入表情，默认开启
+         *
+         * @param disable true=禁止；false=开启
+         * @return this Builder
+         */
+        public Builder setInputEmoji(boolean disable) {
+            newInputParams();
+            mCircleParams.inputParams.isEmojiInput = disable;
             return this;
         }
 

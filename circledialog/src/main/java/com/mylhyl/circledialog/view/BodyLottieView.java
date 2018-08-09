@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -9,11 +8,8 @@ import android.widget.LinearLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.LottieParams;
-import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
 
@@ -33,45 +29,12 @@ final class BodyLottieView extends ScaleLinearLayout {
     private void init(Context context, CircleParams params) {
         setOrientation(LinearLayout.VERTICAL);
         DialogParams dialogParams = params.dialogParams;
-        TitleParams titleParams = params.titleParams;
-        ButtonParams negativeParams = params.negativeParams;
-        ButtonParams positiveParams = params.positiveParams;
         mLottieParams = params.lottieParams;
 
         //如果没有背景色，则使用默认色
         int backgroundColor = mLottieParams.backgroundColor != 0
                 ? mLottieParams.backgroundColor : dialogParams.backgroundColor;
-
-        //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
-                        dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
-                        dialogParams.radius));
-            }
-        }
-        //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
-                        .radius, 0, 0));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
-                        dialogParams.radius, 0, 0));
-            }
-        }
-        //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
-            }
-        }
-        //有标题有按钮则不用考虑圆角
-        else setBackgroundColor(backgroundColor);
+        setBackgroundColor(backgroundColor);
 
         mLottieAnimationView = new LottieAnimationView(getContext());
         int lottieWidth = mLottieParams.lottieWidth;

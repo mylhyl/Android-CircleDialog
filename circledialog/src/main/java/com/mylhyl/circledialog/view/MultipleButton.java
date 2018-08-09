@@ -57,8 +57,6 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             //如果取消按钮没有背景色，则使用默认色
             backgroundNeutral = mNeutralParams.backgroundColor != 0
                     ? mNeutralParams.backgroundColor : params.dialogParams.backgroundColor;
-
-
         }
         if (mPositiveParams != null) {
             if (mNeutralButton != null || mNegativeButton != null) {
@@ -73,11 +71,9 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
         }
 
         if (mNegativeButton != null && mNegativeParams != null) {
-            //右边没按钮则右下是圆角
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
-                    ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, 0, 0);
+                    ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNegativeButton.setBackground(selectorBtn);
             } else {
@@ -85,11 +81,9 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             }
         }
         if (mPositiveButton != null && mPositiveParams != null) {
-            //左边没按钮则左下是圆角
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
-                    ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, 0, 0);
+                    ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mPositiveButton.setBackground(selectorBtn);
             } else {
@@ -100,8 +94,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             //左右没按钮则左下右下是圆角
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNeutral
                     , mNeutralParams.backgroundColorPress != 0
-                    ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, 0, 0);
+                    ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNeutralButton.setBackground(selectorBtn);
             } else {

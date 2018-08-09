@@ -12,11 +12,8 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
-import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -41,45 +38,12 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
     private void init(Context context, CircleParams params) {
         this.params = params;
         DialogParams dialogParams = params.dialogParams;
-        TitleParams titleParams = params.titleParams;
         final InputParams inputParams = params.inputParams;
-        ButtonParams negativeParams = params.negativeParams;
-        ButtonParams positiveParams = params.positiveParams;
 
         //如果标题没有背景色，则使用默认色
         int backgroundColor = inputParams.backgroundColor != 0
                 ? inputParams.backgroundColor : dialogParams.backgroundColor;
-
-        //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
-                        dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, 0, 0, dialogParams
-                        .radius, dialogParams.radius));
-            }
-        }
-        //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
-                        .radius, 0, 0));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
-                        dialogParams.radius, 0, 0));
-            }
-        }
-        //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
-            }
-        }
-        //有标题有按钮则不用考虑圆角
-        else setBackgroundColor(backgroundColor);
+        setBackgroundColor(backgroundColor);
 
         mEditText = new ScaleEditText(context);
         mEditText.setId(android.R.id.input);
@@ -146,9 +110,13 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             mTvCounter.setTextColor(inputParams.counterColor);
 
             mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
-                    , mEditText, mTvCounter));
+                    , mEditText, mTvCounter, params));
 
             addView(mTvCounter, layoutParamsCounter);
+        }
+
+        if (inputParams.isEmojiInput) {
+            mEditText.addTextChangedListener(new EmojiWatcher(mEditText));
         }
 
         OnCreateInputListener createInputListener = params.createInputListener;
@@ -157,7 +125,7 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         }
     }
 
-    public static int chineseLength(String str) {
+    static int chineseLength(String str) {
         int valueLength = 0;
         if (!TextUtils.isEmpty(str)) {
             // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
@@ -177,7 +145,7 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         return valueLength;
     }
 
-    public static boolean isChinese(String str) {
+    static boolean isChinese(String str) {
         Boolean isChinese = true;
         String chinese = "[\u0391-\uFFE5]";
         if (!TextUtils.isEmpty(str)) {
@@ -193,6 +161,13 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             }
         }
         return isChinese;
+    }
+
+    static boolean isEmojiCharacter(char codePoint) {
+        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA)
+                || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))
+                || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
+                || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
     }
 
     @Override
@@ -216,20 +191,22 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         return this;
     }
 
-    public class MaxLengthWatcher implements TextWatcher {
+    static class MaxLengthWatcher implements TextWatcher {
         private int mMaxLen;
         private EditText mEditText;
         private TextView mTvCounter;
+        private CircleParams mParams;
 
-        public MaxLengthWatcher(int maxLen, EditText editText, TextView textView) {
+        public MaxLengthWatcher(int maxLen, EditText editText, TextView textView, CircleParams params) {
             this.mMaxLen = maxLen;
             this.mEditText = editText;
             this.mTvCounter = textView;
+            this.mParams = params;
             if (mEditText != null) {
                 String defText = mEditText.getText().toString();
                 int currentLen = maxLen - chineseLength(defText);
-                if (params.inputCounterChangeListener != null) {
-                    String counterText = params.inputCounterChangeListener
+                if (mParams.inputCounterChangeListener != null) {
+                    String counterText = mParams.inputCounterChangeListener
                             .onCounterChange(maxLen, currentLen);
                     mTvCounter.setText(counterText == null ? "" : counterText);
                 } else {
@@ -263,8 +240,8 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
                 }
             }
             int currentLen = mMaxLen - chineseLength(editable.toString());
-            if (params.inputCounterChangeListener != null) {
-                String counterText = params.inputCounterChangeListener
+            if (mParams.inputCounterChangeListener != null) {
+                String counterText = mParams.inputCounterChangeListener
                         .onCounterChange(mMaxLen, currentLen);
                 mTvCounter.setText(counterText == null ? "" : counterText);
             } else {
@@ -274,6 +251,38 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             mEditText.setSelection(editStart);
             // 恢复监听器
             mEditText.addTextChangedListener(this);
+        }
+    }
+
+    static class EmojiWatcher implements TextWatcher {
+        //监听改变的文本框
+        private EditText mEditText;
+
+        public EmojiWatcher(EditText editText) {
+            this.mEditText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            int index = mEditText.getSelectionStart() - 1;
+            mEditText.removeTextChangedListener(this);
+            if (index > 0) {
+                if (isEmojiCharacter(mEditText.getText().charAt(index))) {
+                    Editable edit = mEditText.getText();
+                    edit.delete(start, start + count);
+                }
+            }
+            mEditText.addTextChangedListener(this);
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
         }
     }
 }

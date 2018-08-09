@@ -111,6 +111,10 @@ public class InputParams implements Parcelable {
      * 显示软键盘
      */
     public boolean showSoftKeyboard;
+    /**
+     * 是否禁止输入表情
+     */
+    public boolean isEmojiInput;
 
     public InputParams() {
     }
@@ -137,6 +141,7 @@ public class InputParams implements Parcelable {
         this.counterMargins = in.createIntArray();
         this.counterColor = in.readInt();
         this.showSoftKeyboard = in.readByte() != 0;
+        this.isEmojiInput = in.readByte() != 0;
     }
 
     @Override
@@ -167,5 +172,6 @@ public class InputParams implements Parcelable {
         dest.writeIntArray(this.counterMargins);
         dest.writeInt(this.counterColor);
         dest.writeByte(this.showSoftKeyboard ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isEmojiInput ? (byte) 1 : (byte) 0);
     }
 }

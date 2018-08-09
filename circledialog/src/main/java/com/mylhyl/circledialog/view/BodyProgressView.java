@@ -9,11 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 
@@ -37,45 +34,12 @@ final class BodyProgressView extends ScaleLinearLayout {
     private void init(Context context, CircleParams params) {
         setOrientation(LinearLayout.VERTICAL);
         DialogParams dialogParams = params.dialogParams;
-        TitleParams titleParams = params.titleParams;
-        ButtonParams negativeParams = params.negativeParams;
-        ButtonParams positiveParams = params.positiveParams;
         mProgressParams = params.progressParams;
 
         //如果没有背景色，则使用默认色
         int backgroundColor = mProgressParams.backgroundColor != 0
                 ? mProgressParams.backgroundColor : dialogParams.backgroundColor;
-
-        //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
-                        dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
-                        dialogParams.radius));
-            }
-        }
-        //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
-                        .radius, 0, 0));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
-                        dialogParams.radius, 0, 0));
-            }
-        }
-        //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
-            }
-        }
-        //有标题有按钮则不用考虑圆角
-        else setBackgroundColor(backgroundColor);
+        setBackgroundColor(backgroundColor);
 
         //自定义样式
         int progressDrawableId = mProgressParams.progressDrawableId;

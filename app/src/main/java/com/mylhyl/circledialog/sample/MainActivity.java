@@ -159,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
                         .setInputHeight(300)
-                        .autoInputShowKeyboard()
+                        .setInputShowKeyboard(true)
+                        .setInputEmoji(true)
                         .setInputCounter(50)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
                         .configInput(params -> {
