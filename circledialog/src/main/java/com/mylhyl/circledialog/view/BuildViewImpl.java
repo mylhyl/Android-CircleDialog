@@ -26,8 +26,6 @@ public final class BuildViewImpl implements BuildView {
     private CircleParams mParams;
 
     private LinearLayout mItemsRoot;
-    private ScaleLinearLayout mItemsContentView;
-
     private CardView mRootView;
     private ScaleLinearLayout mRootContentView;
     private BodyTextView mBodyTextView;
@@ -60,35 +58,39 @@ public final class BuildViewImpl implements BuildView {
         cardView.setLayoutParams(layoutParams);
         mItemsRoot.addView(cardView);
 
-        if (mItemsContentView == null) {
-            mItemsContentView = new ScaleLinearLayout(mContext);
-            mItemsContentView.setOrientation(LinearLayout.VERTICAL);
-            cardView.addView(mItemsContentView);
+        if (mRootContentView == null) {
+            mRootContentView = new ScaleLinearLayout(mContext);
+            mRootContentView.setOrientation(LinearLayout.VERTICAL);
+            cardView.addView(mRootContentView);
 
             TitleView titleView = new TitleView(mContext, mParams);
-            mItemsContentView.addView(titleView);
+            mRootContentView.addView(titleView);
         }
     }
 
     @Override
     public ItemsView buildItemsListView() {
         if (mItemsView == null) mItemsView = new BodyItemsListView(mContext, mParams);
-        mItemsContentView.addView(mItemsView.getView());
+        mRootContentView.addView(mItemsView.getView());
         return mItemsView;
     }
 
     @Override
     public ItemsView buildItemsRecyclerView() {
-        if (mItemsView == null) mItemsView = new BodyItemsRecyclerView(mContext, mParams);
+        if (mItemsView == null) {
+            BodyItemsRecyclerView bodyItemsRecyclerView = new BodyItemsRecyclerView(mContext);
+            bodyItemsRecyclerView.init(mParams);
+            mItemsView = bodyItemsRecyclerView;
+        }
         ItemsParams itemsParams = mParams.itemsParams;
         if (itemsParams != null && itemsParams.itemDecoration == null
                 && itemsParams.layoutManager != null && itemsParams.dividerHeight > 0
                 && itemsParams.layoutManager instanceof LinearLayoutManager
                 && ((LinearLayoutManager) itemsParams.layoutManager).getOrientation() == LinearLayoutManager.HORIZONTAL) {
             DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL, itemsParams.dividerHeight);
-            mItemsContentView.addView(dividerView);
+            mRootContentView.addView(dividerView);
         }
-        mItemsContentView.addView(mItemsView.getView());
+        mRootContentView.addView(mItemsView.getView());
         return mItemsView;
     }
 
@@ -109,7 +111,17 @@ public final class BuildViewImpl implements BuildView {
         mRootView = new CardView(mContext);
         mRootView.setCardElevation(0f);
         mRootView.setRadius(mParams.dialogParams.radius);
+    }
 
+    @Override
+    public ItemsView buildPopupView() {
+        mItemsView = new BodyPopupRecyclerView(mContext, mParams);
+        mRootView.addView(mItemsView.getView());
+        return mItemsView;
+    }
+
+    @Override
+    public void buildRootContentView() {
         if (mRootContentView == null) {
             mRootContentView = new ScaleLinearLayout(mContext);
             mRootContentView.setOrientation(LinearLayout.VERTICAL);

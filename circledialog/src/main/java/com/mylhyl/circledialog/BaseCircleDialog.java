@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +91,17 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(SAVED_PARAMS, mParams);
+    }
+
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (isAdded()) {
+            transaction.remove(this).commit();
+        }
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(this, tag);
+        transaction.commitAllowingStateLoss();
     }
 
     @Override

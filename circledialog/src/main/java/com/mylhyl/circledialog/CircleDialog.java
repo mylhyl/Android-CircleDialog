@@ -6,7 +6,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +27,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.LottieParams;
+import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -291,6 +291,7 @@ public final class CircleDialog {
 
         public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             mCircleParams.itemListener = listener;
@@ -314,14 +315,16 @@ public final class CircleDialog {
         public Builder setItems(@NonNull BaseAdapter adapter
                 , AdapterView.OnItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
             params.adapter = adapter;
             mCircleParams.itemListener = listener;
             return this;
         }
 
-        public Builder setItems(@NonNull Object items, OnRvItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, @NonNull OnRvItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             mCircleParams.rvItemListener = listener;
@@ -329,8 +332,9 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
-                , OnRvItemClickListener listener) {
+                , @NonNull OnRvItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             params.layoutManager = layoutManager;
@@ -339,8 +343,9 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager) {
+                , @NonNull RecyclerView.LayoutManager layoutManager) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.layoutManager = layoutManager;
             params.adapterRv = adapter;
@@ -348,9 +353,10 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager
-                , RecyclerView.ItemDecoration itemDecoration) {
+                , @NonNull RecyclerView.LayoutManager layoutManager
+                , @NonNull RecyclerView.ItemDecoration itemDecoration) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.layoutManager = layoutManager;
             params.itemDecoration = itemDecoration;
@@ -734,6 +740,65 @@ public final class CircleDialog {
 
         public Builder setOnCreateButtonListener(OnCreateButtonListener listener) {
             mCircleParams.createButtonListener = listener;
+            return this;
+        }
+
+        /**
+         * 设置背景三角箭头的位置
+         *
+         * @param gravity {@linkplain Gravity#LEFT Gravity.LEFT}
+         *                {@linkplain Gravity#TOP Gravity.TOP}
+         *                {@linkplain Gravity#RIGHT Gravity.RIGHT}
+         *                {@linkplain Gravity#BOTTOM Gravity.BOTTOM}
+         * @return this Builder
+         */
+        public Builder setPopupArrowGravity(int gravity) {
+            newPopupParams();
+            mCircleParams.popupParams.arrowGravity = gravity;
+            return this;
+        }
+
+        private void newPopupParams() {
+            if (mCircleParams.popupParams == null) {
+                mCircleParams.popupParams = new PopupParams();
+            }
+        }
+
+        public Builder setPopup(@NonNull Object items, OnRvItemClickListener listener) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.items = items;
+            mCircleParams.rvItemListener = listener;
+            return this;
+        }
+
+        public Builder setPopup(@NonNull Object items, RecyclerView.LayoutManager layoutManager
+                , OnRvItemClickListener listener) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.items = items;
+            params.layoutManager = layoutManager;
+            mCircleParams.rvItemListener = listener;
+            return this;
+        }
+
+        public Builder setPopup(@NonNull RecyclerView.Adapter adapter
+                , RecyclerView.LayoutManager layoutManager) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.layoutManager = layoutManager;
+            params.adapterRv = adapter;
+            return this;
+        }
+
+        public Builder setPopup(@NonNull RecyclerView.Adapter adapter
+                , RecyclerView.LayoutManager layoutManager
+                , RecyclerView.ItemDecoration itemDecoration) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.layoutManager = layoutManager;
+            params.itemDecoration = itemDecoration;
+            params.adapterRv = adapter;
             return this;
         }
 

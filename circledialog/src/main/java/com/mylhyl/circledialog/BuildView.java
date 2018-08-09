@@ -33,6 +33,10 @@ public interface BuildView {
 
     void buildRootView();
 
+    ItemsView buildPopupView();
+
+    void buildRootContentView();
+
     void buildTitleViewForRoot();
 
     View buildCustomBodyView();

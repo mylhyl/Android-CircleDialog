@@ -47,11 +47,24 @@ public class Controller {
     }
 
     public void createView() {
+        //popup
+        if (mParams.popupParams != null) {
+            mCreateView.buildRootView();
+            final ItemsView itemsView = mCreateView.buildPopupView();
+            itemsView.regOnItemClickListener(new OnRvItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    mHandler.obtainMessage(position, itemsView).sendToTarget();
+                    if (!mParams.popupParams.isManualClose)
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                }
+            });
+        }
         //列表
-        if (mParams.itemsParams != null) {
+        else if (mParams.itemsParams != null) {
             mCreateView.buildItemsRootView();
             mCreateView.buildItemsContentView();
-            if (mParams.itemListener != null || mParams.itemsParams.adapter != null) {
+            if (mParams.itemListViewType) {
                 final ItemsView itemsView = mCreateView.buildItemsListView();
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -61,7 +74,7 @@ public class Controller {
                             mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
-            } else if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null) {
+            } else {
                 final ItemsView itemsView = mCreateView.buildItemsRecyclerView();
                 itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                     @Override
@@ -76,6 +89,7 @@ public class Controller {
             applyButton(itemsButton, null);
         } else {
             mCreateView.buildRootView();
+            mCreateView.buildRootContentView();
             //自定义内容视图
             if (mParams.bodyViewId != 0) {
                 if (mParams.titleParams != null)

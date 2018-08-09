@@ -109,17 +109,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     }
 
     @Override
-    public void show(FragmentManager manager, String tag) {
-        FragmentTransaction transaction = manager.beginTransaction();
-        if (isAdded()) {
-            transaction.remove(this).commit();
-        }
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.add(this, tag);
-        transaction.commitAllowingStateLoss();
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置 无标题 无边框

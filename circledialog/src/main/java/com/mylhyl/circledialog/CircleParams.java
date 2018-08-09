@@ -11,15 +11,16 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.LottieParams;
+import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
 import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
-import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -32,6 +33,17 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 public class CircleParams implements Parcelable {
 
+    public static final Creator<CircleParams> CREATOR = new Creator<CircleParams>() {
+        @Override
+        public CircleParams createFromParcel(Parcel source) {
+            return new CircleParams(source);
+        }
+
+        @Override
+        public CircleParams[] newArray(int size) {
+            return new CircleParams[size];
+        }
+    };
     /**
      * 确定按钮点击事件
      */
@@ -88,8 +100,44 @@ public class CircleParams implements Parcelable {
     public OnCreateInputListener createInputListener;
     public OnCreateButtonListener createButtonListener;
     public OnInputCounterChangeListener inputCounterChangeListener;
+    public PopupParams popupParams;
+    public boolean itemListViewType;//true=ListView; false=RecyclerView
 
     public CircleParams() {
+    }
+
+    protected CircleParams(Parcel in) {
+        this.clickPositiveListener = in.readParcelable(View.OnClickListener.class.getClassLoader());
+        this.clickNeutralListener = in.readParcelable(View.OnClickListener.class.getClassLoader());
+        this.clickNegativeListener = in.readParcelable(View.OnClickListener.class.getClassLoader());
+        this.inputListener = in.readParcelable(OnInputClickListener.class.getClassLoader());
+        this.rvItemListener = in.readParcelable(OnRvItemClickListener.class.getClassLoader());
+        this.itemListener = in.readParcelable(AdapterView.OnItemClickListener.class.getClassLoader());
+        this.dismissListener = in.readParcelable(DialogInterface.OnDismissListener.class.getClassLoader());
+        this.cancelListener = in.readParcelable(DialogInterface.OnCancelListener.class.getClassLoader());
+        this.showListener = in.readParcelable(DialogInterface.OnShowListener.class.getClassLoader());
+        this.dialogParams = in.readParcelable(DialogParams.class.getClassLoader());
+        this.titleParams = in.readParcelable(TitleParams.class.getClassLoader());
+        this.subTitleParams = in.readParcelable(SubTitleParams.class.getClassLoader());
+        this.textParams = in.readParcelable(TextParams.class.getClassLoader());
+        this.negativeParams = in.readParcelable(ButtonParams.class.getClassLoader());
+        this.positiveParams = in.readParcelable(ButtonParams.class.getClassLoader());
+        this.itemsParams = in.readParcelable(ItemsParams.class.getClassLoader());
+        this.progressParams = in.readParcelable(ProgressParams.class.getClassLoader());
+        this.lottieParams = in.readParcelable(LottieParams.class.getClassLoader());
+        this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
+        this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
+        this.bodyViewId = in.readInt();
+        this.createBodyViewListener = in.readParcelable(OnCreateBodyViewListener.class.getClassLoader());
+        this.createProgressListener = in.readParcelable(OnCreateProgressListener.class.getClassLoader());
+        this.createLottieListener = in.readParcelable(OnCreateLottieListener.class.getClassLoader());
+        this.createTitleListener = in.readParcelable(OnCreateTitleListener.class.getClassLoader());
+        this.createTextListener = in.readParcelable(OnCreateTextListener.class.getClassLoader());
+        this.createInputListener = in.readParcelable(OnCreateInputListener.class.getClassLoader());
+        this.createButtonListener = in.readParcelable(OnCreateButtonListener.class.getClassLoader());
+        this.inputCounterChangeListener = in.readParcelable(OnInputCounterChangeListener.class.getClassLoader());
+        this.popupParams = in.readParcelable(PopupParams.class.getClassLoader());
+        this.itemListViewType = in.readByte() != 0;
     }
 
     @Override
@@ -111,32 +159,7 @@ public class CircleParams implements Parcelable {
         dest.writeParcelable(this.inputParams, flags);
         dest.writeParcelable(this.neutralParams, flags);
         dest.writeInt(this.bodyViewId);
+        dest.writeParcelable(this.popupParams, flags);
+        dest.writeByte(this.itemListViewType ? (byte) 1 : (byte) 0);
     }
-
-    protected CircleParams(Parcel in) {
-        this.dialogParams = in.readParcelable(DialogParams.class.getClassLoader());
-        this.titleParams = in.readParcelable(TitleParams.class.getClassLoader());
-        this.subTitleParams = in.readParcelable(SubTitleParams.class.getClassLoader());
-        this.textParams = in.readParcelable(TextParams.class.getClassLoader());
-        this.negativeParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.positiveParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.itemsParams = in.readParcelable(ItemsParams.class.getClassLoader());
-        this.progressParams = in.readParcelable(ProgressParams.class.getClassLoader());
-        this.lottieParams = in.readParcelable(LottieParams.class.getClassLoader());
-        this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
-        this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
-        this.bodyViewId = in.readInt();
-    }
-
-    public static final Creator<CircleParams> CREATOR = new Creator<CircleParams>() {
-        @Override
-        public CircleParams createFromParcel(Parcel source) {
-            return new CircleParams(source);
-        }
-
-        @Override
-        public CircleParams[] newArray(int size) {
-            return new CircleParams[size];
-        }
-    };
 }

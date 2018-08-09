@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -32,16 +33,17 @@ import java.util.List;
  * Created by hupei on 2018/4/18.
  */
 
-final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnClickListener, ItemsView {
+class BodyItemsRecyclerView extends RecyclerView implements Controller.OnClickListener, ItemsView {
+    protected Context mContext;
+    protected CircleParams mParams;
     private Adapter mAdapter;
-    private CircleParams mParams;
 
-    public BodyItemsRecyclerView(Context context, CircleParams params) {
+    public BodyItemsRecyclerView(Context context) {
         super(context);
-        init(context, params);
+        this.mContext = context;
     }
 
-    private void init(Context context, final CircleParams params) {
+    public void init(CircleParams params) {
         this.mParams = params;
         ItemsParams itemsParams = params.itemsParams;
 
@@ -49,7 +51,12 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
         int backgroundColor = itemsParams.backgroundColor != 0
                 ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
         setBackgroundColor(backgroundColor);
+        createLayoutManager(itemsParams);
+        createItemDecoration(itemsParams);
+        createAdapter(mContext, itemsParams, params.dialogParams);
+    }
 
+    void createLayoutManager(ItemsParams itemsParams) {
         if (itemsParams.layoutManager == null) {
             itemsParams.layoutManager = new LinearLayoutManager(getContext()
                     , itemsParams.linearLayoutManagerOrientation, false);
@@ -60,24 +67,29 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
                         , itemsParams.linearLayoutManagerOrientation, false);
             }
         }
-        setLayoutManager(params.itemsParams.layoutManager);
+        setLayoutManager(itemsParams.layoutManager);
+    }
 
+    void createItemDecoration(ItemsParams itemsParams) {
         if (itemsParams.dividerHeight > 0) {
-            ItemDecoration itemDecoration = itemsParams.itemDecoration;
-            if (itemsParams.layoutManager instanceof GridLayoutManager && itemDecoration == null) {
-                itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
+            if (itemsParams.layoutManager instanceof GridLayoutManager
+                    && itemsParams.itemDecoration == null) {
+                itemsParams.itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
                         , itemsParams.dividerHeight);
-            } else if (itemsParams.layoutManager instanceof LinearLayoutManager && itemDecoration == null) {
+            } else if (itemsParams.layoutManager instanceof LinearLayoutManager
+                    && itemsParams.itemDecoration == null) {
                 int orientation = ((LinearLayoutManager) itemsParams.layoutManager).getOrientation();
-                itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
+                itemsParams.itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
                         , itemsParams.dividerHeight, orientation);
             }
-            addItemDecoration(itemDecoration);
+            addItemDecoration(itemsParams.itemDecoration);
         }
+    }
 
-        mAdapter = params.itemsParams.adapterRv;
+    void createAdapter(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
+        mAdapter = itemsParams.adapterRv;
         if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(context, mParams);
+            mAdapter = new ItemsAdapter(context, itemsParams, dialogParams);
             if (itemsParams.layoutManager instanceof GridLayoutManager) {
                 final GridLayoutManager gridLayoutManager = (GridLayoutManager) itemsParams.layoutManager;
                 gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -137,16 +149,15 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
         private OnRvItemClickListener mItemClickListener;
         private Context mContext;
         private List<T> mItems;
-        private int mBackgroundColorPress;
         private ItemsParams mItemsParams;
+        private int mBackgroundColorPress;
 
-        public ItemsAdapter(Context context, CircleParams params) {
+        public ItemsAdapter(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
             this.mContext = context;
-            this.mItemsParams = params.itemsParams;
-            this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
-                    ? mItemsParams.backgroundColorPress : params.dialogParams.backgroundColorPress;
-
-            Object entity = mItemsParams.items;
+            this.mItemsParams = itemsParams;
+            mBackgroundColorPress = itemsParams.backgroundColorPress != 0
+                    ? itemsParams.backgroundColorPress : dialogParams.backgroundColorPress;
+            Object entity = itemsParams.items;
             if (entity != null && entity instanceof Iterable) {
                 this.mItems = (List<T>) entity;
             } else if (entity != null && entity.getClass().isArray()) {
