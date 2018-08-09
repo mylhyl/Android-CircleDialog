@@ -11,9 +11,27 @@ import com.mylhyl.circledialog.view.listener.ItemsView;
  */
 
 public interface BuildView {
-    void buildRootView();
+    void buildItemsRootView();
 
-    void buildRootItemsView();
+    void buildItemsContentView();
+
+    ItemsView buildItemsListView();
+
+    ItemsView buildItemsRecyclerView();
+
+    /**
+     * 生成列表按钮
+     *
+     * @return 列表按钮视图
+     */
+    ButtonView buildItemsButton();
+
+    /**
+     * 刷新列表内容
+     */
+    void refreshItems();
+
+    void buildRootView();
 
     void buildTitleViewForRoot();
 
@@ -30,25 +48,6 @@ public interface BuildView {
      * 刷新文本内容
      */
     void refreshTextView();
-
-    void buildItemsContentView();
-
-    ItemsView buildItemsListView();
-
-    ItemsView buildItemsRecyclerView();
-
-
-    /**
-     * 生成列表按钮
-     *
-     * @return 列表按钮视图
-     */
-    ButtonView buildItemsButton();
-
-    /**
-     * 刷新列表内容
-     */
-    void refreshItems();
 
     /**
      * 生成进度条布局

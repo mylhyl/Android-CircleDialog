@@ -467,6 +467,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         TextView textView = helper.getView(android.R.id.text1);
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
                         textView.setText(item.getTitle());
+                        textView.setTextColor(Color.BLACK);
                         textView.setCompoundDrawablesWithIntrinsicBounds(null, item.getIcon(), null, null);
                         textView.setGravity(Gravity.CENTER);
                         TypedValue typedValue = new TypedValue();

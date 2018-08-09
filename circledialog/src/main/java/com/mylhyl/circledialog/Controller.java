@@ -47,26 +47,9 @@ public class Controller {
     }
 
     public void createView() {
-        //自定义内容视图
-        if (mParams.bodyViewId != 0) {
-            if (mParams.titleParams != null)
-                mCreateView.buildTitleViewForRoot();
-            View bodyView = mCreateView.buildCustomBodyView();
-            ButtonView buttonView = mCreateView.buildMultipleButton();
-            applyButton(buttonView, null);
-            if (mParams.createBodyViewListener != null)
-                mParams.createBodyViewListener.onCreateBodyView(bodyView);
-        }
-        //文本
-        else if (mParams.textParams != null) {
-            if (mParams.titleParams != null)
-                mCreateView.buildTitleViewForRoot();
-            mCreateView.buildTextView();
-            ButtonView buttonView = mCreateView.buildMultipleButton();
-            applyButton(buttonView, null);
-        }
         //列表
-        else if (mParams.itemsParams != null) {
+        if (mParams.itemsParams != null) {
+            mCreateView.buildItemsRootView();
             mCreateView.buildItemsContentView();
             if (mParams.itemListener != null || mParams.itemsParams.adapter != null) {
                 final ItemsView itemsView = mCreateView.buildItemsListView();
@@ -91,30 +74,49 @@ public class Controller {
             }
             final ButtonView itemsButton = mCreateView.buildItemsButton();
             applyButton(itemsButton, null);
-        }
-        //进度条
-        else if (mParams.progressParams != null) {
-            if (mParams.titleParams != null)
-                mCreateView.buildTitleViewForRoot();
-            mCreateView.buildProgress();
-            ButtonView buttonView = mCreateView.buildMultipleButton();
-            applyButton(buttonView, null);
-        }
-        //输入框
-        else if (mParams.inputParams != null) {
-            if (mParams.titleParams != null)
-                mCreateView.buildTitleViewForRoot();
-            InputView inputView = mCreateView.buildInput();
-            ButtonView buttonView = mCreateView.buildMultipleButton();
-            applyButton(buttonView, (View) inputView);
-        }
-        //lottie动画框
-        else if (mParams.lottieParams != null) {
-            if (mParams.titleParams != null)
-                mCreateView.buildTitleViewForRoot();
-            mCreateView.buildLottie();
-            ButtonView buttonView = mCreateView.buildMultipleButton();
-            applyButton(buttonView, null);
+        } else {
+            mCreateView.buildRootView();
+            //自定义内容视图
+            if (mParams.bodyViewId != 0) {
+                if (mParams.titleParams != null)
+                    mCreateView.buildTitleViewForRoot();
+                View bodyView = mCreateView.buildCustomBodyView();
+                ButtonView buttonView = mCreateView.buildMultipleButton();
+                applyButton(buttonView, null);
+                if (mParams.createBodyViewListener != null)
+                    mParams.createBodyViewListener.onCreateBodyView(bodyView);
+            }
+            //文本
+            else if (mParams.textParams != null) {
+                if (mParams.titleParams != null)
+                    mCreateView.buildTitleViewForRoot();
+                mCreateView.buildTextView();
+                ButtonView buttonView = mCreateView.buildMultipleButton();
+                applyButton(buttonView, null);
+            }//进度条
+            else if (mParams.progressParams != null) {
+                if (mParams.titleParams != null)
+                    mCreateView.buildTitleViewForRoot();
+                mCreateView.buildProgress();
+                ButtonView buttonView = mCreateView.buildMultipleButton();
+                applyButton(buttonView, null);
+            }
+            //输入框
+            else if (mParams.inputParams != null) {
+                if (mParams.titleParams != null)
+                    mCreateView.buildTitleViewForRoot();
+                InputView inputView = mCreateView.buildInput();
+                ButtonView buttonView = mCreateView.buildMultipleButton();
+                applyButton(buttonView, (View) inputView);
+            }
+            //lottie动画框
+            else if (mParams.lottieParams != null) {
+                if (mParams.titleParams != null)
+                    mCreateView.buildTitleViewForRoot();
+                mCreateView.buildLottie();
+                ButtonView buttonView = mCreateView.buildMultipleButton();
+                applyButton(buttonView, null);
+            }
         }
     }
 

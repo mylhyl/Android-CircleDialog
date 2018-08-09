@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
@@ -17,8 +16,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener
-        , ButtonView {
+class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener, ButtonView {
 
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
@@ -39,8 +37,6 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
         mNegativeParams = params.negativeParams;
         mPositiveParams = params.positiveParams;
         mNeutralParams = params.neutralParams;
-
-        int radius = params.dialogParams.radius;
 
         int backgroundNegative = 0;
         int backgroundNeutral = 0;
@@ -81,7 +77,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
                     ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, (mNeutralButton == null && mPositiveButton == null) ? radius : 0, radius);
+                    , 0, 0, 0, 0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNegativeButton.setBackground(selectorBtn);
             } else {
@@ -93,7 +89,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
                     ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, radius, (mNegativeButton == null && mNeutralButton == null) ? radius : 0);
+                    , 0, 0, 0, 0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mPositiveButton.setBackground(selectorBtn);
             } else {
@@ -105,8 +101,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNeutral
                     , mNeutralParams.backgroundColorPress != 0
                     ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, mPositiveButton == null ? radius : 0
-                    , mNegativeButton == null ? radius : 0);
+                    , 0, 0, 0, 0);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNeutralButton.setBackground(selectorBtn);
             } else {
