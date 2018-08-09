@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.InputView;
@@ -118,7 +120,14 @@ public final class BuildViewImpl implements BuildView {
     @Override
     public ItemsView buildItemsRecyclerView() {
         if (mItemsView == null) mItemsView = new BodyItemsRecyclerView(mContext, mParams);
-
+        ItemsParams itemsParams = mParams.itemsParams;
+        if (itemsParams != null && itemsParams.itemDecoration == null
+                && itemsParams.layoutManager != null && itemsParams.dividerHeight > 0
+                && itemsParams.layoutManager instanceof LinearLayoutManager
+                && ((LinearLayoutManager) itemsParams.layoutManager).getOrientation() == LinearLayoutManager.HORIZONTAL) {
+            DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL, itemsParams.dividerHeight);
+            mItemsContentView.addView(dividerView);
+        }
         mItemsContentView.addView(mItemsView.getView());
         return mItemsView;
     }
@@ -172,8 +181,7 @@ public final class BuildViewImpl implements BuildView {
         if (mMultipleButton == null) {
             mMultipleButton = new MultipleButton(mContext, mParams);
             if (!mMultipleButton.isEmpty()) {
-                DividerView dividerView = new DividerView(mContext);
-                dividerView.setVertical();
+                DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
                 mRoot.addView(dividerView);
             }
         }

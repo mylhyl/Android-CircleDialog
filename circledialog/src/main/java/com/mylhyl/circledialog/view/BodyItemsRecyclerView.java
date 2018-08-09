@@ -62,15 +62,18 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
         }
         setLayoutManager(params.itemsParams.layoutManager);
 
-        ItemDecoration itemDecoration = itemsParams.itemDecoration;
-        if (itemsParams.layoutManager instanceof GridLayoutManager && itemDecoration == null) {
-            itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
-                    , itemsParams.dividerHeight);
-        } else if (itemsParams.layoutManager instanceof LinearLayoutManager && itemDecoration == null) {
-            itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
-                    , itemsParams.dividerHeight);
+        if (itemsParams.dividerHeight > 0) {
+            ItemDecoration itemDecoration = itemsParams.itemDecoration;
+            if (itemsParams.layoutManager instanceof GridLayoutManager && itemDecoration == null) {
+                itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
+                        , itemsParams.dividerHeight);
+            } else if (itemsParams.layoutManager instanceof LinearLayoutManager && itemDecoration == null) {
+                int orientation = ((LinearLayoutManager) itemsParams.layoutManager).getOrientation();
+                itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
+                        , itemsParams.dividerHeight, orientation);
+            }
+            addItemDecoration(itemDecoration);
         }
-        addItemDecoration(itemDecoration);
 
         mAdapter = params.itemsParams.adapterRv;
         if (mAdapter == null) {
@@ -228,31 +231,55 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
 
         private Drawable mDivider;
         private int mDividerHeight;
+        private int mOrientation;
 
-        public LinearItemDecoration(Drawable divider, int dividerHeight) {
-            mDivider = divider;
-            mDividerHeight = dividerHeight;
+        public LinearItemDecoration(Drawable divider, int dividerHeight, int orientation) {
+            this.mDivider = divider;
+            this.mDividerHeight = dividerHeight;
+            this.mOrientation = orientation;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(0, 0, 0, mDividerHeight);
+            if (mOrientation == LinearLayoutManager.VERTICAL)
+                outRect.set(0, 0, 0, mDividerHeight);
+            else
+                outRect.set(0, 0, mDividerHeight, 0);
         }
 
         @Override
         public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            if (mOrientation == LinearLayoutManager.VERTICAL)
+                drawVertical(c, parent);
+            else
+                drawHorizontal(c, parent);
+        }
+
+        private void drawVertical(Canvas c, RecyclerView parent) {
             int left = parent.getPaddingLeft();
             int right = parent.getWidth() - parent.getPaddingRight();
-
             int childCount = parent.getChildCount() - 1;
             for (int i = 0; i < childCount; i++) {
                 View child = parent.getChildAt(i);
-
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
+                LayoutParams params = (LayoutParams) child.getLayoutParams();
                 int top = child.getBottom() + params.bottomMargin;
                 int bottom = top + mDividerHeight;
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        private void drawHorizontal(Canvas c, RecyclerView parent) {
+            final int top = parent.getPaddingTop();
+            final int bottom = parent.getHeight() - parent.getPaddingBottom();
+            final int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                        .getLayoutParams();
+                final int left = child.getRight() + params.rightMargin;
+                final int right = left + mDividerHeight;
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
             }
@@ -281,8 +308,8 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
                 final View child = parent.getChildAt(i);
                 final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
                 final int left = child.getLeft() - params.leftMargin;
-                final int right = child.getRight() + params.rightMargin + mDividerHeight;
                 final int top = child.getBottom() + params.bottomMargin;
+                final int right = child.getRight() + params.rightMargin + mDividerHeight;
                 final int bottom = top + mDividerHeight;
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
@@ -295,10 +322,10 @@ final class BodyItemsRecyclerView extends RecyclerView implements Controller.OnC
                 final View child = parent.getChildAt(i);
 
                 final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-                final int top = child.getTop() - params.topMargin;
-                final int bottom = child.getBottom() + params.bottomMargin;
                 final int left = child.getRight() + params.rightMargin;
+                final int top = child.getTop() - params.topMargin;
                 final int right = left + mDividerHeight;
+                final int bottom = child.getBottom() + params.bottomMargin;
 
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
