@@ -11,6 +11,9 @@ import com.mylhyl.circledialog.view.listener.ItemsView;
  */
 
 public interface BuildView {
+    void buildRootView();
+
+    void buildRootItemsView();
 
     void buildTitleViewForRoot();
 
@@ -28,13 +31,10 @@ public interface BuildView {
      */
     void refreshTextView();
 
-    void buildItemsRootView();
-
     void buildItemsContentView();
 
-    void buildItemsTitleView();
-
     ItemsView buildItemsListView();
+
     ItemsView buildItemsRecyclerView();
 
 

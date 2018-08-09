@@ -67,10 +67,7 @@ public class Controller {
         }
         //列表
         else if (mParams.itemsParams != null) {
-            mCreateView.buildItemsRootView();
             mCreateView.buildItemsContentView();
-            mCreateView.buildItemsTitleView();
-
             if (mParams.itemListener != null || mParams.itemsParams.adapter != null) {
                 final ItemsView itemsView = mCreateView.buildItemsListView();
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
