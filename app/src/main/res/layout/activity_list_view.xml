@@ -1,12 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.mylhyl.circledialog.sample.list.ListViewActivity">
-<ListView
-    android:id="@android:id/list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title=" ">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="菜单框"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
+
+        <android.support.v7.widget.ActionMenuView
+            android:id="@+id/toolbar_actionMenuView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="right"/>
+    </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:id="@+id/btn_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="显示"/>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#290808"/>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_hk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="香港"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_zh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="珠海"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_hn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="湖南"/>
+    </android.support.design.widget.TabLayout>
 </LinearLayout>

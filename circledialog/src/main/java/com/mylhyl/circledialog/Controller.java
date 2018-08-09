@@ -36,9 +36,9 @@ public class Controller {
     private CircleParams mParams;
     private BuildView mCreateView;
     private ButtonHandler mHandler;
-    private BaseCircleDialog mDialog;
+    private AbsBaseCircleDialog mDialog;
 
-    public Controller(Context context, CircleParams params, BaseCircleDialog mDialog) {
+    public Controller(Context context, CircleParams params, AbsBaseCircleDialog mDialog) {
         this.mContext = context;
         this.mParams = params;
         this.mDialog = mDialog;
@@ -184,7 +184,7 @@ public class Controller {
         void onClick(View view, int which);
     }
 
-    public static class ButtonHandler extends Handler {
+    static class ButtonHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -194,9 +194,8 @@ public class Controller {
                 case BUTTON_NEUTRAL:
                     ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
                     break;
-
                 case MSG_DISMISS_DIALOG:
-                    ((BaseCircleDialog) msg.obj).dismissAllowingStateLoss();
+                    ((AbsBaseCircleDialog) msg.obj).dismissAllowingStateLoss();
                     break;
                 default:
                     ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);

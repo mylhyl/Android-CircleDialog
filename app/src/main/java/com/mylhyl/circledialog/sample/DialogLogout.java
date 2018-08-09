@@ -2,18 +2,17 @@ package com.mylhyl.circledialog.sample;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mylhyl.circledialog.BaseCircleDialog;
+import com.mylhyl.circledialog.AbsBaseCircleDialog;
 
 /**
  * 注销框
  * Created by hupei on 2017/4/5.
  */
-public class DialogLogout extends BaseCircleDialog implements View.OnClickListener {
+public class DialogLogout extends AbsBaseCircleDialog implements View.OnClickListener {
 
     public static DialogLogout getInstance() {
         DialogLogout dialogFragment = new DialogLogout();

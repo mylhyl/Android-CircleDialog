@@ -40,7 +40,7 @@
 
 # 注意
  * 依赖包：`appcompat-v7`、`cardview-v7`、`recyclerview-v7`
- * 继承基类`BaseCircleDialog`背景为透明，自定义layout时按需求设置背景
+ * 继承基类`AbsBaseCircleDialog`背景为透明，自定义layout时按需求设置背景
 
 # 感谢
 [AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)；

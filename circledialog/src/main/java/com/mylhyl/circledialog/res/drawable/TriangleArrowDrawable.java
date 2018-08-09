@@ -16,11 +16,11 @@ import android.view.Gravity;
  */
 public class TriangleArrowDrawable extends Drawable {
 
-    private final int arrowDirection;
+    private final int arrowGravity;
     private final int bgColor;
 
-    public TriangleArrowDrawable(int arrowDirection, int bgColor) {
-        this.arrowDirection = arrowDirection;
+    public TriangleArrowDrawable(int arrowGravity, int bgColor) {
+        this.arrowGravity = arrowGravity;
         this.bgColor = bgColor;
     }
 
@@ -37,23 +37,23 @@ public class TriangleArrowDrawable extends Drawable {
     private Path createPath() {
         Rect bound = getBounds();
         Path path = new Path();
-        if (arrowDirection == Gravity.TOP) {
+        if (arrowGravity == Gravity.TOP) {
             path.moveTo(bound.right / 2, bound.bottom / 2);
             path.lineTo(0, bound.bottom);
             path.lineTo(bound.right, bound.bottom);
             path.close();
-        } else if (arrowDirection == Gravity.BOTTOM) {
+        } else if (arrowGravity == Gravity.BOTTOM) {
             path.moveTo(bound.right / 2, bound.bottom / 2);
             path.lineTo(0, 0);
             path.lineTo(bound.right, 0);
             path.close();
 
-        } else if (arrowDirection == Gravity.LEFT) {
+        } else if (arrowGravity == Gravity.LEFT) {
             path.moveTo(bound.right / 2, bound.bottom / 2);
             path.lineTo(bound.right, 0);
             path.lineTo(bound.right, bound.bottom);
             path.close();
-        } else if (arrowDirection == Gravity.RIGHT) {
+        } else if (arrowGravity == Gravity.RIGHT) {
             path.moveTo(bound.right / 2, bound.bottom / 2);
             path.lineTo(0, 0);
             path.lineTo(0, bound.bottom);

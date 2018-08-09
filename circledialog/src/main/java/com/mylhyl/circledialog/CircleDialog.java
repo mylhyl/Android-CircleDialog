@@ -49,14 +49,14 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
  */
 
 public final class CircleDialog {
-    private AbsCircleDialog mDialog;
+    private BaseCircleDialog mDialog;
 
     private CircleDialog() {
     }
 
-    public DialogFragment create(CircleParams params) {
+    public BaseCircleDialog create(CircleParams params) {
         if (mDialog == null)
-            mDialog = AbsCircleDialog.newAbsCircleDialog(params);
+            mDialog = BaseCircleDialog.newAbsCircleDialog(params);
         else {
             if (mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
                 mDialog.refreshView();
@@ -738,20 +738,20 @@ public final class CircleDialog {
         }
 
         @Deprecated
-        public DialogFragment show() {
-            DialogFragment dialogFragment = create();
+        public BaseCircleDialog show() {
+            BaseCircleDialog dialogFragment = create();
             mCircleDialog.show(mActivity);
             return dialogFragment;
         }
 
-        public DialogFragment create() {
+        public BaseCircleDialog create() {
             if (mCircleDialog == null)
                 mCircleDialog = new CircleDialog();
             return mCircleDialog.create(mCircleParams);
         }
 
-        public DialogFragment show(FragmentManager manager) {
-            DialogFragment dialogFragment = create();
+        public BaseCircleDialog show(FragmentManager manager) {
+            BaseCircleDialog dialogFragment = create();
             mCircleDialog.show(manager);
             return dialogFragment;
         }
