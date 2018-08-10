@@ -179,7 +179,9 @@ public class Controller {
                     Animation animation = AnimationUtils.loadAnimation(mContext, mParams
                             .dialogParams
                             .refreshAnimation);
-                    if (animation != null) getView().startAnimation(animation);
+                    if (animation != null) {
+                        getView().startAnimation(animation);
+                    }
                 }
             });
     }

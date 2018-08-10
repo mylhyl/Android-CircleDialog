@@ -4,38 +4,35 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.res.drawable.TriangleArrowDrawable;
-import com.mylhyl.circledialog.scale.ScaleLayoutConfig;
+import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
  * Created by hupei on 2018/8/9 20:59.
  */
 class BodyPopupRecyclerView extends BodyItemsRecyclerView {
+    private PopupParams mPopupParams;
 
-    public BodyPopupRecyclerView(Context context, CircleParams params) {
+    public BodyPopupRecyclerView(Context context, PopupParams popupParams, DialogParams dialogParams
+            , OnRvItemClickListener listener) {
         super(context);
-        ScaleLayoutConfig.init(context.getApplicationContext());
-        this.mParams = params;
-        init(params);
+        this.mPopupParams = popupParams;
+        init(context, popupParams, dialogParams, listener);
     }
 
     @Override
-    public void init(CircleParams params) {
-        PopupParams popupParams = params.popupParams;
-        int arrowGravity = popupParams.arrowGravity;
-        int backgroundColor = popupParams.backgroundColor != 0
-                ? popupParams.backgroundColor : params.dialogParams.backgroundColor;
+    protected void configBackground() {
+        int arrowGravity = mPopupParams.arrowGravity;
+        int backgroundColor = mPopupParams.backgroundColor != 0
+                ? mPopupParams.backgroundColor : mDialogParams.backgroundColor;
         TriangleArrowDrawable arrowDrawable = new TriangleArrowDrawable(arrowGravity, backgroundColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(arrowDrawable);
         } else {
             setBackgroundDrawable(arrowDrawable);
         }
-        createLayoutManager(popupParams);
-        createItemDecoration(popupParams);
-        createAdapter(mContext, popupParams, params.dialogParams);
     }
 
     @Override

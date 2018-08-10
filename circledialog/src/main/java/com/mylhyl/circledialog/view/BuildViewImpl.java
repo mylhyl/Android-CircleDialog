@@ -70,7 +70,9 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public ItemsView buildItemsListView() {
-        if (mItemsView == null) mItemsView = new BodyItemsListView(mContext, mParams);
+        if (mItemsView == null) {
+            mItemsView = new BodyItemsListView(mContext, mParams);
+        }
         mRootContentView.addView(mItemsView.getView());
         return mItemsView;
     }
@@ -78,16 +80,17 @@ public final class BuildViewImpl implements BuildView {
     @Override
     public ItemsView buildItemsRecyclerView() {
         if (mItemsView == null) {
-            BodyItemsRecyclerView bodyItemsRecyclerView = new BodyItemsRecyclerView(mContext);
-            bodyItemsRecyclerView.init(mParams);
-            mItemsView = bodyItemsRecyclerView;
+            mItemsView = new BodyItemsRecyclerView(mContext, mParams.itemsParams
+                    , mParams.dialogParams, mParams.rvItemListener);
         }
         ItemsParams itemsParams = mParams.itemsParams;
         if (itemsParams != null && itemsParams.itemDecoration == null
                 && itemsParams.layoutManager != null && itemsParams.dividerHeight > 0
                 && itemsParams.layoutManager instanceof LinearLayoutManager
-                && ((LinearLayoutManager) itemsParams.layoutManager).getOrientation() == LinearLayoutManager.HORIZONTAL) {
-            DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL, itemsParams.dividerHeight);
+                && ((LinearLayoutManager) itemsParams.layoutManager).getOrientation()
+                == LinearLayoutManager.HORIZONTAL) {
+            DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL
+                    , itemsParams.dividerHeight);
             mRootContentView.addView(dividerView);
         }
         mRootContentView.addView(mItemsView.getView());
@@ -115,7 +118,8 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public ItemsView buildPopupView() {
-        mItemsView = new BodyPopupRecyclerView(mContext, mParams);
+        mItemsView = new BodyPopupRecyclerView(mContext, mParams.popupParams, mParams.dialogParams
+                , mParams.rvItemListener);
         mRootView.addView(mItemsView.getView());
         return mItemsView;
     }
@@ -137,7 +141,8 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public View buildCustomBodyView() {
-        View customBodyView = LayoutInflater.from(mContext).inflate(mParams.bodyViewId, mRootContentView, false);
+        View customBodyView = LayoutInflater.from(mContext)
+                .inflate(mParams.bodyViewId, mRootContentView, false);
         mRootContentView.addView(customBodyView);
         return customBodyView;
     }
@@ -152,7 +157,9 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public void refreshTextView() {
-        if (mBodyTextView != null) mBodyTextView.refreshText();
+        if (mBodyTextView != null) {
+            mBodyTextView.refreshText();
+        }
     }
 
     @Override
@@ -171,7 +178,9 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public void refreshProgress() {
-        if (mBodyProgressView != null) mBodyProgressView.refreshProgress();
+        if (mBodyProgressView != null) {
+            mBodyProgressView.refreshProgress();
+        }
     }
 
     @Override
@@ -190,14 +199,17 @@ public final class BuildViewImpl implements BuildView {
                 mRootContentView.addView(dividerView);
             }
         }
-        if (mMultipleButton != null)
+        if (mMultipleButton != null) {
             mRootContentView.addView(mMultipleButton.getView());
+        }
         return mMultipleButton;
     }
 
     @Override
     public void refreshMultipleButtonText() {
-        if (mMultipleButton != null) mMultipleButton.refreshText();
+        if (mMultipleButton != null) {
+            mMultipleButton.refreshText();
+        }
     }
 
     @Override
