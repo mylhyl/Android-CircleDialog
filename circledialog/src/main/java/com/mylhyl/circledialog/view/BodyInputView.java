@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
@@ -25,7 +26,7 @@ import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT
  * Created by hupei on 2017/3/31.
  */
 
-final class BodyInputView extends ScaleRelativeLayout implements Controller.OnClickListener, InputView {
+final class BodyInputView extends RelativeLayout implements Controller.OnClickListener, InputView {
     private ScaleEditText mEditText;
     private ScaleTextView mTvCounter;
     private CircleParams params;

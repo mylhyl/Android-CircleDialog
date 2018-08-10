@@ -17,8 +17,8 @@ import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
  * 对话框标题
  * Created by hupei on 2017/3/29.
  */
-final class TitleView extends ScaleLinearLayout {
-    private ScaleRelativeLayout mTitleLayout;
+final class TitleView extends LinearLayout {
+    private RelativeLayout mTitleLayout;
 
     public TitleView(Context context, CircleParams params) {
         super(context);
@@ -47,6 +47,36 @@ final class TitleView extends ScaleLinearLayout {
         if (createTitleListener != null) {
             createTitleListener.onCreateTitle(ivTitleIcon, tvTitle, tvSubTitle);
         }
+    }
+
+    private void createTitleLayout(DialogParams dialogParams, TitleParams titleParams) {
+        mTitleLayout = new RelativeLayout(getContext());
+        mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT
+                , LayoutParams.WRAP_CONTENT));
+        mTitleLayout.setGravity(titleParams.gravity);
+        mTitleLayout.setPadding(50, 0, 50, 0);
+
+        //如果标题没有背景色，则使用默认色
+        int bg = titleParams.backgroundColor != 0 ? titleParams.backgroundColor : dialogParams.backgroundColor;
+        mTitleLayout.setBackgroundColor(bg);
+    }
+
+    @NonNull
+    private ImageView createTitleIcon(TitleParams titleParams) {
+        ImageView ivTitleIcon = new ImageView(getContext());
+        RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.title);
+        layoutParamsTitleIcon.addRule(RelativeLayout.CENTER_VERTICAL);
+        ivTitleIcon.setLayoutParams(layoutParamsTitleIcon);
+        if (titleParams.icon != 0) {
+            ivTitleIcon.setImageResource(titleParams.icon);
+            ivTitleIcon.setVisibility(VISIBLE);
+        } else {
+            ivTitleIcon.setVisibility(GONE);
+        }
+        mTitleLayout.addView(ivTitleIcon);
+        return ivTitleIcon;
     }
 
     @NonNull
@@ -87,37 +117,6 @@ final class TitleView extends ScaleLinearLayout {
         }
         return tvSubTitle;
     }
-
-    @NonNull
-    private ImageView createTitleIcon(TitleParams titleParams) {
-        ImageView ivTitleIcon = new ImageView(getContext());
-        RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.title);
-        layoutParamsTitleIcon.addRule(RelativeLayout.CENTER_VERTICAL);
-        ivTitleIcon.setLayoutParams(layoutParamsTitleIcon);
-        if (titleParams.icon != 0) {
-            ivTitleIcon.setImageResource(titleParams.icon);
-            ivTitleIcon.setVisibility(VISIBLE);
-        } else {
-            ivTitleIcon.setVisibility(GONE);
-        }
-        mTitleLayout.addView(ivTitleIcon);
-        return ivTitleIcon;
-    }
-
-    private void createTitleLayout(DialogParams dialogParams, TitleParams titleParams) {
-        mTitleLayout = new ScaleRelativeLayout(getContext());
-        mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT
-                , LayoutParams.WRAP_CONTENT));
-        mTitleLayout.setGravity(titleParams.gravity);
-        mTitleLayout.setPadding(50, 0, 50, 0);
-
-        //如果标题没有背景色，则使用默认色
-        int bg = titleParams.backgroundColor != 0 ? titleParams.backgroundColor : dialogParams.backgroundColor;
-        mTitleLayout.setBackgroundColor(bg);
-    }
-
 
     private void setSubTitleBg(ScaleTextView tvSubTitle, int tbg, int dbg) {
         //如果标题没有背景色，则使用默认色

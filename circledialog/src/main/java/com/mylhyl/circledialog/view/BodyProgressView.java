@@ -21,7 +21,7 @@ import java.lang.reflect.Modifier;
  * Created by hupei on 2017/3/31.
  */
 
-final class BodyProgressView extends ScaleLinearLayout {
+final class BodyProgressView extends LinearLayout {
     private ProgressParams mProgressParams;
     private ProgressBar mProgressBar;
     private Handler mViewUpdateHandler;

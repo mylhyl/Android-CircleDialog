@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
@@ -16,7 +17,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener, ButtonView {
+class MultipleButton extends LinearLayout implements Controller.OnClickListener, ButtonView {
 
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;

@@ -17,7 +17,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
  * Created by hupei on 2018/7/7.
  */
 
-final class BodyLottieView extends ScaleLinearLayout {
+final class BodyLottieView extends LinearLayout {
     private LottieAnimationView mLottieAnimationView;
     private LottieParams mLottieParams;
 

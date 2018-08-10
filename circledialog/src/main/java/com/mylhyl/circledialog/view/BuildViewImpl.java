@@ -27,7 +27,7 @@ public final class BuildViewImpl implements BuildView {
 
     private LinearLayout mItemsRoot;
     private CardView mRootView;
-    private ScaleLinearLayout mRootContentView;
+    private LinearLayout mRootContentView;
     private BodyTextView mBodyTextView;
     private ItemsView mItemsView;
     private BodyProgressView mBodyProgressView;
@@ -40,7 +40,7 @@ public final class BuildViewImpl implements BuildView {
 
     @Override
     public void buildItemsRootView() {
-        this.mItemsRoot = new ScaleLinearLayout(mContext);
+        this.mItemsRoot = new LinearLayout(mContext);
         this.mItemsRoot.setOrientation(LinearLayout.VERTICAL);
     }
 
@@ -59,7 +59,7 @@ public final class BuildViewImpl implements BuildView {
         mItemsRoot.addView(cardView);
 
         if (mRootContentView == null) {
-            mRootContentView = new ScaleLinearLayout(mContext);
+            mRootContentView = new LinearLayout(mContext);
             mRootContentView.setOrientation(LinearLayout.VERTICAL);
             cardView.addView(mRootContentView);
 
@@ -127,7 +127,7 @@ public final class BuildViewImpl implements BuildView {
     @Override
     public void buildRootContentView() {
         if (mRootContentView == null) {
-            mRootContentView = new ScaleLinearLayout(mContext);
+            mRootContentView = new LinearLayout(mContext);
             mRootContentView.setOrientation(LinearLayout.VERTICAL);
             mRootView.addView(mRootContentView);
         }
