@@ -3,95 +3,22 @@ package com.mylhyl.circledialog;
 import android.view.View;
 
 import com.mylhyl.circledialog.view.listener.ButtonView;
-import com.mylhyl.circledialog.view.listener.InputView;
-import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
  * Created by hupei on 2017/3/29.
  */
 
 public interface BuildView {
-    void buildItemsRootView();
 
-    void buildItemsContentView();
+    <T> T getBodyView();
 
-    ItemsView buildItemsListView();
+    void buildBodyView();
 
-    ItemsView buildItemsRecyclerView();
-
-    /**
-     * 生成列表按钮
-     *
-     * @return 列表按钮视图
-     */
-    ButtonView buildItemsButton();
-
-    /**
-     * 刷新列表内容
-     */
-    void refreshItems();
-
-    void buildRootView();
-
-    ItemsView buildPopupView();
-
-    void buildRootContentView();
-
-    void buildTitleViewForRoot();
-
-    View buildCustomBodyView();
-
-    /**
-     * 生成文本布局
-     *
-     * @return 文本视图
-     */
-    void buildTextView();
-
-    /**
-     * 刷新文本内容
-     */
-    void refreshTextView();
-
-    /**
-     * 生成进度条布局
-     */
-    void buildProgress();
-
-    /**
-     * 生成lottie动画框
-     */
-    void buildLottie();
-
-    /**
-     * 刷新进度条
-     */
-    void refreshProgress();
-
-    /**
-     * 生成输入布局
-     *
-     * @return 输入框视图
-     */
-    InputView buildInput();
-
-    /**
-     * 生成多按钮布局
-     *
-     * @return 按钮视图
-     */
-    ButtonView buildMultipleButton();
-
-    /**
-     * 刷新多按钮文字
-     */
-    void refreshMultipleButtonText();
-
-    /**
-     * 取出根布局
-     *
-     * @return 对话框视图
-     */
     View getRootView();
 
+    ButtonView buildButton();
+
+    void refreshContent();
+
+    void refreshButton();
 }

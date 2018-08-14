@@ -22,6 +22,7 @@ final class TitleView extends LinearLayout {
 
     public TitleView(Context context, CircleParams params) {
         super(context);
+        if (params.titleParams == null) return;
         init(params);
     }
 

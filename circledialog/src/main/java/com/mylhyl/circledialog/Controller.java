@@ -8,9 +8,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 
-import com.mylhyl.circledialog.view.BuildViewImpl;
+import com.mylhyl.circledialog.view.BuildViewConfirmImpl;
+import com.mylhyl.circledialog.view.BuildViewCustomBodyImpl;
+import com.mylhyl.circledialog.view.BuildViewInputImpl;
+import com.mylhyl.circledialog.view.BuildViewItemsListViewImpl;
+import com.mylhyl.circledialog.view.BuildViewItemsRecyclerViewImpl;
+import com.mylhyl.circledialog.view.BuildViewLottieImpl;
+import com.mylhyl.circledialog.view.BuildViewProgressImpl;
 import com.mylhyl.circledialog.view.listener.ButtonView;
-import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -43,29 +48,28 @@ public class Controller {
         this.mParams = params;
         this.mDialog = mDialog;
         mHandler = new ButtonHandler();
-        mCreateView = new BuildViewImpl(mContext, mParams);
     }
 
     public void createView() {
         //popup
         if (mParams.popupParams != null) {
-            mCreateView.buildRootView();
-            final ItemsView itemsView = mCreateView.buildPopupView();
-            itemsView.regOnItemClickListener(new OnRvItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    mHandler.obtainMessage(position, itemsView).sendToTarget();
-                    if (!mParams.popupParams.isManualClose)
-                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-                }
-            });
+//            mCreateView.buildRootLinearLayout();
+//            final ItemsView itemsView = mCreateView.buildPopupView();
+//            itemsView.regOnItemClickListener(new OnRvItemClickListener() {
+//                @Override
+//                public void onItemClick(View view, int position) {
+//                    mHandler.obtainMessage(position, itemsView).sendToTarget();
+//                    if (!mParams.popupParams.isManualClose)
+//                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+//                }
+//            });
         }
         //列表
         else if (mParams.itemsParams != null) {
-            mCreateView.buildItemsRootView();
-            mCreateView.buildItemsContentView();
             if (mParams.itemListViewType) {
-                final ItemsView itemsView = mCreateView.buildItemsListView();
+                mCreateView = new BuildViewItemsListViewImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                final ItemsView itemsView = mCreateView.getBodyView();
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,7 +79,9 @@ public class Controller {
                     }
                 });
             } else {
-                final ItemsView itemsView = mCreateView.buildItemsRecyclerView();
+                mCreateView = new BuildViewItemsRecyclerViewImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                final ItemsView itemsView = mCreateView.getBodyView();
                 itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -85,51 +91,46 @@ public class Controller {
                     }
                 });
             }
-            final ButtonView itemsButton = mCreateView.buildItemsButton();
+            final ButtonView itemsButton = mCreateView.buildButton();
             applyButton(itemsButton, null);
         } else {
-            mCreateView.buildRootView();
-            mCreateView.buildRootContentView();
-            //自定义内容视图
-            if (mParams.bodyViewId != 0) {
-                if (mParams.titleParams != null)
-                    mCreateView.buildTitleViewForRoot();
-                View bodyView = mCreateView.buildCustomBodyView();
-                ButtonView buttonView = mCreateView.buildMultipleButton();
-                applyButton(buttonView, null);
-                if (mParams.createBodyViewListener != null)
-                    mParams.createBodyViewListener.onCreateBodyView(bodyView);
-            }
             //文本
-            else if (mParams.textParams != null) {
-                if (mParams.titleParams != null)
-                    mCreateView.buildTitleViewForRoot();
-                mCreateView.buildTextView();
-                ButtonView buttonView = mCreateView.buildMultipleButton();
+            if (mParams.textParams != null) {
+                mCreateView = new BuildViewConfirmImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                ButtonView buttonView = mCreateView.buildButton();
                 applyButton(buttonView, null);
             }//进度条
             else if (mParams.progressParams != null) {
-                if (mParams.titleParams != null)
-                    mCreateView.buildTitleViewForRoot();
-                mCreateView.buildProgress();
-                ButtonView buttonView = mCreateView.buildMultipleButton();
+                mCreateView = new BuildViewProgressImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                ButtonView buttonView = mCreateView.buildButton();
                 applyButton(buttonView, null);
             }
             //输入框
             else if (mParams.inputParams != null) {
-                if (mParams.titleParams != null)
-                    mCreateView.buildTitleViewForRoot();
-                InputView inputView = mCreateView.buildInput();
-                ButtonView buttonView = mCreateView.buildMultipleButton();
-                applyButton(buttonView, (View) inputView);
+                mCreateView = new BuildViewInputImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                View inputView = mCreateView.getBodyView();
+                ButtonView buttonView = mCreateView.buildButton();
+                applyButton(buttonView, inputView);
             }
             //lottie动画框
             else if (mParams.lottieParams != null) {
-                if (mParams.titleParams != null)
-                    mCreateView.buildTitleViewForRoot();
-                mCreateView.buildLottie();
-                ButtonView buttonView = mCreateView.buildMultipleButton();
+                mCreateView = new BuildViewLottieImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                ButtonView buttonView = mCreateView.buildButton();
                 applyButton(buttonView, null);
+            }
+            //自定义内容视图
+            else if (mParams.bodyViewId != 0) {
+                mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                View bodyView = mCreateView.getBodyView();
+                ButtonView buttonView = mCreateView.buildButton();
+                applyButton(buttonView, null);
+                if (mParams.createBodyViewListener != null)
+                    mParams.createBodyViewListener.onCreateBodyView(bodyView);
             }
         }
     }
@@ -167,10 +168,8 @@ public class Controller {
     }
 
     public void refreshView() {
-        mCreateView.refreshTextView();
-        mCreateView.refreshItems();
-        mCreateView.refreshProgress();
-        mCreateView.refreshMultipleButtonText();
+        mCreateView.refreshContent();
+        mCreateView.refreshButton();
         //刷新时带动画
         if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
             getView().post(new Runnable() {

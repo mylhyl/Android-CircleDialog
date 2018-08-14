@@ -32,18 +32,18 @@ import java.util.List;
  * Created by hupei on 2018/4/18.
  */
 
-class BodyItemsRecyclerView extends RecyclerView implements Controller.OnClickListener, ItemsView {
+class BodyRecyclerView extends RecyclerView implements Controller.OnClickListener, ItemsView {
     protected Context mContext;
     protected DialogParams mDialogParams;
     private ItemsParams mItemsParams;
     private OnRvItemClickListener mOnRvItemClickListener;
     private Adapter mAdapter;
 
-    public BodyItemsRecyclerView(Context context) {
+    public BodyRecyclerView(Context context) {
         super(context);
     }
 
-    public BodyItemsRecyclerView(Context context, ItemsParams itemsParams, DialogParams dialogParams
+    public BodyRecyclerView(Context context, ItemsParams itemsParams, DialogParams dialogParams
             , OnRvItemClickListener listener) {
         super(context);
         init(context, itemsParams, dialogParams, listener);

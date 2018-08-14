@@ -26,13 +26,13 @@ import java.util.List;
  * Created by hupei on 2017/3/30.
  */
 
-final class BodyItemsListView extends ListView implements Controller.OnClickListener, ItemsView {
+final class BodyListView extends ListView implements Controller.OnClickListener, ItemsView {
     private BaseAdapter mAdapter;
     private CircleParams mParams;
     private int mBackgroundColor;
     private int mBackgroundColorPress;
 
-    public BodyItemsListView(Context context, CircleParams params) {
+    public BodyListView(Context context, CircleParams params) {
         super(context);
         init(context, params);
     }

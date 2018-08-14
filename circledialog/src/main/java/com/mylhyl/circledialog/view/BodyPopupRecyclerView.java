@@ -12,7 +12,7 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 /**
  * Created by hupei on 2018/8/9 20:59.
  */
-class BodyPopupRecyclerView extends BodyItemsRecyclerView {
+class BodyPopupRecyclerView extends BodyRecyclerView {
     private PopupParams mPopupParams;
 
     public BodyPopupRecyclerView(Context context, PopupParams popupParams, DialogParams dialogParams

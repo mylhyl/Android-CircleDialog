@@ -33,7 +33,7 @@ public class TextParams implements Parcelable {
     /**
      * 文本
      */
-    public String text;
+    public String text = "";
     /**
      * 文本高度
      */
