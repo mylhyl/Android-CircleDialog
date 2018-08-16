@@ -49,7 +49,7 @@ class BodyRecyclerView extends RecyclerView implements Controller.OnClickListene
         init(context, itemsParams, dialogParams, listener);
     }
 
-    public void init(Context context, ItemsParams itemsParams, DialogParams dialogParams
+    private void init(Context context, ItemsParams itemsParams, DialogParams dialogParams
             , OnRvItemClickListener listener) {
         this.mContext = context;
         this.mItemsParams = itemsParams;
@@ -61,7 +61,7 @@ class BodyRecyclerView extends RecyclerView implements Controller.OnClickListene
         createAdapter();
     }
 
-    protected void configBackground() {
+    private void configBackground() {
         //如果没有背景色，则使用默认色
         int backgroundColor = mItemsParams.backgroundColor != 0
                 ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;

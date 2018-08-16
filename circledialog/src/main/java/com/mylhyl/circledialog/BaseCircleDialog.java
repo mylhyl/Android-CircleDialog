@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.scale.ScaleLayoutConfig;
@@ -40,6 +42,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         mController = new Controller(getContext().getApplicationContext(), mParams, this);
         mController.createView();
         View view = mController.getView();
+        setAbsoluteWidth(mParams.dialogParams.absoluteWidth);
         return view;
     }
 
@@ -120,6 +123,19 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         if (mParams != null && mParams.showListener != null) {
             mParams.showListener.onShow(dialog);
         }
+        resizeSize();
+    }
+
+    void resizeSize() {
+        Dialog dialog = getDialog();
+        int absoluteWidth = mParams.dialogParams.absoluteWidth;
+        if (dialog == null || absoluteWidth == 0) return;
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        int avg = getDisplayMetrics().widthPixels / 3;
+        wlp.width = absoluteWidth > avg ? absoluteWidth : avg;
+        window.setAttributes(wlp);
     }
 
     public void refreshView() {

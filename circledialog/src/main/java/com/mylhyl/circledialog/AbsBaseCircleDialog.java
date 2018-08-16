@@ -47,6 +47,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private static final String SAVED_ALPHA = "circle:baseAlpha";
     private static final String SAVED_X = "circle:baseX";
     private static final String SAVED_Y = "circle:baseY";
+    private static final String SAVED_ABSOLUTE_WIDTH = "circle:baseAbsoluteWidth";
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
     private boolean mCanceledBack = true;//是否返回键关闭
@@ -58,7 +59,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private int mBackgroundColor = Color.TRANSPARENT;//对话框的背景色
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
     private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
-    private int mX, mY;
+    private int mX, mY, mAbsoluteWidth;
     private View.OnLayoutChangeListener mOnLayoutChangeListener;
     private WeakReference<View> mAnchor;
 
@@ -101,7 +102,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     }
 
     @NonNull
-    private DisplayMetrics getDisplayMetrics() {
+    public DisplayMetrics getDisplayMetrics() {
         //获取屏幕宽
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -127,6 +128,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             mAlpha = savedInstanceState.getFloat(SAVED_ALPHA);
             mX = savedInstanceState.getInt(SAVED_X);
             mY = savedInstanceState.getInt(SAVED_Y);
+            mAbsoluteWidth = savedInstanceState.getInt(SAVED_ABSOLUTE_WIDTH);
         }
     }
 
@@ -169,7 +171,11 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         window.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams wlp = window.getAttributes();
         DisplayMetrics dm = getDisplayMetrics();
-        wlp.width = (int) (dm.widthPixels * mWidth);//宽度按屏幕大小的百分比设置
+        if (mAbsoluteWidth >= 0) {
+            wlp.width = (int) (dm.widthPixels * mWidth);//宽度按屏幕大小的百分比设置
+        } else {
+            wlp.width = mAbsoluteWidth;
+        }
         wlp.gravity = mGravity;
         wlp.x = mX;
         wlp.y = mY;
@@ -205,6 +211,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         outState.putFloat(SAVED_ALPHA, mAlpha);
         outState.putInt(SAVED_X, mX);
         outState.putInt(SAVED_Y, mY);
+        outState.putInt(SAVED_ABSOLUTE_WIDTH, mAbsoluteWidth);
     }
 
     /**
@@ -317,6 +324,10 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
 
     protected void setY(int y) {
         mY = y;
+    }
+
+    protected void setAbsoluteWidth(int absoluteWidth) {
+        this.mAbsoluteWidth = absoluteWidth;
     }
 
     /**

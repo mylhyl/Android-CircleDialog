@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.sample.R;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -41,7 +41,7 @@ public class ListViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new CircleDialog.Builder()
-                        .setPopupArrowGravity(Gravity.TOP)
+                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_RIGHT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override

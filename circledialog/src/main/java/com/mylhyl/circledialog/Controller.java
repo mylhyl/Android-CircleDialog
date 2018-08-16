@@ -14,6 +14,7 @@ import com.mylhyl.circledialog.view.BuildViewInputImpl;
 import com.mylhyl.circledialog.view.BuildViewItemsListViewImpl;
 import com.mylhyl.circledialog.view.BuildViewItemsRecyclerViewImpl;
 import com.mylhyl.circledialog.view.BuildViewLottieImpl;
+import com.mylhyl.circledialog.view.BuildViewPopupImpl;
 import com.mylhyl.circledialog.view.BuildViewProgressImpl;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
@@ -43,26 +44,27 @@ public class Controller {
     private ButtonHandler mHandler;
     private AbsBaseCircleDialog mDialog;
 
-    public Controller(Context context, CircleParams params, AbsBaseCircleDialog mDialog) {
+    public Controller(Context context, CircleParams params, AbsBaseCircleDialog dialog) {
         this.mContext = context;
         this.mParams = params;
-        this.mDialog = mDialog;
+        this.mDialog = dialog;
         mHandler = new ButtonHandler();
     }
 
     public void createView() {
         //popup
         if (mParams.popupParams != null) {
-//            mCreateView.buildRootLinearLayout();
-//            final ItemsView itemsView = mCreateView.buildPopupView();
-//            itemsView.regOnItemClickListener(new OnRvItemClickListener() {
-//                @Override
-//                public void onItemClick(View view, int position) {
-//                    mHandler.obtainMessage(position, itemsView).sendToTarget();
-//                    if (!mParams.popupParams.isManualClose)
-//                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
-//                }
-//            });
+            mCreateView = new BuildViewPopupImpl(mContext,mParams,mDialog.getDisplayMetrics());
+            mCreateView.buildBodyView();
+            final ItemsView itemsView = mCreateView.getBodyView();
+            itemsView.regOnItemClickListener(new OnRvItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    mHandler.obtainMessage(position, itemsView).sendToTarget();
+                    if (!mParams.popupParams.isManualClose)
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                }
+            });
         }
         //列表
         else if (mParams.itemsParams != null) {
