@@ -35,16 +35,24 @@ abstract class BuildViewAbs implements BuildView {
     }
 
     protected void buildRootView() {
+        CardView cardView = buildCardView();
+        LinearLayout linearLayout = buildLinearLayout();
+        cardView.addView(linearLayout);
+        mRoot = cardView;
+    }
+
+    protected CardView buildCardView() {
         CardView cardView = new CardView(mContext);
         cardView.setCardElevation(0f);
         cardView.setCardBackgroundColor(Color.TRANSPARENT);
         cardView.setRadius(mParams.dialogParams.radius);
+        return cardView;
+    }
 
+    protected LinearLayout buildLinearLayout() {
         mRootCardViewByLinearLayout = new LinearLayout(mContext);
         mRootCardViewByLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        cardView.addView(mRootCardViewByLinearLayout);
-
-        mRoot = cardView;
+        return mRootCardViewByLinearLayout;
     }
 
     @Override

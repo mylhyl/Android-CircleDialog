@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         .setRadius(0)
                         .setWidth(1f)
-                        .setMaxHeight(0.8f)
+                        .setMaxHeight(0.7f)
                         .setYoff(0)
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")
@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
-                        .setTitle("Rv Vertical")
+//                        .setTitle("Rv Vertical")
                         .configItems(params -> params.dividerHeight = 1)
                         .setItems(rvListForV, new LinearLayoutManager(this)
                                 , (view13, position13) ->

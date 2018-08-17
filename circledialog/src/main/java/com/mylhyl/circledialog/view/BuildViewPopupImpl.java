@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -34,12 +35,14 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
     @Override
     public void buildBodyView() {
-        buildRootView();
+        LinearLayout rootLinearLayout = buildLinearLayout();
+        mRoot = rootLinearLayout;
         if (mItemsView == null) {
             mParams.dialogParams.absoluteWidth = LinearLayout.LayoutParams.WRAP_CONTENT;
 
             final PopupParams popupParams = mParams.popupParams;
             final View arrowView = new View(mContext);
+            mRoot.addView(arrowView);
 
             final int arrowDirection = popupParams.arrowDirection;
             int backgroundColor = popupParams.backgroundColor != 0
@@ -50,28 +53,43 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             } else {
                 arrowView.setBackgroundDrawable(arrowDrawable);
             }
-            mRootCardViewByLinearLayout.addView(arrowView);
+
+            CardView cardView = buildCardView();
+            mRoot.addView(cardView);
 
             mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
                     , mParams.dialogParams, mParams.rvItemListener);
-            View itemsViewView = mItemsView.getView();
+            final View itemsViewView = mItemsView.getView();
+            cardView.addView(itemsViewView);
+
             itemsViewView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                public void onLayoutChange(View v, int left, int top, int right, int bottom
+                        , int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     mParams.dialogParams.absoluteWidth = v.getWidth();
                     int arrowViewWidth = (int) (v.getWidth() * ARROW_WEIGHT);
-                    final LayoutParams arrowViewLayoutParams = new LayoutParams(arrowViewWidth, arrowViewWidth);
-//                    switch (arrowDirection) {
-//                        case PopupParams.DIRECTION_TOP:
-//                            if (popupParams.arrowGravity == PopupParams.GRAVITY_RIGHT) {
-//                                arrowViewLayoutParams.leftMargin = (int) (v.getWidth() * (1 - ARROW_WEIGHT));
-//                            }
-//                            break;
-//                    }
+                    LayoutParams arrowViewLayoutParams = (LayoutParams) arrowView.getLayoutParams();
+                    if (arrowViewLayoutParams == null) {
+                        arrowViewLayoutParams = new LayoutParams(arrowViewWidth, arrowViewWidth);
+                    } else {
+                        arrowViewLayoutParams.width = arrowViewWidth;
+                        arrowViewLayoutParams.height = arrowViewWidth;
+                    }
+                    if ((bottom != 0 && oldBottom != 0 && bottom == oldBottom)
+                            || (top != 0 && oldTop != 0 && top == oldTop)) {
+                        switch (arrowDirection) {
+                            case PopupParams.DIRECTION_TOP:
+                                if (popupParams.arrowGravity == PopupParams.GRAVITY_RIGHT) {
+                                    int offset = arrowViewWidth / 2;
+                                    arrowViewLayoutParams.leftMargin = (int) (mParams.dialogParams.absoluteWidth * (1 - ARROW_WEIGHT)) - offset;
+                                }
+                                break;
+                        }
+                        itemsViewView.removeOnLayoutChangeListener(this);
+                    }
                     arrowView.setLayoutParams(arrowViewLayoutParams);
                 }
             });
-            mRootCardViewByLinearLayout.addView(itemsViewView);
         }
     }
 

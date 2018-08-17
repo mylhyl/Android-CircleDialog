@@ -60,7 +60,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
     private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
     private int mX, mY, mAbsoluteWidth;
-    private View.OnLayoutChangeListener mOnLayoutChangeListener;
     private WeakReference<View> mAnchor;
 
     public AbsBaseCircleDialog() {
@@ -84,7 +83,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMaxHeight > 0) {
-            mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
+            view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom
                         , int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -94,10 +93,10 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
                     if (height > maxHeight) {
                         view.setLayoutParams(new FrameLayout.LayoutParams(
                                 FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+                        view.removeOnLayoutChangeListener(this);
                     }
                 }
-            };
-            view.addOnLayoutChangeListener(mOnLayoutChangeListener);
+            });
         }
     }
 
@@ -134,10 +133,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        View view = getView();
-        if (view != null && mOnLayoutChangeListener != null) {
-            view.removeOnLayoutChangeListener(mOnLayoutChangeListener);
-        }
         super.onDismiss(dialog);
         remove();
     }
@@ -171,7 +166,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         window.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams wlp = window.getAttributes();
         DisplayMetrics dm = getDisplayMetrics();
-        if (mAbsoluteWidth >= 0) {
+        if (mAbsoluteWidth == 0) {
             wlp.width = (int) (dm.widthPixels * mWidth);//宽度按屏幕大小的百分比设置
         } else {
             wlp.width = mAbsoluteWidth;
