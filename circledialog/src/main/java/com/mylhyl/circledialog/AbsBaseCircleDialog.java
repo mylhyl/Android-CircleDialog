@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -25,8 +26,6 @@ import android.widget.FrameLayout;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.scale.ScaleUtils;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -48,6 +47,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private static final String SAVED_X = "circle:baseX";
     private static final String SAVED_Y = "circle:baseY";
     private static final String SAVED_ABSOLUTE_WIDTH = "circle:baseAbsoluteWidth";
+
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
     private boolean mCanceledBack = true;//是否返回键关闭
@@ -60,7 +60,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
     private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
     private int mX, mY, mAbsoluteWidth;
-    private WeakReference<View> mAnchor;
 
     public AbsBaseCircleDialog() {
     }
@@ -83,17 +82,16 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mMaxHeight > 0) {
-            view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom
-                        , int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    int height = v.getHeight();
+                public void onGlobalLayout() {
+                    int height = view.getHeight();
                     DisplayMetrics dm = getDisplayMetrics();
                     int maxHeight = (int) (dm.heightPixels * mMaxHeight);
                     if (height > maxHeight) {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         view.setLayoutParams(new FrameLayout.LayoutParams(
                                 FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
-                        view.removeOnLayoutChangeListener(this);
                     }
                 }
             });
@@ -182,12 +180,18 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
                     .scaleValue(padding[1]), ScaleUtils.scaleValue(padding[2]), ScaleUtils
                     .scaleValue(padding[3]));
         }
-        //动画
-        if (mAnimStyle != 0) window.setWindowAnimations(mAnimStyle);
-
-        if (isDimEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        else window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setAttributes(wlp);
+        //动画
+        if (mAnimStyle != 0) {
+            window.setWindowAnimations(mAnimStyle);
+        }
+
+        //背景灰暗
+        if (isDimEnabled) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }
     }
 
     @Override
