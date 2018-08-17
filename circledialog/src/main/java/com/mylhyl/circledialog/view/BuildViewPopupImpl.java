@@ -58,6 +58,9 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
 
         CardView cardView = buildCardView();
+        if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
+            cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
+        }
         mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
                 , mParams.dialogParams, mParams.rvItemListener);
         final View itemsViewView = mItemsView.getView();
@@ -76,25 +79,34 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom
                     , int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                mParams.dialogParams.absoluteWidth = itemsViewView.getWidth();
-                int arrowViewWidth = (int) (itemsViewView.getWidth() * ARROW_WEIGHT);
+                mParams.dialogParams.absoluteWidth = mRoot.getWidth();
+                int arrowViewSize = (int) (mParams.dialogParams.absoluteWidth * ARROW_WEIGHT);
                 LayoutParams arrowViewLayoutParams = (LayoutParams) arrowView.getLayoutParams();
                 if (arrowViewLayoutParams == null) {
-                    arrowViewLayoutParams = new LayoutParams(arrowViewWidth, arrowViewWidth);
+                    arrowViewLayoutParams = new LayoutParams(arrowViewSize, arrowViewSize);
                 } else {
-                    arrowViewLayoutParams.width = arrowViewWidth;
-                    arrowViewLayoutParams.height = arrowViewWidth;
+                    arrowViewLayoutParams.width = arrowViewSize;
+                    arrowViewLayoutParams.height = arrowViewSize;
                 }
-                if (bottom != 0 && oldBottom != 0
-                        && bottom == oldBottom) {
-                    if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER) {
-                        arrowViewLayoutParams.leftMargin = (mParams.dialogParams.absoluteWidth / 2) - (arrowViewWidth / 2);
-                    } else if (popupParams.arrowGravity == PopupParams.GRAVITY_RIGHT) {
-                        arrowViewLayoutParams.leftMargin = (int) (mParams.dialogParams.absoluteWidth * (1 - ARROW_WEIGHT)) - arrowViewWidth;
+                if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
+                    if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
+                        if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER) {
+                            arrowViewLayoutParams.topMargin = (mRoot.getHeight() / 2) - (arrowViewSize / 2);
+                        } else if (popupParams.arrowGravity == PopupParams.GRAVITY_BOTTOM) {
+                            arrowViewLayoutParams.topMargin = (int) (mRoot.getHeight() * (1 - ARROW_WEIGHT)) - arrowViewSize;
+                        } else {
+                            arrowViewLayoutParams.topMargin = arrowViewSize;
+                        }
                     } else {
-                        arrowViewLayoutParams.leftMargin = arrowViewWidth;
+                        if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER) {
+                            arrowViewLayoutParams.leftMargin = (mRoot.getWidth() / 2) - (arrowViewSize / 2);
+                        } else if (popupParams.arrowGravity == PopupParams.GRAVITY_RIGHT) {
+                            arrowViewLayoutParams.leftMargin = (int) (mRoot.getWidth() * (1 - ARROW_WEIGHT)) - arrowViewSize;
+                        } else {
+                            arrowViewLayoutParams.leftMargin = arrowViewSize;
+                        }
                     }
-                    itemsViewView.removeOnLayoutChangeListener(this);
+                    mRoot.removeOnLayoutChangeListener(this);
                 }
                 arrowView.setLayoutParams(arrowViewLayoutParams);
             }
