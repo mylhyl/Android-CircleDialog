@@ -54,7 +54,7 @@ public class ListViewActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_center).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.top_center).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new CircleDialog.Builder()

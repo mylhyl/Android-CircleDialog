@@ -763,6 +763,18 @@ public final class CircleDialog {
          */
         public Builder setPopupArrow(int direction, int gravity) {
             newPopupParams();
+            if (direction != Gravity.LEFT && direction != Gravity.TOP
+                    && direction != Gravity.RIGHT && direction != Gravity.BOTTOM) {
+                throw new IllegalArgumentException("setPopupArrow direction must is Gravity.LEFT or Gravity.TOP or Gravity.RIGHT or Gravity.BOTTOM");
+            }
+            if ((direction == Gravity.LEFT || direction == Gravity.RIGHT) && gravity != Gravity.TOP
+                    && gravity != Gravity.CENTER_VERTICAL && gravity != Gravity.BOTTOM) {
+                throw new IllegalArgumentException("after setPopupArrow direction is Gravity.LEFT or Gravity.RIGHT. gravity must is Gravity.TOP or Gravity.CENTER_VERTICAL or Gravity.BOTTOM");
+            }
+            if ((direction == Gravity.TOP || direction == Gravity.BOTTOM) && gravity != Gravity.LEFT
+                    && gravity != Gravity.CENTER_HORIZONTAL && gravity != Gravity.RIGHT) {
+                throw new IllegalArgumentException("after setPopupArrow direction is Gravity.TOP or Gravity.BOTTOM. gravity must is Gravity.LEFT or Gravity.CENTER_HORIZONTAL or Gravity.RIGHT");
+            }
             mCircleParams.popupParams.arrowDirection = direction;
             mCircleParams.popupParams.arrowGravity = gravity;
             return this;

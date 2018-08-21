@@ -48,7 +48,7 @@
             android:text="过滤"/>
 
         <Button
-            android:id="@+id/btn_center"
+            android:id="@+id/top_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
