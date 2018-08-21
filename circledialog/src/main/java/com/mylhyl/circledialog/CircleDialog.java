@@ -28,8 +28,6 @@ import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.LottieParams;
 import com.mylhyl.circledialog.params.PopupParams;
-import com.mylhyl.circledialog.params.PopupParams.ArrowDirection;
-import com.mylhyl.circledialog.params.PopupParams.ArrowGravity;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -749,19 +747,21 @@ public final class CircleDialog {
          * 设置背景三角箭头的方向和位置 默认右上
          *
          * @param direction 方向 默认上
-         *                  {@linkplain ArrowDirection#DIRECTION_LEFT DIRECTION_LEFT}
-         *                  {@linkplain ArrowDirection#DIRECTION_TOP DIRECTION_TOP}
-         *                  {@linkplain ArrowDirection#DIRECTION_RIGHT DIRECTION_RIGHT}
-         *                  {@linkplain ArrowDirection#DIRECTION_BOTTOM DIRECTION_BOTTOM}
+         *                  {@linkplain android.view.Gravity#LEFT }
+         *                  {@linkplain android.view.Gravity#TOP }
+         *                  {@linkplain android.view.Gravity#RIGHT }
+         *                  {@linkplain android.view.Gravity#BOTTOM }
          * @param gravity   位置 默认右
-         *                  {@linkplain ArrowGravity#GRAVITY_LEFT GRAVITY_LEFT}
-         *                  {@linkplain ArrowGravity#GRAVITY_TOP GRAVITY_TOP}
-         *                  {@linkplain ArrowGravity#GRAVITY_RIGHT GRAVITY_RIGHT}
-         *                  {@linkplain ArrowGravity#GRAVITY_BOTTOM GRAVITY_BOTTOM}
+         *                  {@linkplain android.view.Gravity#LEFT }
+         *                  {@linkplain android.view.Gravity#CENTER_HORIZONTAL }
+         *                  {@linkplain android.view.Gravity#RIGHT }
+         *                  <p>
+         *                  {@linkplain android.view.Gravity#TOP }
+         *                  {@linkplain android.view.Gravity#CENTER_VERTICAL }
+         *                  {@linkplain android.view.Gravity#BOTTOM }
          * @return this Builder
          */
-        public Builder setPopupArrow(@PopupParams.ArrowDirection int direction
-                , @PopupParams.ArrowGravity int gravity) {
+        public Builder setPopupArrow(int direction, int gravity) {
             newPopupParams();
             mCircleParams.popupParams.arrowDirection = direction;
             mCircleParams.popupParams.arrowGravity = gravity;

@@ -42,22 +42,12 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         mController = new Controller(getContext().getApplicationContext(), mParams, this);
         mController.createView();
         View view = mController.getView();
-        setAbsoluteWidth(mParams.dialogParams.absoluteWidth);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
-                && mController != null) {
-            setSoftInputMode();
-        }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         ScaleLayoutConfig.init(getContext().getApplicationContext());
         if (savedInstanceState != null) {
             mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
@@ -78,6 +68,11 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
         setY(dialogParams.yOff);
+        setAbsoluteWidth(mParams.dialogParams.absoluteWidth);
+        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
+                && mController != null) {
+            setSoftInputMode();
+        }
     }
 
     @Override
@@ -127,14 +122,16 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     void resizeSize() {
-        Dialog dialog = getDialog();
         int absoluteWidth = mParams.dialogParams.absoluteWidth;
-        if (dialog == null || absoluteWidth == 0) return;
+        if (mParams.popupParams == null || absoluteWidth == 0) return;
+        Dialog dialog = getDialog();
+        if (dialog == null) return;
 
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
         int avg = getDisplayMetrics().widthPixels / 3;
         wlp.width = absoluteWidth > avg ? absoluteWidth : avg;
+        wlp.x = mParams.dialogParams.xOff = 40;
         window.setAttributes(wlp);
     }
 

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -36,15 +37,18 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     @Override
     public void buildBodyView() {
         mParams.dialogParams.absoluteWidth = LinearLayout.LayoutParams.WRAP_CONTENT;
+        //对话框位置
+        mParams.dialogParams.gravity = Gravity.NO_GRAVITY;
 
         final PopupParams popupParams = mParams.popupParams;
         final int arrowDirection = popupParams.arrowDirection;
 
         LinearLayout rootLinearLayout = buildLinearLayout();
         //箭头在左右情况，布局改为水平
-        if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
+        if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
             rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         }
+
         mRoot = rootLinearLayout;
 
         final View arrowView = new View(mContext);
@@ -58,7 +62,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
 
         CardView cardView = buildCardView();
-        if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
+        if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
             cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
         }
         mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
@@ -66,8 +70,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         final View itemsViewView = mItemsView.getView();
         cardView.addView(itemsViewView);
 
-        if (arrowDirection == PopupParams.DIRECTION_LEFT
-                || arrowDirection == PopupParams.DIRECTION_TOP) {
+        if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.TOP) {
             mRoot.addView(arrowView);
             mRoot.addView(cardView);
         } else {
@@ -89,18 +92,18 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                     arrowViewLayoutParams.height = arrowViewSize;
                 }
                 if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
-                    if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
-                        if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER) {
+                    if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
+                        if (popupParams.arrowGravity == Gravity.CENTER_VERTICAL) {
                             arrowViewLayoutParams.topMargin = (mRoot.getHeight() / 2) - (arrowViewSize / 2);
-                        } else if (popupParams.arrowGravity == PopupParams.GRAVITY_BOTTOM) {
+                        } else if (popupParams.arrowGravity == Gravity.BOTTOM) {
                             arrowViewLayoutParams.topMargin = (int) (mRoot.getHeight() * (1 - ARROW_WEIGHT)) - arrowViewSize;
                         } else {
                             arrowViewLayoutParams.topMargin = arrowViewSize;
                         }
                     } else {
-                        if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER) {
+                        if (popupParams.arrowGravity == Gravity.CENTER_HORIZONTAL) {
                             arrowViewLayoutParams.leftMargin = (mRoot.getWidth() / 2) - (arrowViewSize / 2);
-                        } else if (popupParams.arrowGravity == PopupParams.GRAVITY_RIGHT) {
+                        } else if (popupParams.arrowGravity == Gravity.RIGHT) {
                             arrowViewLayoutParams.leftMargin = (int) (mRoot.getWidth() * (1 - ARROW_WEIGHT)) - arrowViewSize;
                         } else {
                             arrowViewLayoutParams.leftMargin = arrowViewSize;

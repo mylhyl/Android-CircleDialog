@@ -37,18 +37,100 @@
             android:layout_gravity="right"/>
     </android.support.v7.widget.Toolbar>
 
-    <Button
-        android:id="@+id/btn_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="显示"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ListView
-        android:id="@android:id/list"
+        <Button
+            android:id="@+id/top_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="过滤"/>
+
+        <Button
+            android:id="@+id/btn_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="显示"/>
+
+
+        <Button
+            android:id="@+id/top_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="功能"/>
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/left_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="左上"/>
+
+
+            <Button
+                android:id="@+id/left_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="左中"/>
+
+            <Button
+                android:id="@+id/left_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="左下"/>
+        </RelativeLayout>
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/right_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="右上"/>
+
+
+            <Button
+                android:id="@+id/right_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="右中"/>
+
+            <Button
+                android:id="@+id/right_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="右下"/>
+        </RelativeLayout>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -56,23 +138,21 @@
         android:background="#290808"/>
 
     <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tab_hk"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="香港"/>
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tab_zh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="珠海"/>
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tab_hn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="湖南"/>

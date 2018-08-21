@@ -1,9 +1,11 @@
 package com.mylhyl.circledialog.sample.list;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.sample.R;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -37,12 +38,193 @@ public class ListViewActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(new MyAdapter(this));
 
+        findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.TOP, Gravity.LEFT)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
         findViewById(R.id.btn_center).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new CircleDialog.Builder()
-//                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_RIGHT)
-                        .setPopupArrow(PopupParams.DIRECTION_RIGHT, PopupParams.GRAVITY_TOP)
+                        .setPopupArrow(Gravity.TOP, Gravity.CENTER_HORIZONTAL)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        findViewById(R.id.top_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.TOP, Gravity.RIGHT)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        TabLayout tabLayout = findViewById(R.id.tab);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        new CircleDialog.Builder()
+                                .setPopupArrow(Gravity.BOTTOM, Gravity.LEFT)
+                                .setPopup(new String[]{"1", "2", "3", "4"}
+                                        , new OnRvItemClickListener() {
+                                            @Override
+                                            public void onItemClick(View view, int position) {
+
+                                            }
+                                        })
+                                .show(getSupportFragmentManager());
+                        break;
+                    case 1:
+                        new CircleDialog.Builder()
+                                .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
+                                .setPopup(new String[]{"1", "2", "3", "4"}
+                                        , new OnRvItemClickListener() {
+                                            @Override
+                                            public void onItemClick(View view, int position) {
+
+                                            }
+                                        })
+                                .show(getSupportFragmentManager());
+                        break;
+                    case 2:
+                        new CircleDialog.Builder()
+                                .setPopupArrow(Gravity.BOTTOM, Gravity.RIGHT)
+                                .setPopup(new String[]{"1", "2", "3", "4"}
+                                        , new OnRvItemClickListener() {
+                                            @Override
+                                            public void onItemClick(View view, int position) {
+
+                                            }
+                                        })
+                                .show(getSupportFragmentManager());
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        findViewById(R.id.left_top).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.LEFT, Gravity.TOP)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        findViewById(R.id.left_center).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.LEFT, Gravity.CENTER_VERTICAL)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+        findViewById(R.id.left_bottom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.LEFT, Gravity.BOTTOM)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        findViewById(R.id.right_top).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.RIGHT, Gravity.TOP)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        findViewById(R.id.right_center).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.RIGHT, Gravity.CENTER_VERTICAL)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        findViewById(R.id.right_bottom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupArrow(Gravity.RIGHT, Gravity.BOTTOM)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
