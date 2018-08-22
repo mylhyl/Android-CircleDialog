@@ -121,15 +121,86 @@ public class ListViewActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.bottom_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupAnchor(v)
+                        .setPopupArrow(Gravity.BOTTOM, Gravity.LEFT)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+        findViewById(R.id.bottom_center).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupAnchor(v)
+                        .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
+        findViewById(R.id.bottom_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setPopupAnchor(v)
+                        .setPopupArrow(Gravity.BOTTOM, Gravity.RIGHT)
+                        .setPopup(new String[]{"1", "2", "3", "4"}
+                                , new OnRvItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+
+                                    }
+                                })
+                        .show(getSupportFragmentManager());
+            }
+        });
+
         TabLayout tabLayout = findViewById(R.id.tab);
+        TextView tabItemHK = new TextView(this);
+        tabItemHK.setLayoutParams(new TabLayout.LayoutParams(TabLayout.LayoutParams.MATCH_PARENT
+                , TabLayout.LayoutParams.MATCH_PARENT));
+        tabItemHK.setGravity(Gravity.CENTER);
+        tabItemHK.setText("香港");
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tabItemHK));
+
+        TextView tabItemZH = new TextView(this);
+        tabItemZH.setLayoutParams(new TabLayout.LayoutParams(TabLayout.LayoutParams.MATCH_PARENT
+                , TabLayout.LayoutParams.MATCH_PARENT));
+        tabItemZH.setGravity(Gravity.CENTER);
+        tabItemZH.setText("珠海");
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tabItemZH));
+
+        TextView tabItemHN = new TextView(this);
+        tabItemHN.setLayoutParams(new TabLayout.LayoutParams(TabLayout.LayoutParams.MATCH_PARENT
+                , TabLayout.LayoutParams.MATCH_PARENT));
+        tabItemHN.setGravity(Gravity.CENTER);
+        tabItemHN.setText("湖南");
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tabItemHN));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
                         new CircleDialog.Builder()
-                                .setPopupAnchor(findViewById(R.id.tab_hk))
-                                .setPopupArrow(Gravity.BOTTOM, Gravity.LEFT)
+                                .setPopupAnchor(tabItemHK)
+                                .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
                                 .setPopup(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
@@ -141,7 +212,7 @@ public class ListViewActivity extends AppCompatActivity {
                         break;
                     case 1:
                         new CircleDialog.Builder()
-                                .setPopupAnchor(findViewById(R.id.tab_zh))
+                                .setPopupAnchor(tabItemZH)
                                 .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
                                 .setPopup(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
@@ -154,8 +225,8 @@ public class ListViewActivity extends AppCompatActivity {
                         break;
                     case 2:
                         new CircleDialog.Builder()
-                                .setPopupAnchor(findViewById(R.id.tab_hn))
-                                .setPopupArrow(Gravity.BOTTOM, Gravity.RIGHT)
+                                .setPopupAnchor(tabItemHN)
+                                .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
                                 .setPopup(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
@@ -311,11 +382,17 @@ public class ListViewActivity extends AppCompatActivity {
         return true;
     }
 
-    public void showMyDialog(String string) {
+    public void showMyDialog(View anchor) {
         new CircleDialog.Builder()
-                .setTitle("标题")
-                .setText(string)
-                .setPositive("确定", null)
+                .setPopupAnchor(anchor)
+                .setPopupArrow(Gravity.TOP, Gravity.CENTER_HORIZONTAL)
+                .setPopup(new String[]{"1", "2", "3", "4"}
+                        , new OnRvItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                            }
+                        })
                 .show(getSupportFragmentManager());
     }
 
@@ -352,7 +429,7 @@ public class ListViewActivity extends AppCompatActivity {
                     parent, false);
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             textView.setText(getItem(position));
-            textView.setOnClickListener(v -> activity.showMyDialog(((TextView) v).getText().toString()));
+            textView.setOnClickListener(v -> activity.showMyDialog(view));
             return view;
         }
     }

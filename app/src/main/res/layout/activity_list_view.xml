@@ -153,6 +153,31 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bottom_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下左"/>
+
+        <Button
+            android:id="@+id/bottom_center"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="下中"/>
+
+        <Button
+            android:id="@+id/bottom_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下右"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -162,24 +187,5 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/tab_hk"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="香港"/>
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/tab_zh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="珠海"/>
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/tab_hn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="湖南"/>
-    </android.support.design.widget.TabLayout>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -162,10 +162,12 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         } else if (arrowGravity == Gravity.CENTER_VERTICAL) {
             dialogY = -1 * (screenHeight / 2 - location[1]) - mStatusBarHeight / 2 + view.getHeight() / 2;
         } else {
-            if (arrowGravity == Gravity.LEFT || arrowGravity == Gravity.RIGHT || arrowGravity == Gravity.CENTER_HORIZONTAL) {
+            if (arrowDirection == Gravity.TOP
+                    && (arrowGravity == Gravity.LEFT || arrowGravity == Gravity.RIGHT
+                    || arrowGravity == Gravity.CENTER_HORIZONTAL)) {
                 dialogY = location[1] - mStatusBarHeight + view.getHeight();
             } else {
-                dialogY = 0;
+                dialogY = screenHeight - location[1];
             }
         }
         dialogParams.yOff = dialogY;
