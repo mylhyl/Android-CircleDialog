@@ -8,12 +8,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +46,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private static final String SAVED_Y = "circle:baseY";
     private static final String SAVED_ABSOLUTE_WIDTH = "circle:baseAbsoluteWidth";
 
+    private SystemBarConfig mSystemBarConfig;
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
     private boolean mCanceledBack = true;//是否返回键关闭
@@ -86,8 +85,8 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
                 @Override
                 public void onGlobalLayout() {
                     int height = view.getHeight();
-                    DisplayMetrics dm = getDisplayMetrics();
-                    int maxHeight = (int) (dm.heightPixels * mMaxHeight);
+                    int screenHeight = mSystemBarConfig.getScreenHeight();
+                    int maxHeight = (int) (screenHeight * mMaxHeight);
                     if (height > maxHeight) {
                         view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         view.setLayoutParams(new FrameLayout.LayoutParams(
@@ -98,17 +97,10 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         }
     }
 
-    @NonNull
-    public DisplayMetrics getDisplayMetrics() {
-        //获取屏幕宽
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return dm;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSystemBarConfig = new SystemBarConfig(getActivity());
         //设置 无标题 无边框
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         if (savedInstanceState != null) {
@@ -163,9 +155,9 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         Window window = dialog.getWindow();
         window.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams wlp = window.getAttributes();
-        DisplayMetrics dm = getDisplayMetrics();
+        int screenWidth = mSystemBarConfig.getScreenWidth();
         if (mAbsoluteWidth == 0) {
-            wlp.width = (int) (dm.widthPixels * mWidth);//宽度按屏幕大小的百分比设置
+            wlp.width = (int) (screenWidth * mWidth);//宽度按屏幕大小的百分比设置
         } else {
             wlp.width = mAbsoluteWidth;
         }
@@ -343,5 +335,9 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     protected void setSoftInputMode() {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    public SystemBarConfig getSystemBarConfig() {
+        return mSystemBarConfig;
     }
 }

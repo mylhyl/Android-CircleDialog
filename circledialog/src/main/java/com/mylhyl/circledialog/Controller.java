@@ -42,9 +42,9 @@ public class Controller {
     private CircleParams mParams;
     private BuildView mCreateView;
     private ButtonHandler mHandler;
-    private AbsBaseCircleDialog mDialog;
+    private BaseCircleDialog mDialog;
 
-    public Controller(Context context, CircleParams params, AbsBaseCircleDialog dialog) {
+    public Controller(Context context, CircleParams params, BaseCircleDialog dialog) {
         this.mContext = context;
         this.mParams = params;
         this.mDialog = dialog;
@@ -54,7 +54,9 @@ public class Controller {
     public void createView() {
         //popup
         if (mParams.popupParams != null) {
-            mCreateView = new BuildViewPopupImpl(mContext,mParams,mDialog.getDisplayMetrics());
+            SystemBarConfig systemBarConfig = mDialog.getSystemBarConfig();
+            mCreateView = new BuildViewPopupImpl(mContext, mParams, mDialog
+                    , systemBarConfig.getScreenSize(), systemBarConfig.getStatusBarHeight());
             mCreateView.buildBodyView();
             final ItemsView itemsView = mCreateView.getBodyView();
             itemsView.regOnItemClickListener(new OnRvItemClickListener() {
@@ -199,6 +201,10 @@ public class Controller {
          * @param which 点击事件对应的id，如果是列表中的item 则是对应的下标
          */
         void onClick(View view, int which);
+    }
+
+    public interface OnDialogLocationListener {
+        void dialogAtLocation(int x, int y);
     }
 
     static class ButtonHandler extends Handler {

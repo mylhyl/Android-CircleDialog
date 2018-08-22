@@ -20,7 +20,9 @@ import com.mylhyl.circledialog.scale.ScaleLayoutConfig;
  * Created by hupei on 2017/3/29.
  */
 
-public final class BaseCircleDialog extends AbsBaseCircleDialog implements DialogInterface.OnShowListener {
+public final class BaseCircleDialog extends AbsBaseCircleDialog implements DialogInterface.OnShowListener
+        , Controller.OnDialogLocationListener {
+
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
     private Controller mController;
@@ -48,7 +50,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ScaleLayoutConfig.init(getContext().getApplicationContext());
+
         if (savedInstanceState != null) {
             mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
         }
@@ -68,11 +70,17 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
         setY(dialogParams.yOff);
-        setAbsoluteWidth(mParams.dialogParams.absoluteWidth);
+        setAbsoluteWidth(dialogParams.absoluteWidth);
         if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
                 && mController != null) {
             setSoftInputMode();
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ScaleLayoutConfig.init(getContext().getApplicationContext());
     }
 
     @Override
@@ -129,13 +137,27 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
-        int avg = getDisplayMetrics().widthPixels / 3;
+        int avg = getSystemBarConfig().getScreenWidth() / 3;
         wlp.width = absoluteWidth > avg ? absoluteWidth : avg;
-        wlp.x = mParams.dialogParams.xOff = 40;
         window.setAttributes(wlp);
     }
 
     public void refreshView() {
         mController.refreshView();
+    }
+
+    @Override
+    public void dialogAtLocation(int x, int y) {
+        Dialog dialog = getDialog();
+        if (dialog == null) return;
+
+        setX(x);
+        setY(y);
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.x = x;
+        wlp.y = y;
+        window.setAttributes(wlp);
     }
 }

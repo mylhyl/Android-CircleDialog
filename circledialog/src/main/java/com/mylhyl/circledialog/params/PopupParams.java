@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.view.Gravity;
+import android.view.View;
 
 /**
  * Created by hupei on 2018/8/9 20:04.
@@ -25,7 +26,7 @@ public class PopupParams extends ItemsParams {
      * {@linkplain android.view.Gravity#RIGHT }
      * {@linkplain android.view.Gravity#BOTTOM }
      */
-    public int arrowDirection = Gravity.TOP;
+    public int arrowDirection;
     /**
      * 三角的位置
      * {@linkplain android.view.Gravity#LEFT }
@@ -36,7 +37,9 @@ public class PopupParams extends ItemsParams {
      * {@linkplain android.view.Gravity#CENTER_VERTICAL }
      * {@linkplain android.view.Gravity#BOTTOM }
      */
-    public int arrowGravity = Gravity.RIGHT;
+    public int arrowGravity;
+    public int arrowOffSet;//三角偏移量
+    public View anchor;
 
     public PopupParams() {
     }

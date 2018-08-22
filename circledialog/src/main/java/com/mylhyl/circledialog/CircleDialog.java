@@ -744,14 +744,14 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置背景三角箭头的方向和位置 默认右上
+         * 设置背景三角箭头的方向和位置
          *
-         * @param direction 方向 默认上
+         * @param direction 方向
          *                  {@linkplain android.view.Gravity#LEFT }
          *                  {@linkplain android.view.Gravity#TOP }
          *                  {@linkplain android.view.Gravity#RIGHT }
          *                  {@linkplain android.view.Gravity#BOTTOM }
-         * @param gravity   位置 默认右
+         * @param gravity   位置
          *                  {@linkplain android.view.Gravity#LEFT }
          *                  {@linkplain android.view.Gravity#CENTER_HORIZONTAL }
          *                  {@linkplain android.view.Gravity#RIGHT }
@@ -762,7 +762,6 @@ public final class CircleDialog {
          * @return this Builder
          */
         public Builder setPopupArrow(int direction, int gravity) {
-            newPopupParams();
             if (direction != Gravity.LEFT && direction != Gravity.TOP
                     && direction != Gravity.RIGHT && direction != Gravity.BOTTOM) {
                 throw new IllegalArgumentException("setPopupArrow direction must is Gravity.LEFT or Gravity.TOP or Gravity.RIGHT or Gravity.BOTTOM");
@@ -775,8 +774,10 @@ public final class CircleDialog {
                     && gravity != Gravity.CENTER_HORIZONTAL && gravity != Gravity.RIGHT) {
                 throw new IllegalArgumentException("after setPopupArrow direction is Gravity.TOP or Gravity.BOTTOM. gravity must is Gravity.LEFT or Gravity.CENTER_HORIZONTAL or Gravity.RIGHT");
             }
-            mCircleParams.popupParams.arrowDirection = direction;
-            mCircleParams.popupParams.arrowGravity = gravity;
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.arrowDirection = direction;
+            params.arrowGravity = gravity;
             return this;
         }
 
@@ -786,10 +787,15 @@ public final class CircleDialog {
             }
         }
 
+        public Builder setPopupAnchor(View anchor) {
+            newPopupParams();
+            mCircleParams.popupParams.anchor = anchor;
+            return this;
+        }
+
         public Builder setPopup(@NonNull Object items, OnRvItemClickListener listener) {
             newPopupParams();
-            PopupParams params = mCircleParams.popupParams;
-            params.items = items;
+            mCircleParams.popupParams.items = items;
             mCircleParams.rvItemListener = listener;
             return this;
         }
