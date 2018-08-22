@@ -93,33 +93,29 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                 mParams.dialogParams.absoluteWidth = mRoot.getWidth();
                 int arrowViewSize = (int) (mParams.dialogParams.absoluteWidth * ARROW_WEIGHT);
                 LayoutParams arrowViewLayoutParams = (LayoutParams) arrowView.getLayoutParams();
-                if (arrowViewLayoutParams == null) {
-                    arrowViewLayoutParams = new LayoutParams(arrowViewSize, arrowViewSize);
-                } else {
-                    arrowViewLayoutParams.width = arrowViewSize;
-                    arrowViewLayoutParams.height = arrowViewSize;
-                }
+                arrowViewLayoutParams.width = arrowViewSize;
+                arrowViewLayoutParams.height = arrowViewSize;
+
                 if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
                     popupParams.arrowOffSet = arrowViewSize;
                     if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
+                        int topMargin = popupParams.arrowOffSet;
                         if (popupParams.arrowGravity == Gravity.CENTER_VERTICAL) {
-                            popupParams.arrowOffSet = arrowViewSize / 2;
-                            arrowViewLayoutParams.topMargin = (mRoot.getHeight() / 2) - popupParams.arrowOffSet;
+                            popupParams.arrowOffSet = (mRoot.getHeight() / 2);
+                            topMargin = popupParams.arrowOffSet - arrowViewSize / 2;
                         } else if (popupParams.arrowGravity == Gravity.BOTTOM) {
-                            popupParams.arrowOffSet = 0;
-                            arrowViewLayoutParams.topMargin = (int) (mRoot.getHeight() * (1 - ARROW_WEIGHT)) - popupParams.arrowOffSet;
-                        } else {
-                            arrowViewLayoutParams.topMargin = popupParams.arrowOffSet;
+                            topMargin = mRoot.getHeight() - popupParams.arrowOffSet * 2;
                         }
+                        arrowViewLayoutParams.topMargin = topMargin;
                     } else {
+                        int leftMargin = popupParams.arrowOffSet;
                         if (popupParams.arrowGravity == Gravity.CENTER_HORIZONTAL) {
-                            popupParams.arrowOffSet = arrowViewSize / 2;
-                            arrowViewLayoutParams.leftMargin = (mRoot.getWidth() / 2) - popupParams.arrowOffSet;
+                            popupParams.arrowOffSet = (mRoot.getWidth() / 2);
+                            leftMargin = popupParams.arrowOffSet - arrowViewSize / 2;
                         } else if (popupParams.arrowGravity == Gravity.RIGHT) {
-                            arrowViewLayoutParams.leftMargin = (int) (mRoot.getWidth() * (1 - ARROW_WEIGHT)) - popupParams.arrowOffSet;
-                        } else {
-                            arrowViewLayoutParams.leftMargin = popupParams.arrowOffSet;
+                            leftMargin = mRoot.getWidth() - popupParams.arrowOffSet * 2;
                         }
+                        arrowViewLayoutParams.leftMargin = leftMargin;
                     }
                     mRoot.removeOnLayoutChangeListener(this);
                     resizeDialogSize(mParams.dialogParams, arrowDirection, arrowGravity
@@ -139,35 +135,38 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
     void resizeDialogSize(DialogParams dialogParams, int arrowDirection, int arrowGravity
             , int arrowViewSize, int arrowOffSet) {
-
         View view = mAnchorView;
         int[] location = new int[2];
-        view.getLocationInWindow(location);
-        int width = mScreenSize[0];
+        view.getLocationOnScreen(location);
+        int screenWidth = mScreenSize[0];
 
         int dialogX = arrowDirection == Gravity.TOP || arrowDirection == Gravity.BOTTOM
                 ? view.getWidth() / 2 : view.getWidth();
         if (arrowGravity == Gravity.LEFT) {
-            dialogX += location[0];
+            dialogX += location[0] - arrowViewSize / 2 - arrowOffSet;
         } else if (arrowGravity == Gravity.RIGHT) {
-            dialogX += width - location[0] - view.getWidth();
+            dialogX = screenWidth - location[0] - dialogX - arrowViewSize / 2 - arrowOffSet;
         } else if (arrowGravity == Gravity.CENTER_HORIZONTAL) {
-            dialogX = 0;
+            dialogX = -1 * (screenWidth / 2 - location[0]) + dialogX;
         } else {
             dialogX += 0;
         }
         dialogParams.xOff = dialogX;
 
-        int height = mScreenSize[1];
+        int screenHeight = mScreenSize[1];
         int dialogY;
-        if (arrowGravity == Gravity.LEFT || arrowGravity == Gravity.RIGHT) {
-            dialogY = location[1] - view.getHeight() / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.TOP) {
-            dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - arrowViewSize/2 - arrowOffSet;
+        if (arrowGravity == Gravity.TOP) {
+            dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - arrowViewSize / 2 - arrowOffSet;
         } else if (arrowGravity == Gravity.BOTTOM) {
-            dialogY = height - location[1] - view.getHeight() - arrowOffSet / 2;
+            dialogY = screenHeight - location[1] - view.getHeight() / 2 - arrowViewSize / 2 - arrowOffSet;
+        } else if (arrowGravity == Gravity.CENTER_VERTICAL) {
+            dialogY = -1 * (screenHeight / 2 - location[1]) - mStatusBarHeight / 2 + view.getHeight() / 2;
         } else {
-            dialogY = height / 2 - location[1] + view.getHeight() - arrowOffSet / 2;
+            if (arrowGravity == Gravity.LEFT || arrowGravity == Gravity.RIGHT || arrowGravity == Gravity.CENTER_HORIZONTAL) {
+                dialogY = location[1] - mStatusBarHeight + view.getHeight();
+            } else {
+                dialogY = 0;
+            }
         }
         dialogParams.yOff = dialogY;
 
