@@ -9,19 +9,17 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import com.mylhyl.circledialog.params.PopupParams;
+import android.view.Gravity;
 
 /**
  * Created by hupei on 2018/8/3 8:58.
  */
 public class TriangleArrowDrawable extends Drawable {
 
-    private @PopupParams.ArrowDirection
-    final int arrowDirection;
+    private final int arrowDirection;
     private final int bgColor;
 
-    public TriangleArrowDrawable(@PopupParams.ArrowDirection int arrowDirection, int bgColor) {
+    public TriangleArrowDrawable(int arrowDirection, int bgColor) {
         this.arrowDirection = arrowDirection;
         this.bgColor = bgColor;
     }
@@ -40,22 +38,22 @@ public class TriangleArrowDrawable extends Drawable {
         Rect bound = getBounds();
         Path path = new Path();
         switch (arrowDirection) {
-            case PopupParams.DIRECTION_LEFT:
+            case Gravity.LEFT:
                 path.moveTo(bound.right / 2, bound.bottom / 2);
                 path.lineTo(bound.right, 0);
                 path.lineTo(bound.right, bound.bottom);
                 break;
-            case PopupParams.DIRECTION_TOP:
+            case Gravity.TOP:
                 path.moveTo(bound.right / 2, bound.bottom / 2);
                 path.lineTo(0, bound.bottom);
                 path.lineTo(bound.right, bound.bottom);
                 break;
-            case PopupParams.DIRECTION_RIGHT:
+            case Gravity.RIGHT:
                 path.moveTo(bound.right / 2, bound.bottom / 2);
                 path.lineTo(0, 0);
                 path.lineTo(0, bound.bottom);
                 break;
-            case PopupParams.DIRECTION_BOTTOM:
+            case Gravity.BOTTOM:
                 path.moveTo(bound.right / 2, bound.bottom / 2);
                 path.lineTo(0, 0);
                 path.lineTo(bound.right, 0);
