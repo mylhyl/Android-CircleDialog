@@ -43,7 +43,15 @@ public class PopupParams extends ItemsParams {
     public @TriangleGravity
     int triangleGravity;
     public int triangleOffSet;//三角偏移量
-    public View anchor;
+    /**
+     * 三角大小 [width,height]
+     */
+    public int[] triangleSize;
+    /**
+     * 三角显示
+     */
+    public boolean triangleShow = true;
+    public View anchorView;
 
     public PopupParams() {
     }
@@ -51,6 +59,8 @@ public class PopupParams extends ItemsParams {
     protected PopupParams(Parcel in) {
         super(in);
         this.triangleGravity = in.readInt();
+        this.triangleOffSet = in.readInt();
+        this.triangleSize = in.createIntArray();
     }
 
     @Override
@@ -62,6 +72,8 @@ public class PopupParams extends ItemsParams {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.triangleGravity);
+        dest.writeInt(this.triangleOffSet);
+        dest.writeIntArray(this.triangleSize);
     }
 
     @IntDef({TRIANGLE_LEFT_TOP, TRIANGLE_LEFT_BOTTOM, TRIANGLE_LEFT_CENTER

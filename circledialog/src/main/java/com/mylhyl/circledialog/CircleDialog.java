@@ -743,10 +743,11 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopupTriangleGravity(@PopupParams.TriangleGravity int gravity) {
+        public Builder setPopup(View anchorView, @PopupParams.TriangleGravity int triangleGravity) {
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;
-            params.triangleGravity = gravity;
+            params.anchorView = anchorView;
+            params.triangleGravity = triangleGravity;
             return this;
         }
 
@@ -756,20 +757,32 @@ public final class CircleDialog {
             }
         }
 
-        public Builder setPopupAnchor(View anchor) {
+        public Builder setPopupTriangleSize(int width, int height) {
             newPopupParams();
-            mCircleParams.popupParams.anchor = anchor;
+            mCircleParams.popupParams.triangleSize = new int[]{width, height};
             return this;
         }
 
-        public Builder setPopup(@NonNull Object items, OnRvItemClickListener listener) {
+        /**
+         * 显示三角 默认显示
+         *
+         * @param show false隐藏
+         * @return this Builder
+         */
+        public Builder setPopupTriangleShow(boolean show) {
+            newPopupParams();
+            mCircleParams.popupParams.triangleShow = show;
+            return this;
+        }
+
+        public Builder setPopupItems(@NonNull Object items, OnRvItemClickListener listener) {
             newPopupParams();
             mCircleParams.popupParams.items = items;
             mCircleParams.rvItemListener = listener;
             return this;
         }
 
-        public Builder setPopup(@NonNull Object items, RecyclerView.LayoutManager layoutManager
+        public Builder setPopupItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
                 , OnRvItemClickListener listener) {
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;
@@ -779,7 +792,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopup(@NonNull RecyclerView.Adapter adapter
+        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter
                 , RecyclerView.LayoutManager layoutManager) {
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;
@@ -788,7 +801,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopup(@NonNull RecyclerView.Adapter adapter
+        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter
                 , RecyclerView.LayoutManager layoutManager
                 , RecyclerView.ItemDecoration itemDecoration) {
             newPopupParams();

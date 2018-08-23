@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 0:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .setWidth(0.5f)
                         .setText("提示框")
                         .setPositive("确定", null)
                         .setOnShowListener(dialog ->

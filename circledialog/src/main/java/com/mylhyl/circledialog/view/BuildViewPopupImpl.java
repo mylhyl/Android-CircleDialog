@@ -45,10 +45,10 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private static final int GRAVITY_RIGHT_CENTER = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
 
     private static final float TRIANGLE_WEIGHT = 0.1f;
+    private View mTriangleView;
     private ItemsView mItemsView;
     private int mTriangleDirection;
     private int mTriangleGravity;
-    private View mTriangleView;
     private int[] mScreenSize;
     private int mStatusBarHeight;
     private Controller.OnDialogLocationListener mResizeSizeListener;
@@ -72,7 +72,6 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             mParams.dialogParams.width = LayoutParams.WRAP_CONTENT;
 
         final PopupParams popupParams = mParams.popupParams;
-        mTriangleView = popupParams.anchor;
 
         switch (popupParams.triangleGravity) {
             case TRIANGLE_LEFT_TOP:
@@ -144,17 +143,17 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
 
         mRoot = rootLinearLayout;
-
-        final View triangleView = new View(mContext);
-        int backgroundColor = popupParams.backgroundColor != 0
-                ? popupParams.backgroundColor : mParams.dialogParams.backgroundColor;
-        Drawable triangleDrawable = new TriangleDrawable(mTriangleDirection, backgroundColor);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            triangleView.setBackground(triangleDrawable);
-        } else {
-            triangleView.setBackgroundDrawable(triangleDrawable);
+        if (popupParams.triangleShow) {
+            mTriangleView = new View(mContext);
+            int backgroundColor = popupParams.backgroundColor != 0
+                    ? popupParams.backgroundColor : mParams.dialogParams.backgroundColor;
+            Drawable triangleDrawable = new TriangleDrawable(mTriangleDirection, backgroundColor);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mTriangleView.setBackground(triangleDrawable);
+            } else {
+                mTriangleView.setBackgroundDrawable(triangleDrawable);
+            }
         }
-
         CardView cardView = buildCardView();
         if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
             cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
@@ -165,11 +164,15 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         cardView.addView(itemsViewView);
 
         if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.TOP) {
-            mRoot.addView(triangleView);
+            if (popupParams.triangleShow) {
+                mRoot.addView(mTriangleView);
+            }
             mRoot.addView(cardView);
         } else {
             mRoot.addView(cardView);
-            mRoot.addView(triangleView);
+            if (popupParams.triangleShow) {
+                mRoot.addView(mTriangleView);
+            }
         }
         mRoot.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -177,57 +180,69 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                     , int oldLeft, int oldTop, int oldRight, int oldBottom) {
 
                 if (mParams.dialogParams.width == LayoutParams.WRAP_CONTENT
-                        || mParams.dialogParams.width != LayoutParams.MATCH_PARENT)
+                        || mParams.dialogParams.width != LayoutParams.MATCH_PARENT) {
                     mParams.dialogParams.width = mRoot.getWidth();
-
-                int triangleSize = (int) (mParams.dialogParams.width * TRIANGLE_WEIGHT);
-                LayoutParams triangleViewLayoutParams = (LayoutParams) triangleView.getLayoutParams();
-                triangleViewLayoutParams.width = triangleSize;
-                triangleViewLayoutParams.height = triangleSize;
-
-                if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
-                    popupParams.triangleOffSet = triangleSize;
-                    if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
-                        int topMargin = popupParams.triangleOffSet;
-                        if (mTriangleGravity == Gravity.CENTER_VERTICAL) {
-                            popupParams.triangleOffSet = (mRoot.getHeight() / 2);
-                            topMargin = popupParams.triangleOffSet - triangleSize / 2;
-                        } else if (mTriangleGravity == Gravity.BOTTOM) {
-                            topMargin = mRoot.getHeight() - popupParams.triangleOffSet * 2;
-                        }
-                        triangleViewLayoutParams.topMargin = topMargin;
-                    } else {
-                        int leftMargin = popupParams.triangleOffSet;
-                        if (mTriangleGravity == Gravity.CENTER_HORIZONTAL) {
-                            popupParams.triangleOffSet = (mRoot.getWidth() / 2);
-                            leftMargin = popupParams.triangleOffSet - triangleSize / 2;
-                        } else if (mTriangleGravity == Gravity.RIGHT) {
-                            leftMargin = mRoot.getWidth() - popupParams.triangleOffSet * 2;
-                        }
-                        triangleViewLayoutParams.leftMargin = leftMargin;
-                    }
-                    mRoot.removeOnLayoutChangeListener(this);
-                    resizeDialogSize(mParams.dialogParams, mTriangleDirection, mTriangleGravity
-                            , triangleSize, popupParams.triangleOffSet);
                 }
-                triangleView.setLayoutParams(triangleViewLayoutParams);
+                handleAtLocation(popupParams, bottom, oldBottom, this);
             }
         });
     }
 
-    @Override
-    public void refreshContent() {
-        if (mItemsView != null) {
-            mItemsView.refreshItems();
+    private void handleAtLocation(PopupParams popupParams, int bottom, int oldBottom
+            , View.OnLayoutChangeListener layoutChangeListener) {
+        if (popupParams.triangleShow && mTriangleView != null) {
+            final LayoutParams triangleViewLayoutParams = (LayoutParams) mTriangleView.getLayoutParams();
+            if (popupParams.triangleSize == null) {
+                int triangleWidth = (int) (mParams.dialogParams.width * TRIANGLE_WEIGHT);
+                triangleViewLayoutParams.width = triangleWidth;
+                triangleViewLayoutParams.height = triangleWidth;
+            } else {
+                int[] triangleSize = popupParams.triangleSize;
+                triangleViewLayoutParams.width = triangleSize[0];
+                triangleViewLayoutParams.height = triangleSize[1];
+            }
+
+            if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
+                popupParams.triangleOffSet = triangleViewLayoutParams.width;
+                if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
+                    int topMargin = popupParams.triangleOffSet;
+                    if (mTriangleGravity == Gravity.CENTER_VERTICAL) {
+                        popupParams.triangleOffSet = (mRoot.getHeight() / 2);
+                        topMargin = popupParams.triangleOffSet - triangleViewLayoutParams.width / 2;
+                    } else if (mTriangleGravity == Gravity.BOTTOM) {
+                        topMargin = mRoot.getHeight() - popupParams.triangleOffSet * 2;
+                    }
+                    triangleViewLayoutParams.topMargin = topMargin;
+                } else {
+                    int leftMargin = popupParams.triangleOffSet;
+                    if (mTriangleGravity == Gravity.CENTER_HORIZONTAL) {
+                        popupParams.triangleOffSet = (mRoot.getWidth() / 2);
+                        leftMargin = popupParams.triangleOffSet - triangleViewLayoutParams.width / 2;
+                    } else if (mTriangleGravity == Gravity.RIGHT) {
+                        leftMargin = mRoot.getWidth() - popupParams.triangleOffSet * 2;
+                    }
+                    triangleViewLayoutParams.leftMargin = leftMargin;
+                }
+                mRoot.removeOnLayoutChangeListener(layoutChangeListener);
+                resizeDialogSize(mParams.dialogParams, popupParams.anchorView
+                        , mTriangleDirection, mTriangleGravity, popupParams.triangleOffSet
+                        , triangleViewLayoutParams.width);
+            }
+            mTriangleView.setLayoutParams(triangleViewLayoutParams);
+        } else {
+            mRoot.removeOnLayoutChangeListener(layoutChangeListener);
+            resizeDialogSize(mParams.dialogParams, popupParams.anchorView
+                    , mTriangleDirection, mTriangleGravity, popupParams.triangleOffSet, 0);
         }
     }
 
-    void resizeDialogSize(DialogParams dialogParams, int triangleDirection, int triangleGravity
-            , int triangleSize, int triangleOffSet) {
-        View view = mTriangleView;
-        int[] location = new int[2];
+    private void resizeDialogSize(DialogParams dialogParams, View anchorView
+            , int triangleDirection, int triangleGravity, int triangleOffSet
+            , int triangleSize) {
+        final View view = anchorView;
+        final int[] location = new int[2];
         view.getLocationOnScreen(location);
-        int screenWidth = mScreenSize[0];
+        final int screenWidth = mScreenSize[0];
 
         int dialogX = triangleDirection == Gravity.TOP || triangleDirection == Gravity.BOTTOM
                 ? view.getWidth() / 2 : view.getWidth();
@@ -242,7 +257,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
         dialogParams.xOff = dialogX;
 
-        int screenHeight = mScreenSize[1];
+        final int screenHeight = mScreenSize[1];
         int dialogY;
         if (triangleGravity == Gravity.TOP) {
             dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - triangleSize / 2 - triangleOffSet;
@@ -263,6 +278,13 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         if (mResizeSizeListener != null) {
             mResizeSizeListener.dialogAtLocation(dialogParams.xOff, dialogParams.yOff);
+        }
+    }
+
+    @Override
+    public void refreshContent() {
+        if (mItemsView != null) {
+            mItemsView.refreshItems();
         }
     }
 }
