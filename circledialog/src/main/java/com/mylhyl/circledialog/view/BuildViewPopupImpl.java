@@ -68,7 +68,10 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
     @Override
     public void buildBodyView() {
-        mParams.dialogParams.absoluteWidth = LinearLayout.LayoutParams.WRAP_CONTENT;
+        if (mParams.dialogParams.width > 0f && mParams.dialogParams.width < 1f
+                && mParams.dialogParams.absoluteWidth == 0)
+            mParams.dialogParams.absoluteWidth = LayoutParams.WRAP_CONTENT;
+
         final PopupParams popupParams = mParams.popupParams;
         mAnchorView = popupParams.anchor;
 
@@ -173,7 +176,11 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom
                     , int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                mParams.dialogParams.absoluteWidth = mRoot.getWidth();
+
+                if (mParams.dialogParams.absoluteWidth == LayoutParams.WRAP_CONTENT
+                        || mParams.dialogParams.absoluteWidth != LayoutParams.MATCH_PARENT)
+                    mParams.dialogParams.absoluteWidth = mRoot.getWidth();
+
                 int arrowViewSize = (int) (mParams.dialogParams.absoluteWidth * ARROW_WEIGHT);
                 LayoutParams arrowViewLayoutParams = (LayoutParams) arrowView.getLayoutParams();
                 arrowViewLayoutParams.width = arrowViewSize;

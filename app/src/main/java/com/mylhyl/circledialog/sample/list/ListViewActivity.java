@@ -43,6 +43,7 @@ public class ListViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new CircleDialog.Builder()
+                        .setWidth(1f)
                         .setPopupAnchor(v)
                         .setPopupArrowGravity(PopupParams.ARROW_TOP_LEFT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
