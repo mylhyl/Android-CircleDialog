@@ -747,32 +747,35 @@ public final class CircleDialog {
          * 设置背景三角箭头的方向和位置
          *
          * @param direction 方向
-         *                  {@linkplain android.view.Gravity#LEFT }
-         *                  {@linkplain android.view.Gravity#TOP }
-         *                  {@linkplain android.view.Gravity#RIGHT }
-         *                  {@linkplain android.view.Gravity#BOTTOM }
+         *                  {@linkplain PopupParams.ArrowDirection#DIRECTION_LEFT DIRECTION_LEFT}
+         *                  {@linkplain PopupParams.ArrowDirection#DIRECTION_TOP DIRECTION_TOP}
+         *                  {@linkplain PopupParams.ArrowDirection#DIRECTION_RIGHT DIRECTION_RIGHT}
+         *                  {@linkplain PopupParams.ArrowDirection#DIRECTION_BOTTOM DIRECTION_BOTTOM}
          * @param gravity   位置
-         *                  {@linkplain android.view.Gravity#LEFT }
-         *                  {@linkplain android.view.Gravity#CENTER_HORIZONTAL }
-         *                  {@linkplain android.view.Gravity#RIGHT }
-         *                  <p>
-         *                  {@linkplain android.view.Gravity#TOP }
-         *                  {@linkplain android.view.Gravity#CENTER_VERTICAL }
-         *                  {@linkplain android.view.Gravity#BOTTOM }
+         *                  {@linkplain PopupParams.ArrowGravity#GRAVITY_LEFT GRAVITY_LEFT}
+         *                  {@linkplain PopupParams.ArrowGravity#GRAVITY_CENTER_HORIZONTAL GRAVITY_CENTER_HORIZONTAL}
+         *                  {@linkplain PopupParams.ArrowGravity#GRAVITY_RIGHT GRAVITY_RIGHT}
+         *                  or
+         *                  {@linkplain PopupParams.ArrowGravity#GRAVITY_TOP GRAVITY_TOP}
+         *                  {@linkplain PopupParams.ArrowGravity#GRAVITY_CENTER_VERTICAL GRAVITY_CENTER_VERTICAL}
+         *                  {@linkplain PopupParams.ArrowGravity#GRAVITY_BOTTOM GRAVITY_BOTTOM}
          * @return this Builder
          */
-        public Builder setPopupArrow(int direction, int gravity) {
-            if (direction != Gravity.LEFT && direction != Gravity.TOP
-                    && direction != Gravity.RIGHT && direction != Gravity.BOTTOM) {
-                throw new IllegalArgumentException("setPopupArrow direction must is Gravity.LEFT or Gravity.TOP or Gravity.RIGHT or Gravity.BOTTOM");
+        public Builder setPopupArrow(@PopupParams.ArrowDirection int direction
+                , @PopupParams.ArrowGravity int gravity) {
+            if ((direction == PopupParams.DIRECTION_LEFT || direction == PopupParams.DIRECTION_RIGHT)
+                    && gravity != PopupParams.GRAVITY_TOP && gravity != PopupParams.GRAVITY_BOTTOM
+                    && gravity != PopupParams.GRAVITY_CENTER_VERTICAL) {
+                throw new IllegalArgumentException("after setPopupArrow direction is" +
+                        " PopupParams.DIRECTION_LEFT or PopupParams.DIRECTION_RIGHT." +
+                        " gravity must is PopupParams.GRAVITY_TOP or PopupParams.GRAVITY_BOTTOM or PopupParams.GRAVITY_CENTER_VERTICAL");
             }
-            if ((direction == Gravity.LEFT || direction == Gravity.RIGHT) && gravity != Gravity.TOP
-                    && gravity != Gravity.CENTER_VERTICAL && gravity != Gravity.BOTTOM) {
-                throw new IllegalArgumentException("after setPopupArrow direction is Gravity.LEFT or Gravity.RIGHT. gravity must is Gravity.TOP or Gravity.CENTER_VERTICAL or Gravity.BOTTOM");
-            }
-            if ((direction == Gravity.TOP || direction == Gravity.BOTTOM) && gravity != Gravity.LEFT
-                    && gravity != Gravity.CENTER_HORIZONTAL && gravity != Gravity.RIGHT) {
-                throw new IllegalArgumentException("after setPopupArrow direction is Gravity.TOP or Gravity.BOTTOM. gravity must is Gravity.LEFT or Gravity.CENTER_HORIZONTAL or Gravity.RIGHT");
+            if ((direction == PopupParams.DIRECTION_TOP || direction == PopupParams.DIRECTION_BOTTOM)
+                    && gravity != PopupParams.GRAVITY_LEFT && gravity != PopupParams.GRAVITY_RIGHT
+                    && gravity != PopupParams.GRAVITY_CENTER_HORIZONTAL) {
+                throw new IllegalArgumentException("after setPopupArrow direction is" +
+                        " PopupParams.DIRECTION_TOP or PopupParams.DIRECTION_BOTTOM." +
+                        " gravity must is PopupParams.GRAVITY_LEFT or PopupParams.GRAVITY_RIGHT or PopupParams.GRAVITY_CENTER_HORIZONTAL");
             }
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;

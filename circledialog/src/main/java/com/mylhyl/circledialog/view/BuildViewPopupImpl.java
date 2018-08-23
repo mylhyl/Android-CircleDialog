@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -54,7 +53,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         LinearLayout rootLinearLayout = buildLinearLayout();
         //箭头在左右情况，布局改为水平
-        if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
+        if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
             rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         }
 
@@ -71,7 +70,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
 
         CardView cardView = buildCardView();
-        if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
+        if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
             cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
         }
         mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
@@ -79,7 +78,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         final View itemsViewView = mItemsView.getView();
         cardView.addView(itemsViewView);
 
-        if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.TOP) {
+        if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_TOP) {
             mRoot.addView(arrowView);
             mRoot.addView(cardView);
         } else {
@@ -98,21 +97,21 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
                 if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
                     popupParams.arrowOffSet = arrowViewSize;
-                    if (arrowDirection == Gravity.LEFT || arrowDirection == Gravity.RIGHT) {
+                    if (arrowDirection == PopupParams.DIRECTION_LEFT || arrowDirection == PopupParams.DIRECTION_RIGHT) {
                         int topMargin = popupParams.arrowOffSet;
-                        if (popupParams.arrowGravity == Gravity.CENTER_VERTICAL) {
+                        if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER_VERTICAL) {
                             popupParams.arrowOffSet = (mRoot.getHeight() / 2);
                             topMargin = popupParams.arrowOffSet - arrowViewSize / 2;
-                        } else if (popupParams.arrowGravity == Gravity.BOTTOM) {
+                        } else if (popupParams.arrowGravity == PopupParams.GRAVITY_BOTTOM) {
                             topMargin = mRoot.getHeight() - popupParams.arrowOffSet * 2;
                         }
                         arrowViewLayoutParams.topMargin = topMargin;
                     } else {
                         int leftMargin = popupParams.arrowOffSet;
-                        if (popupParams.arrowGravity == Gravity.CENTER_HORIZONTAL) {
+                        if (popupParams.arrowGravity == PopupParams.GRAVITY_CENTER_HORIZONTAL) {
                             popupParams.arrowOffSet = (mRoot.getWidth() / 2);
                             leftMargin = popupParams.arrowOffSet - arrowViewSize / 2;
-                        } else if (popupParams.arrowGravity == Gravity.RIGHT) {
+                        } else if (popupParams.arrowGravity == PopupParams.GRAVITY_RIGHT) {
                             leftMargin = mRoot.getWidth() - popupParams.arrowOffSet * 2;
                         }
                         arrowViewLayoutParams.leftMargin = leftMargin;
@@ -140,13 +139,13 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         view.getLocationOnScreen(location);
         int screenWidth = mScreenSize[0];
 
-        int dialogX = arrowDirection == Gravity.TOP || arrowDirection == Gravity.BOTTOM
+        int dialogX = arrowDirection == PopupParams.DIRECTION_TOP || arrowDirection == PopupParams.DIRECTION_BOTTOM
                 ? view.getWidth() / 2 : view.getWidth();
-        if (arrowGravity == Gravity.LEFT) {
+        if (arrowGravity == PopupParams.GRAVITY_LEFT) {
             dialogX += location[0] - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.RIGHT) {
+        } else if (arrowGravity == PopupParams.GRAVITY_RIGHT) {
             dialogX = screenWidth - location[0] - dialogX - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.CENTER_HORIZONTAL) {
+        } else if (arrowGravity == PopupParams.GRAVITY_CENTER_HORIZONTAL) {
             dialogX = -1 * (screenWidth / 2 - location[0]) + dialogX;
         } else {
             dialogX += 0;
@@ -155,16 +154,16 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         int screenHeight = mScreenSize[1];
         int dialogY;
-        if (arrowGravity == Gravity.TOP) {
+        if (arrowGravity == PopupParams.GRAVITY_TOP) {
             dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.BOTTOM) {
+        } else if (arrowGravity == PopupParams.GRAVITY_BOTTOM) {
             dialogY = screenHeight - location[1] - view.getHeight() / 2 - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.CENTER_VERTICAL) {
+        } else if (arrowGravity == PopupParams.GRAVITY_CENTER_VERTICAL) {
             dialogY = -1 * (screenHeight / 2 - location[1]) - mStatusBarHeight / 2 + view.getHeight() / 2;
         } else {
-            if (arrowDirection == Gravity.TOP
-                    && (arrowGravity == Gravity.LEFT || arrowGravity == Gravity.RIGHT
-                    || arrowGravity == Gravity.CENTER_HORIZONTAL)) {
+            if (arrowDirection == PopupParams.DIRECTION_TOP
+                    && (arrowGravity == PopupParams.GRAVITY_LEFT || arrowGravity == PopupParams.GRAVITY_RIGHT
+                    || arrowGravity == PopupParams.GRAVITY_CENTER_HORIZONTAL)) {
                 dialogY = location[1] - mStatusBarHeight + view.getHeight();
             } else {
                 dialogY = screenHeight - location[1];

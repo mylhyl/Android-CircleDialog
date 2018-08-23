@@ -62,19 +62,24 @@
             android:text="功能"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/top_center1"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:text="显示"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/top_left1"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:layout_marginLeft="30dp"
-        android:text="显示左"/>
+        <Button
+            android:id="@+id/top_left1"
+            android:layout_width="66dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="30dp"
+            android:text="显示左"/>
+
+        <Button
+            android:id="@+id/top_center1"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:text="显示"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

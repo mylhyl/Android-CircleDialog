@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.sample.R;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
@@ -43,7 +44,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.TOP, Gravity.LEFT)
+                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_LEFT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -59,7 +60,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.TOP, Gravity.LEFT)
+                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_LEFT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -75,7 +76,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.TOP, Gravity.CENTER_HORIZONTAL)
+                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -92,7 +93,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.TOP, Gravity.CENTER_HORIZONTAL)
+                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -109,7 +110,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.TOP, Gravity.RIGHT)
+                        .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_RIGHT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -126,7 +127,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.BOTTOM, Gravity.LEFT)
+                        .setPopupArrow(PopupParams.DIRECTION_BOTTOM, PopupParams.GRAVITY_LEFT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -142,7 +143,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
+                        .setPopupArrow(PopupParams.DIRECTION_BOTTOM, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -159,7 +160,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.BOTTOM, Gravity.RIGHT)
+                        .setPopupArrow(PopupParams.DIRECTION_BOTTOM, PopupParams.GRAVITY_RIGHT)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -200,7 +201,7 @@ public class ListViewActivity extends AppCompatActivity {
                     case 0:
                         new CircleDialog.Builder()
                                 .setPopupAnchor(tabItemHK)
-                                .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
+                                .setPopupArrow(PopupParams.DIRECTION_BOTTOM, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                                 .setPopup(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
@@ -213,7 +214,7 @@ public class ListViewActivity extends AppCompatActivity {
                     case 1:
                         new CircleDialog.Builder()
                                 .setPopupAnchor(tabItemZH)
-                                .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
+                                .setPopupArrow(PopupParams.DIRECTION_BOTTOM, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                                 .setPopup(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
@@ -226,7 +227,7 @@ public class ListViewActivity extends AppCompatActivity {
                     case 2:
                         new CircleDialog.Builder()
                                 .setPopupAnchor(tabItemHN)
-                                .setPopupArrow(Gravity.BOTTOM, Gravity.CENTER_HORIZONTAL)
+                                .setPopupArrow(PopupParams.DIRECTION_BOTTOM, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                                 .setPopup(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
@@ -255,7 +256,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.LEFT, Gravity.TOP)
+                        .setPopupArrow(PopupParams.DIRECTION_LEFT, PopupParams.GRAVITY_TOP)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -272,7 +273,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.LEFT, Gravity.CENTER_VERTICAL)
+                        .setPopupArrow(PopupParams.DIRECTION_LEFT, PopupParams.GRAVITY_CENTER_VERTICAL)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -288,7 +289,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.LEFT, Gravity.BOTTOM)
+                        .setPopupArrow(PopupParams.DIRECTION_LEFT, PopupParams.GRAVITY_BOTTOM)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -305,7 +306,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.RIGHT, Gravity.TOP)
+                        .setPopupArrow(PopupParams.DIRECTION_RIGHT, PopupParams.GRAVITY_TOP)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -322,7 +323,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.RIGHT, Gravity.CENTER_VERTICAL)
+                        .setPopupArrow(PopupParams.DIRECTION_RIGHT, PopupParams.GRAVITY_CENTER_VERTICAL)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -339,7 +340,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.RIGHT, Gravity.CENTER_VERTICAL)
+                        .setPopupArrow(PopupParams.DIRECTION_RIGHT, PopupParams.GRAVITY_CENTER_VERTICAL)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -356,7 +357,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopupAnchor(v)
-                        .setPopupArrow(Gravity.RIGHT, Gravity.BOTTOM)
+                        .setPopupArrow(PopupParams.DIRECTION_RIGHT, PopupParams.GRAVITY_BOTTOM)
                         .setPopup(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
@@ -385,7 +386,7 @@ public class ListViewActivity extends AppCompatActivity {
     public void showMyDialog(View anchor) {
         new CircleDialog.Builder()
                 .setPopupAnchor(anchor)
-                .setPopupArrow(Gravity.TOP, Gravity.CENTER_HORIZONTAL)
+                .setPopupArrow(PopupParams.DIRECTION_TOP, PopupParams.GRAVITY_CENTER_HORIZONTAL)
                 .setPopup(new String[]{"1", "2", "3", "4"}
                         , new OnRvItemClickListener() {
                             @Override
