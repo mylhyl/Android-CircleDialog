@@ -13,21 +13,21 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.PopupParams;
-import com.mylhyl.circledialog.res.drawable.TriangleArrowDrawable;
+import com.mylhyl.circledialog.res.drawable.TriangleDrawable;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_BOTTOM_CENTER;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_BOTTOM_LEFT;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_BOTTOM_RIGHT;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_LEFT_BOTTOM;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_LEFT_CENTER;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_LEFT_TOP;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_RIGHT_BOTTOM;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_RIGHT_CENTER;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_RIGHT_TOP;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_TOP_CENTER;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_TOP_LEFT;
-import static com.mylhyl.circledialog.params.PopupParams.ARROW_TOP_RIGHT;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_CENTER;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_LEFT;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_RIGHT;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_LEFT_BOTTOM;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_LEFT_CENTER;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_LEFT_TOP;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_RIGHT_BOTTOM;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_RIGHT_CENTER;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_RIGHT_TOP;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_TOP_CENTER;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_TOP_LEFT;
+import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_TOP_RIGHT;
 
 /**
  * Created by hupei on 2018/8/15.
@@ -44,11 +44,11 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private static final int GRAVITY_RIGHT_BOTTOM = Gravity.RIGHT | Gravity.BOTTOM;
     private static final int GRAVITY_RIGHT_CENTER = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
 
-    private static final float ARROW_WEIGHT = 0.1f;
+    private static final float TRIANGLE_WEIGHT = 0.1f;
     private ItemsView mItemsView;
-    private int mArrowDirection;
-    private int mArrowGravity;
-    private View mAnchorView;
+    private int mTriangleDirection;
+    private int mTriangleGravity;
+    private View mTriangleView;
     private int[] mScreenSize;
     private int mStatusBarHeight;
     private Controller.OnDialogLocationListener mResizeSizeListener;
@@ -68,96 +68,95 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
     @Override
     public void buildBodyView() {
-        if (mParams.dialogParams.width > 0f && mParams.dialogParams.width < 1f
-                && mParams.dialogParams.absoluteWidth == 0)
-            mParams.dialogParams.absoluteWidth = LayoutParams.WRAP_CONTENT;
+        if (mParams.dialogParams.width != 1f)
+            mParams.dialogParams.width = LayoutParams.WRAP_CONTENT;
 
         final PopupParams popupParams = mParams.popupParams;
-        mAnchorView = popupParams.anchor;
+        mTriangleView = popupParams.anchor;
 
-        switch (popupParams.arrowGravity) {
-            case ARROW_LEFT_TOP:
-                mArrowDirection = Gravity.LEFT;
-                mArrowGravity = Gravity.TOP;
+        switch (popupParams.triangleGravity) {
+            case TRIANGLE_LEFT_TOP:
+                mTriangleDirection = Gravity.LEFT;
+                mTriangleGravity = Gravity.TOP;
                 mParams.dialogParams.gravity = GRAVITY_LEFT_TOP;
                 break;
-            case ARROW_TOP_LEFT:
-                mArrowDirection = Gravity.TOP;
-                mArrowGravity = Gravity.LEFT;
+            case TRIANGLE_TOP_LEFT:
+                mTriangleDirection = Gravity.TOP;
+                mTriangleGravity = Gravity.LEFT;
                 mParams.dialogParams.gravity = GRAVITY_LEFT_TOP;
                 break;
-            case ARROW_LEFT_BOTTOM:
-                mArrowDirection = Gravity.LEFT;
-                mArrowGravity = Gravity.BOTTOM;
+            case TRIANGLE_LEFT_BOTTOM:
+                mTriangleDirection = Gravity.LEFT;
+                mTriangleGravity = Gravity.BOTTOM;
                 mParams.dialogParams.gravity = GRAVITY_LEFT_BOTTOM;
                 break;
-            case ARROW_BOTTOM_LEFT:
-                mArrowDirection = Gravity.BOTTOM;
-                mArrowGravity = Gravity.LEFT;
+            case TRIANGLE_BOTTOM_LEFT:
+                mTriangleDirection = Gravity.BOTTOM;
+                mTriangleGravity = Gravity.LEFT;
                 mParams.dialogParams.gravity = GRAVITY_LEFT_BOTTOM;
                 break;
-            case ARROW_LEFT_CENTER:
-                mArrowDirection = Gravity.LEFT;
-                mArrowGravity = Gravity.CENTER_VERTICAL;
+            case TRIANGLE_LEFT_CENTER:
+                mTriangleDirection = Gravity.LEFT;
+                mTriangleGravity = Gravity.CENTER_VERTICAL;
                 mParams.dialogParams.gravity = GRAVITY_LEFT_CENTER;
                 break;
-            case ARROW_RIGHT_TOP:
-                mArrowDirection = Gravity.RIGHT;
-                mArrowGravity = Gravity.TOP;
+            case TRIANGLE_RIGHT_TOP:
+                mTriangleDirection = Gravity.RIGHT;
+                mTriangleGravity = Gravity.TOP;
                 mParams.dialogParams.gravity = GRAVITY_RIGHT_TOP;
                 break;
-            case ARROW_TOP_RIGHT:
-                mArrowDirection = Gravity.TOP;
-                mArrowGravity = Gravity.RIGHT;
+            case TRIANGLE_TOP_RIGHT:
+                mTriangleDirection = Gravity.TOP;
+                mTriangleGravity = Gravity.RIGHT;
                 mParams.dialogParams.gravity = GRAVITY_RIGHT_TOP;
                 break;
-            case ARROW_RIGHT_BOTTOM:
-                mArrowDirection = Gravity.RIGHT;
-                mArrowGravity = Gravity.BOTTOM;
+            case TRIANGLE_RIGHT_BOTTOM:
+                mTriangleDirection = Gravity.RIGHT;
+                mTriangleGravity = Gravity.BOTTOM;
                 mParams.dialogParams.gravity = GRAVITY_RIGHT_BOTTOM;
                 break;
-            case ARROW_BOTTOM_RIGHT:
-                mArrowDirection = Gravity.BOTTOM;
-                mArrowGravity = Gravity.RIGHT;
+            case TRIANGLE_BOTTOM_RIGHT:
+                mTriangleDirection = Gravity.BOTTOM;
+                mTriangleGravity = Gravity.RIGHT;
                 mParams.dialogParams.gravity = GRAVITY_RIGHT_BOTTOM;
                 break;
-            case ARROW_RIGHT_CENTER:
-                mArrowDirection = Gravity.RIGHT;
-                mArrowGravity = Gravity.CENTER_VERTICAL;
+            case TRIANGLE_RIGHT_CENTER:
+                mTriangleDirection = Gravity.RIGHT;
+                mTriangleGravity = Gravity.CENTER_VERTICAL;
                 mParams.dialogParams.gravity = GRAVITY_RIGHT_CENTER;
                 break;
-            case ARROW_TOP_CENTER:
-                mArrowDirection = Gravity.TOP;
-                mArrowGravity = Gravity.CENTER_HORIZONTAL;
+            case TRIANGLE_TOP_CENTER:
+                mTriangleDirection = Gravity.TOP;
+                mTriangleGravity = Gravity.CENTER_HORIZONTAL;
                 mParams.dialogParams.gravity = GRAVITY_TOP_CENTER;
                 break;
-            case ARROW_BOTTOM_CENTER:
-                mArrowDirection = Gravity.BOTTOM;
-                mArrowGravity = Gravity.CENTER_HORIZONTAL;
+            case TRIANGLE_BOTTOM_CENTER:
+                mTriangleDirection = Gravity.BOTTOM;
+                mTriangleGravity = Gravity.CENTER_HORIZONTAL;
                 mParams.dialogParams.gravity = GRAVITY_BOTTOM_CENTER;
                 break;
         }
 
         LinearLayout rootLinearLayout = buildLinearLayout();
         //箭头在左右情况，布局改为水平
-        if (mArrowDirection == Gravity.LEFT || mArrowDirection == Gravity.RIGHT) {
+        if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
             rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         }
 
         mRoot = rootLinearLayout;
 
-        final View arrowView = new View(mContext);
+        final View triangleView = new View(mContext);
         int backgroundColor = popupParams.backgroundColor != 0
                 ? popupParams.backgroundColor : mParams.dialogParams.backgroundColor;
-        Drawable arrowDrawable = new TriangleArrowDrawable(mArrowDirection, backgroundColor);
+        Drawable triangleDrawable = new TriangleDrawable(mTriangleDirection, backgroundColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            arrowView.setBackground(arrowDrawable);
+            triangleView.setBackground(triangleDrawable);
         } else {
-            arrowView.setBackgroundDrawable(arrowDrawable);
+            triangleView.setBackgroundDrawable(triangleDrawable);
         }
 
         CardView cardView = buildCardView();
-        if (mArrowDirection == Gravity.LEFT || mArrowDirection == Gravity.RIGHT) {
+        if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
             cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
         }
         mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
@@ -165,53 +164,53 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         final View itemsViewView = mItemsView.getView();
         cardView.addView(itemsViewView);
 
-        if (mArrowDirection == Gravity.LEFT || mArrowDirection == Gravity.TOP) {
-            mRoot.addView(arrowView);
+        if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.TOP) {
+            mRoot.addView(triangleView);
             mRoot.addView(cardView);
         } else {
             mRoot.addView(cardView);
-            mRoot.addView(arrowView);
+            mRoot.addView(triangleView);
         }
         mRoot.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom
                     , int oldLeft, int oldTop, int oldRight, int oldBottom) {
 
-                if (mParams.dialogParams.absoluteWidth == LayoutParams.WRAP_CONTENT
-                        || mParams.dialogParams.absoluteWidth != LayoutParams.MATCH_PARENT)
-                    mParams.dialogParams.absoluteWidth = mRoot.getWidth();
+                if (mParams.dialogParams.width == LayoutParams.WRAP_CONTENT
+                        || mParams.dialogParams.width != LayoutParams.MATCH_PARENT)
+                    mParams.dialogParams.width = mRoot.getWidth();
 
-                int arrowViewSize = (int) (mParams.dialogParams.absoluteWidth * ARROW_WEIGHT);
-                LayoutParams arrowViewLayoutParams = (LayoutParams) arrowView.getLayoutParams();
-                arrowViewLayoutParams.width = arrowViewSize;
-                arrowViewLayoutParams.height = arrowViewSize;
+                int triangleSize = (int) (mParams.dialogParams.width * TRIANGLE_WEIGHT);
+                LayoutParams triangleViewLayoutParams = (LayoutParams) triangleView.getLayoutParams();
+                triangleViewLayoutParams.width = triangleSize;
+                triangleViewLayoutParams.height = triangleSize;
 
                 if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
-                    popupParams.arrowOffSet = arrowViewSize;
-                    if (mArrowDirection == Gravity.LEFT || mArrowDirection == Gravity.RIGHT) {
-                        int topMargin = popupParams.arrowOffSet;
-                        if (mArrowGravity == Gravity.CENTER_VERTICAL) {
-                            popupParams.arrowOffSet = (mRoot.getHeight() / 2);
-                            topMargin = popupParams.arrowOffSet - arrowViewSize / 2;
-                        } else if (mArrowGravity == Gravity.BOTTOM) {
-                            topMargin = mRoot.getHeight() - popupParams.arrowOffSet * 2;
+                    popupParams.triangleOffSet = triangleSize;
+                    if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
+                        int topMargin = popupParams.triangleOffSet;
+                        if (mTriangleGravity == Gravity.CENTER_VERTICAL) {
+                            popupParams.triangleOffSet = (mRoot.getHeight() / 2);
+                            topMargin = popupParams.triangleOffSet - triangleSize / 2;
+                        } else if (mTriangleGravity == Gravity.BOTTOM) {
+                            topMargin = mRoot.getHeight() - popupParams.triangleOffSet * 2;
                         }
-                        arrowViewLayoutParams.topMargin = topMargin;
+                        triangleViewLayoutParams.topMargin = topMargin;
                     } else {
-                        int leftMargin = popupParams.arrowOffSet;
-                        if (mArrowGravity == Gravity.CENTER_HORIZONTAL) {
-                            popupParams.arrowOffSet = (mRoot.getWidth() / 2);
-                            leftMargin = popupParams.arrowOffSet - arrowViewSize / 2;
-                        } else if (mArrowGravity == Gravity.RIGHT) {
-                            leftMargin = mRoot.getWidth() - popupParams.arrowOffSet * 2;
+                        int leftMargin = popupParams.triangleOffSet;
+                        if (mTriangleGravity == Gravity.CENTER_HORIZONTAL) {
+                            popupParams.triangleOffSet = (mRoot.getWidth() / 2);
+                            leftMargin = popupParams.triangleOffSet - triangleSize / 2;
+                        } else if (mTriangleGravity == Gravity.RIGHT) {
+                            leftMargin = mRoot.getWidth() - popupParams.triangleOffSet * 2;
                         }
-                        arrowViewLayoutParams.leftMargin = leftMargin;
+                        triangleViewLayoutParams.leftMargin = leftMargin;
                     }
                     mRoot.removeOnLayoutChangeListener(this);
-                    resizeDialogSize(mParams.dialogParams, mArrowDirection, mArrowGravity
-                            , arrowViewSize, popupParams.arrowOffSet);
+                    resizeDialogSize(mParams.dialogParams, mTriangleDirection, mTriangleGravity
+                            , triangleSize, popupParams.triangleOffSet);
                 }
-                arrowView.setLayoutParams(arrowViewLayoutParams);
+                triangleView.setLayoutParams(triangleViewLayoutParams);
             }
         });
     }
@@ -223,20 +222,20 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
     }
 
-    void resizeDialogSize(DialogParams dialogParams, int arrowDirection, int arrowGravity
-            , int arrowViewSize, int arrowOffSet) {
-        View view = mAnchorView;
+    void resizeDialogSize(DialogParams dialogParams, int triangleDirection, int triangleGravity
+            , int triangleSize, int triangleOffSet) {
+        View view = mTriangleView;
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         int screenWidth = mScreenSize[0];
 
-        int dialogX = arrowDirection == Gravity.TOP || arrowDirection == Gravity.BOTTOM
+        int dialogX = triangleDirection == Gravity.TOP || triangleDirection == Gravity.BOTTOM
                 ? view.getWidth() / 2 : view.getWidth();
-        if (arrowGravity == Gravity.LEFT) {
-            dialogX += location[0] - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.RIGHT) {
-            dialogX = screenWidth - location[0] - dialogX - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.CENTER_HORIZONTAL) {
+        if (triangleGravity == Gravity.LEFT) {
+            dialogX += location[0] - triangleSize / 2 - triangleOffSet;
+        } else if (triangleGravity == Gravity.RIGHT) {
+            dialogX = screenWidth - location[0] - dialogX - triangleSize / 2 - triangleOffSet;
+        } else if (triangleGravity == Gravity.CENTER_HORIZONTAL) {
             dialogX = -1 * (screenWidth / 2 - location[0]) + dialogX;
         } else {
             dialogX += 0;
@@ -245,16 +244,16 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         int screenHeight = mScreenSize[1];
         int dialogY;
-        if (arrowGravity == Gravity.TOP) {
-            dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.BOTTOM) {
-            dialogY = screenHeight - location[1] - view.getHeight() / 2 - arrowViewSize / 2 - arrowOffSet;
-        } else if (arrowGravity == Gravity.CENTER_VERTICAL) {
+        if (triangleGravity == Gravity.TOP) {
+            dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - triangleSize / 2 - triangleOffSet;
+        } else if (triangleGravity == Gravity.BOTTOM) {
+            dialogY = screenHeight - location[1] - view.getHeight() / 2 - triangleSize / 2 - triangleOffSet;
+        } else if (triangleGravity == Gravity.CENTER_VERTICAL) {
             dialogY = -1 * (screenHeight / 2 - location[1]) - mStatusBarHeight / 2 + view.getHeight() / 2;
         } else {
-            if (arrowDirection == Gravity.TOP
-                    && (arrowGravity == Gravity.LEFT || arrowGravity == Gravity.RIGHT
-                    || arrowGravity == Gravity.CENTER_HORIZONTAL)) {
+            if (triangleDirection == Gravity.TOP
+                    && (triangleGravity == Gravity.LEFT || triangleGravity == Gravity.RIGHT
+                    || triangleGravity == Gravity.CENTER_HORIZONTAL)) {
                 dialogY = location[1] - mStatusBarHeight + view.getHeight();
             } else {
                 dialogY = screenHeight - location[1];

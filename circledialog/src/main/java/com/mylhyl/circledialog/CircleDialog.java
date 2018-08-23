@@ -743,10 +743,10 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopupArrowGravity(@PopupParams.ArrowGravity int gravity) {
+        public Builder setPopupTriangleGravity(@PopupParams.TriangleGravity int gravity) {
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;
-            params.arrowGravity = gravity;
+            params.triangleGravity = gravity;
             return this;
         }
 

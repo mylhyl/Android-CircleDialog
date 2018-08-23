@@ -49,8 +49,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         if (savedInstanceState != null) {
             mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
         }
@@ -70,7 +68,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
         setY(dialogParams.yOff);
-        setAbsoluteWidth(dialogParams.absoluteWidth);
+        super.onViewCreated(view, savedInstanceState);
         if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
                 && mController != null) {
             setSoftInputMode();
@@ -126,19 +124,18 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         if (mParams != null && mParams.showListener != null) {
             mParams.showListener.onShow(dialog);
         }
-        resizeSize();
+        if (mParams.popupParams != null && mParams.dialogParams.width != 0)
+            resizeSize();
     }
 
     void resizeSize() {
-        int absoluteWidth = mParams.dialogParams.absoluteWidth;
-        if (mParams.popupParams == null || absoluteWidth == 0) return;
         Dialog dialog = getDialog();
         if (dialog == null) return;
-
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
         int avg = getSystemBarConfig().getScreenWidth() / 3;
-        wlp.width = absoluteWidth > avg ? absoluteWidth : avg;
+        final float absoluteWidth = mParams.dialogParams.width;
+        wlp.width = absoluteWidth > avg ? (int) absoluteWidth : avg;
         window.setAttributes(wlp);
     }
 
