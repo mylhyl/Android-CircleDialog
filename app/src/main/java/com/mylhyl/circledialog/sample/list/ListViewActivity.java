@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionMenuView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,10 +17,16 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.sample.R;
+import com.mylhyl.circledialog.sample.entities.NavItemEntity;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListViewActivity extends AppCompatActivity {
 
@@ -62,7 +69,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopup(v, PopupParams.TRIANGLE_TOP_LEFT)
-                        .setPopupItems(new String[]{"1", "2", "3", "4"}
+                        .setPopupItems(new String[]{"11111111111111111", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
@@ -89,18 +96,26 @@ public class ListViewActivity extends AppCompatActivity {
             }
         });
 
+        List<NavItemEntity> list = new ArrayList<>();
+        list.add(new NavItemEntity("添加异常", R.mipmap.ic_popup_abnormal));
+        list.add(new NavItemEntity("添加备添加备注注", R.mipmap.ic_popup_note));
+        list.add(new NavItemEntity("申请延迟", R.mipmap.ic_popup_delay));
+
+        BaseQuickAdapter<NavItemEntity, BaseViewHolder> adapter
+                = new BaseQuickAdapter<NavItemEntity, BaseViewHolder>(R.layout.item_rv_icon, list) {
+            @Override
+            protected void convert(BaseViewHolder helper, NavItemEntity item) {
+                helper.setImageResource(R.id.imageView, item.getTextResId())
+                        .setText(R.id.textView, item.getName());
+            }
+        };
+
         findViewById(R.id.top_center1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopup(v, PopupParams.TRIANGLE_TOP_CENTER)
-                        .setPopupItems(new String[]{"1", "2", "3", "4"}
-                                , new OnRvItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-
-                                    }
-                                })
+                        .setPopupItems(adapter, new LinearLayoutManager(ListViewActivity.this))
                         .show(getSupportFragmentManager());
             }
         });
@@ -109,8 +124,11 @@ public class ListViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new CircleDialog.Builder()
+                        .setMaxHeight(0.6f)
                         .setPopup(v, PopupParams.TRIANGLE_TOP_RIGHT)
-                        .setPopupItems(new String[]{"1", "2", "3", "4"}
+//                        .setPopupTriangleShow(false)
+                        .setPopupItems(new String[]{"功能1", "功能2", "功能3", "功能4", "功能5"
+                                        , "功能6", "功能7", "功能8", "功能9", "功能10", "功能11"}
                                 , new OnRvItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
@@ -373,6 +391,16 @@ public class ListViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        new CircleDialog.Builder()
+                .setPopup(mActionMenuView, PopupParams.TRIANGLE_TOP_RIGHT)
+                .setPopupItems(new String[]{"全部", "广东省", "香港", "湖南", "广西壮族自治区"}
+                        , new OnRvItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                            }
+                        })
+                .show(getSupportFragmentManager());
         return true;
     }
 

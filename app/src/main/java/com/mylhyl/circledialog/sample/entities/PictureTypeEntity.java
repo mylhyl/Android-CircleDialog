@@ -1,7 +1,5 @@
 package com.mylhyl.circledialog.sample.entities;
 
-import com.mylhyl.circledialog.callback.CircleItemLabel;
-
 /**
  * Created by hupei on 2017/3/31.
  */

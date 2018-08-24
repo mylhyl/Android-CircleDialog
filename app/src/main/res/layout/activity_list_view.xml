@@ -78,7 +78,7 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:text="显示"/>
+            android:text="自定义adapter"/>
     </RelativeLayout>
 
     <LinearLayout

@@ -16,6 +16,9 @@ import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.res.drawable.TriangleDrawable;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_CENTER;
 import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_LEFT;
 import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_RIGHT;
@@ -52,6 +55,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private int[] mScreenSize;
     private int mStatusBarHeight;
     private Controller.OnDialogLocationListener mResizeSizeListener;
+    private Queue<Integer> mRemoveOnLayoutChangeListenerStrategy = new LinkedList<>();
 
     public BuildViewPopupImpl(Context context, CircleParams params, Controller.OnDialogLocationListener listener
             , int[] screenSize, int statusBarHeight) {
@@ -160,8 +164,8 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
         mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
                 , mParams.dialogParams, mParams.rvItemListener);
-        final View itemsViewView = mItemsView.getView();
-        cardView.addView(itemsViewView);
+        final View recyclerView = mItemsView.getView();
+        cardView.addView(recyclerView);
 
         if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.TOP) {
             if (popupParams.triangleShow) {
@@ -178,7 +182,6 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom
                     , int oldLeft, int oldTop, int oldRight, int oldBottom) {
-
                 if (mParams.dialogParams.width == LayoutParams.WRAP_CONTENT
                         || mParams.dialogParams.width != LayoutParams.MATCH_PARENT) {
                     mParams.dialogParams.width = mRoot.getWidth();
@@ -190,6 +193,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
     private void handleAtLocation(PopupParams popupParams, int bottom, int oldBottom
             , View.OnLayoutChangeListener layoutChangeListener) {
+
         if (popupParams.triangleShow && mTriangleView != null) {
             final LayoutParams triangleViewLayoutParams = (LayoutParams) mTriangleView.getLayoutParams();
             if (popupParams.triangleSize == null) {
@@ -203,6 +207,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             }
 
             if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
+
                 popupParams.triangleOffSet = triangleViewLayoutParams.width;
                 if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
                     int topMargin = popupParams.triangleOffSet;
@@ -223,7 +228,22 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                     }
                     triangleViewLayoutParams.leftMargin = leftMargin;
                 }
-                mRoot.removeOnLayoutChangeListener(layoutChangeListener);
+
+                mRemoveOnLayoutChangeListenerStrategy.add(oldBottom);
+                boolean removeOnLayoutChangeListener = true;
+                if (mRemoveOnLayoutChangeListenerStrategy.size() == 3) {
+                    int pollFirst = mRemoveOnLayoutChangeListenerStrategy.poll();
+                    while (!mRemoveOnLayoutChangeListenerStrategy.isEmpty()) {
+                        Integer poll = mRemoveOnLayoutChangeListenerStrategy.poll();
+                        if (poll != null && pollFirst != poll.intValue()) {
+                            removeOnLayoutChangeListener = false;
+                            break;
+                        }
+                    }
+                    if (removeOnLayoutChangeListener) {
+                        mRoot.removeOnLayoutChangeListener(layoutChangeListener);
+                    }
+                }
                 resizeDialogSize(mParams.dialogParams, popupParams.anchorView
                         , mTriangleDirection, mTriangleGravity, popupParams.triangleOffSet
                         , triangleViewLayoutParams.width);

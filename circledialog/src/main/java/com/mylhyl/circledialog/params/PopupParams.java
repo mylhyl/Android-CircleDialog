@@ -12,20 +12,53 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class PopupParams extends ItemsParams {
 
+    /**
+     * 三角朝左在上方
+     */
     public static final int TRIANGLE_LEFT_TOP = 151;
+    /**
+     * 三角朝左在下方
+     */
     public static final int TRIANGLE_LEFT_BOTTOM = 183;
+    /**
+     * 三角朝左在中间
+     */
     public static final int TRIANGLE_LEFT_CENTER = 119;
-
+    /**
+     * 三角朝上靠左边
+     */
     public static final int TRIANGLE_TOP_LEFT = 351;
+    /**
+     * 三角朝上靠右边
+     */
     public static final int TRIANGLE_TOP_RIGHT = 353;
+    /**
+     * 三角朝上在中间
+     */
     public static final int TRIANGLE_TOP_CENTER = 349;
-
+    /**
+     * 三角朝右在上方
+     */
     public static final int TRIANGLE_RIGHT_TOP = 553;
+    /**
+     * 三角朝右在下方
+     */
     public static final int TRIANGLE_RIGHT_BOTTOM = 585;
+    /**
+     * 三角朝右在中间
+     */
     public static final int TRIANGLE_RIGHT_CENTER = 521;
-
+    /**
+     * 三角朝下靠左边
+     */
     public static final int TRIANGLE_BOTTOM_LEFT = 783;
+    /**
+     * 三角朝下靠右边
+     */
     public static final int TRIANGLE_BOTTOM_RIGHT = 785;
+    /**
+     * 三角朝下靠中间
+     */
     public static final int TRIANGLE_BOTTOM_CENTER = 781;
 
     public static final Creator<PopupParams> CREATOR = new Creator<PopupParams>() {
