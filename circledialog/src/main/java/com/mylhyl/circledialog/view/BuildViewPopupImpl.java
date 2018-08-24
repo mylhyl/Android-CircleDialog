@@ -48,6 +48,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private static final int GRAVITY_RIGHT_CENTER = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
 
     private static final float TRIANGLE_WEIGHT = 0.1f;
+    private LinearLayout mTriangleLinearLayout;
     private View mTriangleView;
     private ItemsView mItemsView;
     private int mTriangleDirection;
@@ -141,6 +142,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
 
         LinearLayout rootLinearLayout = buildLinearLayout();
+        rootLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         //箭头在左右情况，布局改为水平
         if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
             rootLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -148,7 +150,15 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         mRoot = rootLinearLayout;
         if (popupParams.triangleShow) {
+            mTriangleLinearLayout = new LinearLayout(mContext);
+            if (mTriangleDirection == Gravity.TOP || mTriangleDirection == Gravity.BOTTOM) {
+                mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            } else {
+                mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+            }
             mTriangleView = new View(mContext);
+            mTriangleView.setLayoutParams(new LayoutParams(50, 50));
+            mTriangleLinearLayout.addView(mTriangleView);
             int backgroundColor = popupParams.backgroundColor != 0
                     ? popupParams.backgroundColor : mParams.dialogParams.backgroundColor;
             Drawable triangleDrawable = new TriangleDrawable(mTriangleDirection, backgroundColor);
@@ -159,9 +169,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             }
         }
         CardView cardView = buildCardView();
-        if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
-            cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
-        }
+        cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
         mItemsView = new BodyRecyclerView(mContext, mParams.popupParams
                 , mParams.dialogParams, mParams.rvItemListener);
         final View recyclerView = mItemsView.getView();
@@ -169,13 +177,13 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.TOP) {
             if (popupParams.triangleShow) {
-                mRoot.addView(mTriangleView);
+                mRoot.addView(mTriangleLinearLayout);
             }
             mRoot.addView(cardView);
         } else {
             mRoot.addView(cardView);
             if (popupParams.triangleShow) {
-                mRoot.addView(mTriangleView);
+                mRoot.addView(mTriangleLinearLayout);
             }
         }
         mRoot.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -189,6 +197,13 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                 handleAtLocation(popupParams, bottom, oldBottom, this);
             }
         });
+    }
+
+    @Override
+    public void refreshContent() {
+        if (mItemsView != null) {
+            mItemsView.refreshItems();
+        }
     }
 
     private void handleAtLocation(PopupParams popupParams, int bottom, int oldBottom
@@ -298,13 +313,6 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         if (mResizeSizeListener != null) {
             mResizeSizeListener.dialogAtLocation(dialogParams.xOff, dialogParams.yOff);
-        }
-    }
-
-    @Override
-    public void refreshContent() {
-        if (mItemsView != null) {
-            mItemsView.refreshItems();
         }
     }
 }
