@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -145,6 +146,8 @@ final class BodyListView extends ListView implements Controller.OnClickListener,
                     textView.setAutoPadding(mItemsParams.padding[0], mItemsParams.padding[1]
                             , mItemsParams.padding[2], mItemsParams.padding[3]);
                 }
+                if (mItemsParams.textGravity != Gravity.NO_GRAVITY)
+                    textView.setGravity(mItemsParams.textGravity);
                 viewHolder.item = textView;
                 convertView = textView;
                 convertView.setTag(viewHolder);

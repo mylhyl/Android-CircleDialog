@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -81,6 +82,8 @@ public class ItemsParams implements Parcelable {
      */
     public int bottomMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
 
+    public int textGravity = Gravity.NO_GRAVITY;
+
     public ItemsParams() {
     }
 
@@ -95,6 +98,7 @@ public class ItemsParams implements Parcelable {
         this.isManualClose = in.readByte() != 0;
         this.linearLayoutManagerOrientation = in.readInt();
         this.bottomMargin = in.readInt();
+        this.textGravity = in.readInt();
     }
 
     @Override
@@ -114,5 +118,6 @@ public class ItemsParams implements Parcelable {
         dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
         dest.writeInt(this.linearLayoutManagerOrientation);
         dest.writeInt(this.bottomMargin);
+        dest.writeInt(this.textGravity);
     }
 }

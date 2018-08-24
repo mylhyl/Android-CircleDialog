@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.sample.list;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.callback.ConfigPopup;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.sample.R;
 import com.mylhyl.circledialog.sample.entities.NavItemEntity;
@@ -51,10 +55,26 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setWidth(1f)
+                        .setRadius(0)
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColor = Color.parseColor("#8f8f8f");
+                                params.isDimEnabled = false;
+                            }
+                        })
                         .setPopup(v, PopupParams.TRIANGLE_TOP_LEFT)
                         .setPopupTriangleSize(50, 50)
                         .setPopupTriangleShow(false)
-                        .setPopupItems(new String[]{"1", "2", "3", "4"}
+                        .configPopup(new ConfigPopup() {
+                            @Override
+                            public void onConfig(PopupParams params) {
+                                params.textGravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
+                                params.padding = new int[]{50, 0, 20, 0};
+                                params.textColor = Color.WHITE;
+                            }
+                        })
+                        .setPopupItems(new String[]{"全部", "广东省", "湖南省", "香港"}
                                 , new OnRvItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
@@ -84,7 +104,7 @@ public class ListViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new CircleDialog.Builder()
                         .setPopup(v, PopupParams.TRIANGLE_TOP_CENTER)
-                        .setPopupTriangleShow(false)
+//                        .setPopupTriangleShow(false)
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override

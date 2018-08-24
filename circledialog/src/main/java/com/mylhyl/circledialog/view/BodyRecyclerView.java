@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -207,6 +208,8 @@ class BodyRecyclerView extends RecyclerView implements Controller.OnClickListene
             }
             textView.setTextSize(mItemsParams.textSize);
             textView.setTextColor(mItemsParams.textColor);
+            if (mItemsParams.textGravity != Gravity.NO_GRAVITY)
+                textView.setGravity(mItemsParams.textGravity);
             textView.setHeight(mItemsParams.itemHeight);
             Holder holder = new Holder(textView, mItemClickListener);
             return holder;

@@ -18,6 +18,7 @@ import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.callback.ConfigPopup;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
@@ -755,6 +756,12 @@ public final class CircleDialog {
             if (mCircleParams.popupParams == null) {
                 mCircleParams.popupParams = new PopupParams();
             }
+        }
+
+        public Builder configPopup(@NonNull ConfigPopup configPopup) {
+            newPopupParams();
+            configPopup.onConfig(mCircleParams.popupParams);
+            return this;
         }
 
         public Builder setPopupTriangleSize(int width, int height) {

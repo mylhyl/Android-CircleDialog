@@ -151,6 +151,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         mRoot = rootLinearLayout;
         if (popupParams.triangleShow) {
             mTriangleLinearLayout = new LinearLayout(mContext);
+            mTriangleLinearLayout.setGravity(mTriangleGravity);
             if (mTriangleDirection == Gravity.TOP || mTriangleDirection == Gravity.BOTTOM) {
                 mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             } else {
@@ -208,7 +209,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private void handleAtLocation(PopupParams popupParams, int bottom, int oldBottom
             , View.OnLayoutChangeListener layoutChangeListener) {
 
-        if (popupParams.triangleShow && mTriangleView != null) {
+        if (popupParams.triangleShow && mTriangleLinearLayout != null && mTriangleView != null) {
             final LayoutParams triangleViewLayoutParams = (LayoutParams) mTriangleView.getLayoutParams();
             if (popupParams.triangleSize == null) {
                 int triangleWidth = (int) (mParams.dialogParams.width * TRIANGLE_WEIGHT);
@@ -221,26 +222,15 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             }
 
             if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
-
                 popupParams.triangleOffSet = triangleViewLayoutParams.width;
-                if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
-                    int topMargin = popupParams.triangleOffSet;
-                    if (mTriangleGravity == Gravity.CENTER_VERTICAL) {
-                        popupParams.triangleOffSet = (mRoot.getHeight() / 2);
-                        topMargin = popupParams.triangleOffSet - triangleViewLayoutParams.width / 2;
-                    } else if (mTriangleGravity == Gravity.BOTTOM) {
-                        topMargin = mRoot.getHeight() - popupParams.triangleOffSet * 2;
-                    }
-                    triangleViewLayoutParams.topMargin = topMargin;
-                } else {
-                    int leftMargin = popupParams.triangleOffSet;
-                    if (mTriangleGravity == Gravity.CENTER_HORIZONTAL) {
-                        popupParams.triangleOffSet = (mRoot.getWidth() / 2);
-                        leftMargin = popupParams.triangleOffSet - triangleViewLayoutParams.width / 2;
-                    } else if (mTriangleGravity == Gravity.RIGHT) {
-                        leftMargin = mRoot.getWidth() - popupParams.triangleOffSet * 2;
-                    }
-                    triangleViewLayoutParams.leftMargin = leftMargin;
+                if (mTriangleGravity == Gravity.LEFT) {
+                    triangleViewLayoutParams.leftMargin = popupParams.triangleOffSet;
+                } else if (mTriangleGravity == Gravity.TOP) {
+                    triangleViewLayoutParams.topMargin = popupParams.triangleOffSet;
+                } else if (mTriangleGravity == Gravity.RIGHT) {
+                    triangleViewLayoutParams.rightMargin = popupParams.triangleOffSet;
+                } else if (mTriangleGravity == Gravity.BOTTOM) {
+                    triangleViewLayoutParams.bottomMargin = popupParams.triangleOffSet;
                 }
 
                 mRemoveOnLayoutChangeListenerStrategy.add(oldBottom);

@@ -44,6 +44,7 @@
         <Button
             android:id="@+id/top_left"
             android:layout_width="100dp"
+            android:background="#8f8f8f"
             android:layout_height="wrap_content"
             android:text="过滤"/>
 
