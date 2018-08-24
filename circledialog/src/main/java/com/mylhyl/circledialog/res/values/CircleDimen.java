@@ -33,13 +33,17 @@ public class CircleDimen {
      */
     public static int ITEM_CONTENT_TEXT_SIZE = 50;
     /**
-     * 输入框的文体大小
-     */
-    public static int INPUT_TEXT_SIZE = 50;
-    /**
      * 列表每行高度
      */
     public static int ITEM_HEIGHT = 170;
+    /**
+     * 列表文字内间距
+     */
+    public static int[] ITEM_TEXT_PADDING = {20, 0, 20, 0};
+    /**
+     * 输入框的文体大小
+     */
+    public static int INPUT_TEXT_SIZE = 50;
     /**
      * 底部按钮高度
      */

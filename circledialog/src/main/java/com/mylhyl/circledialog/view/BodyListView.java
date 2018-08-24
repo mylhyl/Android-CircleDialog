@@ -141,6 +141,10 @@ final class BodyListView extends ListView implements Controller.OnClickListener,
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
                 textView.setHeight(mItemsParams.itemHeight);
+                if (mItemsParams.padding != null) {
+                    textView.setAutoPadding(mItemsParams.padding[0], mItemsParams.padding[1]
+                            , mItemsParams.padding[2], mItemsParams.padding[3]);
+                }
                 viewHolder.item = textView;
                 convertView = textView;
                 convertView.setTag(viewHolder);

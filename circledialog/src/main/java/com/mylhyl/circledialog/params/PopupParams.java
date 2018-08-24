@@ -7,6 +7,8 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static com.mylhyl.circledialog.res.values.CircleDimen.ITEM_TEXT_PADDING;
+
 /**
  * Created by hupei on 2018/8/9 20:04.
  */
@@ -80,6 +82,7 @@ public class PopupParams extends ItemsParams {
      * 三角大小 [width,height]
      */
     public int[] triangleSize;
+
     /**
      * 三角显示
      */
@@ -87,6 +90,7 @@ public class PopupParams extends ItemsParams {
     public View anchorView;
 
     public PopupParams() {
+        padding = ITEM_TEXT_PADDING;
     }
 
     protected PopupParams(Parcel in) {

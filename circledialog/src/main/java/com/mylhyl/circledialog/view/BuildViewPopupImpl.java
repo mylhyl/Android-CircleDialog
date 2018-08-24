@@ -157,7 +157,6 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                 mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
             }
             mTriangleView = new View(mContext);
-            mTriangleView.setLayoutParams(new LayoutParams(50, 50));
             mTriangleLinearLayout.addView(mTriangleView);
             int backgroundColor = popupParams.backgroundColor != 0
                     ? popupParams.backgroundColor : mParams.dialogParams.backgroundColor;
