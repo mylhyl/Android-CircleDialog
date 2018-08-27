@@ -55,13 +55,13 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private int mTriangleGravity;
     private int[] mScreenSize;
     private int mStatusBarHeight;
-    private Controller.OnDialogLocationListener mResizeSizeListener;
+    private Controller.OnDialogInternalListener mDialogInternalListener;
     private Queue<Integer> mRemoveOnLayoutChangeListenerStrategy = new LinkedList<>();
 
-    public BuildViewPopupImpl(Context context, CircleParams params, Controller.OnDialogLocationListener listener
-            , int[] screenSize, int statusBarHeight) {
+    public BuildViewPopupImpl(Context context, Controller.OnDialogInternalListener listener
+            , CircleParams params, int[] screenSize, int statusBarHeight) {
         super(context, params);
-        this.mResizeSizeListener = listener;
+        this.mDialogInternalListener = listener;
         this.mScreenSize = screenSize;
         this.mStatusBarHeight = statusBarHeight;
     }
@@ -267,6 +267,12 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         final int[] location = new int[2];
         view.getLocationOnScreen(location);
         final int screenWidth = mScreenSize[0];
+        final int screenHeight = mScreenSize[1];
+        final int popupHeight = mRoot.getHeight();
+
+        if (screenHeight - location[1] < popupHeight) {
+
+        }
 
         int dialogX = triangleDirection == Gravity.TOP || triangleDirection == Gravity.BOTTOM
                 ? view.getWidth() / 2 : view.getWidth();
@@ -281,7 +287,6 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
         dialogParams.xOff = dialogX;
 
-        final int screenHeight = mScreenSize[1];
         int dialogY;
         if (triangleGravity == Gravity.TOP) {
             dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - triangleSize / 2 - triangleOffSet;
@@ -300,8 +305,8 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
         dialogParams.yOff = dialogY;
 
-        if (mResizeSizeListener != null) {
-            mResizeSizeListener.dialogAtLocation(dialogParams.xOff, dialogParams.yOff);
+        if (mDialogInternalListener != null) {
+            mDialogInternalListener.dialogAtLocation(dialogParams.xOff, dialogParams.yOff);
         }
     }
 }

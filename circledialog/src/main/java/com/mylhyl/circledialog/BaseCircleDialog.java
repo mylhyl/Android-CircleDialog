@@ -21,7 +21,7 @@ import com.mylhyl.circledialog.scale.ScaleLayoutConfig;
  */
 
 public final class BaseCircleDialog extends AbsBaseCircleDialog implements DialogInterface.OnShowListener
-        , Controller.OnDialogLocationListener {
+        , Controller.OnDialogInternalListener {
 
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
@@ -49,9 +49,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
-        }
+        super.onViewCreated(view, savedInstanceState);
         DialogParams dialogParams = mParams.dialogParams;
         setGravity(dialogParams.gravity);
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
@@ -68,7 +66,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
         setY(dialogParams.yOff);
-        super.onViewCreated(view, savedInstanceState);
         if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
                 && mController != null) {
             setSoftInputMode();
@@ -79,6 +76,9 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ScaleLayoutConfig.init(getContext().getApplicationContext());
+        if (savedInstanceState != null) {
+            mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
+        }
     }
 
     @Override
@@ -156,5 +156,10 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         wlp.x = x;
         wlp.y = y;
         window.setAttributes(wlp);
+    }
+
+    @Override
+    public void onDismiss() {
+        dismissAllowingStateLoss();
     }
 }

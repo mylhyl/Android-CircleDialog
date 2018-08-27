@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
-                        .setInputManualClose(true)
                         .setTitle("输入框")
                         .setSubTitle("提示人物是什么？")
                         .setInputHint("请输入条件")
@@ -178,9 +177,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setPositiveInput("确定", (text, v) -> {
                             if (TextUtils.isEmpty(text)) {
                                 Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                                return false;
                             } else {
                                 Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-                                dialogFragment.dismiss();
+                                return true;
                             }
                         })
                         .show(getSupportFragmentManager());

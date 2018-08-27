@@ -55,7 +55,7 @@ public class Controller {
         //popup
         if (mParams.popupParams != null) {
             SystemBarConfig systemBarConfig = mDialog.getSystemBarConfig();
-            mCreateView = new BuildViewPopupImpl(mContext, mParams, mDialog
+            mCreateView = new BuildViewPopupImpl(mContext, mDialog, mParams
                     , systemBarConfig.getScreenSize(), systemBarConfig.getStatusBarHeight());
             mCreateView.buildBodyView();
             final ItemsView itemsView = mCreateView.getBodyView();
@@ -113,7 +113,7 @@ public class Controller {
             }
             //输入框
             else if (mParams.inputParams != null) {
-                mCreateView = new BuildViewInputImpl(mContext, mParams);
+                mCreateView = new BuildViewInputImpl(mContext, mDialog, mParams);
                 mCreateView.buildBodyView();
                 View inputView = mCreateView.getBodyView();
                 ButtonView buttonView = mCreateView.buildButton();
@@ -155,7 +155,7 @@ public class Controller {
             public void onClick(View v) {
                 mHandler.obtainMessage(BUTTON_POSITIVE, viewClick == null
                         ? viewButton : viewClick).sendToTarget();
-                if (mParams.inputParams == null || !mParams.inputParams.isManualClose) {
+                if (mParams.inputParams == null) {
                     mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                 }
             }
@@ -203,8 +203,10 @@ public class Controller {
         void onClick(View view, int which);
     }
 
-    public interface OnDialogLocationListener {
+    public interface OnDialogInternalListener {
         void dialogAtLocation(int x, int y);
+
+        void onDismiss();
     }
 
     static class ButtonHandler extends Handler {

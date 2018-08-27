@@ -30,9 +30,12 @@ final class BodyInputView extends RelativeLayout implements Controller.OnClickLi
     private ScaleEditText mEditText;
     private ScaleTextView mTvCounter;
     private CircleParams params;
+    private Controller.OnDialogInternalListener mDialogInternalListener;
 
-    public BodyInputView(Context context, CircleParams params) {
+    public BodyInputView(Context context, Controller.OnDialogInternalListener dialogInternalListener
+            , CircleParams params) {
         super(context);
+        this.mDialogInternalListener = dialogInternalListener;
         init(context, params);
     }
 
@@ -177,7 +180,10 @@ final class BodyInputView extends RelativeLayout implements Controller.OnClickLi
             InputView inputView = (InputView) view;
             String text = inputView.getInput().getText().toString();
             if (params.inputListener != null) {
-                params.inputListener.onClick(text, inputView.getInput());
+                boolean b = params.inputListener.onClick(text, inputView.getInput());
+                if (b) {
+                    mDialogInternalListener.onDismiss();
+                }
             }
         }
     }

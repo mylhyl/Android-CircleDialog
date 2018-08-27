@@ -544,18 +544,6 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置是否触发自动关闭对话框，默认自动
-         *
-         * @param manualClose true=手动；false=自动
-         * @return this Builder
-         */
-        public Builder setInputManualClose(boolean manualClose) {
-            newInputParams();
-            mCircleParams.inputParams.isManualClose = manualClose;
-            return this;
-        }
-
-        /**
          * 是否禁止输入表情，默认开启
          *
          * @param disable true=禁止；false=开启
