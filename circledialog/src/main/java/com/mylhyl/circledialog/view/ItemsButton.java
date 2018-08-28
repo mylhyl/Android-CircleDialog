@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.scale.ScaleUtils;
@@ -18,7 +17,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  * 列表对话框的取消按钮视图
  * Created by hupei on 2017/3/30.
  */
-final class ItemsButton extends LinearLayout implements Controller.OnClickListener, ButtonView {
+final class ItemsButton extends LinearLayout implements ButtonView {
 
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
@@ -196,18 +195,21 @@ final class ItemsButton extends LinearLayout implements Controller.OnClickListen
         mPositiveButton.setTypeface(mPositiveButton.getTypeface(), mPositiveParams.styleText);
     }
 
+    @Override
     public void regNegativeListener(OnClickListener onClickListener) {
         if (mNegativeButton != null) {
             mNegativeButton.setOnClickListener(onClickListener);
         }
     }
 
+    @Override
     public void regPositiveListener(OnClickListener onClickListener) {
         if (mPositiveButton != null) {
             mPositiveButton.setOnClickListener(onClickListener);
         }
     }
 
+    @Override
     public void regNeutralListener(OnClickListener onClickListener) {
         if (mNeutralButton != null) {
             mNeutralButton.setOnClickListener(onClickListener);
@@ -250,23 +252,5 @@ final class ItemsButton extends LinearLayout implements Controller.OnClickListen
     @Override
     public boolean isEmpty() {
         return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (which == Controller.BUTTON_NEGATIVE) {
-            if (mCircleParams.clickNegativeListener != null) {
-                mCircleParams.clickNegativeListener.onClick(mNegativeButton);
-            }
-        } else if (which == Controller.BUTTON_POSITIVE) {
-            if (mCircleParams.clickPositiveListener != null) {
-                mCircleParams.clickPositiveListener.onClick(mPositiveButton);
-            }
-        } else if (which == Controller.BUTTON_NEUTRAL) {
-            if (mCircleParams.clickNeutralListener != null) {
-                mCircleParams.clickNeutralListener.onClick(mNeutralButton);
-            }
-        }
-
     }
 }

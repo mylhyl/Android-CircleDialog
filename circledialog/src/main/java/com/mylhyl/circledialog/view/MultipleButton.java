@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.view.listener.ButtonView;
@@ -17,7 +16,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-class MultipleButton extends LinearLayout implements Controller.OnClickListener, ButtonView {
+class MultipleButton extends LinearLayout implements ButtonView {
 
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
@@ -224,22 +223,5 @@ class MultipleButton extends LinearLayout implements Controller.OnClickListener,
     @Override
     public boolean isEmpty() {
         return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (which == Controller.BUTTON_NEGATIVE) {
-            if (mCircleParams.clickNegativeListener != null) {
-                mCircleParams.clickNegativeListener.onClick(mNegativeButton);
-            }
-        } else if (which == Controller.BUTTON_POSITIVE) {
-            if (mCircleParams.clickPositiveListener != null) {
-                mCircleParams.clickPositiveListener.onClick(mPositiveButton);
-            }
-        } else if (which == Controller.BUTTON_NEUTRAL) {
-            if (mCircleParams.clickNeutralListener != null) {
-                mCircleParams.clickNeutralListener.onClick(mNeutralButton);
-            }
-        }
     }
 }

@@ -157,4 +157,19 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         wlp.y = y;
         window.setAttributes(wlp);
     }
+
+    @Override
+    public void dialogDismiss() {
+        dismissAllowingStateLoss();
+    }
+
+    @Override
+    public int[] getScreenSize() {
+        return getSystemBarConfig().getScreenSize();
+    }
+
+    @Override
+    public int getStatusBarHeight() {
+        return getSystemBarConfig().getStatusBarHeight();
+    }
 }
