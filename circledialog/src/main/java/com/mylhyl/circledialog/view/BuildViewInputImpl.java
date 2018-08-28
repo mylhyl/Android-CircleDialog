@@ -2,7 +2,6 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 
-import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleParams;
 
 /**
@@ -11,11 +10,9 @@ import com.mylhyl.circledialog.CircleParams;
 
 public final class BuildViewInputImpl extends BuildViewAbs {
     private BodyInputView mBodyInputView;
-    private BaseCircleDialog mDialog;
 
-    public BuildViewInputImpl(Context context, BaseCircleDialog dialog, CircleParams params) {
+    public BuildViewInputImpl(Context context, CircleParams params) {
         super(context, params);
-        this.mDialog = dialog;
     }
 
     @Override
@@ -29,7 +26,7 @@ public final class BuildViewInputImpl extends BuildViewAbs {
         buildTitleView(mRootCardViewByLinearLayout);
 
         if (mBodyInputView == null) {
-            mBodyInputView = new BodyInputView(mContext, mDialog, mParams);
+            mBodyInputView = new BodyInputView(mContext, mParams);
             mRootCardViewByLinearLayout.addView(mBodyInputView.getView());
         }
     }

@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
@@ -27,7 +26,7 @@ import java.util.List;
  * Created by hupei on 2017/3/30.
  */
 
-final class BodyListView extends ListView implements Controller.OnClickListener, ItemsView {
+final class BodyListView extends ListView implements ItemsView {
     private BaseAdapter mAdapter;
     private CircleParams mParams;
     private int mBackgroundColor;
@@ -74,8 +73,8 @@ final class BodyListView extends ListView implements Controller.OnClickListener,
     }
 
     @Override
-    public void regOnItemClickListener(OnItemClickListener onItemClickListener) {
-        setOnItemClickListener(onItemClickListener);
+    public void regOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        setOnItemClickListener(listener);
     }
 
     @Override
@@ -86,13 +85,6 @@ final class BodyListView extends ListView implements Controller.OnClickListener,
     @Override
     public View getView() {
         return this;
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (mParams.itemListener != null) {
-            mParams.itemListener.onItemClick((AdapterView<?>) view, view, which, which);
-        }
     }
 
     static class ItemsAdapter<T> extends BaseAdapter {

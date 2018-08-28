@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.callback.ConfigButton;
@@ -43,6 +42,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -290,7 +290,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, OnLvItemClickListener listener) {
             newItemsParams();
             mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
@@ -314,7 +314,7 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull BaseAdapter adapter
-                , AdapterView.OnItemClickListener listener) {
+                , OnLvItemClickListener listener) {
             newItemsParams();
             mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
@@ -362,18 +362,6 @@ public final class CircleDialog {
             params.layoutManager = layoutManager;
             params.itemDecoration = itemDecoration;
             params.adapterRv = adapter;
-            return this;
-        }
-
-        /**
-         * 设置items否触发自动关闭对话框，默认自动
-         *
-         * @param manualClose true=手动；false=自动
-         * @return this Builder
-         */
-        public Builder setItemsManualClose(boolean manualClose) {
-            newItemsParams();
-            mCircleParams.itemsParams.isManualClose = manualClose;
             return this;
         }
 

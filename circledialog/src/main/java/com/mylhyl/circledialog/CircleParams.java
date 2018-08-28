@@ -25,6 +25,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -67,7 +68,7 @@ public class CircleParams implements Parcelable {
     /**
      * item 点击事件
      */
-    public AdapterView.OnItemClickListener itemListener;
+    public OnLvItemClickListener itemListener;
     /**
      * dialog 关闭事件
      */

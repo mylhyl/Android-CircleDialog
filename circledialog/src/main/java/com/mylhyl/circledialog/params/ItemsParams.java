@@ -57,10 +57,6 @@ public class ItemsParams implements Parcelable {
      */
     public int backgroundColorPress;
     /**
-     * 是否触发自动关闭对话框
-     */
-    public boolean isManualClose;
-    /**
      * ListView 适配器
      */
     public BaseAdapter adapter;
@@ -95,7 +91,6 @@ public class ItemsParams implements Parcelable {
         this.textColor = in.readInt();
         this.textSize = in.readInt();
         this.backgroundColorPress = in.readInt();
-        this.isManualClose = in.readByte() != 0;
         this.linearLayoutManagerOrientation = in.readInt();
         this.bottomMargin = in.readInt();
         this.textGravity = in.readInt();
@@ -115,7 +110,6 @@ public class ItemsParams implements Parcelable {
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
         dest.writeInt(this.backgroundColorPress);
-        dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
         dest.writeInt(this.linearLayoutManagerOrientation);
         dest.writeInt(this.bottomMargin);
         dest.writeInt(this.textGravity);

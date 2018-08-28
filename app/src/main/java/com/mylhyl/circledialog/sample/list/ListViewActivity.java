@@ -77,8 +77,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"全部", "广东省", "湖南省", "香港"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -92,8 +92,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"11111111111111111", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -108,8 +108,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -151,8 +151,8 @@ public class ListViewActivity extends AppCompatActivity {
                                         , "功能6", "功能7", "功能8", "功能9", "功能10", "功能11"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -168,8 +168,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -184,8 +184,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -201,8 +201,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -241,8 +241,8 @@ public class ListViewActivity extends AppCompatActivity {
                                 .setPopupItems(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
-                                            public void onItemClick(View view, int position) {
-
+                                            public boolean onItemClick(View view, int position) {
+                                                return true;
                                             }
                                         })
                                 .show(getSupportFragmentManager());
@@ -253,8 +253,8 @@ public class ListViewActivity extends AppCompatActivity {
                                 .setPopupItems(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
-                                            public void onItemClick(View view, int position) {
-
+                                            public boolean onItemClick(View view, int position) {
+                                                return true;
                                             }
                                         })
                                 .show(getSupportFragmentManager());
@@ -265,8 +265,8 @@ public class ListViewActivity extends AppCompatActivity {
                                 .setPopupItems(new String[]{"1", "2", "3", "4"}
                                         , new OnRvItemClickListener() {
                                             @Override
-                                            public void onItemClick(View view, int position) {
-
+                                            public boolean onItemClick(View view, int position) {
+                                                return true;
                                             }
                                         })
                                 .show(getSupportFragmentManager());
@@ -293,8 +293,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -309,8 +309,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -324,8 +324,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -341,8 +341,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -358,8 +358,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -375,8 +375,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -392,8 +392,8 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopupItems(new String[]{"1", "2", "3", "4"}
                                 , new OnRvItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-
+                                    public boolean onItemClick(View view, int position) {
+                                        return true;
                                     }
                                 })
                         .show(getSupportFragmentManager());
@@ -416,8 +416,8 @@ public class ListViewActivity extends AppCompatActivity {
                 .setPopupItems(new String[]{"全部", "广东省", "香港", "湖南", "广西壮族自治区"}
                         , new OnRvItemClickListener() {
                             @Override
-                            public void onItemClick(View view, int position) {
-
+                            public boolean onItemClick(View view, int position) {
+                                return true;
                             }
                         })
                 .show(getSupportFragmentManager());
@@ -430,8 +430,8 @@ public class ListViewActivity extends AppCompatActivity {
                 .setPopupItems(new String[]{"1", "2", "3", "4"}
                         , new OnRvItemClickListener() {
                             @Override
-                            public void onItemClick(View view, int position) {
-
+                            public boolean onItemClick(View view, int position) {
+                                return true;
                             }
                         })
                 .show(getSupportFragmentManager());

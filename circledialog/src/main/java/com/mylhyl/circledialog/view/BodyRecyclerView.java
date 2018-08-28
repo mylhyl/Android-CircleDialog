@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ItemsParams;
@@ -33,7 +32,7 @@ import java.util.List;
  * Created by hupei on 2018/4/18.
  */
 
-class BodyRecyclerView extends RecyclerView implements Controller.OnClickListener, ItemsView {
+class BodyRecyclerView extends RecyclerView implements ItemsView {
     protected Context mContext;
     protected DialogParams mDialogParams;
     private ItemsParams mItemsParams;
@@ -148,13 +147,6 @@ class BodyRecyclerView extends RecyclerView implements Controller.OnClickListene
     @Override
     public View getView() {
         return this;
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (mOnRvItemClickListener != null) {
-            mOnRvItemClickListener.onItemClick(view, which);
-        }
     }
 
     static class ItemsAdapter<T> extends Adapter<ItemsAdapter.Holder> {

@@ -12,35 +12,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 
-import static com.mylhyl.circledialog.Controller.BUTTON_POSITIVE;
 import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT_SIZE;
 
 /**
  * Created by hupei on 2017/3/31.
  */
 
-final class BodyInputView extends RelativeLayout implements Controller.OnClickListener, InputView {
+final class BodyInputView extends RelativeLayout implements InputView {
     private ScaleEditText mEditText;
     private ScaleTextView mTvCounter;
-    private CircleParams params;
-    private Controller.OnDialogInternalListener mDialogInternalListener;
 
-    public BodyInputView(Context context, Controller.OnDialogInternalListener dialogInternalListener
-            , CircleParams params) {
+    public BodyInputView(Context context, CircleParams params) {
         super(context);
-        this.mDialogInternalListener = dialogInternalListener;
         init(context, params);
     }
 
     private void init(Context context, CircleParams params) {
-        this.params = params;
         DialogParams dialogParams = params.dialogParams;
         final InputParams inputParams = params.inputParams;
 
@@ -172,20 +165,6 @@ final class BodyInputView extends RelativeLayout implements Controller.OnClickLi
                 || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))
                 || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
                 || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (view instanceof InputView && which == BUTTON_POSITIVE) {
-            InputView inputView = (InputView) view;
-            String text = inputView.getInput().getText().toString();
-            if (params.inputListener != null) {
-                boolean b = params.inputListener.onClick(text, inputView.getInput());
-                if (b) {
-                    mDialogInternalListener.onDismiss();
-                }
-            }
-        }
     }
 
     @Override

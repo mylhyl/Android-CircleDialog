@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.Controller.OnDialogInternalListener;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.res.drawable.TriangleDrawable;
@@ -55,10 +55,10 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
     private int mTriangleGravity;
     private int[] mScreenSize;
     private int mStatusBarHeight;
-    private Controller.OnDialogInternalListener mDialogInternalListener;
+    private OnDialogInternalListener mDialogInternalListener;
     private Queue<Integer> mRemoveOnLayoutChangeListenerStrategy = new LinkedList<>();
 
-    public BuildViewPopupImpl(Context context, Controller.OnDialogInternalListener listener
+    public BuildViewPopupImpl(Context context, OnDialogInternalListener listener
             , CircleParams params, int[] screenSize, int statusBarHeight) {
         super(context, params);
         this.mDialogInternalListener = listener;

@@ -11,7 +11,7 @@ public interface OnInputClickListener {
      *
      * @param text
      * @param v
-     * @return true 关闭 false
+     * @return true关闭对话框 false不关闭
      */
     boolean onClick(String text, View v);
 }

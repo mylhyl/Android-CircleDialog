@@ -157,9 +157,4 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         wlp.y = y;
         window.setAttributes(wlp);
     }
-
-    @Override
-    public void onDismiss() {
-        dismissAllowingStateLoss();
-    }
 }

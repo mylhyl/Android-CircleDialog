@@ -134,9 +134,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configSubTitle(params -> {
 //                                params.backgroundColor = Color.YELLOW;
                         })
-                        .setItems(items, (parent, view1, position1, id) ->
-                                Toast.makeText(MainActivity.this, "点击了：" + items.get(position1)
-                                        , Toast.LENGTH_SHORT).show())
+                        .setItems(items, (parent, view1, position1, id) -> {
+                                    Toast.makeText(MainActivity.this, "点击了：" + items.get(position1)
+                                            , Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                        )
                         .setNegative("取消", null)
 //                        .setNeutral("中间", null)
 //                        .setPositive("确定", null)
@@ -337,9 +340,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("可多选")
-                        .setItems(checkedAdapter, (parent, view12, position12, id) ->
-                                checkedAdapter.toggle(position12, objects[position12]))
-                        .setItemsManualClose(true)
+                        .setItems(checkedAdapter, (parent, view12, position12, id) -> {
+                                    checkedAdapter.toggle(position12, objects[position12]);
+                                    return false;
+                                }
+                        )
                         .setPositive("确定", v -> Toast.makeText(MainActivity.this
                                 , "选择了：" + checkedAdapter.getSaveChecked().toString()
                                 , Toast.LENGTH_SHORT).show())
@@ -360,9 +365,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
                         .configItems(params -> params.dividerHeight = 0)
-                        .setItems(list, gridLayoutManager, (view13, position13) ->
-                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position13)
-                                        , Toast.LENGTH_SHORT).show())
+                        .setItems(list, gridLayoutManager, (view13, position13) -> {
+                            Toast.makeText(MainActivity.this, "点击了：" + list.get(position13)
+                                    , Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
@@ -420,9 +427,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
                         .configItems(params -> params.bottomMargin = 100)
-                        .setItems(checkedAdapterR, (parent, view15, position15, id) ->
-                                checkedAdapterR.toggle(position15, objectsR[position15]))
-                        .setItemsManualClose(true)
+                        .setItems(checkedAdapterR, (parent, view15, position15, id) -> {
+                            checkedAdapterR.toggle(position15, objectsR[position15]);
+                            return false;
+                        })
                         .setPositive("确定", v -> Toast.makeText(MainActivity.this
                                 , "选择了：" + checkedAdapterR.getSaveChecked().toString()
                                 , Toast.LENGTH_SHORT).show())
@@ -509,10 +517,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                        .setTitle("Rv Vertical")
                         .configItems(params -> params.dividerHeight = 1)
                         .setItems(rvListForV, new LinearLayoutManager(this)
-                                , (view13, position13) ->
-                                        Toast.makeText(MainActivity.this
-                                                , "点击了：" + rvListForV.get(position13)
-                                                , Toast.LENGTH_SHORT).show())
+                                , (view13, position13) -> {
+                                    Toast.makeText(MainActivity.this
+                                            , "点击了：" + rvListForV.get(position13)
+                                            , Toast.LENGTH_SHORT).show();
+                                    return true;
+                                })
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
@@ -533,10 +543,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("Rv Vertical")
                         .configItems(params -> params.dividerHeight = 5)
                         .setItems(rvListForH, new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-                                , (view13, position13) ->
-                                        Toast.makeText(MainActivity.this
-                                                , "点击了：" + rvListForH.get(position13)
-                                                , Toast.LENGTH_SHORT).show())
+                                , (view13, position13) -> {
+                                    Toast.makeText(MainActivity.this
+                                            , "点击了：" + rvListForH.get(position13)
+                                            , Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                        )
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
