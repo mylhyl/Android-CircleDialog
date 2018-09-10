@@ -22,10 +22,8 @@ public final class BuildViewItemsRecyclerViewImpl extends BuildViewItemsAbs {
         buildRootView();
         buildTitleView(mRootCardViewByLinearLayout);
         if (mItemsView == null) {
-            mItemsView = new BodyRecyclerView(mContext, mParams.itemsParams
-                    , mParams.dialogParams, mParams.rvItemListener);
-
             ItemsParams itemsParams = mParams.itemsParams;
+            mItemsView = new BodyRecyclerView(mContext, itemsParams, mParams.dialogParams);
             if (itemsParams != null && itemsParams.itemDecoration != null
                     && itemsParams.layoutManager != null && itemsParams.dividerHeight > 0
                     && itemsParams.layoutManager instanceof LinearLayoutManager

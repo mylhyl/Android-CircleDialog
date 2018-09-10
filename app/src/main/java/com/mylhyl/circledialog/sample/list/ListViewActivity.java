@@ -129,13 +129,20 @@ public class ListViewActivity extends AppCompatActivity {
                         .setText(R.id.textView, item.getName());
             }
         };
+        CircleDialog.Builder builder = new CircleDialog.Builder();
+
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+        });
 
         findViewById(R.id.top_center1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CircleDialog.Builder()
-                        .setPopup(v, PopupParams.TRIANGLE_TOP_CENTER)
-                        .setPopupItems(adapter, new LinearLayoutManager(ListViewActivity.this))
+                builder.setPopupItems(adapter, new LinearLayoutManager(ListViewActivity.this));
+                builder.setPopup(v, PopupParams.TRIANGLE_TOP_CENTER)
                         .show(getSupportFragmentManager());
             }
         });
@@ -148,7 +155,7 @@ public class ListViewActivity extends AppCompatActivity {
                         .setPopup(v, PopupParams.TRIANGLE_TOP_RIGHT)
 //                        .setPopupTriangleShow(false)
                         .setPopupItems(new String[]{"功能1", "功能2", "功能3", "功能4", "功能5"
-                                        , "功能6", "功能7", "功能8", "功能9", "功能10", "功能11"}
+                                        , "功能6", "功能7", "功能8"}
                                 , new OnRvItemClickListener() {
                                     @Override
                                     public boolean onItemClick(View view, int position) {

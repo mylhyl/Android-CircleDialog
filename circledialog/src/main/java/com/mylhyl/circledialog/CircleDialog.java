@@ -6,7 +6,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -56,21 +55,12 @@ public final class CircleDialog {
     }
 
     public BaseCircleDialog create(CircleParams params) {
-        if (mDialog == null)
-            mDialog = BaseCircleDialog.newAbsCircleDialog(params);
+        if (mDialog != null && mDialog.getDialog() != null && mDialog.getDialog().isShowing())
+            mDialog.refreshView();
         else {
-            if (mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
-                mDialog.refreshView();
-            }
+            mDialog = BaseCircleDialog.newAbsCircleDialog(params);
         }
         return mDialog;
-    }
-
-    @Deprecated
-    public void show(FragmentActivity activity) {
-        if (activity == null)
-            throw new NullPointerException("please call constructor Builder(FragmentActivity)");
-        mDialog.show(activity.getSupportFragmentManager(), "circleDialog");
     }
 
     public void show(FragmentManager manager) {
@@ -78,23 +68,12 @@ public final class CircleDialog {
     }
 
     public static class Builder {
-        private FragmentActivity mActivity;
         private CircleDialog mCircleDialog;
         private CircleParams mCircleParams;
 
         public Builder() {
-            init();
-        }
-
-        private void init() {
             mCircleParams = new CircleParams();
             mCircleParams.dialogParams = new DialogParams();
-        }
-
-        @Deprecated
-        public Builder(@NonNull FragmentActivity activity) {
-            this.mActivity = activity;
-            init();
         }
 
         /**
@@ -795,10 +774,9 @@ public final class CircleDialog {
             return this;
         }
 
-        @Deprecated
-        public BaseCircleDialog show() {
+        public BaseCircleDialog show(FragmentManager manager) {
             BaseCircleDialog dialogFragment = create();
-            mCircleDialog.show(mActivity);
+            mCircleDialog.show(manager);
             return dialogFragment;
         }
 
@@ -806,12 +784,6 @@ public final class CircleDialog {
             if (mCircleDialog == null)
                 mCircleDialog = new CircleDialog();
             return mCircleDialog.create(mCircleParams);
-        }
-
-        public BaseCircleDialog show(FragmentManager manager) {
-            BaseCircleDialog dialogFragment = create();
-            mCircleDialog.show(manager);
-            return dialogFragment;
         }
     }
 }

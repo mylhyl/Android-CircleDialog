@@ -36,25 +36,21 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
     protected Context mContext;
     protected DialogParams mDialogParams;
     private ItemsParams mItemsParams;
-    private OnRvItemClickListener mOnRvItemClickListener;
     private Adapter mAdapter;
 
     public BodyRecyclerView(Context context) {
         super(context);
     }
 
-    public BodyRecyclerView(Context context, ItemsParams itemsParams, DialogParams dialogParams
-            , OnRvItemClickListener listener) {
+    public BodyRecyclerView(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
         super(context);
-        init(context, itemsParams, dialogParams, listener);
+        init(context, itemsParams, dialogParams);
     }
 
-    private void init(Context context, ItemsParams itemsParams, DialogParams dialogParams
-            , OnRvItemClickListener listener) {
+    private void init(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
         this.mContext = context;
         this.mItemsParams = itemsParams;
         this.mDialogParams = dialogParams;
-        this.mOnRvItemClickListener = listener;
         configBackground();
         createLayoutManager();
         createItemDecoration();

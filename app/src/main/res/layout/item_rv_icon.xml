@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="TextView"/>
+        android:text="TextView"
+        android:textColor="@android:color/black"/>
 
 </LinearLayout>
