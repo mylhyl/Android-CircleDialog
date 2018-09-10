@@ -3,7 +3,9 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,6 +19,8 @@ import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
+
+import java.util.regex.Pattern;
 
 import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT_SIZE;
 
@@ -113,7 +117,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
         }
 
         if (inputParams.isEmojiInput) {
-            mEditText.addTextChangedListener(new EmojiWatcher(mEditText));
+            mEditText.setFilters(new InputFilter[]{new EmojiFilter()});
         }
 
         OnCreateInputListener createInputListener = params.createInputListener;
@@ -158,13 +162,6 @@ final class BodyInputView extends RelativeLayout implements InputView {
             }
         }
         return isChinese;
-    }
-
-    static boolean isEmojiCharacter(char codePoint) {
-        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA)
-                || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))
-                || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
-                || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
     }
 
     @Override
@@ -240,35 +237,49 @@ final class BodyInputView extends RelativeLayout implements InputView {
         }
     }
 
-    static class EmojiWatcher implements TextWatcher {
-        //监听改变的文本框
-        private EditText mEditText;
+    static class EmojiFilter implements InputFilter {
+        Pattern emojiPattern = Pattern.compile("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",
+                Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
 
-        public EmojiWatcher(EditText editText) {
-            this.mEditText = editText;
+        public EmojiFilter() {
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            if (this.emojiPattern.matcher(source).find() || containsEmoji(source)) {
+                return "";
+            }
+            return source;
         }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int index = mEditText.getSelectionStart() - 1;
-            mEditText.removeTextChangedListener(this);
-            if (index > 0) {
-                if (isEmojiCharacter(mEditText.getText().charAt(index))) {
-                    Editable edit = mEditText.getText();
-                    edit.delete(start, start + count);
+        /**
+         * 检测是否有emoji表情
+         *
+         * @param source
+         * @return
+         */
+        private static boolean containsEmoji(CharSequence source) {
+            int len = source.length();
+            for (int i = 0; i < len; i++) {
+                char codePoint = source.charAt(i);
+                if (!isEmojiCharacter(codePoint)) { //如果不能匹配,则该字符是Emoji表情
+                    return true;
                 }
             }
-            mEditText.addTextChangedListener(this);
+            return false;
         }
 
-        @Override
-        public void afterTextChanged(Editable editable) {
-
+        /**
+         * 判断是否是Emoji
+         *
+         * @param codePoint 比较的单个字符
+         * @return
+         */
+        private static boolean isEmojiCharacter(char codePoint) {
+            return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) ||
+                    (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF)) ||
+                    ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000)
+                    && (codePoint <= 0x10FFFF));
         }
     }
 }
