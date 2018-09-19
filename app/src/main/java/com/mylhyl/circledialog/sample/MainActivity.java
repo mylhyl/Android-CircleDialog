@@ -361,6 +361,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                list.add(new PictureTypeEntity(7, "拍照2"));
 //                list.add(new PictureTypeEntity(8, "从相册选择2"));
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        return 2;
+                    }
+                });
                 new CircleDialog.Builder()
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
@@ -516,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
 //                        .setTitle("Rv Vertical")
                         .configItems(params -> params.dividerHeight = 1)
-                        .setItems(rvListForV, new LinearLayoutManager(this)
+                        .setItems(rvListForV
                                 , (view13, position13) -> {
                                     Toast.makeText(MainActivity.this
                                             , "点击了：" + rvListForV.get(position13)
@@ -537,10 +543,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 rvListForH.add(new PictureTypeEntity(7, "拍照2"));
                 rvListForH.add(new PictureTypeEntity(8, "从相册选择3"));
                 rvListForH.add(new PictureTypeEntity(9, "小视频4"));
+
                 new CircleDialog.Builder()
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
-                        .setTitle("Rv Vertical")
+                        .setTitle("Rv Horizontal")
                         .configItems(params -> params.dividerHeight = 5)
                         .setItems(rvListForH, new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                                 , (view13, position13) -> {
@@ -563,4 +570,5 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         handler = null;
         runnable = null;
     }
+
 }

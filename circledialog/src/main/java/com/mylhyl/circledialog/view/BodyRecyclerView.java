@@ -37,6 +37,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
     protected DialogParams mDialogParams;
     private ItemsParams mItemsParams;
     private Adapter mAdapter;
+    private LayoutManager mLayoutManager;
 
     public BodyRecyclerView(Context context) {
         super(context);
@@ -66,27 +67,39 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
 
     private void createLayoutManager() {
         if (mItemsParams.layoutManager == null) {
-            mItemsParams.layoutManager = new LinearLayoutManager(getContext()
+            mLayoutManager = new LinearLayoutManager(getContext()
                     , mItemsParams.linearLayoutManagerOrientation, false);
+        } else if (mItemsParams.layoutManager instanceof StaggeredGridLayoutManager) {
+            StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) mItemsParams.layoutManager;
+            mLayoutManager = new StaggeredGridLayoutManagerWrapper(staggeredGridLayoutManager);
         } else if (mItemsParams.layoutManager instanceof GridLayoutManager) {
             GridLayoutManager gridLayoutManager = (GridLayoutManager) mItemsParams.layoutManager;
             if (gridLayoutManager.getSpanCount() == 1) {
-                mItemsParams.layoutManager = new LinearLayoutManager(getContext()
+                mLayoutManager = new LinearLayoutManager(getContext()
                         , mItemsParams.linearLayoutManagerOrientation, false);
+            } else {
+                mLayoutManager = new GridLayoutManagerWrapper(getContext(), gridLayoutManager);
             }
+        } else if (mItemsParams.layoutManager instanceof LinearLayoutManager) {
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mItemsParams.layoutManager;
+            mLayoutManager = new LinearLayoutManagerWrapper(getContext(), linearLayoutManager);
+        } else {
+//            mLayoutManager = new LayoutManagerWrapper(mItemsParams.layoutManager);
+            mLayoutManager = mItemsParams.layoutManager;
         }
-        setLayoutManager(mItemsParams.layoutManager);
+        setLayoutManager(mLayoutManager);
+        setHasFixedSize(true);
     }
 
     private void createItemDecoration() {
-        if (mItemsParams.dividerHeight > 0) {
-            if (mItemsParams.layoutManager instanceof GridLayoutManager
+        if (mItemsParams.dividerHeight > 0 && !(mLayoutManager instanceof LayoutManager)) {
+            if (mLayoutManager instanceof GridLayoutManager
                     && mItemsParams.itemDecoration == null) {
                 mItemsParams.itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
                         , mItemsParams.dividerHeight);
-            } else if (mItemsParams.layoutManager instanceof LinearLayoutManager
+            } else if (mLayoutManager instanceof LinearLayoutManager
                     && mItemsParams.itemDecoration == null) {
-                int orientation = ((LinearLayoutManager) mItemsParams.layoutManager).getOrientation();
+                int orientation = ((LinearLayoutManager) mLayoutManager).getOrientation();
                 mItemsParams.itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
                         , mItemsParams.dividerHeight, orientation);
             }
@@ -97,22 +110,24 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
     private void createAdapter() {
         mAdapter = mItemsParams.adapterRv;
         if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(mContext, mItemsParams, mDialogParams);
-            if (mItemsParams.layoutManager instanceof GridLayoutManager) {
-                final GridLayoutManager gridLayoutManager = (GridLayoutManager) mItemsParams.layoutManager;
-                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override
-                    public int getSpanSize(int position) {
-                        int itemCount = mAdapter.getItemCount();
-                        int spanCount = gridLayoutManager.getSpanCount();
-                        int mod = itemCount % spanCount;
-                        if (mod == 0 || position < itemCount - 1) {
-                            return 1;
-                        } else {
-                            return spanCount - mod + 1;
+            mAdapter = new ItemsAdapter(mContext, mItemsParams, mDialogParams, mLayoutManager);
+            if (mLayoutManager instanceof GridLayoutManager) {
+                final GridLayoutManager gridLayoutManager = (GridLayoutManager) mLayoutManager;
+                if (gridLayoutManager.getSpanSizeLookup() instanceof GridLayoutManager.DefaultSpanSizeLookup) {
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int position) {
+                            int itemCount = mAdapter.getItemCount();
+                            int spanCount = gridLayoutManager.getSpanCount();
+                            int mod = itemCount % spanCount;
+                            if (mod == 0 || position < itemCount - 1) {
+                                return 1;
+                            } else {
+                                return spanCount - mod + 1;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
         setAdapter(mAdapter);
@@ -151,10 +166,13 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         private List<T> mItems;
         private ItemsParams mItemsParams;
         private int mBackgroundColorPress;
+        private LayoutManager mLayoutManager;
 
-        public ItemsAdapter(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
+        public ItemsAdapter(Context context, ItemsParams itemsParams, DialogParams dialogParams
+                , LayoutManager layoutManager) {
             this.mContext = context;
             this.mItemsParams = itemsParams;
+            this.mLayoutManager = layoutManager;
             mBackgroundColorPress = itemsParams.backgroundColorPress != 0
                     ? itemsParams.backgroundColorPress : dialogParams.backgroundColorPress;
             Object entity = itemsParams.items;
@@ -170,9 +188,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
             ScaleTextView textView = new ScaleTextView(mContext);
-            LayoutManager layoutManager = mItemsParams.layoutManager;
-            if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+            if (mLayoutManager instanceof LinearLayoutManager) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mLayoutManager;
                 if (linearLayoutManager.getOrientation() == LinearLayoutManager.HORIZONTAL) {
                     textView.setLayoutParams(new LayoutParams(
                             LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -190,9 +207,13 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                     textView.setLayoutParams(new LayoutParams(
                             LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                 }
-            } else {
+            } else if (mLayoutManager instanceof StaggeredGridLayoutManager
+                    || mLayoutManager instanceof GridLayoutManager) {
                 textView.setLayoutParams(new LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            } else {
+                textView.setLayoutParams(new LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             }
             textView.setTextSize(mItemsParams.textSize);
             textView.setTextColor(mItemsParams.textColor);
@@ -440,6 +461,28 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
             }
+        }
+    }
+
+    static class LinearLayoutManagerWrapper extends LinearLayoutManager {
+
+        public LinearLayoutManagerWrapper(Context context, LinearLayoutManager layoutManager) {
+            super(context, layoutManager.getOrientation(), layoutManager.getReverseLayout());
+        }
+    }
+
+    static class GridLayoutManagerWrapper extends GridLayoutManager {
+
+        public GridLayoutManagerWrapper(Context context, GridLayoutManager layoutManager) {
+            super(context, layoutManager.getSpanCount(), layoutManager.getOrientation(), layoutManager.getReverseLayout());
+        }
+    }
+
+    static class StaggeredGridLayoutManagerWrapper extends StaggeredGridLayoutManager {
+
+
+        public StaggeredGridLayoutManagerWrapper(StaggeredGridLayoutManager layoutManager) {
+            super(layoutManager.getSpanCount(), layoutManager.getOrientation());
         }
     }
 }
