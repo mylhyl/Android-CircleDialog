@@ -2,16 +2,16 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
-import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.EmojiFilter;
+import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
@@ -138,9 +138,13 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             mTvCounter.setTextColor(inputParams.counterColor);
 
             mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
-                    , mEditText, mTvCounter));
+                    , mEditText, mTvCounter, params));
 
             addView(mTvCounter, layoutParamsCounter);
+        }
+
+        if (inputParams.isEmojiInput) {
+            mEditText.setFilters(new InputFilter[]{new EmojiFilter()});
         }
 
         OnCreateInputListener createInputListener = params.createInputListener;
@@ -149,43 +153,6 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         }
     }
 
-    public static int chineseLength(String str) {
-        int valueLength = 0;
-        if (!TextUtils.isEmpty(str)) {
-            // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
-            for (int i = 0; i < str.length(); i++) {
-                // 获取一个字符
-                String temp = str.substring(i, i + 1);
-                // 判断是否为中文字符
-                if (isChinese(temp)) {
-                    // 中文字符长度为2
-                    valueLength += 2;
-                } else {
-                    // 其他字符长度为1
-                    valueLength += 1;
-                }
-            }
-        }
-        return valueLength;
-    }
-
-    public static boolean isChinese(String str) {
-        Boolean isChinese = true;
-        String chinese = "[\u0391-\uFFE5]";
-        if (!TextUtils.isEmpty(str)) {
-            // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
-            for (int i = 0; i < str.length(); i++) {
-                // 获取一个字符
-                String temp = str.substring(i, i + 1);
-                // 判断是否为中文字符
-                if (temp.matches(chinese)) {
-                } else {
-                    isChinese = false;
-                }
-            }
-        }
-        return isChinese;
-    }
 
     @Override
     public void onClick(View view, int which) {
@@ -208,64 +175,4 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         return this;
     }
 
-    public class MaxLengthWatcher implements TextWatcher {
-        private int mMaxLen;
-        private EditText mEditText;
-        private TextView mTvCounter;
-
-        public MaxLengthWatcher(int maxLen, EditText editText, TextView textView) {
-            this.mMaxLen = maxLen;
-            this.mEditText = editText;
-            this.mTvCounter = textView;
-            if (mEditText != null) {
-                String defText = mEditText.getText().toString();
-                int currentLen = maxLen - chineseLength(defText);
-                if (params.inputCounterChangeListener != null) {
-                    String counterText = params.inputCounterChangeListener
-                            .onCounterChange(maxLen, currentLen);
-                    mTvCounter.setText(counterText == null ? "" : counterText);
-                } else {
-                    mTvCounter.setText(String.valueOf(currentLen));
-                }
-            }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            int editStart = mEditText.getSelectionStart();
-            int editEnd = mEditText.getSelectionEnd();
-            // 先去掉监听器，否则会出现栈溢出
-            mEditText.removeTextChangedListener(this);
-            if (!TextUtils.isEmpty(editable)) {
-                //循环删除多出的字符
-                while (chineseLength(editable.toString()) > mMaxLen) {
-                    editable.delete(editStart - 1, editEnd);
-                    editStart--;
-                    editEnd--;
-                }
-            }
-            int currentLen = mMaxLen - chineseLength(editable.toString());
-            if (params.inputCounterChangeListener != null) {
-                String counterText = params.inputCounterChangeListener
-                        .onCounterChange(mMaxLen, currentLen);
-                mTvCounter.setText(counterText == null ? "" : counterText);
-            } else {
-                mTvCounter.setText(String.valueOf(currentLen));
-            }
-
-            mEditText.setSelection(editStart);
-            // 恢复监听器
-            mEditText.addTextChangedListener(this);
-        }
-    }
 }

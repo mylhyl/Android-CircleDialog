@@ -534,6 +534,18 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 是否禁止输入表情，默认开启
+         *
+         * @param disable true=禁止；false=开启
+         * @return this Builder
+         */
+        public Builder setInputEmoji(boolean disable) {
+            newInputParams();
+            mCircleParams.inputParams.isEmojiInput = disable;
+            return this;
+        }
+
         public Builder configInput(@NonNull ConfigInput configInput) {
             newInputParams();
             configInput.onConfig(mCircleParams.inputParams);

@@ -331,15 +331,8 @@ public abstract class BaseCircleDialog extends DialogFragment {
     }
 
     //显示键盘
-    protected void showSoftInputView(final View view) {
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager manager = ((InputMethodManager) getActivity()
-                        .getSystemService(Activity.INPUT_METHOD_SERVICE));
-                if (getActivity().getCurrentFocus() != null)
-                    manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        });
+    protected void showSoftInputView() {
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 }

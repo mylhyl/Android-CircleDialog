@@ -39,8 +39,7 @@ public final class AbsCircleDialog extends BaseCircleDialog implements DialogInt
         super.onViewCreated(view, savedInstanceState);
         if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
                 && mController != null) {
-            EditText editText = mController.getInputEdit();
-            if (editText != null) showSoftInputView(editText);
+            showSoftInputView();
         }
     }
 
