@@ -27,20 +27,7 @@
 
 * [更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
 
-# 说明
-
- * 此库自动将px转换百分比，由于 Dialog 布局一般只有微调，暂时只支持textSize，height，padding
- * 默认字体大小;Title、message、button、padding 的px在设计稿为 1080 * 1920 的尺寸
- * 也可自己定义，只需在manifest.xml中加入如下格式
-
-```xml
-        <meta-data android:name="circle_dialog_design_width" android:value="1200"/>
-        <meta-data android:name="circle_dialog_design_height" android:value="1920"/>
-```
-
 # 注意
  * 依赖包：`appcompat-v7`、`cardview-v7`、`recyclerview-v7`
  * 继承基类`AbsBaseCircleDialog`背景为透明，自定义layout时按需求设置背景
-
-# 感谢
-[AutoLayout-Android](https://github.com/DTHeaven/AutoLayout-Android)；
+ * v3版放弃百分比适配
