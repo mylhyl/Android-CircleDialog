@@ -2,25 +2,21 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.EmojiFilter;
+import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
-
-import java.util.regex.Pattern;
 
 import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT_SIZE;
 
@@ -126,44 +122,6 @@ final class BodyInputView extends RelativeLayout implements InputView {
         }
     }
 
-    static int chineseLength(String str) {
-        int valueLength = 0;
-        if (!TextUtils.isEmpty(str)) {
-            // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
-            for (int i = 0; i < str.length(); i++) {
-                // 获取一个字符
-                String temp = str.substring(i, i + 1);
-                // 判断是否为中文字符
-                if (isChinese(temp)) {
-                    // 中文字符长度为2
-                    valueLength += 2;
-                } else {
-                    // 其他字符长度为1
-                    valueLength += 1;
-                }
-            }
-        }
-        return valueLength;
-    }
-
-    static boolean isChinese(String str) {
-        Boolean isChinese = true;
-        String chinese = "[\u0391-\uFFE5]";
-        if (!TextUtils.isEmpty(str)) {
-            // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
-            for (int i = 0; i < str.length(); i++) {
-                // 获取一个字符
-                String temp = str.substring(i, i + 1);
-                // 判断是否为中文字符
-                if (temp.matches(chinese)) {
-                } else {
-                    isChinese = false;
-                }
-            }
-        }
-        return isChinese;
-    }
-
     @Override
     public EditText getInput() {
         return mEditText;
@@ -174,112 +132,4 @@ final class BodyInputView extends RelativeLayout implements InputView {
         return this;
     }
 
-    static class MaxLengthWatcher implements TextWatcher {
-        private int mMaxLen;
-        private EditText mEditText;
-        private TextView mTvCounter;
-        private CircleParams mParams;
-
-        public MaxLengthWatcher(int maxLen, EditText editText, TextView textView, CircleParams params) {
-            this.mMaxLen = maxLen;
-            this.mEditText = editText;
-            this.mTvCounter = textView;
-            this.mParams = params;
-            if (mEditText != null) {
-                String defText = mEditText.getText().toString();
-                int currentLen = maxLen - chineseLength(defText);
-                if (mParams.inputCounterChangeListener != null) {
-                    String counterText = mParams.inputCounterChangeListener
-                            .onCounterChange(maxLen, currentLen);
-                    mTvCounter.setText(counterText == null ? "" : counterText);
-                } else {
-                    mTvCounter.setText(String.valueOf(currentLen));
-                }
-            }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            int editStart = mEditText.getSelectionStart();
-            int editEnd = mEditText.getSelectionEnd();
-            // 先去掉监听器，否则会出现栈溢出
-            mEditText.removeTextChangedListener(this);
-            if (!TextUtils.isEmpty(editable)) {
-                //循环删除多出的字符
-                while (chineseLength(editable.toString()) > mMaxLen) {
-                    editable.delete(editStart - 1, editEnd);
-                    editStart--;
-                    editEnd--;
-                }
-            }
-            int currentLen = mMaxLen - chineseLength(editable.toString());
-            if (mParams.inputCounterChangeListener != null) {
-                String counterText = mParams.inputCounterChangeListener
-                        .onCounterChange(mMaxLen, currentLen);
-                mTvCounter.setText(counterText == null ? "" : counterText);
-            } else {
-                mTvCounter.setText(String.valueOf(currentLen));
-            }
-
-            mEditText.setSelection(editStart);
-            // 恢复监听器
-            mEditText.addTextChangedListener(this);
-        }
-    }
-
-    static class EmojiFilter implements InputFilter {
-        Pattern emojiPattern = Pattern.compile("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",
-                Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
-
-        public EmojiFilter() {
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            if (this.emojiPattern.matcher(source).find() || containsEmoji(source)) {
-                return "";
-            }
-            return source;
-        }
-
-        /**
-         * 检测是否有emoji表情
-         *
-         * @param source
-         * @return
-         */
-        private static boolean containsEmoji(CharSequence source) {
-            int len = source.length();
-            for (int i = 0; i < len; i++) {
-                char codePoint = source.charAt(i);
-                if (!isEmojiCharacter(codePoint)) { //如果不能匹配,则该字符是Emoji表情
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * 判断是否是Emoji
-         *
-         * @param codePoint 比较的单个字符
-         * @return
-         */
-        private static boolean isEmojiCharacter(char codePoint) {
-            return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) ||
-                    (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF)) ||
-                    ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000)
-                    && (codePoint <= 0x10FFFF));
-        }
-    }
 }

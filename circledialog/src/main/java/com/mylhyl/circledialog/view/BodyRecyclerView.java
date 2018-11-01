@@ -84,7 +84,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mItemsParams.layoutManager;
             mLayoutManager = new LinearLayoutManagerWrapper(getContext(), linearLayoutManager);
         } else {
-//            mLayoutManager = new LayoutManagerWrapper(mItemsParams.layoutManager);
             mLayoutManager = mItemsParams.layoutManager;
         }
         setLayoutManager(mLayoutManager);
