@@ -12,10 +12,8 @@
 
 # 引入
 
-[ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  将`latestVersion`替换为左则`Download`图标后面的数字
-
 ```xml
- compile 'com.mylhyl:circleDialog:latestVersion'
+ compile 'com.mylhyl:circleDialog:2.6.7'
 ```
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
