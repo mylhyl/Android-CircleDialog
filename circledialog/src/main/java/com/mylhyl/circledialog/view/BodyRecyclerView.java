@@ -186,21 +186,21 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
 
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            ScaleTextView textView = new ScaleTextView(mContext);
+            TextView textView = new TextView(mContext);
             if (mLayoutManager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mLayoutManager;
                 if (linearLayoutManager.getOrientation() == LinearLayoutManager.HORIZONTAL) {
                     textView.setLayoutParams(new LayoutParams(
                             LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                     if (mItemsParams.padding != null) {
-                        textView.setAutoPadding(mItemsParams.padding[0], mItemsParams.padding[1]
+                        textView.setPadding(mItemsParams.padding[0], mItemsParams.padding[1]
                                 , mItemsParams.padding[2], mItemsParams.padding[3]);
                     } else {
                         textView.setPadding(10, 0, 10, 0);
                     }
                 } else {
                     if (mItemsParams.padding != null) {
-                        textView.setAutoPadding(mItemsParams.padding[0], mItemsParams.padding[1]
+                        textView.setPadding(mItemsParams.padding[0], mItemsParams.padding[1]
                                 , mItemsParams.padding[2], mItemsParams.padding[3]);
                     }
                     textView.setLayoutParams(new LayoutParams(

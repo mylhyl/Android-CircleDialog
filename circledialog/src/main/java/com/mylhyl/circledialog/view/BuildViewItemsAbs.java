@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
@@ -47,7 +46,7 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的下距离
-        layoutParams.bottomMargin = ScaleUtils.scaleValue(mParams.itemsParams.bottomMargin);
+        layoutParams.bottomMargin = mParams.itemsParams.bottomMargin;
         cardView.setLayoutParams(layoutParams);
 
         rootItem.addView(cardView);

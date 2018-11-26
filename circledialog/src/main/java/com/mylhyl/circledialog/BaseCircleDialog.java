@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.scale.ScaleLayoutConfig;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -75,7 +74,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ScaleLayoutConfig.init(getContext().getApplicationContext());
         if (savedInstanceState != null) {
             mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
         }

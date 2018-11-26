@@ -3,9 +3,11 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -40,10 +42,10 @@ final class TitleView extends LinearLayout {
         //标题图标
         ImageView ivTitleIcon = createTitleIcon(titleParams);
         //标题
-        final ScaleTextView tvTitle = createTitle(titleParams);
+        final TextView tvTitle = createTitle(titleParams);
 
         //副标题
-        ScaleTextView tvSubTitle = createSubTitle(dialogParams, subTitleParams);
+        TextView tvSubTitle = createSubTitle(dialogParams, subTitleParams);
         OnCreateTitleListener createTitleListener = params.createTitleListener;
         if (createTitleListener != null) {
             createTitleListener.onCreateTitle(ivTitleIcon, tvTitle, tvSubTitle);
@@ -81,8 +83,9 @@ final class TitleView extends LinearLayout {
     }
 
     @NonNull
-    private ScaleTextView createTitle(TitleParams titleParams) {
-        final ScaleTextView tvTitle = new ScaleTextView(getContext());
+    private TextView createTitle(TitleParams titleParams) {
+        final TextView tvTitle = new TextView(getContext());
+        tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -99,10 +102,11 @@ final class TitleView extends LinearLayout {
     }
 
     @Nullable
-    private ScaleTextView createSubTitle(DialogParams dialogParams, SubTitleParams subTitleParams) {
-        ScaleTextView tvSubTitle = null;
+    private TextView createSubTitle(DialogParams dialogParams, SubTitleParams subTitleParams) {
+        TextView tvSubTitle = null;
         if (subTitleParams != null) {
-            tvSubTitle = new ScaleTextView(getContext());
+            tvSubTitle = new TextView(getContext());
+            tvSubTitle.setGravity(Gravity.CENTER);
             setSubTitleBg(tvSubTitle, subTitleParams.backgroundColor, dialogParams.backgroundColor);
             tvSubTitle.setGravity(subTitleParams.gravity);
             if (subTitleParams.height != 0)
@@ -112,14 +116,14 @@ final class TitleView extends LinearLayout {
             tvSubTitle.setText(subTitleParams.text);
             int[] padding = subTitleParams.padding;
             if (padding != null)
-                tvSubTitle.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+                tvSubTitle.setPadding(padding[0], padding[1], padding[2], padding[3]);
             tvSubTitle.setTypeface(tvSubTitle.getTypeface(), subTitleParams.styleText);
             addView(tvSubTitle);
         }
         return tvSubTitle;
     }
 
-    private void setSubTitleBg(ScaleTextView tvSubTitle, int tbg, int dbg) {
+    private void setSubTitleBg(TextView tvSubTitle, int tbg, int dbg) {
         //如果标题没有背景色，则使用默认色
         int bg = tbg != 0 ? tbg : dbg;
         tvSubTitle.setBackgroundColor(bg);

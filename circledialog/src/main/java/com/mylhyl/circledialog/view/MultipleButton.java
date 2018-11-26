@@ -2,9 +2,11 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.ButtonParams;
@@ -22,9 +24,9 @@ class MultipleButton extends LinearLayout implements ButtonView {
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
     private ButtonParams mNeutralParams;
-    private ScaleTextView mNegativeButton;
-    private ScaleTextView mPositiveButton;
-    private ScaleTextView mNeutralButton;
+    private TextView mNegativeButton;
+    private TextView mPositiveButton;
+    private TextView mNeutralButton;
 
     public MultipleButton(Context context, CircleParams params) {
         super(context);
@@ -108,7 +110,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     private void createNegative() {
-        mNegativeButton = new ScaleTextView(getContext());
+        mNegativeButton = new TextView(getContext());
         mNegativeButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handleNegativeStyle();
@@ -121,7 +123,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     private void createNeutral() {
-        mNeutralButton = new ScaleTextView(getContext());
+        mNeutralButton = new TextView(getContext());
         mNeutralButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handleNeutralStyle();
@@ -129,7 +131,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     private void createPositive() {
-        mPositiveButton = new ScaleTextView(getContext());
+        mPositiveButton = new TextView(getContext());
         mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handlePositiveStyle();
@@ -137,6 +139,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     private void handleNegativeStyle() {
+        mNegativeButton.setGravity(Gravity.CENTER);
         mNegativeButton.setText(mNegativeParams.text);
         mNegativeButton.setEnabled(!mNegativeParams.disable);
         mNegativeButton.setTextColor(mNegativeParams.disable ?
@@ -147,6 +150,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     private void handleNeutralStyle() {
+        mNeutralButton.setGravity(Gravity.CENTER);
         mNeutralButton.setText(mNeutralParams.text);
         mNeutralButton.setEnabled(!mNeutralParams.disable);
         mNeutralButton.setTextColor(mNeutralParams.disable ?
@@ -157,6 +161,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     private void handlePositiveStyle() {
+        mPositiveButton.setGravity(Gravity.CENTER);
         mPositiveButton.setText(mPositiveParams.text);
         mPositiveButton.setEnabled(!mPositiveParams.disable);
         mPositiveButton.setTextColor(mPositiveParams.disable ?

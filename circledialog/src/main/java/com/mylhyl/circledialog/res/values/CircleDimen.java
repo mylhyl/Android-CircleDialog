@@ -11,7 +11,7 @@ public class CircleDimen {
     /**
      * 标题高
      */
-    public static int TITLE_HEIGHT = 170;
+    public static int TITLE_HEIGHT = 100;
     /**
      * 文本对话框的内容高度
      */
@@ -19,7 +19,7 @@ public class CircleDimen {
     /**
      * 标题字体大小
      */
-    public static int TITLE_TEXT_SIZE = 60;
+    public static int TITLE_TEXT_SIZE = 16;
     /**
      * 副标题字体大小
      */
@@ -27,7 +27,7 @@ public class CircleDimen {
     /**
      * 文字消息字体大小
      */
-    public static int CONTENT_TEXT_SIZE = 50;
+    public static int CONTENT_TEXT_SIZE = 16;
     /**
      * 列表item字体大小
      */
@@ -51,7 +51,7 @@ public class CircleDimen {
     /**
      * 底部按钮字体大小
      */
-    public static int FOOTER_BUTTON_TEXT_SIZE = 40;
+    public static int FOOTER_BUTTON_TEXT_SIZE = 16;
     /**
      * 列表模式底部按钮与列表的距离
      */

@@ -11,7 +11,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
  * 对话框纯文本视图
  * Created by hupei on 2017/3/30.
  */
-final class BodyTextView extends ScaleTextView {
+final class BodyTextView extends android.support.v7.widget.AppCompatTextView {
     private CircleParams mParams;
 
     public BodyTextView(Context context, CircleParams params) {
@@ -38,7 +38,7 @@ final class BodyTextView extends ScaleTextView {
         setTypeface(getTypeface(), textParams.styleText);
 
         int[] padding = textParams.padding;
-        if (padding != null) setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+        if (padding != null) setPadding(padding[0], padding[1], padding[2], padding[3]);
 
         OnCreateTextListener createTextListener = params.createTextListener;
         if (createTextListener != null) {

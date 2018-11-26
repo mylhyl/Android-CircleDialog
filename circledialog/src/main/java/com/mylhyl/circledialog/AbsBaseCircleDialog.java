@@ -23,7 +23,6 @@ import android.widget.FrameLayout;
 
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
-import com.mylhyl.circledialog.scale.ScaleUtils;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -166,9 +165,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         if (mPadding != null) {
             int[] padding = mPadding;
             wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            window.getDecorView().setPadding(ScaleUtils.scaleValue(padding[0]), ScaleUtils
-                    .scaleValue(padding[1]), ScaleUtils.scaleValue(padding[2]), ScaleUtils
-                    .scaleValue(padding[3]));
+            window.getDecorView().setPadding(padding[0], padding[1], padding[2], padding[3]);
         }
         window.setAttributes(wlp);
         //动画

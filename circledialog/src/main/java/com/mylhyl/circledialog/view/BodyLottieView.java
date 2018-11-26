@@ -4,13 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.LottieParams;
-import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
 
 /**
@@ -40,8 +40,8 @@ final class BodyLottieView extends LinearLayout {
         int lottieWidth = mLottieParams.lottieWidth;
         int lottieHeight = mLottieParams.lottieHeight;
         LayoutParams layoutParams = new LayoutParams(
-                lottieWidth <= 0 ? LayoutParams.WRAP_CONTENT : ScaleUtils.scaleValue(lottieWidth)
-                , lottieHeight <= 0 ? LayoutParams.WRAP_CONTENT : ScaleUtils.scaleValue(lottieHeight));
+                lottieWidth <= 0 ? LayoutParams.WRAP_CONTENT : lottieWidth
+                , lottieHeight <= 0 ? LayoutParams.WRAP_CONTENT : lottieHeight);
         int[] margins = mLottieParams.margins;
         if (margins != null)
             layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
@@ -62,9 +62,9 @@ final class BodyLottieView extends LinearLayout {
         addView(mLottieAnimationView, layoutParams);
 
         //构建文本
-        ScaleTextView textView = null;
+        TextView textView = null;
         if (!TextUtils.isEmpty(mLottieParams.text)) {
-            textView = new ScaleTextView(getContext());
+            textView = new TextView(getContext());
             LayoutParams textLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             textLayoutParams.gravity = Gravity.CENTER;
             int[] textMargins = mLottieParams.textMargins;
@@ -76,7 +76,7 @@ final class BodyLottieView extends LinearLayout {
             textView.setTypeface(textView.getTypeface(), mLottieParams.styleText);
             int[] textPadding = mLottieParams.textPadding;
             if (textPadding != null)
-                textView.setAutoPadding(textPadding[0], textPadding[1], textPadding[2], textPadding[3]);
+                textView.setPadding(textPadding[0], textPadding[1], textPadding[2], textPadding[3]);
             addView(textView, textLayoutParams);
         }
 

@@ -5,11 +5,11 @@ import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
-import com.mylhyl.circledialog.scale.ScaleUtils;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 
@@ -23,9 +23,9 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
     private ButtonParams mNeutralParams;
-    private ScaleTextView mNegativeButton;
-    private ScaleTextView mPositiveButton;
-    private ScaleTextView mNeutralButton;
+    private TextView mNegativeButton;
+    private TextView mPositiveButton;
+    private TextView mNeutralButton;
 
     public ItemsButton(Context context, CircleParams params) {
         super(context);
@@ -122,12 +122,12 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     }
 
     private void createNegative() {
-        mNegativeButton = new ScaleTextView(getContext());
+        mNegativeButton = new TextView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的上距离
         if (mNegativeParams.topMargin > 0) {
-            params.topMargin = ScaleUtils.scaleValue(mNegativeParams.topMargin);
+            params.topMargin = mNegativeParams.topMargin;
         }
         mNegativeButton.setLayoutParams(params);
         handleNegativeStyle();
@@ -140,12 +140,12 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     }
 
     private void createNeutral() {
-        mNeutralButton = new ScaleTextView(getContext());
+        mNeutralButton = new TextView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的上距离
         if (mNeutralParams.topMargin > 0) {
-            params.topMargin = ScaleUtils.scaleValue(mNeutralParams.topMargin);
+            params.topMargin = mNeutralParams.topMargin;
         }
         mNeutralButton.setLayoutParams(params);
         handleNeutralStyle();
@@ -153,12 +153,12 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     }
 
     private void createPositive() {
-        mPositiveButton = new ScaleTextView(getContext());
+        mPositiveButton = new TextView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的上距离
         if (mPositiveParams.topMargin > 0) {
-            params.topMargin = ScaleUtils.scaleValue(mPositiveParams.topMargin);
+            params.topMargin = mPositiveParams.topMargin;
         }
         mPositiveButton.setLayoutParams(params);
         handlePositiveStyle();

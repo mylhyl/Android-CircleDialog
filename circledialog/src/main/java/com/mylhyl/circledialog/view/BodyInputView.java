@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.EmojiFilter;
@@ -25,8 +26,8 @@ import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT
  */
 
 final class BodyInputView extends RelativeLayout implements InputView {
-    private ScaleEditText mEditText;
-    private ScaleTextView mTvCounter;
+    private EditText mEditText;
+    private TextView mTvCounter;
 
     public BodyInputView(Context context, CircleParams params) {
         super(context);
@@ -42,7 +43,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
                 ? inputParams.backgroundColor : dialogParams.backgroundColor;
         setBackgroundColor(backgroundColor);
 
-        mEditText = new ScaleEditText(context);
+        mEditText = new EditText(context);
         mEditText.setId(android.R.id.input);
         int inputType = inputParams.inputType;
         if (inputType != InputType.TYPE_NULL) {
@@ -86,7 +87,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
         }
         int[] padding = inputParams.padding;
         if (padding != null)
-            mEditText.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+            mEditText.setPadding(padding[0], padding[1], padding[2], padding[3]);
         mEditText.setTypeface(mEditText.getTypeface(), inputParams.styleText);
 
         addView(mEditText, layoutParams);
@@ -102,7 +103,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
                         , inputParams.counterMargins[0]
                         , inputParams.counterMargins[1]);
             }
-            mTvCounter = new ScaleTextView(context);
+            mTvCounter = new TextView(context);
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
             mTvCounter.setTextColor(inputParams.counterColor);
 

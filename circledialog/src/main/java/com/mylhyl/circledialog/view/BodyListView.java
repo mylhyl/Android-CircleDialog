@@ -130,12 +130,12 @@ final class BodyListView extends ListView implements ItemsView {
             ViewHolder viewHolder;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-                ScaleTextView textView = new ScaleTextView(mContext);
+                TextView textView = new TextView(mContext);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
                 textView.setHeight(mItemsParams.itemHeight);
                 if (mItemsParams.padding != null) {
-                    textView.setAutoPadding(mItemsParams.padding[0], mItemsParams.padding[1]
+                    textView.setPadding(mItemsParams.padding[0], mItemsParams.padding[1]
                             , mItemsParams.padding[2], mItemsParams.padding[3]);
                 }
                 if (mItemsParams.textGravity != Gravity.NO_GRAVITY)

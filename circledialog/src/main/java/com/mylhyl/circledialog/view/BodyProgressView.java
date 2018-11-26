@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -84,13 +85,13 @@ final class BodyProgressView extends LinearLayout {
         addView(mProgressBar, layoutParams);
 
         //构建文本
-        final ScaleTextView textView = new ScaleTextView(getContext());
+        final TextView textView = new TextView(getContext());
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
         textView.setTypeface(textView.getTypeface(), mProgressParams.styleText);
         int[] padding = mProgressParams.padding;
         if (padding != null)
-            textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+            textView.setPadding(padding[0], padding[1], padding[2], padding[3]);
         addView(textView);
 
         if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL
