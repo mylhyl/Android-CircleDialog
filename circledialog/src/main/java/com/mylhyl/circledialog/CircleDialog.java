@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -49,22 +50,24 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
  */
 
 public final class CircleDialog {
-    private BaseCircleDialog mDialog;
+    private BaseCircleDialog mBaseCircleDialog;
 
     private CircleDialog() {
     }
 
     public BaseCircleDialog create(CircleParams params) {
-        if (mDialog != null && mDialog.getDialog() != null && mDialog.getDialog().isShowing())
-            mDialog.refreshView();
-        else {
-            mDialog = BaseCircleDialog.newAbsCircleDialog(params);
+        if (mBaseCircleDialog != null) {
+            Dialog dialog = mBaseCircleDialog.getDialog();
+            if (dialog != null && dialog.isShowing())
+                mBaseCircleDialog.refreshView();
+        } else {
+            mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
         }
-        return mDialog;
+        return mBaseCircleDialog;
     }
 
     public void show(FragmentManager manager) {
-        mDialog.show(manager, "circleDialog");
+        mBaseCircleDialog.show(manager, "circleDialog");
     }
 
     public static class Builder {
@@ -507,18 +510,6 @@ public final class CircleDialog {
             newInputParams();
             mCircleParams.inputParams.maxLen = maxLen;
             mCircleParams.inputCounterChangeListener = listener;
-            return this;
-        }
-
-        /**
-         * 是否禁止输入表情，默认开启
-         *
-         * @param disable true=禁止；false=开启
-         * @return this Builder
-         */
-        public Builder setInputEmoji(boolean disable) {
-            newInputParams();
-            mCircleParams.inputParams.isEmojiInput = disable;
             return this;
         }
 
