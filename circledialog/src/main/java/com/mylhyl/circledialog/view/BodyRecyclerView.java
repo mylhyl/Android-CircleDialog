@@ -187,6 +187,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
             TextView textView = new TextView(mContext);
+            textView.setGravity(Gravity.CENTER);
             if (mLayoutManager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mLayoutManager;
                 if (linearLayoutManager.getOrientation() == LinearLayoutManager.HORIZONTAL) {

@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -166,6 +167,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     }
 
     private void handleNegativeStyle() {
+        mNegativeButton.setGravity(Gravity.CENTER);
         mNegativeButton.setText(mNegativeParams.text);
         mNegativeButton.setEnabled(!mNegativeParams.disable);
         mNegativeButton.setTextColor(mNegativeParams.disable ?
@@ -176,6 +178,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     }
 
     private void handleNeutralStyle() {
+        mNeutralButton.setGravity(Gravity.CENTER);
         mNeutralButton.setText(mNeutralParams.text);
         mNeutralButton.setEnabled(!mNeutralParams.disable);
         mNeutralButton.setTextColor(mNeutralParams.disable ?
@@ -186,6 +189,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
     }
 
     private void handlePositiveStyle() {
+        mPositiveButton.setGravity(Gravity.CENTER);
         mPositiveButton.setText(mPositiveParams.text);
         mPositiveButton.setEnabled(!mPositiveParams.disable);
         mPositiveButton.setTextColor(mPositiveParams.disable ?

@@ -131,6 +131,7 @@ final class BodyListView extends ListView implements ItemsView {
             if (convertView == null) {
                 viewHolder = new ViewHolder();
                 TextView textView = new TextView(mContext);
+                textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
                 textView.setHeight(mItemsParams.itemHeight);

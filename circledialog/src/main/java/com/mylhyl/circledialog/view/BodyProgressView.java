@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -86,6 +87,7 @@ final class BodyProgressView extends LinearLayout {
 
         //构建文本
         final TextView textView = new TextView(getContext());
+        textView.setGravity(Gravity.CENTER);
         textView.setTextSize(mProgressParams.textSize);
         textView.setTextColor(mProgressParams.textColor);
         textView.setTypeface(textView.getTypeface(), mProgressParams.styleText);
