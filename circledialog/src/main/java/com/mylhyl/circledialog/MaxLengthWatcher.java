@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Created by hupei on 2018/11/1 14:16.
+ * Created by hupei on 2018/11/1 11:19.
  */
 public class MaxLengthWatcher implements TextWatcher {
     private int mMaxLen;
@@ -23,8 +23,8 @@ public class MaxLengthWatcher implements TextWatcher {
         if (mEditText != null) {
             String defText = mEditText.getText().toString();
             int currentLen = maxLen - chineseLength(defText);
-            if (params.inputCounterChangeListener != null) {
-                String counterText = params.inputCounterChangeListener
+            if (mParams.inputCounterChangeListener != null) {
+                String counterText = mParams.inputCounterChangeListener
                         .onCounterChange(maxLen, currentLen);
                 mTvCounter.setText(counterText == null ? "" : counterText);
             } else {
@@ -33,7 +33,7 @@ public class MaxLengthWatcher implements TextWatcher {
         }
     }
 
-    public static int chineseLength(String str) {
+    private int chineseLength(String str) {
         int valueLength = 0;
         if (!TextUtils.isEmpty(str)) {
             // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
@@ -53,7 +53,7 @@ public class MaxLengthWatcher implements TextWatcher {
         return valueLength;
     }
 
-    public static boolean isChinese(String str) {
+    private boolean isChinese(String str) {
         Boolean isChinese = true;
         String chinese = "[\u0391-\uFFE5]";
         if (!TextUtils.isEmpty(str)) {

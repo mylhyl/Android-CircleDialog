@@ -79,10 +79,6 @@ public class InputParams implements Parcelable {
      */
     public int gravity = Gravity.LEFT | Gravity.TOP;
     /**
-     * 是否触发自动关闭对话框
-     */
-    public boolean isManualClose;
-    /**
      * 文本
      */
     public String text;
@@ -133,7 +129,6 @@ public class InputParams implements Parcelable {
         this.textColor = in.readInt();
         this.inputType = in.readInt();
         this.gravity = in.readInt();
-        this.isManualClose = in.readByte() != 0;
         this.text = in.readString();
         this.padding = in.createIntArray();
         this.styleText = in.readInt();
@@ -164,7 +159,6 @@ public class InputParams implements Parcelable {
         dest.writeInt(this.textColor);
         dest.writeInt(this.inputType);
         dest.writeInt(this.gravity);
-        dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
         dest.writeString(this.text);
         dest.writeIntArray(this.padding);
         dest.writeInt(this.styleText);

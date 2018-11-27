@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
     </style>
     <style name="dialogWindowAnim" parent="android:Animation" mce_bogus="1">
         <item name="android:windowEnterAnimation">@anim/dialog_enter_anim</item>

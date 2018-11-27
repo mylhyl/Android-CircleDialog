@@ -7,31 +7,27 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.EmojiFilter;
 import com.mylhyl.circledialog.MaxLengthWatcher;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
-import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 
-import static com.mylhyl.circledialog.Controller.BUTTON_POSITIVE;
 import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT_SIZE;
 
 /**
  * Created by hupei on 2017/3/31.
  */
 
-final class BodyInputView extends ScaleRelativeLayout implements Controller.OnClickListener, InputView {
-    private ScaleEditText mEditText;
-    private ScaleTextView mTvCounter;
-    private CircleParams params;
+final class BodyInputView extends RelativeLayout implements InputView {
+    private EditText mEditText;
+    private TextView mTvCounter;
 
     public BodyInputView(Context context, CircleParams params) {
         super(context);
@@ -39,49 +35,15 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
     }
 
     private void init(Context context, CircleParams params) {
-        this.params = params;
         DialogParams dialogParams = params.dialogParams;
-        TitleParams titleParams = params.titleParams;
-        InputParams inputParams = params.inputParams;
-        ButtonParams negativeParams = params.negativeParams;
-        ButtonParams positiveParams = params.positiveParams;
+        final InputParams inputParams = params.inputParams;
 
         //如果标题没有背景色，则使用默认色
         int backgroundColor = inputParams.backgroundColor != 0
                 ? inputParams.backgroundColor : dialogParams.backgroundColor;
+        setBackgroundColor(backgroundColor);
 
-        //有标题没按钮则底部圆角
-        if (titleParams != null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, 0, 0, dialogParams.radius,
-                        dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, 0, 0, dialogParams
-                        .radius, dialogParams.radius));
-            }
-        }
-        //没标题有按钮则顶部圆角
-        else if (titleParams == null && (negativeParams != null || positiveParams != null)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius, dialogParams
-                        .radius, 0, 0));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius,
-                        dialogParams.radius, 0, 0));
-            }
-        }
-        //没标题没按钮则全部圆角
-        else if (titleParams == null && negativeParams == null && positiveParams == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                setBackground(new CircleDrawable(backgroundColor, dialogParams.radius));
-            } else {
-                setBackgroundDrawable(new CircleDrawable(backgroundColor, dialogParams.radius));
-            }
-        }
-        //有标题有按钮则不用考虑圆角
-        else setBackgroundColor(backgroundColor);
-
-        mEditText = new ScaleEditText(context);
+        mEditText = new EditText(context);
         mEditText.setId(android.R.id.input);
         int inputType = inputParams.inputType;
         if (inputType != InputType.TYPE_NULL) {
@@ -91,7 +53,15 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         mEditText.setHintTextColor(inputParams.hintTextColor);
         mEditText.setTextSize(inputParams.textSize);
         mEditText.setTextColor(inputParams.textColor);
-        mEditText.setHeight(inputParams.inputHeight);
+        mEditText.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                int height = v.getHeight();
+                if (inputParams.inputHeight > height) {
+                    mEditText.setHeight(inputParams.inputHeight);
+                }
+            }
+        });
         mEditText.setGravity(inputParams.gravity);
         if (!TextUtils.isEmpty(inputParams.text)) {
             mEditText.setText(inputParams.text);
@@ -117,7 +87,7 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         }
         int[] padding = inputParams.padding;
         if (padding != null)
-            mEditText.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+            mEditText.setPadding(padding[0], padding[1], padding[2], padding[3]);
         mEditText.setTypeface(mEditText.getTypeface(), inputParams.styleText);
 
         addView(mEditText, layoutParams);
@@ -133,7 +103,7 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
                         , inputParams.counterMargins[0]
                         , inputParams.counterMargins[1]);
             }
-            mTvCounter = new ScaleTextView(context);
+            mTvCounter = new TextView(context);
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
             mTvCounter.setTextColor(inputParams.counterColor);
 
@@ -150,18 +120,6 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         OnCreateInputListener createInputListener = params.createInputListener;
         if (createInputListener != null) {
             createInputListener.onCreateText(this, mEditText, mTvCounter);
-        }
-    }
-
-
-    @Override
-    public void onClick(View view, int which) {
-        if (view instanceof InputView && which == BUTTON_POSITIVE) {
-            InputView inputView = (InputView) view;
-            String text = inputView.getInput().getText().toString();
-            if (params.inputListener != null) {
-                params.inputListener.onClick(text, inputView.getInput());
-            }
         }
     }
 

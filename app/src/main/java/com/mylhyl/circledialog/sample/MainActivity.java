@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.SupportMenuInflater;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +31,7 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
+import com.mylhyl.circledialog.sample.entities.WeiBoItem;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 
@@ -58,9 +64,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
                 , "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "list中使用", "倒计时", "三个按钮", "自定义List adapter(多选)"
+                , "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)"
                 , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"
-                , "lottie动画框"});
+                , "lottie动画框", "仿微博分享", "Rv Vertical", "Rv Horizontal"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -70,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         };
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-//        ScaleLayoutConfig.init(this.getApplicationContext(),480,800);
     }
 
     @Override
@@ -79,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 0:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .setWidth(0.5f)
                         .setText("提示框")
                         .setPositive("确定", null)
                         .setOnShowListener(dialog ->
@@ -108,11 +114,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 2:
-//                final List<PictureTypeEntity> list = new ArrayList<>();
-//                list.add(new PictureTypeEntity(1, "拍照"));
-//                list.add(new PictureTypeEntity(2, "从相册选择"));
-//                list.add(new PictureTypeEntity(3, "小视频"));
-                final String[] items = {"拍照", "从相册选择", "小视频"};
+                final List<PictureTypeEntity> items = new ArrayList<>();
+                items.add(new PictureTypeEntity(1, "拍照"));
+                items.add(new PictureTypeEntity(2, "从相册选择"));
+                items.add(new PictureTypeEntity(3, "小视频"));
+//                final String[] items = {"拍照", "从相册选择", "小视频"};
                 new CircleDialog.Builder()
                         .configDialog(params -> {
                             params.backgroundColorPress = Color.CYAN;
@@ -128,9 +134,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configSubTitle(params -> {
 //                                params.backgroundColor = Color.YELLOW;
                         })
-                        .setItems(items, (parent, view1, position1, id) ->
-                                Toast.makeText(MainActivity.this, "点击了：" + items[position1]
-                                        , Toast.LENGTH_SHORT).show())
+                        .setItems(items, (parent, view1, position1, id) -> {
+                                    Toast.makeText(MainActivity.this, "点击了：" + items.get(position1)
+                                            , Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                        )
                         .setNegative("取消", null)
 //                        .setNeutral("中间", null)
 //                        .setPositive("确定", null)
@@ -148,13 +157,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
-                        .setInputManualClose(true)
                         .setTitle("输入框")
                         .setSubTitle("提示人物是什么？")
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
-                        .autoInputShowKeyboard()
-                        .setInputCounter(20)
+                        .setInputHeight(300)
+                        .setInputShowKeyboard(true)
+                        .setInputEmoji(true)
+                        .setInputCounter(50)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
                         .configInput(params -> {
 //                            params.padding = new int[]{30, 30, 30, 30};
@@ -170,9 +180,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setPositiveInput("确定", (text, v) -> {
                             if (TextUtils.isEmpty(text)) {
                                 Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                                return false;
                             } else {
                                 Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-                                dialogFragment.dismiss();
+                                return true;
                             }
                         })
                         .show(getSupportFragmentManager());
@@ -247,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 handler.postDelayed(runnable, 3000);
                 break;
             case 7:
-//                DialogLoginConnPc.getInstance().show(getSupportFragmentManager(), "connPc");
                 DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
                 break;
             case 8:
@@ -330,9 +340,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("可多选")
-                        .setItems(checkedAdapter, (parent, view12, position12, id) ->
-                                checkedAdapter.toggle(position12, objects[position12]))
-                        .setItemsManualClose(true)
+                        .setItems(checkedAdapter, (parent, view12, position12, id) -> {
+                                    checkedAdapter.toggle(position12, objects[position12]);
+                                    return false;
+                                }
+                        )
                         .setPositive("确定", v -> Toast.makeText(MainActivity.this
                                 , "选择了：" + checkedAdapter.getSaveChecked().toString()
                                 , Toast.LENGTH_SHORT).show())
@@ -349,13 +361,21 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                list.add(new PictureTypeEntity(7, "拍照2"));
 //                list.add(new PictureTypeEntity(8, "从相册选择2"));
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        return 2;
+                    }
+                });
                 new CircleDialog.Builder()
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
                         .configItems(params -> params.dividerHeight = 0)
-                        .setItems(list, gridLayoutManager, (view13, position13) ->
-                                Toast.makeText(MainActivity.this, "点击了：" + list.get(position13)
-                                        , Toast.LENGTH_SHORT).show())
+                        .setItems(list, gridLayoutManager, (view13, position13) -> {
+                            Toast.makeText(MainActivity.this, "点击了：" + list.get(position13)
+                                    , Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
@@ -372,26 +392,28 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         android.R.layout.simple_list_item_1, R.layout.item_rv, listData) {
                     @Override
                     protected void convertHead(BaseViewHolder helper, MySectionEntity item) {
-                        helper.setText(R.id.textView2, item.header);
+                        helper.setText(R.id.textView2, item.header)
+                                .setTextColor(R.id.textView2, Color.BLACK);
                     }
 
                     @Override
                     protected void convert(BaseViewHolder helper, MySectionEntity item) {
                         TextView textView = helper.getView(android.R.id.text1);
                         textView.setText(item.t.typeName);
+                        textView.setTextColor(Color.BLACK);
                         textView.setGravity(Gravity.CENTER);
                     }
 
                 };
                 dialogFragment = new CircleDialog.Builder()
-                        .setGravity(Gravity.BOTTOM)
                         .setRadius(0)
                         .setWidth(1f)
-                        .setMaxHeight(0.8f)
+                        .setMaxHeight(0.7f)
                         .setYoff(0)
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")
                         .setItems(rvAdapter, new LinearLayoutManager(this))
+                        .configItems(params -> params.bottomMargin = 0)
                         .setNegative("关闭", null)
                         .configNegative(params -> params.topMargin = 0)
                         .show(getSupportFragmentManager());
@@ -401,31 +423,34 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 });
                 break;
             case 14:
-                final String[] objectsR = {"item0", "item1", "item2", "item3"};
+                final String[] objectsR = {"item0", "item1", "item2", "item3", "item4", "item5"
+                        , "item6", "item7", "item8", "item9", "item10"};
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
 
                 new CircleDialog.Builder()
+                        .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
-                        .setItems(checkedAdapterR, (parent, view15, position15, id) ->
-                                checkedAdapterR.toggle(position15, objectsR[position15]))
-                        .setItemsManualClose(true)
+                        .configItems(params -> params.bottomMargin = 100)
+                        .setItems(checkedAdapterR, (parent, view15, position15, id) -> {
+                            checkedAdapterR.toggle(position15, objectsR[position15]);
+                            return false;
+                        })
                         .setPositive("确定", v -> Toast.makeText(MainActivity.this
                                 , "选择了：" + checkedAdapterR.getSaveChecked().toString()
                                 , Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
             case 15:
-
                 dialogFragment = new CircleDialog.Builder()
                         .setTitle("提示")
-                        .setWidth(0.7f)
-                        .setBodyView(R.layout.share_page_loading, view16 -> {
+                        .setBodyView(R.layout.dialog_login_conn_pic, view16 -> {
                             CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
-                                    , 0, 0, CircleDimen.DIALOG_RADIUS, CircleDimen.DIALOG_RADIUS);
+                                    , 0, 0, 0, 0);
                             view16.setBackgroundDrawable(bgCircleDrawable);
                         })
+                        .setNegative("关闭", null)
                         .show(getSupportFragmentManager());
                 break;
             case 16:
@@ -439,6 +464,102 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setLottieText("正在加载...")
                         .show(getSupportFragmentManager());
                 break;
+            case 17:
+                MenuInflater menuInflater = new SupportMenuInflater(this);
+                MenuBuilder menuBuilder = new MenuBuilder(this);
+                menuInflater.inflate(R.menu.menu_share_grid, menuBuilder);
+                List<WeiBoItem> weiBoItems = new ArrayList<>();
+                for (int i = 0; i < menuBuilder.size(); i++) {
+                    MenuItem menuItem = menuBuilder.getItem(i);
+                    weiBoItems.add(new WeiBoItem(menuItem.getItemId(), menuItem.getTitle().toString()
+                            , menuItem.getIcon()));
+                }
+
+                final BaseQuickAdapter weiboRvAdapter = new BaseQuickAdapter<WeiBoItem, BaseViewHolder>(
+                        android.R.layout.simple_list_item_1, weiBoItems) {
+
+                    @Override
+                    protected void convert(BaseViewHolder helper, WeiBoItem item) {
+                        TextView textView = helper.getView(android.R.id.text1);
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+                        textView.setText(item.getTitle());
+                        textView.setTextColor(Color.BLACK);
+                        textView.setCompoundDrawablesWithIntrinsicBounds(null, item.getIcon(), null, null);
+                        textView.setGravity(Gravity.CENTER);
+                        TypedValue typedValue = new TypedValue();
+                        helper.itemView.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
+                        textView.setBackgroundResource(typedValue.resourceId);
+                    }
+                };
+                weiboRvAdapter.setOnItemClickListener((adapter12, view17, position16) -> {
+                    WeiBoItem item = weiBoItems.get(position16);
+                    Toast.makeText(MainActivity.this, "" + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    dialogFragment.dismissAllowingStateLoss();
+                });
+
+                dialogFragment = new CircleDialog.Builder()
+                        .bottomFull()
+                        .setTitle("分享到")
+                        .configTitle(params -> params.gravity = Gravity.LEFT)
+                        .configItems(params -> params.dividerHeight = 0)
+                        .setItems(weiboRvAdapter, new GridLayoutManager(this, 5))
+                        .configItems(params -> params.bottomMargin = 0)
+                        .show(getSupportFragmentManager());
+                break;
+            case 18:
+                final List<PictureTypeEntity> rvListForV = new ArrayList<>();
+                rvListForV.add(new PictureTypeEntity(1, "拍照"));
+                rvListForV.add(new PictureTypeEntity(2, "从相册选择"));
+                rvListForV.add(new PictureTypeEntity(3, "小视频"));
+                rvListForV.add(new PictureTypeEntity(4, "拍照1"));
+                rvListForV.add(new PictureTypeEntity(5, "从相册选择1"));
+                rvListForV.add(new PictureTypeEntity(6, "小视频1"));
+                rvListForV.add(new PictureTypeEntity(7, "拍照2"));
+                rvListForV.add(new PictureTypeEntity(8, "从相册选择3"));
+                rvListForV.add(new PictureTypeEntity(9, "小视频4"));
+                new CircleDialog.Builder()
+                        .setMaxHeight(0.7f)
+                        .configDialog(params -> params.backgroundColorPress = Color.CYAN)
+//                        .setTitle("Rv Vertical")
+                        .configItems(params -> params.dividerHeight = 1)
+                        .setItems(rvListForV
+                                , (view13, position13) -> {
+                                    Toast.makeText(MainActivity.this
+                                            , "点击了：" + rvListForV.get(position13)
+                                            , Toast.LENGTH_SHORT).show();
+                                    return true;
+                                })
+                        .setNegative("取消", null)
+                        .show(getSupportFragmentManager());
+                break;
+            case 19:
+                final List<PictureTypeEntity> rvListForH = new ArrayList<>();
+                rvListForH.add(new PictureTypeEntity(1, "拍照"));
+                rvListForH.add(new PictureTypeEntity(2, "从相册选择"));
+                rvListForH.add(new PictureTypeEntity(3, "小视频"));
+                rvListForH.add(new PictureTypeEntity(4, "拍照1"));
+                rvListForH.add(new PictureTypeEntity(5, "从相册选择1"));
+                rvListForH.add(new PictureTypeEntity(6, "小视频1"));
+                rvListForH.add(new PictureTypeEntity(7, "拍照2"));
+                rvListForH.add(new PictureTypeEntity(8, "从相册选择3"));
+                rvListForH.add(new PictureTypeEntity(9, "小视频4"));
+
+                new CircleDialog.Builder()
+                        .setMaxHeight(0.7f)
+                        .configDialog(params -> params.backgroundColorPress = Color.CYAN)
+                        .setTitle("Rv Horizontal")
+                        .configItems(params -> params.dividerHeight = 5)
+                        .setItems(rvListForH, new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                                , (view13, position13) -> {
+                                    Toast.makeText(MainActivity.this
+                                            , "点击了：" + rvListForH.get(position13)
+                                            , Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                        )
+                        .setNegative("取消", null)
+                        .show(getSupportFragmentManager());
+                break;
         }
     }
 
@@ -449,4 +570,5 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         handler = null;
         runnable = null;
     }
+
 }

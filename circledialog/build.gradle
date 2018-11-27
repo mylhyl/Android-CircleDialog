@@ -4,7 +4,6 @@ apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    //buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
@@ -29,6 +28,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies.appcompatV7
     compileOnly rootProject.ext.dependencies.recyclerview
     compileOnly rootProject.ext.dependencies.lottie
+    compileOnly rootProject.ext.dependencies.cardview
 }
 
 publish {

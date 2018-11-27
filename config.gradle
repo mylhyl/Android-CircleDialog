@@ -1,11 +1,10 @@
 ext {
     android = [
             compileSdkVersion: 27,
-            buildToolsVersion: "27.0.2",
-            minSdkVersion    : 15,
+            minSdkVersion    : 16,
             targetSdkVersion : 27,
             versionCode      : 1,
-            versionName      : "20181101"
+            versionName      : "20191101"
     ]
 
     dependVersion = [
@@ -14,13 +13,15 @@ ext {
 
     dependencies = [
             // support
-            appcompatV7 : "com.android.support:appcompat-v7:${dependVersion.support}",
-            recyclerview: "com.android.support:recyclerview-v7:${dependVersion.support}",
-            leakcanary  : "com.squareup.leakcanary:leakcanary-android:1.5.4",
-            lottie      : "com.airbnb.android:lottie:2.5.4"
+            appcompatV7  : "com.android.support:appcompat-v7:${dependVersion.support}",
+            recyclerview : "com.android.support:recyclerview-v7:${dependVersion.support}",
+            cardview : "com.android.support:cardview-v7:${dependVersion.support}",
+            leakcanary   : "com.squareup.leakcanary:leakcanary-android:1.5.4",
+            lottie       : "com.airbnb.android:lottie:2.5.4",
+            baseRvAdapter: "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40"
     ]
 
     publish = [
-            version: "2.6.7"
+            version: "3.0.0"
     ]
 }

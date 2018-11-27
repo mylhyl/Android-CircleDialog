@@ -6,19 +6,17 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.callback.ConfigPopup;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
@@ -28,6 +26,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.LottieParams;
+import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -42,6 +41,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -49,27 +49,18 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
  */
 
 public final class CircleDialog {
-    private AbsCircleDialog mDialog;
+    private BaseCircleDialog mDialog;
 
     private CircleDialog() {
     }
 
-    public DialogFragment create(CircleParams params) {
-        if (mDialog == null)
-            mDialog = AbsCircleDialog.newAbsCircleDialog(params);
+    public BaseCircleDialog create(CircleParams params) {
+        if (mDialog != null && mDialog.getDialog() != null && mDialog.getDialog().isShowing())
+            mDialog.refreshView();
         else {
-            if (mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
-                mDialog.refreshView();
-            }
+            mDialog = BaseCircleDialog.newAbsCircleDialog(params);
         }
         return mDialog;
-    }
-
-    @Deprecated
-    public void show(FragmentActivity activity) {
-        if (activity == null)
-            throw new NullPointerException("please call constructor Builder(FragmentActivity)");
-        mDialog.show(activity.getSupportFragmentManager(), "circleDialog");
     }
 
     public void show(FragmentManager manager) {
@@ -77,23 +68,12 @@ public final class CircleDialog {
     }
 
     public static class Builder {
-        private FragmentActivity mActivity;
         private CircleDialog mCircleDialog;
         private CircleParams mCircleParams;
 
         public Builder() {
-            init();
-        }
-
-        private void init() {
             mCircleParams = new CircleParams();
             mCircleParams.dialogParams = new DialogParams();
-        }
-
-        @Deprecated
-        public Builder(@NonNull FragmentActivity activity) {
-            this.mActivity = activity;
-            init();
         }
 
         /**
@@ -170,6 +150,14 @@ public final class CircleDialog {
          */
         public Builder setYoff(int yOff) {
             mCircleParams.dialogParams.yOff = yOff;
+            return this;
+        }
+
+        public Builder bottomFull() {
+            mCircleParams.dialogParams.gravity = Gravity.BOTTOM;
+            mCircleParams.dialogParams.radius = 0;
+            mCircleParams.dialogParams.width = 1f;
+            mCircleParams.dialogParams.yOff = 0;
             return this;
         }
 
@@ -281,8 +269,9 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull Object items, AdapterView.OnItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, OnLvItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             mCircleParams.itemListener = listener;
@@ -304,16 +293,18 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull BaseAdapter adapter
-                , AdapterView.OnItemClickListener listener) {
+                , OnLvItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
             params.adapter = adapter;
             mCircleParams.itemListener = listener;
             return this;
         }
 
-        public Builder setItems(@NonNull Object items, OnRvItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, @NonNull OnRvItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             mCircleParams.rvItemListener = listener;
@@ -321,8 +312,9 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
-                , OnRvItemClickListener listener) {
+                , @NonNull OnRvItemClickListener listener) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             params.layoutManager = layoutManager;
@@ -331,8 +323,9 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager) {
+                , @NonNull RecyclerView.LayoutManager layoutManager) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.layoutManager = layoutManager;
             params.adapterRv = adapter;
@@ -340,25 +333,14 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager
-                , RecyclerView.ItemDecoration itemDecoration) {
+                , @NonNull RecyclerView.LayoutManager layoutManager
+                , @NonNull RecyclerView.ItemDecoration itemDecoration) {
             newItemsParams();
+            mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.layoutManager = layoutManager;
             params.itemDecoration = itemDecoration;
             params.adapterRv = adapter;
-            return this;
-        }
-
-        /**
-         * 设置items否触发自动关闭对话框，默认自动
-         *
-         * @param manualClose true=手动；false=自动
-         * @return this Builder
-         */
-        public Builder setItemsManualClose(boolean manualClose) {
-            newItemsParams();
-            mCircleParams.itemsParams.isManualClose = manualClose;
             return this;
         }
 
@@ -459,9 +441,15 @@ public final class CircleDialog {
                 mCircleParams.inputParams = new InputParams();
         }
 
-        public Builder autoInputShowKeyboard() {
+        /**
+         * 是否自动显示键盘，默认不显示
+         *
+         * @param show true=显示；false=隐藏
+         * @return Builder
+         */
+        public Builder setInputShowKeyboard(boolean show) {
             newInputParams();
-            mCircleParams.inputParams.showSoftKeyboard = true;
+            mCircleParams.inputParams.showSoftKeyboard = show;
             return this;
         }
 
@@ -523,14 +511,14 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置是否触发自动关闭对话框，默认自动
+         * 是否禁止输入表情，默认开启
          *
-         * @param manualClose true=手动；false=自动
+         * @param disable true=禁止；false=开启
          * @return this Builder
          */
-        public Builder setInputManualClose(boolean manualClose) {
+        public Builder setInputEmoji(boolean disable) {
             newInputParams();
-            mCircleParams.inputParams.isManualClose = manualClose;
+            mCircleParams.inputParams.isEmojiInput = disable;
             return this;
         }
 
@@ -723,23 +711,91 @@ public final class CircleDialog {
             return this;
         }
 
-        @Deprecated
-        public DialogFragment show() {
-            DialogFragment dialogFragment = create();
-            mCircleDialog.show(mActivity);
+        public Builder setPopup(View anchorView, @PopupParams.TriangleGravity int triangleGravity) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.anchorView = anchorView;
+            params.triangleGravity = triangleGravity;
+            return this;
+        }
+
+        private void newPopupParams() {
+            if (mCircleParams.popupParams == null) {
+                mCircleParams.popupParams = new PopupParams();
+            }
+        }
+
+        public Builder configPopup(@NonNull ConfigPopup configPopup) {
+            newPopupParams();
+            configPopup.onConfig(mCircleParams.popupParams);
+            return this;
+        }
+
+        public Builder setPopupTriangleSize(int width, int height) {
+            newPopupParams();
+            mCircleParams.popupParams.triangleSize = new int[]{width, height};
+            return this;
+        }
+
+        /**
+         * 显示三角 默认显示
+         *
+         * @param show false隐藏
+         * @return this Builder
+         */
+        public Builder setPopupTriangleShow(boolean show) {
+            newPopupParams();
+            mCircleParams.popupParams.triangleShow = show;
+            return this;
+        }
+
+        public Builder setPopupItems(@NonNull Object items, OnRvItemClickListener listener) {
+            newPopupParams();
+            mCircleParams.popupParams.items = items;
+            mCircleParams.rvItemListener = listener;
+            return this;
+        }
+
+        public Builder setPopupItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
+                , OnRvItemClickListener listener) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.items = items;
+            params.layoutManager = layoutManager;
+            mCircleParams.rvItemListener = listener;
+            return this;
+        }
+
+        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter
+                , RecyclerView.LayoutManager layoutManager) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.layoutManager = layoutManager;
+            params.adapterRv = adapter;
+            return this;
+        }
+
+        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter
+                , RecyclerView.LayoutManager layoutManager
+                , RecyclerView.ItemDecoration itemDecoration) {
+            newPopupParams();
+            PopupParams params = mCircleParams.popupParams;
+            params.layoutManager = layoutManager;
+            params.itemDecoration = itemDecoration;
+            params.adapterRv = adapter;
+            return this;
+        }
+
+        public BaseCircleDialog show(FragmentManager manager) {
+            BaseCircleDialog dialogFragment = create();
+            mCircleDialog.show(manager);
             return dialogFragment;
         }
 
-        public DialogFragment create() {
+        public BaseCircleDialog create() {
             if (mCircleDialog == null)
                 mCircleDialog = new CircleDialog();
             return mCircleDialog.create(mCircleParams);
-        }
-
-        public DialogFragment show(FragmentManager manager) {
-            DialogFragment dialogFragment = create();
-            mCircleDialog.show(manager);
-            return dialogFragment;
         }
     }
 }

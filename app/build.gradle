@@ -2,17 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    //buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         applicationId "com.mylhyl.circledialog.sample"
-        minSdkVersion 16
+        minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.publish.version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        jackOptions {
-//            enabled=true
-//        }
     }
     buildTypes {
         release {
@@ -33,9 +29,11 @@ dependencies {
     implementation project(':circledialog')
     implementation rootProject.ext.dependencies.appcompatV7
     implementation rootProject.ext.dependencies.recyclerview
+    implementation rootProject.ext.dependencies.cardview
     implementation rootProject.ext.dependencies.lottie
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+    implementation rootProject.ext.dependencies.baseRvAdapter
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    implementation 'com.android.support:design:27.1.1'
 }

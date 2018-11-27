@@ -2,13 +2,15 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.res.drawable.SelectorBtn;
+import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 
@@ -16,16 +18,15 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-class MultipleButton extends ScaleLinearLayout implements Controller.OnClickListener
-        , ButtonView {
+class MultipleButton extends LinearLayout implements ButtonView {
 
     private CircleParams mCircleParams;
     private ButtonParams mNegativeParams;
     private ButtonParams mPositiveParams;
     private ButtonParams mNeutralParams;
-    private ScaleTextView mNegativeButton;
-    private ScaleTextView mPositiveButton;
-    private ScaleTextView mNeutralButton;
+    private TextView mNegativeButton;
+    private TextView mPositiveButton;
+    private TextView mNeutralButton;
 
     public MultipleButton(Context context, CircleParams params) {
         super(context);
@@ -38,8 +39,6 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
         mNegativeParams = params.negativeParams;
         mPositiveParams = params.positiveParams;
         mNeutralParams = params.neutralParams;
-
-        int radius = params.dialogParams.radius;
 
         int backgroundNegative = 0;
         int backgroundNeutral = 0;
@@ -60,8 +59,6 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             //如果取消按钮没有背景色，则使用默认色
             backgroundNeutral = mNeutralParams.backgroundColor != 0
                     ? mNeutralParams.backgroundColor : params.dialogParams.backgroundColor;
-
-
         }
         if (mPositiveParams != null) {
             if (mNeutralButton != null || mNegativeButton != null) {
@@ -76,11 +73,9 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
         }
 
         if (mNegativeButton != null && mNegativeParams != null) {
-            //右边没按钮则右下是圆角
-            SelectorBtn selectorBtn = new SelectorBtn(backgroundNegative
+            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
-                    ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, (mNeutralButton == null && mPositiveButton == null) ? radius : 0, radius);
+                    ? mNegativeParams.backgroundColorPress : params.dialogParams.backgroundColorPress);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNegativeButton.setBackground(selectorBtn);
             } else {
@@ -88,11 +83,9 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
             }
         }
         if (mPositiveButton != null && mPositiveParams != null) {
-            //左边没按钮则左下是圆角
-            SelectorBtn selectorBtn = new SelectorBtn(backgroundPositive
+            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
-                    ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, radius, (mNegativeButton == null && mNeutralButton == null) ? radius : 0);
+                    ? mPositiveParams.backgroundColorPress : params.dialogParams.backgroundColorPress);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mPositiveButton.setBackground(selectorBtn);
             } else {
@@ -101,11 +94,9 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
         }
         if (mNeutralButton != null && mNeutralParams != null) {
             //左右没按钮则左下右下是圆角
-            SelectorBtn selectorBtn = new SelectorBtn(backgroundNeutral
+            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNeutral
                     , mNeutralParams.backgroundColorPress != 0
-                    ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress
-                    , 0, 0, mPositiveButton == null ? radius : 0
-                    , mNegativeButton == null ? radius : 0);
+                    ? mNeutralParams.backgroundColorPress : params.dialogParams.backgroundColorPress);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNeutralButton.setBackground(selectorBtn);
             } else {
@@ -119,7 +110,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     private void createNegative() {
-        mNegativeButton = new ScaleTextView(getContext());
+        mNegativeButton = new TextView(getContext());
         mNegativeButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handleNegativeStyle();
@@ -132,7 +123,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     private void createNeutral() {
-        mNeutralButton = new ScaleTextView(getContext());
+        mNeutralButton = new TextView(getContext());
         mNeutralButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handleNeutralStyle();
@@ -140,7 +131,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     private void createPositive() {
-        mPositiveButton = new ScaleTextView(getContext());
+        mPositiveButton = new TextView(getContext());
         mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handlePositiveStyle();
@@ -148,6 +139,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     private void handleNegativeStyle() {
+        mNegativeButton.setGravity(Gravity.CENTER);
         mNegativeButton.setText(mNegativeParams.text);
         mNegativeButton.setEnabled(!mNegativeParams.disable);
         mNegativeButton.setTextColor(mNegativeParams.disable ?
@@ -158,6 +150,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     private void handleNeutralStyle() {
+        mNeutralButton.setGravity(Gravity.CENTER);
         mNeutralButton.setText(mNeutralParams.text);
         mNeutralButton.setEnabled(!mNeutralParams.disable);
         mNeutralButton.setTextColor(mNeutralParams.disable ?
@@ -168,6 +161,7 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     }
 
     private void handlePositiveStyle() {
+        mPositiveButton.setGravity(Gravity.CENTER);
         mPositiveButton.setText(mPositiveParams.text);
         mPositiveButton.setEnabled(!mPositiveParams.disable);
         mPositiveButton.setTextColor(mPositiveParams.disable ?
@@ -234,22 +228,5 @@ class MultipleButton extends ScaleLinearLayout implements Controller.OnClickList
     @Override
     public boolean isEmpty() {
         return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
-    }
-
-    @Override
-    public void onClick(View view, int which) {
-        if (which == Controller.BUTTON_NEGATIVE) {
-            if (mCircleParams.clickNegativeListener != null) {
-                mCircleParams.clickNegativeListener.onClick(mNegativeButton);
-            }
-        } else if (which == Controller.BUTTON_POSITIVE) {
-            if (mCircleParams.clickPositiveListener != null) {
-                mCircleParams.clickPositiveListener.onClick(mPositiveButton);
-            }
-        } else if (which == Controller.BUTTON_NEUTRAL) {
-            if (mCircleParams.clickNeutralListener != null) {
-                mCircleParams.clickNeutralListener.onClick(mNeutralButton);
-            }
-        }
     }
 }

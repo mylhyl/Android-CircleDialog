@@ -2,9 +2,8 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/menu_work"
-        android:title="Item"
+        android:title="工作"
         app:showAsAction="always|withText"/>
 </menu>
