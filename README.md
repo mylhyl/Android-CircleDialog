@@ -23,6 +23,7 @@
 <img src="preview/qrdown.png"/>
 
 # 使用
+* [v2版本](https://github.com/mylhyl/Android-CircleDialog/tree/v2)
 * [教程](https://github.com/mylhyl/Android-CircleDialog/wiki)
 
 * [更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
