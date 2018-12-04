@@ -98,14 +98,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
                         .configDialog(params -> {
-                            params.backgroundColor = Color.DKGRAY;
-                            params.backgroundColorPress = Color.BLUE;
+//                            params.backgroundColor = Color.DKGRAY;
+//                            params.backgroundColorPress = Color.BLUE;
                         })
                         .setTitle("标题")
+                        .setSubTitle("副标题")
                         .setText("冷却风扇口无异物，风机扇叶无损伤，无过热痕迹")
                         .configText(params -> {
 //                                params.gravity = Gravity.LEFT | Gravity.TOP;
-                            params.padding = new int[]{100, 0, 100, 50};
+//                            params.padding = new int[]{100, 0, 100, 50};
                         })
                         .setNegative("取消", null)
                         .setPositive("确定", v ->

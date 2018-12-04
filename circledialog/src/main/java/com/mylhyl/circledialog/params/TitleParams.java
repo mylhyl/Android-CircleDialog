@@ -30,9 +30,13 @@ public class TitleParams implements Parcelable {
      */
     public String text;
     /**
+     * 内间距 [left, top, right, bottom]
+     */
+    public int[] padding = CircleDimen.TITLE_PADDING;
+    /**
      * 标题高度
      */
-    public int height = CircleDimen.TITLE_HEIGHT;
+    public int height = 0;
     /**
      * 标题字体大小
      */

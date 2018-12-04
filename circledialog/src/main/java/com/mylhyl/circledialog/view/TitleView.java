@@ -91,10 +91,14 @@ final class TitleView extends LinearLayout {
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
         tvTitle.setLayoutParams(layoutParamsTitle);
-        tvTitle.setHeight(titleParams.height);
+        if (titleParams.height != 0)
+            tvTitle.setHeight(titleParams.height);
         tvTitle.setTextColor(titleParams.textColor);
         tvTitle.setTextSize(titleParams.textSize);
         tvTitle.setText(titleParams.text);
+        int[] padding = titleParams.padding;
+        if (padding != null)
+            tvTitle.setPadding(padding[0], padding[1], padding[2], padding[3]);
         tvTitle.setTypeface(tvTitle.getTypeface(), titleParams.styleText);
         mTitleLayout.addView(tvTitle);
         addView(mTitleLayout);

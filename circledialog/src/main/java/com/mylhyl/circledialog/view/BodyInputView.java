@@ -16,6 +16,7 @@ import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
+import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 
@@ -35,6 +36,11 @@ final class BodyInputView extends RelativeLayout implements InputView {
     }
 
     private void init(Context context, CircleParams params) {
+        int rlPaddingTop = params.titleParams == null ? params.subTitleParams == null
+                ? CircleDimen.TITLE_PADDING[1] : params.subTitleParams.padding[1]
+                : params.titleParams.padding[1];
+        setPadding(0, rlPaddingTop, 0, 0);
+
         DialogParams dialogParams = params.dialogParams;
         final InputParams inputParams = params.inputParams;
 
