@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
+import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.BuildViewConfirmImpl;
 import com.mylhyl.circledialog.view.BuildViewCustomBodyImpl;
 import com.mylhyl.circledialog.view.BuildViewInputImpl;
@@ -104,11 +105,7 @@ public class Controller {
                     });
                 }
             }
-            //文本
-            else if (mParams.textParams != null) {
-                mCreateView = new BuildViewConfirmImpl(mContext, mParams);
-                mCreateView.buildBodyView();
-            }//进度条
+            //进度条
             else if (mParams.progressParams != null) {
                 mCreateView = new BuildViewProgressImpl(mContext, mParams);
                 mCreateView.buildBodyView();
@@ -125,6 +122,11 @@ public class Controller {
                 View bodyView = mCreateView.getBodyView();
                 if (mParams.createBodyViewListener != null)
                     mParams.createBodyViewListener.onCreateBodyView(bodyView);
+            }
+            //文本
+            else {
+                mCreateView = new BuildViewConfirmImpl(mContext, mParams);
+                mCreateView.buildBodyView();
             }
             ButtonView buttonView = mCreateView.buildButton();
             regNegativeListener(buttonView);

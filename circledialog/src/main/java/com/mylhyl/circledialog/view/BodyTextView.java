@@ -23,7 +23,11 @@ final class BodyTextView extends android.support.v7.widget.AppCompatTextView {
     private void init(CircleParams params) {
         DialogParams dialogParams = params.dialogParams;
         TextParams textParams = params.textParams;
-
+        if (textParams == null) {
+            textParams = new TextParams();
+            textParams.height = 0;
+            textParams.padding = null;
+        }
         setGravity(textParams.gravity);
 
         //如果标题没有背景色，则使用默认色
