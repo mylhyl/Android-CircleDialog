@@ -57,43 +57,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
     private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
     private int mX, mY;
-
-    public AbsBaseCircleDialog() {
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = createView(getContext(), inflater, container);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
-        } else {
-            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, mRadius));
-        }
-        view.setAlpha(mAlpha);
-        return view;
-    }
-
-    public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (mMaxHeight > 0) {
-            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    int height = view.getHeight();
-                    int screenHeight = mSystemBarConfig.getScreenHeight();
-                    int maxHeight = (int) (screenHeight * mMaxHeight);
-                    if (height > maxHeight) {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        view.setLayoutParams(new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
-                    }
-                }
-            });
-        }
-    }
+    private int mSystemUiVisibility;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,28 +83,64 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        remove();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = createView(getContext(), inflater, container);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
+        } else {
+            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, mRadius));
+        }
+        view.setAlpha(mAlpha);
+        return view;
     }
 
-    public void remove() {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager == null) return;
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.remove(this);
-        ft.addToBackStack(null);
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mMaxHeight > 0) {
+            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int height = view.getHeight();
+                    int screenHeight = mSystemBarConfig.getScreenHeight();
+                    int maxHeight = (int) (screenHeight * mMaxHeight);
+                    if (height > maxHeight) {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        view.setLayoutParams(new FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public void onStart() {
-        Dialog dialog = getDialog();
+        final Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside);
             dialog.setCancelable(mCanceledBack);
             setDialogGravity(dialog);//设置对话框布局
+
+            if (mSystemUiVisibility != 0) {
+                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        , WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            }
         }
         super.onStart();
+        if (dialog != null && mSystemUiVisibility != 0) {
+            dialog.getWindow().getDecorView().setSystemUiVisibility(mSystemUiVisibility);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        }
+    }
+
+    public AbsBaseCircleDialog() {
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        remove();
     }
 
     /**
@@ -198,6 +198,16 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         outState.putInt(SAVED_X, mX);
         outState.putInt(SAVED_Y, mY);
     }
+
+    public void remove() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager == null) return;
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.remove(this);
+        ft.addToBackStack(null);
+    }
+
+    public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
 
     /**
      * 设置对话框位置
@@ -319,6 +329,10 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         this.mRadius = 0;
         this.mWidth = 1f;
         this.mY = 0;
+    }
+
+    protected void setSystemUiVisibility(int systemUiVisibility) {
+        this.mSystemUiVisibility = systemUiVisibility;
     }
 
     //显示键盘

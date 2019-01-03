@@ -26,24 +26,12 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     private CircleParams mParams;
     private Controller mController;
 
-    public BaseCircleDialog() {
-    }
-
-    public static BaseCircleDialog newAbsCircleDialog(CircleParams params) {
-        BaseCircleDialog circleDialog = new BaseCircleDialog();
-        circleDialog.mParams = params;
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SAVED_PARAMS, params);
-        circleDialog.setArguments(bundle);
-        return circleDialog;
-    }
-
     @Override
-    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(getContext().getApplicationContext(), mParams, this);
-        mController.createView();
-        View view = mController.getView();
-        return view;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
+        }
     }
 
     @Override
@@ -69,14 +57,28 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
                 && mController != null) {
             setSoftInputMode();
         }
+        setSystemUiVisibility(dialogParams.systemUiVisibility);
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.setOnShowListener(this);
         }
+    }
+
+    public BaseCircleDialog() {
+    }
+
+    public static BaseCircleDialog newAbsCircleDialog(CircleParams params) {
+        BaseCircleDialog circleDialog = new BaseCircleDialog();
+        circleDialog.mParams = params;
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SAVED_PARAMS, params);
+        circleDialog.setArguments(bundle);
+        return circleDialog;
     }
 
     @Override
@@ -98,6 +100,14 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     @Override
+    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
+        mController = new Controller(getContext().getApplicationContext(), mParams, this);
+        mController.createView();
+        View view = mController.getView();
+        return view;
+    }
+
+    @Override
     public void show(FragmentManager manager, String tag) {
         FragmentTransaction transaction = manager.beginTransaction();
         if (isAdded()) {
@@ -106,15 +116,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.add(this, tag);
         transaction.commitAllowingStateLoss();
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-            dialog.setOnShowListener(this);
-        }
     }
 
     @Override

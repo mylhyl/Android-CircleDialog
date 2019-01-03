@@ -1,8 +1,10 @@
 package com.mylhyl.circledialog.sample;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -25,6 +27,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -221,6 +225,22 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 5:
                 dialogFragment = new CircleDialog.Builder()
+//                        .configDialog(new ConfigDialog() {
+//                            @Override
+//                            public void onConfig(DialogParams params) {
+//                                int systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                                    systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+//                                } else {
+//                                    systemUiVisibility |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+//                                }
+//                                params.systemUiVisibility = systemUiVisibility;
+//                            }
+//                        })
                         .setProgressText("登录中...")
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
