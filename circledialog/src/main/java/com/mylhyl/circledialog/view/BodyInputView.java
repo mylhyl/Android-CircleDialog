@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.EmojiFilter;
+import com.mylhyl.circledialog.MaxLengthEnWatcher;
 import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
@@ -61,7 +62,8 @@ final class BodyInputView extends RelativeLayout implements InputView {
         mEditText.setTextColor(inputParams.textColor);
         mEditText.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft
+                    , int oldTop, int oldRight, int oldBottom) {
                 int height = v.getHeight();
                 if (inputParams.inputHeight > height) {
                     mEditText.setHeight(inputParams.inputHeight);
@@ -113,9 +115,13 @@ final class BodyInputView extends RelativeLayout implements InputView {
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
             mTvCounter.setTextColor(inputParams.counterColor);
 
-            mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
-                    , mEditText, mTvCounter, params));
-
+            if (inputParams.isCounterAllEn) {
+                mEditText.addTextChangedListener(new MaxLengthEnWatcher(inputParams.maxLen
+                        , mEditText, mTvCounter, params));
+            } else {
+                mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
+                        , mEditText, mTvCounter, params));
+            }
             addView(mTvCounter, layoutParamsCounter);
         }
 
