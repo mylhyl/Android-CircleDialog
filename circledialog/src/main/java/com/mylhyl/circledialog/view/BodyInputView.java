@@ -10,16 +10,18 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.EmojiFilter;
 import com.mylhyl.circledialog.MaxLengthEnWatcher;
 import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
+import com.mylhyl.circledialog.params.SubTitleParams;
+import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
+import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 
 import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT_SIZE;
 
@@ -28,110 +30,129 @@ import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT
  */
 
 final class BodyInputView extends RelativeLayout implements InputView {
+    private DialogParams mDialogParams;
+    private TitleParams mTitleParams;
+    private SubTitleParams mSubTitleParams;
+    private InputParams mInputParams;
+    private OnInputCounterChangeListener mOnInputCounterChangeListener;
+    private OnCreateInputListener mOnCreateInputListener;
     private EditText mEditText;
     private TextView mTvCounter;
 
-    public BodyInputView(Context context, CircleParams params) {
+    public BodyInputView(Context context, DialogParams dialogParams, TitleParams titleParams
+            , SubTitleParams subTitleParams, InputParams inputParams
+            , OnInputCounterChangeListener onInputCounterChangeListener
+            , OnCreateInputListener onCreateInputListener) {
         super(context);
-        init(context, params);
+        mDialogParams = dialogParams;
+        mTitleParams = titleParams;
+        mSubTitleParams = subTitleParams;
+        mInputParams = inputParams;
+        mOnInputCounterChangeListener = onInputCounterChangeListener;
+        mOnCreateInputListener = onCreateInputListener;
+        init();
     }
 
-    private void init(Context context, CircleParams params) {
-        int rlPaddingTop = params.titleParams == null ? params.subTitleParams == null
-                ? CircleDimen.TITLE_PADDING[1] : params.subTitleParams.padding[1]
-                : params.titleParams.padding[1];
+    private void init() {
+        int rlPaddingTop = mTitleParams == null ? mSubTitleParams == null
+                ? CircleDimen.TITLE_PADDING[1] : mSubTitleParams.padding[1]
+                : mTitleParams.padding[1];
         setPadding(0, rlPaddingTop, 0, 0);
 
-        DialogParams dialogParams = params.dialogParams;
-        final InputParams inputParams = params.inputParams;
-
         //如果标题没有背景色，则使用默认色
-        int backgroundColor = inputParams.backgroundColor != 0
-                ? inputParams.backgroundColor : dialogParams.backgroundColor;
+        int backgroundColor = mInputParams.backgroundColor != 0
+                ? mInputParams.backgroundColor : mDialogParams.backgroundColor;
         setBackgroundColor(backgroundColor);
 
-        mEditText = new EditText(context);
-        mEditText.setId(android.R.id.input);
-        int inputType = inputParams.inputType;
-        if (inputType != InputType.TYPE_NULL) {
-            mEditText.setInputType(inputParams.inputType);
+        createInput();
+
+        createCounter();
+
+        if (mInputParams.isEmojiInput) {
+            mEditText.setFilters(new InputFilter[]{new EmojiFilter()});
         }
-        mEditText.setHint(inputParams.hintText);
-        mEditText.setHintTextColor(inputParams.hintTextColor);
-        mEditText.setTextSize(inputParams.textSize);
-        mEditText.setTextColor(inputParams.textColor);
+
+        if (mOnCreateInputListener != null) {
+            mOnCreateInputListener.onCreateText(this, mEditText, mTvCounter);
+        }
+    }
+
+    private void createInput() {
+        mEditText = new EditText(getContext());
+        mEditText.setId(android.R.id.input);
+        int inputType = mInputParams.inputType;
+        if (inputType != InputType.TYPE_NULL) {
+            mEditText.setInputType(mInputParams.inputType);
+        }
+        mEditText.setHint(mInputParams.hintText);
+        mEditText.setHintTextColor(mInputParams.hintTextColor);
+        mEditText.setTextSize(mInputParams.textSize);
+        mEditText.setTextColor(mInputParams.textColor);
         mEditText.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft
                     , int oldTop, int oldRight, int oldBottom) {
                 int height = v.getHeight();
-                if (inputParams.inputHeight > height) {
-                    mEditText.setHeight(inputParams.inputHeight);
+                if (mInputParams.inputHeight > height) {
+                    mEditText.setHeight(mInputParams.inputHeight);
                 }
             }
         });
-        mEditText.setGravity(inputParams.gravity);
-        if (!TextUtils.isEmpty(inputParams.text)) {
-            mEditText.setText(inputParams.text);
-            mEditText.setSelection(inputParams.text.length());
+        mEditText.setGravity(mInputParams.gravity);
+        if (!TextUtils.isEmpty(mInputParams.text)) {
+            mEditText.setText(mInputParams.text);
+            mEditText.setSelection(mInputParams.text.length());
         }
 
-        int backgroundResourceId = inputParams.inputBackgroundResourceId;
+        int backgroundResourceId = mInputParams.inputBackgroundResourceId;
         if (backgroundResourceId == 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mEditText.setBackground(new InputDrawable(inputParams.strokeWidth, inputParams
-                        .strokeColor, inputParams.inputBackgroundColor));
+                mEditText.setBackground(new InputDrawable(mInputParams.strokeWidth, mInputParams
+                        .strokeColor, mInputParams.inputBackgroundColor));
             } else {
-                mEditText.setBackgroundDrawable(new InputDrawable(inputParams.strokeWidth,
-                        inputParams.strokeColor, inputParams.inputBackgroundColor));
+                mEditText.setBackgroundDrawable(new InputDrawable(mInputParams.strokeWidth,
+                        mInputParams.strokeColor, mInputParams.inputBackgroundColor));
             }
         } else mEditText.setBackgroundResource(backgroundResourceId);
 
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
-        int[] margins = inputParams.margins;
+        int[] margins = mInputParams.margins;
         if (margins != null) {
             layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
         }
-        int[] padding = inputParams.padding;
+        int[] padding = mInputParams.padding;
         if (padding != null)
             mEditText.setPadding(padding[0], padding[1], padding[2], padding[3]);
-        mEditText.setTypeface(mEditText.getTypeface(), inputParams.styleText);
+        mEditText.setTypeface(mEditText.getTypeface(), mInputParams.styleText);
 
         addView(mEditText, layoutParams);
+    }
 
-        if (inputParams.maxLen > 0) {
+    private void createCounter() {
+        if (mInputParams.maxLen > 0) {
             LayoutParams layoutParamsCounter = new LayoutParams(LayoutParams.WRAP_CONTENT,
                     LayoutParams.WRAP_CONTENT);
             //右下
             layoutParamsCounter.addRule(ALIGN_RIGHT, android.R.id.input);
             layoutParamsCounter.addRule(ALIGN_BOTTOM, android.R.id.input);
-            if (inputParams.counterMargins != null) {
+            if (mInputParams.counterMargins != null) {
                 layoutParamsCounter.setMargins(0, 0
-                        , inputParams.counterMargins[0]
-                        , inputParams.counterMargins[1]);
+                        , mInputParams.counterMargins[0]
+                        , mInputParams.counterMargins[1]);
             }
-            mTvCounter = new TextView(context);
+            mTvCounter = new TextView(getContext());
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
-            mTvCounter.setTextColor(inputParams.counterColor);
+            mTvCounter.setTextColor(mInputParams.counterColor);
 
-            if (inputParams.isCounterAllEn) {
-                mEditText.addTextChangedListener(new MaxLengthEnWatcher(inputParams.maxLen
-                        , mEditText, mTvCounter, params));
+            if (mInputParams.isCounterAllEn) {
+                mEditText.addTextChangedListener(new MaxLengthEnWatcher(mInputParams.maxLen
+                        , mEditText, mTvCounter, mOnInputCounterChangeListener));
             } else {
-                mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
-                        , mEditText, mTvCounter, params));
+                mEditText.addTextChangedListener(new MaxLengthWatcher(mInputParams.maxLen
+                        , mEditText, mTvCounter, mOnInputCounterChangeListener));
             }
             addView(mTvCounter, layoutParamsCounter);
-        }
-
-        if (inputParams.isEmojiInput) {
-            mEditText.setFilters(new InputFilter[]{new EmojiFilter()});
-        }
-
-        OnCreateInputListener createInputListener = params.createInputListener;
-        if (createInputListener != null) {
-            createInputListener.onCreateText(this, mEditText, mTvCounter);
         }
     }
 

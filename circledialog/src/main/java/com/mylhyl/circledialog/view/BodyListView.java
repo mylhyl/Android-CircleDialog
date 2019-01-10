@@ -11,8 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -28,24 +28,25 @@ import java.util.List;
 
 final class BodyListView extends ListView implements ItemsView {
     private BaseAdapter mAdapter;
-    private CircleParams mParams;
+    private DialogParams mDialogParams;
+    private ItemsParams mItemsParams;
     private int mBackgroundColor;
     private int mBackgroundColorPress;
 
-    public BodyListView(Context context, CircleParams params) {
+    public BodyListView(Context context, DialogParams dialogParams, ItemsParams itemsParams) {
         super(context);
-        init(context, params);
+        this.mDialogParams = dialogParams;
+        this.mItemsParams = itemsParams;
+        init();
     }
 
-    private void init(Context context, final CircleParams params) {
-        this.mParams = params;
-        ItemsParams itemsParams = params.itemsParams;
+    private void init() {
 
         //如果没有背景色，则使用默认色
-        this.mBackgroundColor = itemsParams.backgroundColor != 0
-                ? itemsParams.backgroundColor : mParams.dialogParams.backgroundColor;
-        this.mBackgroundColorPress = itemsParams.backgroundColorPress != 0
-                ? itemsParams.backgroundColorPress : mParams.dialogParams.backgroundColorPress;
+        this.mBackgroundColor = mItemsParams.backgroundColor != 0
+                ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;
+        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
+                ? mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
 
         setBackgroundColor(mBackgroundColor);
 
@@ -53,11 +54,11 @@ final class BodyListView extends ListView implements ItemsView {
 
         setSelector(bgItemNotRadius);
         setDivider(new ColorDrawable(CircleColor.divider));
-        setDividerHeight(itemsParams.dividerHeight);
+        setDividerHeight(mItemsParams.dividerHeight);
 
-        mAdapter = itemsParams.adapter;
+        mAdapter = mItemsParams.adapter;
         if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(context, params);
+            mAdapter = new ItemsAdapter(getContext(), mItemsParams);
         }
         setAdapter(mAdapter);
     }
@@ -92,9 +93,9 @@ final class BodyListView extends ListView implements ItemsView {
         private List<T> mItems;
         private ItemsParams mItemsParams;
 
-        public ItemsAdapter(Context context, CircleParams params) {
+        public ItemsAdapter(Context context, ItemsParams params) {
             this.mContext = context;
-            this.mItemsParams = params.itemsParams;
+            this.mItemsParams = params;
 
             Object entity = mItemsParams.items;
             if (entity != null && entity instanceof Iterable) {

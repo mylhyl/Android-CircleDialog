@@ -2,7 +2,6 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 
-import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
@@ -12,50 +11,52 @@ import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
  * Created by hupei on 2017/3/30.
  */
 final class BodyTextView extends android.support.v7.widget.AppCompatTextView {
-    private CircleParams mParams;
+    private DialogParams mDialogParams;
+    private TextParams mTextParams;
+    private OnCreateTextListener mOnCreateTextListener;
 
-    public BodyTextView(Context context, CircleParams params) {
+    public BodyTextView(Context context, DialogParams dialogParams, TextParams textParams
+            , OnCreateTextListener onCreateTextListener) {
         super(context);
-        this.mParams = params;
-        init(params);
+        mDialogParams = dialogParams;
+        mTextParams = textParams;
+        mOnCreateTextListener = onCreateTextListener;
+        init();
     }
 
-    private void init(CircleParams params) {
-        DialogParams dialogParams = params.dialogParams;
-        TextParams textParams = params.textParams;
-        if (textParams == null) {
-            textParams = new TextParams();
-            textParams.height = 0;
-            textParams.padding = null;
+    private void init() {
+        if (mTextParams == null) {
+            mTextParams = new TextParams();
+            mTextParams.height = 0;
+            mTextParams.padding = null;
         }
-        setGravity(textParams.gravity);
+        setGravity(mTextParams.gravity);
 
         //如果标题没有背景色，则使用默认色
-        int backgroundColor = textParams.backgroundColor != 0
-                ? textParams.backgroundColor : dialogParams.backgroundColor;
+        int backgroundColor = mTextParams.backgroundColor != 0
+                ? mTextParams.backgroundColor : mDialogParams.backgroundColor;
         setBackgroundColor(backgroundColor);
 
-        setMinHeight(textParams.height);
-        setTextColor(textParams.textColor);
-        setTextSize(textParams.textSize);
-        setText(textParams.text);
-        setTypeface(getTypeface(), textParams.styleText);
+        setMinHeight(mTextParams.height);
+        setTextColor(mTextParams.textColor);
+        setTextSize(mTextParams.textSize);
+        setText(mTextParams.text);
+        setTypeface(getTypeface(), mTextParams.styleText);
 
-        int[] padding = textParams.padding;
+        int[] padding = mTextParams.padding;
         if (padding != null) setPadding(padding[0], padding[1], padding[2], padding[3]);
 
-        OnCreateTextListener createTextListener = params.createTextListener;
-        if (createTextListener != null) {
-            createTextListener.onCreateText(this);
+        if (mOnCreateTextListener != null) {
+            mOnCreateTextListener.onCreateText(this);
         }
     }
 
     public void refreshText() {
-        if (mParams.textParams == null) return;
+        if (mTextParams == null) return;
         post(new Runnable() {
             @Override
             public void run() {
-                setText(mParams.textParams.text);
+                setText(mTextParams.text);
             }
         });
     }

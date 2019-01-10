@@ -60,7 +60,9 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
 
     @Override
     public ButtonView buildButton() {
-        ItemsButton itemsButton = new ItemsButton(mContext, mParams);
+        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams
+                , mParams.negativeParams, mParams.positiveParams, mParams.neutralParams
+                , mParams.createButtonListener);
         mRoot.addView(itemsButton);
         return itemsButton;
     }

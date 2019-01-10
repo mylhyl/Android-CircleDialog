@@ -6,6 +6,8 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
+
 /**
  * 中文1字符
  * Created by hupei on 2019/01/07 09:36.
@@ -14,19 +16,20 @@ public class MaxLengthEnWatcher implements TextWatcher {
     private int mMaxLen;
     private EditText mEditText;
     private TextView mTvCounter;
-    private CircleParams mParams;
+    private OnInputCounterChangeListener mOnInputCounterChangeListener;
 
-    public MaxLengthEnWatcher(int maxLen, EditText editText, TextView textView, CircleParams params) {
+    public MaxLengthEnWatcher(int maxLen, EditText editText, TextView textView
+            , OnInputCounterChangeListener listener) {
         this.mMaxLen = maxLen;
         this.mEditText = editText;
         this.mTvCounter = textView;
-        this.mParams = params;
+        this.mOnInputCounterChangeListener = listener;
         if (mEditText != null) {
             String defText = mEditText.getText().toString();
             int currentLen = maxLen - defText.length();
-            if (mParams.inputCounterChangeListener != null) {
-                String counterText = mParams.inputCounterChangeListener
-                        .onCounterChange(maxLen, currentLen);
+            if (mOnInputCounterChangeListener != null) {
+                String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen
+                        , currentLen);
                 mTvCounter.setText(counterText == null ? "" : counterText);
             } else {
                 mTvCounter.setText(String.valueOf(currentLen));
@@ -59,9 +62,8 @@ public class MaxLengthEnWatcher implements TextWatcher {
             }
         }
         int currentLen = mMaxLen - editable.toString().length();
-        if (mParams.inputCounterChangeListener != null) {
-            String counterText = mParams.inputCounterChangeListener
-                    .onCounterChange(mMaxLen, currentLen);
+        if (mOnInputCounterChangeListener != null) {
+            String counterText = mOnInputCounterChangeListener.onCounterChange(mMaxLen, currentLen);
             mTvCounter.setText(counterText == null ? "" : counterText);
         } else {
             mTvCounter.setText(String.valueOf(currentLen));

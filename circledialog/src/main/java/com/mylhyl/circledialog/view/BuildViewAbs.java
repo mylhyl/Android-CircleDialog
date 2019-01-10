@@ -29,7 +29,8 @@ abstract class BuildViewAbs implements BuildView {
 
     protected final void buildTitleView(ViewGroup viewGroup) {
         if (mParams.titleParams != null) {
-            TitleView titleView = new TitleView(mContext, mParams);
+            TitleView titleView = new TitleView(mContext, mParams.dialogParams
+                    , mParams.titleParams, mParams.subTitleParams, mParams.createTitleListener);
             viewGroup.addView(titleView);
         }
     }
@@ -63,7 +64,8 @@ abstract class BuildViewAbs implements BuildView {
     @Override
     public ButtonView buildButton() {
         if (mButtonView == null) {
-            mButtonView = new MultipleButton(mContext, mParams);
+            mButtonView = new MultipleButton(mContext, mParams.dialogParams, mParams.negativeParams
+                    , mParams.positiveParams, mParams.neutralParams, mParams.createButtonListener);
             if (!mButtonView.isEmpty()) {
                 DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
                 mRootCardViewByLinearLayout.addView(dividerView);

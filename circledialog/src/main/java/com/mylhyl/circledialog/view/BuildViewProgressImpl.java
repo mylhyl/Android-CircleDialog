@@ -26,7 +26,8 @@ public final class BuildViewProgressImpl extends BuildViewAbs {
         buildTitleView(mRootCardViewByLinearLayout);
 
         if (mBodyProgressView == null) {
-            mBodyProgressView = new BodyProgressView(mContext, mParams);
+            mBodyProgressView = new BodyProgressView(mContext, mParams.dialogParams
+                    , mParams.progressParams, mParams.createProgressListener);
             mRootCardViewByLinearLayout.addView(mBodyProgressView);
         }
     }

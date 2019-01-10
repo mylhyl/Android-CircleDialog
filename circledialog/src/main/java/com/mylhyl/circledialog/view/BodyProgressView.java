@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -24,25 +23,71 @@ import java.lang.reflect.Modifier;
  */
 
 final class BodyProgressView extends LinearLayout {
+    private DialogParams mDialogParams;
     private ProgressParams mProgressParams;
+    private OnCreateProgressListener mOnCreateProgressListener;
     private ProgressBar mProgressBar;
+    private TextView mTextView;
     private Handler mViewUpdateHandler;
 
-    public BodyProgressView(Context context, CircleParams params) {
+    public BodyProgressView(Context context, DialogParams dialogParams
+            , ProgressParams progressParams, OnCreateProgressListener onCreateProgressListener) {
         super(context);
-        init(context, params);
+        this.mDialogParams = dialogParams;
+        this.mProgressParams = progressParams;
+        this.mOnCreateProgressListener = onCreateProgressListener;
+        init();
     }
 
-    private void init(Context context, CircleParams params) {
+    private void init() {
         setOrientation(LinearLayout.VERTICAL);
-        DialogParams dialogParams = params.dialogParams;
-        mProgressParams = params.progressParams;
 
         //如果没有背景色，则使用默认色
         int backgroundColor = mProgressParams.backgroundColor != 0
-                ? mProgressParams.backgroundColor : dialogParams.backgroundColor;
+                ? mProgressParams.backgroundColor : mDialogParams.backgroundColor;
         setBackgroundColor(backgroundColor);
+        createProgressBar();
+        createText();
 
+        if (mOnCreateProgressListener != null) {
+            mOnCreateProgressListener.onCreateProgressView(mProgressBar, mTextView);
+        }
+    }
+
+    private void createText() {
+        //构建文本
+        mTextView = new TextView(getContext());
+        mTextView.setGravity(Gravity.CENTER);
+        mTextView.setTextSize(mProgressParams.textSize);
+        mTextView.setTextColor(mProgressParams.textColor);
+        mTextView.setTypeface(mTextView.getTypeface(), mProgressParams.styleText);
+        int[] padding = mProgressParams.padding;
+        if (padding != null) {
+            mTextView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+        }
+        addView(mTextView);
+
+        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL
+                && !TextUtils.isEmpty(mProgressParams.text)) {
+            mViewUpdateHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    int progress = mProgressBar.getProgress();
+                    int max = mProgressBar.getMax();
+                    int percent = (int) (((float) progress / (float) max) * 100);
+                    String args = percent + "%";
+                    if (mProgressParams.text.contains("%s"))
+                        mTextView.setText(String.format(mProgressParams.text, args));
+                    else mTextView.setText(mProgressParams.text + args);
+                }
+            };
+        } else {
+            mTextView.setText(mProgressParams.text);
+        }
+    }
+
+    private void createProgressBar() {
         //自定义样式
         int progressDrawableId = mProgressParams.progressDrawableId;
         //水平样式
@@ -52,9 +97,9 @@ final class BodyProgressView extends LinearLayout {
                 setFieldValue(mProgressBar, "mOnlyIndeterminate", new Boolean(false));
                 mProgressBar.setIndeterminate(false);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    mProgressBar.setProgressDrawableTiled(context.getDrawable(progressDrawableId));
+                    mProgressBar.setProgressDrawableTiled(getContext().getDrawable(progressDrawableId));
                 else
-                    mProgressBar.setProgressDrawable(context.getResources().getDrawable
+                    mProgressBar.setProgressDrawable(getContext().getResources().getDrawable
                             (progressDrawableId));
             } else {
                 mProgressBar = new ProgressBar(getContext(), null, android.R.attr
@@ -67,10 +112,10 @@ final class BodyProgressView extends LinearLayout {
             if (progressDrawableId != 0) {
                 mProgressBar = new ProgressBar(getContext());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    mProgressBar.setIndeterminateDrawableTiled(context.getDrawable
+                    mProgressBar.setIndeterminateDrawableTiled(getContext().getDrawable
                             (progressDrawableId));
                 else
-                    mProgressBar.setIndeterminateDrawable(context.getResources().getDrawable
+                    mProgressBar.setIndeterminateDrawable(getContext().getResources().getDrawable
                             (progressDrawableId));
             } else {
                 mProgressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyle);
@@ -84,41 +129,6 @@ final class BodyProgressView extends LinearLayout {
         if (margins != null)
             layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
         addView(mProgressBar, layoutParams);
-
-        //构建文本
-        final TextView textView = new TextView(getContext());
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(mProgressParams.textSize);
-        textView.setTextColor(mProgressParams.textColor);
-        textView.setTypeface(textView.getTypeface(), mProgressParams.styleText);
-        int[] padding = mProgressParams.padding;
-        if (padding != null)
-            textView.setPadding(padding[0], padding[1], padding[2], padding[3]);
-        addView(textView);
-
-        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL
-                && !TextUtils.isEmpty(mProgressParams.text)) {
-            mViewUpdateHandler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    int progress = mProgressBar.getProgress();
-                    int max = mProgressBar.getMax();
-                    int percent = (int) (((float) progress / (float) max) * 100);
-                    String args = percent + "%";
-                    if (mProgressParams.text.contains("%s"))
-                        textView.setText(String.format(mProgressParams.text, args));
-                    else textView.setText(mProgressParams.text + args);
-                }
-            };
-        } else {
-            textView.setText(mProgressParams.text);
-        }
-
-        OnCreateProgressListener createProgressListener = params.createProgressListener;
-        if (createProgressListener != null) {
-            createProgressListener.onCreateProgressView(mProgressBar, textView);
-        }
     }
 
     /**

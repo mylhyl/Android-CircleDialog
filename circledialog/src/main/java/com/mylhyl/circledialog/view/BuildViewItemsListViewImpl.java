@@ -19,7 +19,7 @@ public final class BuildViewItemsListViewImpl extends BuildViewItemsAbs {
         buildRootView();
         buildTitleView(mRootCardViewByLinearLayout);
         if (mItemsView == null) {
-            mItemsView = new BodyListView(mContext, mParams);
+            mItemsView = new BodyListView(mContext, mParams.dialogParams, mParams.itemsParams);
             mRootCardViewByLinearLayout.addView(mItemsView.getView());
         }
     }

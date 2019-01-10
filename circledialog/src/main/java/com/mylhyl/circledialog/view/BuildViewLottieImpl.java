@@ -26,7 +26,8 @@ public final class BuildViewLottieImpl extends BuildViewAbs {
         buildTitleView(mRootCardViewByLinearLayout);
 
         if (mBodyLottieView == null) {
-            mBodyLottieView = new BodyLottieView(mContext, mParams);
+            mBodyLottieView = new BodyLottieView(mContext, mParams.dialogParams
+                    , mParams.lottieParams, mParams.createLottieListener);
             mRootCardViewByLinearLayout.addView(mBodyLottieView);
         }
     }

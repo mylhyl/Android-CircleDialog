@@ -33,7 +33,6 @@ import java.util.List;
  */
 
 class BodyRecyclerView extends RecyclerView implements ItemsView {
-    protected Context mContext;
     protected DialogParams mDialogParams;
     private ItemsParams mItemsParams;
     private Adapter mAdapter;
@@ -45,13 +44,12 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
 
     public BodyRecyclerView(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
         super(context);
-        init(context, itemsParams, dialogParams);
-    }
-
-    private void init(Context context, ItemsParams itemsParams, DialogParams dialogParams) {
-        this.mContext = context;
         this.mItemsParams = itemsParams;
         this.mDialogParams = dialogParams;
+        init();
+    }
+
+    private void init() {
         configBackground();
         createLayoutManager();
         createItemDecoration();
@@ -109,7 +107,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
     private void createAdapter() {
         mAdapter = mItemsParams.adapterRv;
         if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(mContext, mItemsParams, mDialogParams, mLayoutManager);
+            mAdapter = new ItemsAdapter(getContext(), mItemsParams, mDialogParams, mLayoutManager);
             if (mLayoutManager instanceof GridLayoutManager) {
                 final GridLayoutManager gridLayoutManager = (GridLayoutManager) mLayoutManager;
                 if (gridLayoutManager.getSpanSizeLookup() instanceof GridLayoutManager.DefaultSpanSizeLookup) {

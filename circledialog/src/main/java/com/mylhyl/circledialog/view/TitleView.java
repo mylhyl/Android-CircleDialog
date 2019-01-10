@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
@@ -21,110 +20,109 @@ import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
  */
 final class TitleView extends LinearLayout {
     private RelativeLayout mTitleLayout;
+    private ImageView mTitleIcon;
+    private TextView mTitleView;
+    private TextView mSubTitleView;
+    private DialogParams mDialogParams;
+    private TitleParams mTitleParams;
+    private SubTitleParams mSubTitleParams;
+    private OnCreateTitleListener mOnCreateTitleListener;
 
-    public TitleView(Context context, CircleParams params) {
+    public TitleView(Context context, DialogParams dialogParams, TitleParams titleParams
+            , SubTitleParams subTitleParams, OnCreateTitleListener createTitleListener) {
         super(context);
-        if (params.titleParams == null) return;
-        init(params);
+        this.mDialogParams = dialogParams;
+        this.mTitleParams = titleParams;
+        this.mSubTitleParams = subTitleParams;
+        this.mOnCreateTitleListener = createTitleListener;
+        init();
     }
 
-    private void init(CircleParams params) {
-
+    private void init() {
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
-
-        DialogParams dialogParams = params.dialogParams;
-        TitleParams titleParams = params.titleParams;
-        SubTitleParams subTitleParams = params.subTitleParams;
-
-        createTitleLayout(dialogParams, titleParams);
-
+        createTitleLayout();
         //标题图标
-        ImageView ivTitleIcon = createTitleIcon(titleParams);
+        createTitleIcon();
         //标题
-        final TextView tvTitle = createTitle(titleParams);
-
+        createTitle();
         //副标题
-        TextView tvSubTitle = createSubTitle(dialogParams, subTitleParams);
-        OnCreateTitleListener createTitleListener = params.createTitleListener;
-        if (createTitleListener != null) {
-            createTitleListener.onCreateTitle(ivTitleIcon, tvTitle, tvSubTitle);
+        createSubTitle();
+        if (mOnCreateTitleListener != null) {
+            mOnCreateTitleListener.onCreateTitle(mTitleIcon, mTitleView, mSubTitleView);
         }
     }
 
-    private void createTitleLayout(DialogParams dialogParams, TitleParams titleParams) {
+    private void createTitleLayout() {
         mTitleLayout = new RelativeLayout(getContext());
         mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT
                 , LayoutParams.WRAP_CONTENT));
-        mTitleLayout.setGravity(titleParams.gravity);
+        mTitleLayout.setGravity(mTitleParams.gravity);
         mTitleLayout.setPadding(50, 0, 50, 0);
 
         //如果标题没有背景色，则使用默认色
-        int bg = titleParams.backgroundColor != 0 ? titleParams.backgroundColor : dialogParams.backgroundColor;
+        int bg = mTitleParams.backgroundColor != 0
+                ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
         mTitleLayout.setBackgroundColor(bg);
     }
 
     @NonNull
-    private ImageView createTitleIcon(TitleParams titleParams) {
-        ImageView ivTitleIcon = new ImageView(getContext());
+    private void createTitleIcon() {
+        mTitleIcon = new ImageView(getContext());
         RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.title);
         layoutParamsTitleIcon.addRule(RelativeLayout.CENTER_VERTICAL);
-        ivTitleIcon.setLayoutParams(layoutParamsTitleIcon);
-        if (titleParams.icon != 0) {
-            ivTitleIcon.setImageResource(titleParams.icon);
-            ivTitleIcon.setVisibility(VISIBLE);
+        mTitleIcon.setLayoutParams(layoutParamsTitleIcon);
+        if (mTitleParams.icon != 0) {
+            mTitleIcon.setImageResource(mTitleParams.icon);
+            mTitleIcon.setVisibility(VISIBLE);
         } else {
-            ivTitleIcon.setVisibility(GONE);
+            mTitleIcon.setVisibility(GONE);
         }
-        mTitleLayout.addView(ivTitleIcon);
-        return ivTitleIcon;
+        mTitleLayout.addView(mTitleIcon);
     }
 
     @NonNull
-    private TextView createTitle(TitleParams titleParams) {
-        final TextView tvTitle = new TextView(getContext());
-        tvTitle.setGravity(Gravity.CENTER);
-        tvTitle.setId(android.R.id.title);
+    private void createTitle() {
+        mTitleView = new TextView(getContext());
+        mTitleView.setGravity(Gravity.CENTER);
+        mTitleView.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        tvTitle.setLayoutParams(layoutParamsTitle);
-        if (titleParams.height != 0)
-            tvTitle.setHeight(titleParams.height);
-        tvTitle.setTextColor(titleParams.textColor);
-        tvTitle.setTextSize(titleParams.textSize);
-        tvTitle.setText(titleParams.text);
-        int[] padding = titleParams.padding;
+        mTitleView.setLayoutParams(layoutParamsTitle);
+        if (mTitleParams.height != 0)
+            mTitleView.setHeight(mTitleParams.height);
+        mTitleView.setTextColor(mTitleParams.textColor);
+        mTitleView.setTextSize(mTitleParams.textSize);
+        mTitleView.setText(mTitleParams.text);
+        int[] padding = mTitleParams.padding;
         if (padding != null)
-            tvTitle.setPadding(padding[0], padding[1], padding[2], padding[3]);
-        tvTitle.setTypeface(tvTitle.getTypeface(), titleParams.styleText);
-        mTitleLayout.addView(tvTitle);
+            mTitleView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+        mTitleView.setTypeface(mTitleView.getTypeface(), mTitleParams.styleText);
+        mTitleLayout.addView(mTitleView);
         addView(mTitleLayout);
-        return tvTitle;
     }
 
     @Nullable
-    private TextView createSubTitle(DialogParams dialogParams, SubTitleParams subTitleParams) {
-        TextView tvSubTitle = null;
-        if (subTitleParams != null) {
-            tvSubTitle = new TextView(getContext());
-            tvSubTitle.setGravity(Gravity.CENTER);
-            setSubTitleBg(tvSubTitle, subTitleParams.backgroundColor, dialogParams.backgroundColor);
-            tvSubTitle.setGravity(subTitleParams.gravity);
-            if (subTitleParams.height != 0)
-                tvSubTitle.setHeight(subTitleParams.height);
-            tvSubTitle.setTextColor(subTitleParams.textColor);
-            tvSubTitle.setTextSize(subTitleParams.textSize);
-            tvSubTitle.setText(subTitleParams.text);
-            int[] padding = subTitleParams.padding;
-            if (padding != null)
-                tvSubTitle.setPadding(padding[0], padding[1], padding[2], padding[3]);
-            tvSubTitle.setTypeface(tvSubTitle.getTypeface(), subTitleParams.styleText);
-            addView(tvSubTitle);
+    private void createSubTitle() {
+        mSubTitleView = new TextView(getContext());
+        mSubTitleView.setGravity(Gravity.CENTER);
+        setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
+        mSubTitleView.setGravity(mSubTitleParams.gravity);
+        if (mSubTitleParams.height != 0) {
+            mSubTitleView.setHeight(mSubTitleParams.height);
         }
-        return tvSubTitle;
+        mSubTitleView.setTextColor(mSubTitleParams.textColor);
+        mSubTitleView.setTextSize(mSubTitleParams.textSize);
+        mSubTitleView.setText(mSubTitleParams.text);
+        int[] padding = mSubTitleParams.padding;
+        if (padding != null)
+            mSubTitleView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+        mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
+        addView(mSubTitleView);
+
     }
 
     private void setSubTitleBg(TextView tvSubTitle, int tbg, int dbg) {
