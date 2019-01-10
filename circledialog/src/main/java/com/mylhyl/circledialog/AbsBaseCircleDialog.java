@@ -59,6 +59,9 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private int mX, mY;
     private int mSystemUiVisibility;
 
+    public AbsBaseCircleDialog() {
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,35 +86,9 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = createView(getContext(), inflater, container);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
-        } else {
-            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, mRadius));
-        }
-        view.setAlpha(mAlpha);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (mMaxHeight > 0) {
-            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    int height = view.getHeight();
-                    int screenHeight = mSystemBarConfig.getScreenHeight();
-                    int maxHeight = (int) (screenHeight * mMaxHeight);
-                    if (height > maxHeight) {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        view.setLayoutParams(new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
-                    }
-                }
-            });
-        }
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        remove();
     }
 
     @Override
@@ -132,15 +109,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             dialog.getWindow().getDecorView().setSystemUiVisibility(mSystemUiVisibility);
             dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         }
-    }
-
-    public AbsBaseCircleDialog() {
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        remove();
     }
 
     /**
@@ -205,6 +173,38 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.remove(this);
         ft.addToBackStack(null);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = createView(getContext(), inflater, container);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
+        } else {
+            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, mRadius));
+        }
+        view.setAlpha(mAlpha);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mMaxHeight > 0) {
+            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int height = view.getHeight();
+                    int screenHeight = mSystemBarConfig.getScreenHeight();
+                    int maxHeight = (int) (screenHeight * mMaxHeight);
+                    if (height > maxHeight) {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        view.setLayoutParams(new FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+                    }
+                }
+            });
+        }
     }
 
     public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);

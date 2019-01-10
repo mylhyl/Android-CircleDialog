@@ -26,6 +26,18 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     private CircleParams mParams;
     private Controller mController;
 
+    public BaseCircleDialog() {
+    }
+
+    public static BaseCircleDialog newAbsCircleDialog(CircleParams params) {
+        BaseCircleDialog circleDialog = new BaseCircleDialog();
+        circleDialog.mParams = params;
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SAVED_PARAMS, params);
+        circleDialog.setArguments(bundle);
+        return circleDialog;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,27 +73,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-            dialog.setOnShowListener(this);
-        }
-    }
-
-    public BaseCircleDialog() {
-    }
-
-    public static BaseCircleDialog newAbsCircleDialog(CircleParams params) {
-        BaseCircleDialog circleDialog = new BaseCircleDialog();
-        circleDialog.mParams = params;
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SAVED_PARAMS, params);
-        circleDialog.setArguments(bundle);
-        return circleDialog;
-    }
-
-    @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if (mParams != null && mParams.dismissListener != null) {
@@ -91,6 +82,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
             mParams.cancelListener.onCancel(dialog);
         }
         mParams = null;
+        mController = null;
     }
 
     @Override
@@ -101,7 +93,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(getContext().getApplicationContext(), mParams, this);
+        mController = new Controller(context.getApplicationContext(), mParams, this);
         mController.createView();
         View view = mController.getView();
         return view;
@@ -116,6 +108,15 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.add(this, tag);
         transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.setOnShowListener(this);
+        }
     }
 
     @Override

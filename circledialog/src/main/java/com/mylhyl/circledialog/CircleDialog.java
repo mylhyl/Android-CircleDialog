@@ -17,6 +17,7 @@ import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.callback.ConfigLottie;
 import com.mylhyl.circledialog.callback.ConfigPopup;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
@@ -531,6 +532,31 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 输入框的确定按钮
+         *
+         * @param text     按钮文本
+         * @param listener 事件
+         * @return this Builder
+         */
+        public Builder setPositiveInput(@NonNull String text, OnInputClickListener listener) {
+            newPositiveParams();
+            ButtonParams params = mCircleParams.positiveParams;
+            params.text = text;
+            mCircleParams.inputListener = listener;
+            return this;
+        }
+
+        private void newPositiveParams() {
+            if (mCircleParams.positiveParams == null)
+                mCircleParams.positiveParams = new ButtonParams();
+        }
+
+        public Builder setOnCreateInputListener(OnCreateInputListener listener) {
+            mCircleParams.createInputListener = listener;
+            return this;
+        }
+
         public Builder setLottieAnimation(String animationFileName) {
             newLottieParams();
             mCircleParams.lottieParams.animationFileName = animationFileName;
@@ -574,13 +600,14 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setOnCreateLottieListener(OnCreateLottieListener listener) {
-            mCircleParams.createLottieListener = listener;
+        public Builder configLottie(@NonNull ConfigLottie configLottie) {
+            newLottieParams();
+            configLottie.onConfig(mCircleParams.lottieParams);
             return this;
         }
 
-        public Builder setOnCreateInputListener(OnCreateInputListener listener) {
-            mCircleParams.createInputListener = listener;
+        public Builder setOnCreateLottieListener(OnCreateLottieListener listener) {
+            mCircleParams.createLottieListener = listener;
             return this;
         }
 
@@ -596,26 +623,6 @@ public final class CircleDialog {
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
             mCircleParams.clickPositiveListener = listener;
-            return this;
-        }
-
-        private void newPositiveParams() {
-            if (mCircleParams.positiveParams == null)
-                mCircleParams.positiveParams = new ButtonParams();
-        }
-
-        /**
-         * 输入框的确定按钮
-         *
-         * @param text     按钮文本
-         * @param listener 事件
-         * @return this Builder
-         */
-        public Builder setPositiveInput(@NonNull String text, OnInputClickListener listener) {
-            newPositiveParams();
-            ButtonParams params = mCircleParams.positiveParams;
-            params.text = text;
-            mCircleParams.inputListener = listener;
             return this;
         }
 

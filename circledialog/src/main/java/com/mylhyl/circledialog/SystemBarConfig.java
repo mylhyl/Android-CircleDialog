@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 

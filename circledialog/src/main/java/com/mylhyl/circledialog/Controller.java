@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
-import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.BuildViewConfirmImpl;
 import com.mylhyl.circledialog.view.BuildViewCustomBodyImpl;
 import com.mylhyl.circledialog.view.BuildViewInputImpl;
