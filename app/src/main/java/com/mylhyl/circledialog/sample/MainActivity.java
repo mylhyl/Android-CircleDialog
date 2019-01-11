@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setTitle("标题")
                         .setWidth(0.5f)
-                        .setText("提示框")
+//                        .setText("提示框")
                         .setPositive("确定", null)
                         .setOnShowListener(dialog ->
                                 Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show())
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             params.backgroundColorPress = Color.CYAN;
                             //增加弹出动画
                             params.animStyle = R.style.dialogWindowAnim;
+//                            params.gravity = Gravity.TOP;
                         })
                         .setTitle("标题")
 //                        .setTitleColor(Color.BLUE)
@@ -430,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         .setRadius(0)
                         .setWidth(1f)
-                        .setMaxHeight(0.7f)
+//                        .setMaxHeight(0.7f)
                         .setYoff(0)
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")
@@ -450,11 +451,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
 
                 new CircleDialog.Builder()
-                        .setMaxHeight(0.7f)
+                        .setMaxHeight(0.5f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
-                        .configItems(params -> params.bottomMargin = 100)
+                        .configItems(params -> params.bottomMargin = 30)
                         .setItems(checkedAdapterR, (parent, view15, position15, id) -> {
                             checkedAdapterR.toggle(position15, objectsR[position15]);
                             return false;

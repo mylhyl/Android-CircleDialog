@@ -1,12 +1,14 @@
 package com.mylhyl.circledialog;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.view.BuildViewConfirmImpl;
 import com.mylhyl.circledialog.view.BuildViewCustomBodyImpl;
 import com.mylhyl.circledialog.view.BuildViewInputImpl;
@@ -71,6 +73,16 @@ public class Controller {
         } else {
             //列表
             if (mParams.itemsParams != null) {
+                //设置列表特殊的参数
+                DialogParams dialogParams = mParams.dialogParams;
+                //判断是否已经设置过
+                if (dialogParams.gravity == Gravity.CENTER) {
+                    dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
+                }
+                //判断是否已经设置过
+                if (dialogParams.gravity == Gravity.BOTTOM && dialogParams.yOff == -1) {
+                    dialogParams.yOff = 20;//底部与屏幕的距离
+                }
                 if (mParams.itemListViewType) {
                     mCreateView = new BuildViewItemsListViewImpl(mContext, mParams);
                     mCreateView.buildBodyView();

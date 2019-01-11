@@ -107,22 +107,23 @@ final class TitleView extends LinearLayout {
 
     @Nullable
     private void createSubTitle() {
-        mSubTitleView = new TextView(getContext());
-        mSubTitleView.setGravity(Gravity.CENTER);
-        setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
-        mSubTitleView.setGravity(mSubTitleParams.gravity);
-        if (mSubTitleParams.height != 0) {
-            mSubTitleView.setHeight(mSubTitleParams.height);
+        if (mSubTitleParams != null) {
+            mSubTitleView = new TextView(getContext());
+            mSubTitleView.setGravity(Gravity.CENTER);
+            setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
+            mSubTitleView.setGravity(mSubTitleParams.gravity);
+            if (mSubTitleParams.height != 0) {
+                mSubTitleView.setHeight(mSubTitleParams.height);
+            }
+            mSubTitleView.setTextColor(mSubTitleParams.textColor);
+            mSubTitleView.setTextSize(mSubTitleParams.textSize);
+            mSubTitleView.setText(mSubTitleParams.text);
+            int[] padding = mSubTitleParams.padding;
+            if (padding != null)
+                mSubTitleView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+            mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
+            addView(mSubTitleView);
         }
-        mSubTitleView.setTextColor(mSubTitleParams.textColor);
-        mSubTitleView.setTextSize(mSubTitleParams.textSize);
-        mSubTitleView.setText(mSubTitleParams.text);
-        int[] padding = mSubTitleParams.padding;
-        if (padding != null)
-            mSubTitleView.setPadding(padding[0], padding[1], padding[2], padding[3]);
-        mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
-        addView(mSubTitleView);
-
     }
 
     private void setSubTitleBg(TextView tvSubTitle, int tbg, int dbg) {

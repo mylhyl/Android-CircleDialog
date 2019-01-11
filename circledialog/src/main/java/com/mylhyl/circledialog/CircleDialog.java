@@ -249,11 +249,9 @@ public final class CircleDialog {
         }
 
         private void newTextParams() {
-            //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
-                mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.textParams == null)
+            if (mCircleParams.textParams == null) {
                 mCircleParams.textParams = new TextParams();
+            }
         }
 
         public Builder setTextColor(@ColorInt int color) {
@@ -283,17 +281,9 @@ public final class CircleDialog {
         }
 
         private void newItemsParams() {
-            //设置列表特殊的参数
-            DialogParams dialogParams = mCircleParams.dialogParams;
-            //判断是否已经设置过
-            if (dialogParams.gravity == Gravity.NO_GRAVITY)
-                dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
-            //判断是否已经设置过
-            if (dialogParams.yOff == -1)
-                dialogParams.yOff = 20;//底部与屏幕的距离
-
-            if (mCircleParams.itemsParams == null)
+            if (mCircleParams.itemsParams == null) {
                 mCircleParams.itemsParams = new ItemsParams();
+            }
         }
 
         public Builder setItems(@NonNull BaseAdapter adapter
@@ -367,11 +357,9 @@ public final class CircleDialog {
         }
 
         private void newProgressParams() {
-            //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
-                mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.progressParams == null)
+            if (mCircleParams.progressParams == null) {
                 mCircleParams.progressParams = new ProgressParams();
+            }
         }
 
         /**
@@ -438,11 +426,9 @@ public final class CircleDialog {
         }
 
         private void newInputParams() {
-            //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
-                mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.inputParams == null)
+            if (mCircleParams.inputParams == null) {
                 mCircleParams.inputParams = new InputParams();
+            }
         }
 
         /**
