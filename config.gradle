@@ -4,7 +4,7 @@ ext {
             minSdkVersion    : 16,
             targetSdkVersion : 27,
             versionCode      : 1,
-            versionName      : "20190107"
+            versionName      : "20190111"
     ]
 
     dependVersion = [
@@ -22,6 +22,6 @@ ext {
     ]
 
     publish = [
-            version: "3.0.4"
+            version: "3.0.5"
     ]
 }
