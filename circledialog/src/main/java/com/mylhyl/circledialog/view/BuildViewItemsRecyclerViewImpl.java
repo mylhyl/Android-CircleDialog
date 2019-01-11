@@ -20,7 +20,7 @@ public final class BuildViewItemsRecyclerViewImpl extends BuildViewItemsAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
         if (mItemsView == null) {
             ItemsParams itemsParams = mParams.itemsParams;
             mItemsView = new BodyRecyclerView(mContext, itemsParams, mParams.dialogParams);
@@ -31,9 +31,9 @@ public final class BuildViewItemsRecyclerViewImpl extends BuildViewItemsAbs {
                     == LinearLayoutManager.HORIZONTAL) {
                 DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL
                         , itemsParams.dividerHeight);
-                mRootCardViewByLinearLayout.addView(dividerView);
+                addViewByBody(dividerView);
             }
-            mRootCardViewByLinearLayout.addView(mItemsView.getView());
+            addViewByBody(mItemsView.getView());
         }
     }
 }

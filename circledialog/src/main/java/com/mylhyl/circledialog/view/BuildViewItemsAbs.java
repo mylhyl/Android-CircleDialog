@@ -50,10 +50,9 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
         cardView.setLayoutParams(layoutParams);
 
         rootItem.addView(cardView);
-        this.mRootCardViewByLinearLayout = new LinearLayout(mContext);
-        this.mRootCardViewByLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        cardView.addView(mRootCardViewByLinearLayout);
+        LinearLayout rootCardViewByLinearLayout = buildLinearLayout();
+        cardView.addView(rootCardViewByLinearLayout);
 
         mRoot = rootItem;
     }

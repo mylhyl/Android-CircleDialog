@@ -23,12 +23,12 @@ public final class BuildViewLottieImpl extends BuildViewAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
 
         if (mBodyLottieView == null) {
             mBodyLottieView = new BodyLottieView(mContext, mParams.dialogParams
                     , mParams.lottieParams, mParams.createLottieListener);
-            mRootCardViewByLinearLayout.addView(mBodyLottieView);
+            addViewByBody(mBodyLottieView);
         }
     }
 

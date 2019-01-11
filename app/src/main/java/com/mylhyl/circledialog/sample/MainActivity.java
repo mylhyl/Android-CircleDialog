@@ -1,10 +1,8 @@
 package com.mylhyl.circledialog.sample;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -27,8 +25,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.callback.ConfigDialog;
-import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 , "进度框", "等待框", "动态改变内容"
                 , "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)"
                 , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"
-                , "lottie动画框", "仿微博分享", "Rv Vertical", "Rv Horizontal"});
+                , "lottie动画框", "仿微博分享", "Rv Vertical", "Rv Horizontal", "广告"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -581,6 +577,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 }
                         )
                         .setNegative("取消", null)
+                        .show(getSupportFragmentManager());
+                break;
+            case 20:
+                new CircleDialog.Builder()
+                        .setWidth(0.5f)
+                        .setAdImageResId(R.mipmap.ic_zfbxcc)
                         .show(getSupportFragmentManager());
                 break;
         }

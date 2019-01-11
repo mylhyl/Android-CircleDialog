@@ -23,11 +23,11 @@ public final class BuildViewConfirmImpl extends BuildViewAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
         if (mBodyTextView == null) {
             mBodyTextView = new BodyTextView(mContext, mParams.dialogParams, mParams.textParams
                     , mParams.createTextListener);
-            mRootCardViewByLinearLayout.addView(mBodyTextView);
+            addViewByBody(mBodyTextView);
         }
     }
 

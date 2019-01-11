@@ -17,10 +17,10 @@ public final class BuildViewItemsListViewImpl extends BuildViewItemsAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
         if (mItemsView == null) {
             mItemsView = new BodyListView(mContext, mParams.dialogParams, mParams.itemsParams);
-            mRootCardViewByLinearLayout.addView(mItemsView.getView());
+            addViewByBody(mItemsView.getView());
         }
     }
 

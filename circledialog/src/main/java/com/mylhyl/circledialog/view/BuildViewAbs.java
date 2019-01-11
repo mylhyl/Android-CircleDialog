@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -12,6 +13,14 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 
 /**
+ * view的层次结构
+ * <pre>
+ * CardView
+ *    ╚--LinearLayout
+ *           ┗--TitleView
+ *           ┗--BodyView
+ *           ┗--ButtonView
+ * </pre>
  * Created by hupei on 2017/3/29.
  */
 
@@ -19,7 +28,7 @@ abstract class BuildViewAbs implements BuildView {
     protected Context mContext;
     protected CircleParams mParams;
     protected ViewGroup mRoot;
-    protected LinearLayout mRootCardViewByLinearLayout;
+    private LinearLayout mRootCardViewByLinearLayout;
     private ButtonView mButtonView;
 
     public BuildViewAbs(Context context, CircleParams params) {
@@ -27,18 +36,27 @@ abstract class BuildViewAbs implements BuildView {
         this.mParams = params;
     }
 
-    protected final void buildTitleView(ViewGroup viewGroup) {
+    protected final void buildTitleView() {
         if (mParams.titleParams != null) {
             TitleView titleView = new TitleView(mContext, mParams.dialogParams
                     , mParams.titleParams, mParams.subTitleParams, mParams.createTitleListener);
-            viewGroup.addView(titleView);
+            addViewByBody(titleView);
         }
+    }
+
+    protected final void addViewByBody(View child) {
+        mRootCardViewByLinearLayout.addView(child);
+    }
+
+    protected final View layoutInflaterFrom(int resource) {
+        return LayoutInflater.from(mContext)
+                .inflate(resource, mRootCardViewByLinearLayout, false);
     }
 
     protected void buildRootView() {
         CardView cardView = buildCardView();
-        LinearLayout linearLayout = buildLinearLayout();
-        cardView.addView(linearLayout);
+        buildLinearLayout();
+        cardView.addView(mRootCardViewByLinearLayout);
         mRoot = cardView;
     }
 
@@ -68,11 +86,11 @@ abstract class BuildViewAbs implements BuildView {
                     , mParams.positiveParams, mParams.neutralParams, mParams.createButtonListener);
             if (!mButtonView.isEmpty()) {
                 DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
-                mRootCardViewByLinearLayout.addView(dividerView);
+                addViewByBody(dividerView);
             }
         }
         if (mButtonView != null) {
-            mRootCardViewByLinearLayout.addView(mButtonView.getView());
+            addViewByBody(mButtonView.getView());
         }
         return mButtonView;
     }

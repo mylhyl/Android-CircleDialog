@@ -23,12 +23,12 @@ public final class BuildViewProgressImpl extends BuildViewAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
 
         if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams.dialogParams
                     , mParams.progressParams, mParams.createProgressListener);
-            mRootCardViewByLinearLayout.addView(mBodyProgressView);
+            addViewByBody(mBodyProgressView);
         }
     }
 

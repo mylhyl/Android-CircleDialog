@@ -4,8 +4,8 @@ import android.content.DialogInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
-import android.widget.AdapterView;
 
+import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
@@ -103,6 +103,7 @@ public class CircleParams implements Parcelable {
     public OnInputCounterChangeListener inputCounterChangeListener;
     public PopupParams popupParams;
     public boolean itemListViewType;//true=ListView; false=RecyclerView
+    public AdParams adParams;
 
     public CircleParams() {
     }
@@ -122,6 +123,7 @@ public class CircleParams implements Parcelable {
         this.bodyViewId = in.readInt();
         this.popupParams = in.readParcelable(PopupParams.class.getClassLoader());
         this.itemListViewType = in.readByte() != 0;
+        this.adParams = in.readParcelable(AdParams.class.getClassLoader());
     }
 
     @Override
@@ -145,5 +147,6 @@ public class CircleParams implements Parcelable {
         dest.writeInt(this.bodyViewId);
         dest.writeParcelable(this.popupParams, flags);
         dest.writeByte(this.itemListViewType ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.adParams, flags);
     }
 }

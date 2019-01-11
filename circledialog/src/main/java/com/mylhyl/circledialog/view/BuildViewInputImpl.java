@@ -23,13 +23,13 @@ public final class BuildViewInputImpl extends BuildViewAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
 
         if (mBodyInputView == null) {
             mBodyInputView = new BodyInputView(mContext, mParams.dialogParams, mParams.titleParams
                     , mParams.subTitleParams, mParams.inputParams
                     , mParams.inputCounterChangeListener, mParams.createInputListener);
-            mRootCardViewByLinearLayout.addView(mBodyInputView.getView());
+            addViewByBody(mBodyInputView.getView());
         }
     }
 

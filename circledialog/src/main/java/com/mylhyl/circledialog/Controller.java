@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 
 import com.mylhyl.circledialog.params.DialogParams;
+import com.mylhyl.circledialog.view.BuildViewAdImpl;
 import com.mylhyl.circledialog.view.BuildViewConfirmImpl;
 import com.mylhyl.circledialog.view.BuildViewCustomBodyImpl;
 import com.mylhyl.circledialog.view.BuildViewInputImpl;
@@ -49,6 +50,25 @@ public class Controller {
             regNegativeListener(buttonView);
             regNeutralListener(buttonView);
             regPositiveInputListener(buttonView, inputView);
+        }
+        //lottie动画框
+        else if (mParams.lottieParams != null) {
+            mCreateView = new BuildViewLottieImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+        }
+        //自定义内容视图
+        else if (mParams.bodyViewId != 0) {
+            mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+            View bodyView = mCreateView.getBodyView();
+            if (mParams.createBodyViewListener != null)
+                mParams.createBodyViewListener.onCreateBodyView(bodyView);
+        }
+        //广告
+        else if (mParams.adParams != null) {
+            mCreateView = new BuildViewAdImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+            View bodyView = mCreateView.getBodyView();
         }
         //popup
         else if (mParams.popupParams != null) {
@@ -120,19 +140,6 @@ public class Controller {
             else if (mParams.progressParams != null) {
                 mCreateView = new BuildViewProgressImpl(mContext, mParams);
                 mCreateView.buildBodyView();
-            }
-            //lottie动画框
-            else if (mParams.lottieParams != null) {
-                mCreateView = new BuildViewLottieImpl(mContext, mParams);
-                mCreateView.buildBodyView();
-            }
-            //自定义内容视图
-            else if (mParams.bodyViewId != 0) {
-                mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
-                mCreateView.buildBodyView();
-                View bodyView = mCreateView.getBodyView();
-                if (mParams.createBodyViewListener != null)
-                    mParams.createBodyViewListener.onCreateBodyView(bodyView);
             }
             //文本
             else {

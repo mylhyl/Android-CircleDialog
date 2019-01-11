@@ -23,6 +23,7 @@ import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
+import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
@@ -768,6 +769,18 @@ public final class CircleDialog {
             params.itemDecoration = itemDecoration;
             params.adapterRv = adapter;
             return this;
+        }
+
+        public Builder setAdImageResId(@DrawableRes int imageResId) {
+            newAdParams();
+            mCircleParams.adParams.imageResId = imageResId;
+            return this;
+        }
+
+        private void newAdParams() {
+            if (mCircleParams.adParams == null) {
+                mCircleParams.adParams = new AdParams();
+            }
         }
 
         public BaseCircleDialog show(FragmentManager manager) {

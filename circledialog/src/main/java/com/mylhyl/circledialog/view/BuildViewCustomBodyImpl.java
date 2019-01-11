@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.mylhyl.circledialog.CircleParams;
@@ -25,12 +24,11 @@ public final class BuildViewCustomBodyImpl extends BuildViewAbs {
     @Override
     public void buildBodyView() {
         buildRootView();
-        buildTitleView(mRootCardViewByLinearLayout);
+        buildTitleView();
 
         if (mCustomBodyView == null) {
-            mCustomBodyView = LayoutInflater.from(mContext)
-                    .inflate(mParams.bodyViewId, mRootCardViewByLinearLayout, false);
-            mRootCardViewByLinearLayout.addView(mCustomBodyView);
+            mCustomBodyView = layoutInflaterFrom(mParams.bodyViewId);
+            addViewByBody(mCustomBodyView);
         }
     }
 
