@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setImageLoadEngine(new Glide4ImageLoadEngine())
-                .setAdUrls(new String[]{"http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"}
+                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
                         , new OnAdItemClickListener() {
                             @Override
                             public boolean onItemClick(View view, int position) {
@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 return true;
                             }
                         })
-//                .setAdUrls("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
-//                .setAdUrls("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
-//                .setAdUrls("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
                 .setAdCloseResId(R.mipmap.ic_close, 60, new int[]{0, 0, 20, 20})//暂时用px，项目中实际用的是dp，这里就不演示了
                 .show(getSupportFragmentManager());
     }

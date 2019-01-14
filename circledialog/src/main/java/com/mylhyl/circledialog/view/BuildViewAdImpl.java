@@ -25,8 +25,10 @@ public final class BuildViewAdImpl extends BuildViewAbs {
         buildRootView();
         buildTitleView();
         if (mBodyAdView == null) {
-            mParams.dialogParams.canceledOnTouchOutside = false;
-            mParams.dialogParams.cancelable = false;
+            if (mParams.adParams.closeResId != 0) {
+                mParams.dialogParams.canceledOnTouchOutside = false;
+                mParams.dialogParams.cancelable = false;
+            }
             mBodyAdView = new BodyAdView(mContext, mParams.dialogParams, mParams.adParams
                     , mParams.imageLoadEngine);
             addViewByBody(mBodyAdView);

@@ -806,15 +806,21 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setAdUrls(String[] urls, OnAdItemClickListener listener) {
+        public Builder setAdUrl(String url, OnAdItemClickListener listener) {
+            newAdParams();
+            mCircleParams.adParams.urls = Arrays.asList(new String[]{url});
+            mCircleParams.adItemClickListener = listener;
+            return this;
+        }
+
+        public Builder setAdUrl(String[] urls, OnAdItemClickListener listener) {
             newAdParams();
             mCircleParams.adParams.urls = Arrays.asList(urls);
             mCircleParams.adItemClickListener = listener;
             return this;
         }
 
-
-        public Builder setAdUrls(List<String> urls, OnAdItemClickListener listener) {
+        public Builder setAdUrl(List<String> urls, OnAdItemClickListener listener) {
             newAdParams();
             mCircleParams.adParams.urls = urls;
             mCircleParams.adItemClickListener = listener;
