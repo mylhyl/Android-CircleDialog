@@ -81,6 +81,10 @@ public class DialogParams implements Parcelable {
     public int backgroundColorPress = CircleColor.DIALOG_BACKGROUND_PRESS;
     public float maxHeight;//最大高度
     public int systemUiVisibility;
+    /**
+     * 延迟弹出
+     */
+    public int delayShow;
 
     public DialogParams() {
     }
@@ -102,6 +106,7 @@ public class DialogParams implements Parcelable {
         this.backgroundColorPress = in.readInt();
         this.maxHeight = in.readFloat();
         this.systemUiVisibility = in.readInt();
+        this.delayShow = in.readInt();
     }
 
     @Override
@@ -127,5 +132,6 @@ public class DialogParams implements Parcelable {
         dest.writeInt(this.backgroundColorPress);
         dest.writeFloat(this.maxHeight);
         dest.writeInt(this.systemUiVisibility);
+        dest.writeInt(this.delayShow);
     }
 }

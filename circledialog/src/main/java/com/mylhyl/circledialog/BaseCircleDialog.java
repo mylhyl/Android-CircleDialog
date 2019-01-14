@@ -47,32 +47,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        DialogParams dialogParams = mParams.dialogParams;
-        setGravity(dialogParams.gravity);
-        setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
-        setCanceledBack(dialogParams.cancelable);
-        setWidth(dialogParams.width);
-        setMaxHeight(dialogParams.maxHeight);
-        int[] padding = dialogParams.mPadding;
-        if (padding != null) {
-            setPadding(padding[0], padding[1], padding[2], padding[3]);
-        }
-        setAnimations(dialogParams.animStyle);
-        setDimEnabled(dialogParams.isDimEnabled);
-        setRadius(dialogParams.radius);
-        setAlpha(dialogParams.alpha);
-        setX(dialogParams.xOff);
-        setY(dialogParams.yOff);
-        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
-                && mController != null) {
-            setSoftInputMode();
-        }
-        setSystemUiVisibility(dialogParams.systemUiVisibility);
-    }
-
-    @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if (mParams != null && mParams.dismissListener != null) {
@@ -100,8 +74,34 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        DialogParams dialogParams = mParams.dialogParams;
+        setGravity(dialogParams.gravity);
+        setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
+        setCanceledBack(dialogParams.cancelable);
+        setWidth(dialogParams.width);
+        setMaxHeight(dialogParams.maxHeight);
+        int[] padding = dialogParams.mPadding;
+        if (padding != null) {
+            setPadding(padding[0], padding[1], padding[2], padding[3]);
+        }
+        setAnimations(dialogParams.animStyle);
+        setDimEnabled(dialogParams.isDimEnabled);
+        setRadius(dialogParams.radius);
+        setAlpha(dialogParams.alpha);
+        setX(dialogParams.xOff);
+        setY(dialogParams.yOff);
+        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
+                && mController != null) {
+            setSoftInputMode();
+        }
+        setSystemUiVisibility(dialogParams.systemUiVisibility);
+    }
+
+    @Override
     public void show(FragmentManager manager, String tag) {
-        FragmentTransaction transaction = manager.beginTransaction();
+        final FragmentTransaction transaction = manager.beginTransaction();
         if (isAdded()) {
             transaction.remove(this).commit();
         }

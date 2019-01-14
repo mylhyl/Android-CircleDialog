@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog.sample;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.engine.impl.Glide4ImageLoadEngine;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -34,6 +34,7 @@ import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.entities.WeiBoItem;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
+import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,6 +77,23 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         };
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
+        new CircleDialog.Builder()
+                .setWidth(0.8f)
+                .setImageLoadEngine(new Glide4ImageLoadEngine())
+                .setAdUrls(new String[]{"http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"}
+                        , new OnAdItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position) {
+                                ListViewActivity.gotoActivity(MainActivity.this);
+                                return true;
+                            }
+                        })
+//                .setAdUrls("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
+//                .setAdUrls("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
+//                .setAdUrls("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
+                .setAdCloseResId(R.mipmap.ic_close, 60, new int[]{0, 0, 20, 20})//暂时用px，项目中实际用的是dp，这里就不演示了
+                .show(getSupportFragmentManager());
     }
 
     @Override
@@ -280,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
                 break;
             case 8:
-                startActivity(new Intent(MainActivity.this, ListViewActivity.class));
+                ListViewActivity.gotoActivity(this);
                 break;
             case 9:
 

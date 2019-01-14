@@ -18,6 +18,7 @@ import com.mylhyl.circledialog.view.BuildViewItemsRecyclerViewImpl;
 import com.mylhyl.circledialog.view.BuildViewLottieImpl;
 import com.mylhyl.circledialog.view.BuildViewPopupImpl;
 import com.mylhyl.circledialog.view.BuildViewProgressImpl;
+import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
@@ -68,7 +69,25 @@ public class Controller {
         else if (mParams.adParams != null) {
             mCreateView = new BuildViewAdImpl(mContext, mParams);
             mCreateView.buildBodyView();
-            View bodyView = mCreateView.getBodyView();
+            AdView bodyView = mCreateView.getBodyView();
+            bodyView.regOnCloseClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnDialogInternalListener.dialogDismiss();
+                }
+            });
+
+            bodyView.regOnImageClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mParams.adItemClickListener != null) {
+                        boolean b = mParams.adItemClickListener.onItemClick(v, 0);
+                        if (b) {
+                            mOnDialogInternalListener.dialogDismiss();
+                        }
+                    }
+                }
+            });
         }
         //popup
         else if (mParams.popupParams != null) {
