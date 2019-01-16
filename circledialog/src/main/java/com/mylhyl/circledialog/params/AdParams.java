@@ -8,6 +8,7 @@ import android.os.Parcelable;
  * Created by hupei on 2019/1/11 11:04.
  */
 public class AdParams implements Parcelable {
+
     public static final Creator<AdParams> CREATOR = new Creator<AdParams>() {
         @Override
         public AdParams createFromParcel(Parcel source) {
@@ -19,16 +20,13 @@ public class AdParams implements Parcelable {
             return new AdParams[size];
         }
     };
-    public int closeResId;
-    public int closeSize;
-    /**
-     * int left, int top, int right, int bottom
-     */
-    public int[] closeMargins;
+
+
     /**
      * 广告图片资源id
      */
-    public int[] imageResIds;
+    public int[] resIds;
+
     /**
      * 广告图片url数组
      */
@@ -38,10 +36,7 @@ public class AdParams implements Parcelable {
     }
 
     protected AdParams(Parcel in) {
-        this.closeResId = in.readInt();
-        this.closeSize = in.readInt();
-        this.closeMargins = in.createIntArray();
-        this.imageResIds = in.createIntArray();
+        this.resIds = in.createIntArray();
         this.urls = in.createStringArray();
     }
 
@@ -52,10 +47,7 @@ public class AdParams implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.closeResId);
-        dest.writeInt(this.closeSize);
-        dest.writeIntArray(this.closeMargins);
-        dest.writeIntArray(this.imageResIds);
+        dest.writeIntArray(this.resIds);
         dest.writeStringArray(this.urls);
     }
 }

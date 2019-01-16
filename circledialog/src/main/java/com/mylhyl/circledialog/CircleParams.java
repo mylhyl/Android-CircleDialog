@@ -8,6 +8,7 @@ import android.view.View;
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
+import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
@@ -105,6 +106,7 @@ public class CircleParams implements Parcelable {
     public OnInputCounterChangeListener inputCounterChangeListener;
     public PopupParams popupParams;
     public boolean itemListViewType;//true=ListView; false=RecyclerView
+    public CloseParams closeParams;
     public AdParams adParams;
     public ImageLoadEngine imageLoadEngine;
     public OnAdItemClickListener adItemClickListener;
@@ -113,6 +115,15 @@ public class CircleParams implements Parcelable {
     }
 
     protected CircleParams(Parcel in) {
+        this.clickPositiveListener = in.readParcelable(View.OnClickListener.class.getClassLoader());
+        this.clickNeutralListener = in.readParcelable(View.OnClickListener.class.getClassLoader());
+        this.clickNegativeListener = in.readParcelable(View.OnClickListener.class.getClassLoader());
+        this.inputListener = in.readParcelable(OnInputClickListener.class.getClassLoader());
+        this.rvItemListener = in.readParcelable(OnRvItemClickListener.class.getClassLoader());
+        this.itemListener = in.readParcelable(OnLvItemClickListener.class.getClassLoader());
+        this.dismissListener = in.readParcelable(DialogInterface.OnDismissListener.class.getClassLoader());
+        this.cancelListener = in.readParcelable(DialogInterface.OnCancelListener.class.getClassLoader());
+        this.showListener = in.readParcelable(DialogInterface.OnShowListener.class.getClassLoader());
         this.dialogParams = in.readParcelable(DialogParams.class.getClassLoader());
         this.titleParams = in.readParcelable(TitleParams.class.getClassLoader());
         this.subTitleParams = in.readParcelable(SubTitleParams.class.getClassLoader());
@@ -125,9 +136,20 @@ public class CircleParams implements Parcelable {
         this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
         this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
         this.bodyViewId = in.readInt();
+        this.createBodyViewListener = in.readParcelable(OnCreateBodyViewListener.class.getClassLoader());
+        this.createProgressListener = in.readParcelable(OnCreateProgressListener.class.getClassLoader());
+        this.createLottieListener = in.readParcelable(OnCreateLottieListener.class.getClassLoader());
+        this.createTitleListener = in.readParcelable(OnCreateTitleListener.class.getClassLoader());
+        this.createTextListener = in.readParcelable(OnCreateTextListener.class.getClassLoader());
+        this.createInputListener = in.readParcelable(OnCreateInputListener.class.getClassLoader());
+        this.createButtonListener = in.readParcelable(OnCreateButtonListener.class.getClassLoader());
+        this.inputCounterChangeListener = in.readParcelable(OnInputCounterChangeListener.class.getClassLoader());
         this.popupParams = in.readParcelable(PopupParams.class.getClassLoader());
         this.itemListViewType = in.readByte() != 0;
+        this.closeParams = in.readParcelable(CloseParams.class.getClassLoader());
         this.adParams = in.readParcelable(AdParams.class.getClassLoader());
+        this.imageLoadEngine = in.readParcelable(ImageLoadEngine.class.getClassLoader());
+        this.adItemClickListener = in.readParcelable(OnAdItemClickListener.class.getClassLoader());
     }
 
     @Override
@@ -151,6 +173,7 @@ public class CircleParams implements Parcelable {
         dest.writeInt(this.bodyViewId);
         dest.writeParcelable(this.popupParams, flags);
         dest.writeByte(this.itemListViewType ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.closeParams, flags);
         dest.writeParcelable(this.adParams, flags);
     }
 }

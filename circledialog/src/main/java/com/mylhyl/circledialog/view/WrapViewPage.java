@@ -8,7 +8,7 @@ import android.view.View;
 /**
  * Created by hupei on 2019/1/16 10:42.
  */
-final class WrapViewPage extends ViewPager {
+class WrapViewPage extends ViewPager {
     public WrapViewPage(@NonNull Context context) {
         super(context);
     }

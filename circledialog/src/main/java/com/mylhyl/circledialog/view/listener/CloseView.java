@@ -5,9 +5,9 @@ import android.view.View;
 /**
  * Created by hupei on 2019/1/14 16:25.
  */
-public interface AdView {
+public interface CloseView {
 
-    void regOnImageClickListener(OnAdItemClickListener listener);
+    void regOnCloseClickListener(View.OnClickListener listener);
 
     View getView();
 }

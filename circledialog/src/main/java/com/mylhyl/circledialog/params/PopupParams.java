@@ -77,7 +77,11 @@ public class PopupParams extends ItemsParams {
 
     public @TriangleGravity
     int triangleGravity;
-    public int triangleOffSet;//三角偏移量
+
+    /**
+     * 三角偏移量
+     */
+    public int triangleOffSet;
     /**
      * 三角大小 [width,height]
      */

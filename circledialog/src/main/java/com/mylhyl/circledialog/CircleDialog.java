@@ -26,6 +26,7 @@ import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
+import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
@@ -775,22 +776,39 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setAdCloseResId(@DrawableRes int closeResId) {
-            setAdCloseResId(closeResId, 0);
+        public Builder setCloseResId(@DrawableRes int closeResId) {
+            setCloseResId(closeResId, 0);
             return this;
         }
 
-        public Builder setAdCloseResId(@DrawableRes int closeResId, int closeSize) {
-            setAdCloseResId(closeResId, closeSize, null);
+        public Builder setCloseResId(@DrawableRes int closeResId, int closeSize) {
+            newCloseParams();
+            mCircleParams.closeParams.closeResId = closeResId;
+            mCircleParams.closeParams.closeSize = closeSize;
             return this;
         }
 
-        public Builder setAdCloseResId(@DrawableRes int closeResId, int closeSize, int[] closeMargins) {
+        private void newCloseParams() {
+            if (mCircleParams.closeParams == null) {
+                mCircleParams.closeParams = new CloseParams();
+            }
+        }
+
+        public Builder setCloseMargins(int[] closeMargins) {
+            newCloseParams();
+            mCircleParams.closeParams.closeMargins = closeMargins;
+            return this;
+        }
+
+        public Builder setCloseGravity(@CloseParams.CloseGravity int closeGravity) {
+            newCloseParams();
+            mCircleParams.closeParams.closeGravity = closeGravity;
+            return this;
+        }
+
+        public Builder setAdResId(@DrawableRes int resId, OnAdItemClickListener listener) {
             newAdParams();
-            mCircleParams.adParams.closeResId = closeResId;
-            mCircleParams.adParams.closeSize = closeSize;
-            mCircleParams.adParams.closeMargins = closeMargins;
-            return this;
+            return setAdResId(new int[]{resId}, listener);
         }
 
         private void newAdParams() {
@@ -799,14 +817,9 @@ public final class CircleDialog {
             }
         }
 
-        public Builder setAdImageResId(@DrawableRes int imageResId, OnAdItemClickListener listener) {
+        public Builder setAdResId(@DrawableRes int[] resIds, OnAdItemClickListener listener) {
             newAdParams();
-            return setAdImageResId(new int[]{imageResId}, listener);
-        }
-
-        public Builder setAdImageResId(@DrawableRes int[] imageResIds, OnAdItemClickListener listener) {
-            newAdParams();
-            mCircleParams.adParams.imageResIds = imageResIds;
+            mCircleParams.adParams.resIds = resIds;
             mCircleParams.adItemClickListener = listener;
             return this;
         }

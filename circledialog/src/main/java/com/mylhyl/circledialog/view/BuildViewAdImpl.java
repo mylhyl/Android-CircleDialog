@@ -22,15 +22,14 @@ public final class BuildViewAdImpl extends BuildViewAbs {
 
     @Override
     public void buildBodyView() {
-        buildRootView();
+        if (mParams.closeParams == null) {
+            buildRootView();
+        } else {
+            mRoot = buildLinearLayout();
+        }
         buildTitleView();
         if (mBodyAdView == null) {
-            if (mParams.adParams.closeResId != 0) {
-                mParams.dialogParams.canceledOnTouchOutside = false;
-                mParams.dialogParams.cancelable = false;
-            }
-            mBodyAdView = new BodyAdView(mContext, mParams.dialogParams, mParams.adParams
-                    , mParams.imageLoadEngine);
+            mBodyAdView = new BodyAdView(mContext, mParams.adParams, mParams.imageLoadEngine);
             addViewByBody(mBodyAdView);
         }
     }

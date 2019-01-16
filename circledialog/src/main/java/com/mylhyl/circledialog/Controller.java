@@ -20,6 +20,7 @@ import com.mylhyl.circledialog.view.BuildViewPopupImpl;
 import com.mylhyl.circledialog.view.BuildViewProgressImpl;
 import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.CloseView;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
@@ -71,13 +72,6 @@ public class Controller {
             mCreateView = new BuildViewAdImpl(mContext, mParams);
             mCreateView.buildBodyView();
             AdView bodyView = mCreateView.getBodyView();
-            bodyView.regOnCloseClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnDialogInternalListener.dialogDismiss();
-                }
-            });
-
             bodyView.regOnImageClickListener(new OnAdItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position) {
@@ -90,6 +84,15 @@ public class Controller {
                     return false;
                 }
             });
+            CloseView closeView = mCreateView.buildCloseImgView();
+            if (closeView != null) {
+                closeView.regOnCloseClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnDialogInternalListener.dialogDismiss();
+                    }
+                });
+            }
         }
         //popup
         else if (mParams.popupParams != null) {

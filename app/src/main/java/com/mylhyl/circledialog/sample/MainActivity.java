@@ -25,6 +25,7 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.engine.impl.Glide4ImageLoadEngine;
+import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -77,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         };
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-List<String > urls = new ArrayList<>();
-urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
-urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
-urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
-urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
+        List<String> urls = new ArrayList<>();
+        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
+        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
+        urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
+        urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setImageLoadEngine(new Glide4ImageLoadEngine())
@@ -97,7 +98,8 @@ urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
-                .setAdCloseResId(R.mipmap.ic_close, 60, new int[]{0, 0, 20, 20})//暂时用px，项目中实际用的是dp，这里就不演示了
+                .setCloseResId(R.mipmap.ic_close, 60)//暂时用px，项目中实际用的是dp，这里就不演示了
+                .setCloseMargins(new int[]{0, 0, 20, 20})
                 .show(getSupportFragmentManager());
     }
 
@@ -108,7 +110,7 @@ urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
                 new CircleDialog.Builder()
                         .setTitle("标题")
                         .setWidth(0.5f)
-//                        .setText("提示框")
+                        .setText("提示框")
                         .setPositive("确定", null)
                         .setOnShowListener(dialog ->
                                 Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show())
@@ -605,7 +607,10 @@ urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
             case 20:
                 new CircleDialog.Builder()
                         .setWidth(0.5f)
-                        .setAdImageResId(new int[]{R.mipmap.ic_zfbxcc, R.mipmap.ic_action_action_bug_report}
+                        .setCloseResId(R.mipmap.ic_close, 70)
+                        .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
+                        .setCloseMargins(new int[]{0, 40, 0, 0})
+                        .setAdResId(new int[]{R.mipmap.ic_zfbxcc, R.mipmap.ic_action_action_bug_report}
                                 , new OnAdItemClickListener() {
                                     @Override
                                     public boolean onItemClick(View view, int position) {
