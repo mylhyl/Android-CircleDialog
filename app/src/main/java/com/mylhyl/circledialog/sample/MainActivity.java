@@ -77,15 +77,20 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         };
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-
+List<String > urls = new ArrayList<>();
+urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
+urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
+urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
+urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setImageLoadEngine(new Glide4ImageLoadEngine())
-                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
+                .setAdUrl(urls
+//                        "http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
                         , new OnAdItemClickListener() {
                             @Override
                             public boolean onItemClick(View view, int position) {
-                                ListViewActivity.gotoActivity(MainActivity.this);
+                                Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT).show();
                                 return true;
                             }
                         })

@@ -9,7 +9,7 @@ public interface AdView {
 
     void regOnCloseClickListener(View.OnClickListener listener);
 
-    void regOnImageClickListener(View.OnClickListener listener);
+    void regOnImageClickListener(OnAdItemClickListener listener);
 
     View getView();
 }

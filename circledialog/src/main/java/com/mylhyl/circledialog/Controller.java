@@ -22,6 +22,7 @@ import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
+import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -77,15 +78,16 @@ public class Controller {
                 }
             });
 
-            bodyView.regOnImageClickListener(new View.OnClickListener() {
+            bodyView.regOnImageClickListener(new OnAdItemClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onItemClick(View view, int position) {
                     if (mParams.adItemClickListener != null) {
-                        boolean b = mParams.adItemClickListener.onItemClick(v, 0);
+                        boolean b = mParams.adItemClickListener.onItemClick(view, position);
                         if (b) {
                             mOnDialogInternalListener.dialogDismiss();
                         }
                     }
+                    return false;
                 }
             });
         }
