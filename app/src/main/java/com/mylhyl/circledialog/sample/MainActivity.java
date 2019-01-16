@@ -605,7 +605,13 @@ urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
             case 20:
                 new CircleDialog.Builder()
                         .setWidth(0.5f)
-                        .setAdImageResId(R.mipmap.ic_zfbxcc)
+                        .setAdImageResId(new int[]{R.mipmap.ic_zfbxcc, R.mipmap.ic_action_action_bug_report}
+                                , new OnAdItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position) {
+                                        return false;
+                                    }
+                                })
                         .show(getSupportFragmentManager());
                 break;
         }

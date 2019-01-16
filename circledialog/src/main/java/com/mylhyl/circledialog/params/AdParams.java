@@ -3,8 +3,6 @@ package com.mylhyl.circledialog.params;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 /**
  * 广告参数
  * Created by hupei on 2019/1/11 11:04.
@@ -30,11 +28,11 @@ public class AdParams implements Parcelable {
     /**
      * 广告图片资源id
      */
-    public int imageResId;
+    public int[] imageResIds;
     /**
      * 广告图片url数组
      */
-    public List<String> urls;
+    public String[] urls;
 
     public AdParams() {
     }
@@ -43,8 +41,8 @@ public class AdParams implements Parcelable {
         this.closeResId = in.readInt();
         this.closeSize = in.readInt();
         this.closeMargins = in.createIntArray();
-        this.imageResId = in.readInt();
-        this.urls = in.createStringArrayList();
+        this.imageResIds = in.createIntArray();
+        this.urls = in.createStringArray();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class AdParams implements Parcelable {
         dest.writeInt(this.closeResId);
         dest.writeInt(this.closeSize);
         dest.writeIntArray(this.closeMargins);
-        dest.writeInt(this.imageResId);
-        dest.writeStringList(this.urls);
+        dest.writeIntArray(this.imageResIds);
+        dest.writeStringArray(this.urls);
     }
 }

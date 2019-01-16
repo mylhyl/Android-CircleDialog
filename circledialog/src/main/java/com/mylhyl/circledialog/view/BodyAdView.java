@@ -63,7 +63,6 @@ public class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPa
         //内容
         mViewPager = new WrapViewPage(getContext());
         mViews = new ArrayList<>();
-        mUrls = new ArrayList<>();
 
         LayoutParams layoutParamsAd = new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
@@ -72,17 +71,20 @@ public class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPa
 
         ImageView imageView;
         if (mAdParams.urls != null) {
+            mUrls = new ArrayList<>();
             for (String url : mAdParams.urls) {
                 imageView = new ImageView(getContext());
                 imageView.setAdjustViewBounds(true);
                 mViews.add(imageView);
                 mUrls.add(url);
             }
-        } else if (mAdParams.imageResId != 0) {
-            imageView = new ImageView(getContext());
-            imageView.setAdjustViewBounds(true);
-            imageView.setImageResource(mAdParams.imageResId);
-            mViews.add(imageView);
+        } else if (mAdParams.imageResIds != null) {
+            for (int imageResId : mAdParams.imageResIds) {
+                imageView = new ImageView(getContext());
+                imageView.setAdjustViewBounds(true);
+                imageView.setImageResource(imageResId);
+                mViews.add(imageView);
+            }
         }
 
         mViewPager.setAdapter(new PageAdapter());
@@ -145,7 +147,7 @@ public class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPa
                     }
                 }
             });
-            if (mUrls != null && !mUrls.isEmpty()) {
+            if (mUrls != null && !mUrls.isEmpty() && mImageLoadEngine != null) {
                 mImageLoadEngine.loadImage(getContext(), (ImageView) view, mUrls.get(finalPosition));
             }
             ViewParent viewParent = view.getParent();

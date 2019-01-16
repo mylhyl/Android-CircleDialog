@@ -49,7 +49,6 @@ import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -776,18 +775,6 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setAdImageResId(@DrawableRes int imageResId) {
-            newAdParams();
-            mCircleParams.adParams.imageResId = imageResId;
-            return this;
-        }
-
-        private void newAdParams() {
-            if (mCircleParams.adParams == null) {
-                mCircleParams.adParams = new AdParams();
-            }
-        }
-
         public Builder setAdCloseResId(@DrawableRes int closeResId) {
             setAdCloseResId(closeResId, 0);
             return this;
@@ -806,25 +793,37 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setAdUrl(String url, OnAdItemClickListener listener) {
+        private void newAdParams() {
+            if (mCircleParams.adParams == null) {
+                mCircleParams.adParams = new AdParams();
+            }
+        }
+
+        public Builder setAdImageResId(@DrawableRes int imageResId, OnAdItemClickListener listener) {
             newAdParams();
-            mCircleParams.adParams.urls = Arrays.asList(new String[]{url});
+            return setAdImageResId(new int[]{imageResId}, listener);
+        }
+
+        public Builder setAdImageResId(@DrawableRes int[] imageResIds, OnAdItemClickListener listener) {
+            newAdParams();
+            mCircleParams.adParams.imageResIds = imageResIds;
             mCircleParams.adItemClickListener = listener;
             return this;
         }
 
+        public Builder setAdUrl(String url, OnAdItemClickListener listener) {
+            return setAdUrl(new String[]{url}, listener);
+        }
+
         public Builder setAdUrl(String[] urls, OnAdItemClickListener listener) {
             newAdParams();
-            mCircleParams.adParams.urls = Arrays.asList(urls);
+            mCircleParams.adParams.urls = urls;
             mCircleParams.adItemClickListener = listener;
             return this;
         }
 
         public Builder setAdUrl(List<String> urls, OnAdItemClickListener listener) {
-            newAdParams();
-            mCircleParams.adParams.urls = urls;
-            mCircleParams.adItemClickListener = listener;
-            return this;
+            return setAdUrl(urls.toArray(new String[urls.size()]), listener);
         }
 
         public Builder setImageLoadEngine(ImageLoadEngine loadImageListener) {
