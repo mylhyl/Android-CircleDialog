@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
                 .setCloseResId(R.mipmap.ic_close, 60)//暂时用px，项目中实际用的是dp，这里就不演示了
-                .setCloseMargins(new int[]{0, 0, 20, 20})
+                .setClosePadding(new int[]{20, 0, 0, 0})
+                .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
+                .setCloseConnector(2, 50)
                 .show(getSupportFragmentManager());
     }
 
@@ -609,7 +611,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setWidth(0.5f)
                         .setCloseResId(R.mipmap.ic_close, 70)
                         .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
-                        .setCloseMargins(new int[]{0, 40, 0, 0})
+                        .setClosePadding(new int[]{0, 40, 0, 0})
                         .setAdResId(new int[]{R.mipmap.ic_zfbxcc, R.mipmap.ic_action_action_bug_report}
                                 , new OnAdItemClickListener() {
                                     @Override

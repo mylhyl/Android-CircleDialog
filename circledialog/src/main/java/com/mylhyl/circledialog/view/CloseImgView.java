@@ -1,7 +1,9 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -23,6 +25,10 @@ public class CloseImgView extends LinearLayout implements CloseView {
 
     private void init() {
         setOrientation(VERTICAL);
+        setGravity(Gravity.CENTER_HORIZONTAL);
+        if (mCloseParams.closePadding != null && mCloseParams.closePadding.length == 4)
+            setPadding(mCloseParams.closePadding[0], mCloseParams.closePadding[1]
+                    , mCloseParams.closePadding[2], mCloseParams.closePadding[3]);
         //关闭按钮
         mImageCloseView = new ImageView(getContext());
         LayoutParams layoutParamsClose = new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -30,24 +36,26 @@ public class CloseImgView extends LinearLayout implements CloseView {
         if (mCloseParams.closeSize != 0) {
             layoutParamsClose.width = layoutParamsClose.height = mCloseParams.closeSize;
         }
-        if (mCloseParams.closeMargins != null && mCloseParams.closeMargins.length == 4)
-            layoutParamsClose.setMargins(mCloseParams.closeMargins[0], mCloseParams.closeMargins[1]
-                    , mCloseParams.closeMargins[2], mCloseParams.closeMargins[3]);
         if (mCloseParams.closeResId != 0) {
             mImageCloseView.setImageResource(mCloseParams.closeResId);
         }
+        mImageCloseView.setLayoutParams(layoutParamsClose);
         mImageCloseView.setAdjustViewBounds(true);
-        addView(mImageCloseView, layoutParamsClose);
+
+        if (mCloseParams.connectorWidth > 0) {
+            DividerView dividerView = new DividerView(getContext());
+            dividerView.setBgColor(mCloseParams.connectorColor);
+            addView(dividerView, new LayoutParams(mCloseParams.connectorWidth
+                    , mCloseParams.connectorHeight));
+        }
         //位置
-//        if (mCloseParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
-//                || mCloseParams.closeGravity == CloseParams.CLOSE_BOTTOM_LEFT) {
-//            layoutParamsClose.gravity = Gravity.LEFT;
-//        } else if (mCloseParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
-//                || mCloseParams.closeGravity == CloseParams.CLOSE_BOTTOM_CENTER) {
-//            layoutParamsClose.gravity = Gravity.CENTER_HORIZONTAL;
-//        } else {
-//            layoutParamsClose.gravity = Gravity.RIGHT;
-//        }
+        if (mCloseParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
+                || mCloseParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
+                || mCloseParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
+            addView(mImageCloseView, 0);
+        } else {
+            addView(mImageCloseView);
+        }
     }
 
     @Override

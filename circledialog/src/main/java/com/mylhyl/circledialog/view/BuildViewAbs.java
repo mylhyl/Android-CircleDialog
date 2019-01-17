@@ -124,8 +124,7 @@ abstract class BuildViewAbs implements BuildView {
                     || closeParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
                 mRootCardViewByLinearLayout.addView(closeView, 0);
             } else {
-                int childCount = mRootCardViewByLinearLayout.getChildCount();
-                mRootCardViewByLinearLayout.addView(closeView, childCount);
+                mRootCardViewByLinearLayout.addView(closeView);
             }
             return closeView;
         }

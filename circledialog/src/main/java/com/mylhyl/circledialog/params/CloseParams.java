@@ -53,12 +53,24 @@ public class CloseParams implements Parcelable {
     /**
      * int left, int top, int right, int bottom
      */
-    public int[] closeMargins;
+    public int[] closePadding;
     /**
      * 关闭按钮位置
      */
     public @CloseGravity
     int closeGravity = CLOSE_TOP_RIGHT;
+    /**
+     * 与边框的连接线宽度，默认0，只有大于0才显示
+     */
+    public int connectorWidth;
+    /**
+     * 与边框的连接线高度
+     */
+    public int connectorHeight;
+    /**
+     * 与边框的连接线颜色值RGB
+     */
+    public int connectorColor = 0xFFFFFFFF;
 
     public CloseParams() {
     }
@@ -66,7 +78,7 @@ public class CloseParams implements Parcelable {
     protected CloseParams(Parcel in) {
         this.closeResId = in.readInt();
         this.closeSize = in.readInt();
-        this.closeMargins = in.createIntArray();
+        this.closePadding = in.createIntArray();
         this.closeGravity = in.readInt();
     }
 
@@ -79,7 +91,7 @@ public class CloseParams implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.closeResId);
         dest.writeInt(this.closeSize);
-        dest.writeIntArray(this.closeMargins);
+        dest.writeIntArray(this.closePadding);
         dest.writeInt(this.closeGravity);
     }
 

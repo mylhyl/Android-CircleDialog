@@ -794,15 +794,30 @@ public final class CircleDialog {
             }
         }
 
-        public Builder setCloseMargins(int[] closeMargins) {
+        public Builder setClosePadding(int[] closePadding) {
             newCloseParams();
-            mCircleParams.closeParams.closeMargins = closeMargins;
+            mCircleParams.closeParams.closePadding = closePadding;
             return this;
         }
 
         public Builder setCloseGravity(@CloseParams.CloseGravity int closeGravity) {
             newCloseParams();
             mCircleParams.closeParams.closeGravity = closeGravity;
+            return this;
+        }
+
+        public Builder setCloseConnector(int width, int height) {
+            newCloseParams();
+            mCircleParams.closeParams.connectorWidth = width;
+            mCircleParams.closeParams.connectorHeight = height;
+            return this;
+        }
+
+        public Builder setCloseConnector(int width, int height, int color) {
+            newCloseParams();
+            mCircleParams.closeParams.connectorWidth = width;
+            mCircleParams.closeParams.connectorHeight = height;
+            mCircleParams.closeParams.connectorColor = color;
             return this;
         }
 
