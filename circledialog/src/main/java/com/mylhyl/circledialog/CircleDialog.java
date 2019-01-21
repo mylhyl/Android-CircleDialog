@@ -854,6 +854,18 @@ public final class CircleDialog {
             return setAdUrl(urls.toArray(new String[urls.size()]), listener);
         }
 
+        public Builder setAdIndicator(boolean show) {
+            newAdParams();
+            mCircleParams.adParams.isShowIndicator = show;
+            return this;
+        }
+
+        public Builder setAdIndicatorPoint(@DrawableRes int resId) {
+            newAdParams();
+            mCircleParams.adParams.pointDrawableResId = resId;
+            return this;
+        }
+
         public Builder setImageLoadEngine(ImageLoadEngine loadImageListener) {
             mCircleParams.imageLoadEngine = loadImageListener;
             return this;

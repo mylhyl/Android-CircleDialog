@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
+                .setAdIndicator(true)
+//                .setAdIndicatorPoint(R.drawable.selector_point)
                 .setCloseResId(R.mipmap.ic_close, 60)//暂时用px，项目中实际用的是dp，这里就不演示了
                 .setClosePadding(new int[]{20, 0, 0, 0})
                 .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
@@ -612,13 +614,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setCloseResId(R.mipmap.ic_close, 70)
                         .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
                         .setClosePadding(new int[]{0, 40, 0, 0})
-                        .setAdResId(new int[]{R.mipmap.ic_zfbxcc, R.mipmap.ic_action_action_bug_report}
-                                , new OnAdItemClickListener() {
-                                    @Override
-                                    public boolean onItemClick(View view, int position) {
-                                        return false;
-                                    }
-                                })
+                        .setAdResId(R.mipmap.ic_zfbxcc, new OnAdItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position) {
+                                Toast.makeText(MainActivity.this, "点击了"
+                                        , Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
+                        })
                         .show(getSupportFragmentManager());
                 break;
         }

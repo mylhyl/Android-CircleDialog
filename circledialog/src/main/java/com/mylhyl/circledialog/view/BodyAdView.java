@@ -1,11 +1,17 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
@@ -19,10 +25,11 @@ import java.util.List;
  * 广告
  * Created by hupei on 2019/1/11 11:01.
  */
-public class BodyAdView extends WrapViewPage implements AdView {
+final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPageChangeListener {
     private AdParams mAdParams;
-
     private ImageLoadEngine mImageLoadEngine;
+    private ViewPager mViewPager;
+    private LinearLayout mLlIndicator;
     private List<View> mViews;
     private List<String> mUrls;
     private OnAdItemClickListener mImageClickListener;
@@ -35,17 +42,15 @@ public class BodyAdView extends WrapViewPage implements AdView {
     }
 
     private void init() {
-        mViews = new ArrayList<>();
+        initViewPager();
+        //指示器
+        initIndicator();
+    }
 
-//        if (mAdParams.closeGravity == AdParams.CLOSE_TOP_LEFT
-//                || mAdParams.closeGravity == AdParams.CLOSE_TOP_CENTER
-//                || mAdParams.closeGravity == AdParams.CLOSE_TOP_RIGHT) {
-//            addView(mImageCloseView, layoutParamsClose);
-//            addView(mViewPager, layoutParamsAd);
-//        } else {
-//            addView(mViewPager, layoutParamsAd);
-//            addView(mImageCloseView, layoutParamsClose);
-//        }
+    private void initViewPager() {
+        mViewPager = new WrapViewPage(getContext());
+        mViewPager.setId(android.R.id.list);
+        mViews = new ArrayList<>();
 
         if (mAdParams.urls != null) {
             mUrls = new ArrayList<>();
@@ -64,8 +69,62 @@ public class BodyAdView extends WrapViewPage implements AdView {
             }
         }
 
-        setOverScrollMode(OVER_SCROLL_NEVER);
-        setAdapter(new PageAdapter());
+        mViewPager.setAdapter(new PageAdapter());
+        mViewPager.addOnPageChangeListener(this);
+        mViewPager.setOverScrollMode(OVER_SCROLL_NEVER);
+        addView(mViewPager);
+    }
+
+    private void initIndicator() {
+        if (mAdParams.isShowIndicator) {
+            if (mLlIndicator != null) {
+                mLlIndicator.removeAllViews();
+            }
+            mLlIndicator = new LinearLayout(getContext());
+            mLlIndicator.setOrientation(LinearLayout.HORIZONTAL);
+            mLlIndicator.setGravity(Gravity.CENTER_VERTICAL);
+            RelativeLayout.LayoutParams lpIndicator = new RelativeLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT, 80);
+            lpIndicator.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            lpIndicator.addRule(RelativeLayout.ALIGN_BOTTOM, android.R.id.list);
+            mLlIndicator.setLayoutParams(lpIndicator);
+
+
+            LinearLayout.LayoutParams lpPoint = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            int pointLeftRightMargin = mAdParams.pointLeftRightMargin;
+            if (pointLeftRightMargin == 0) {
+                pointLeftRightMargin = 6;
+            }
+            lpPoint.setMargins(pointLeftRightMargin, 0, pointLeftRightMargin, 0);
+            for (int i = 0; i < mViews.size(); i++) {
+                ImageView imageView = new ImageView(getContext());
+                imageView.setSelected(true);
+                imageView.setLayoutParams(lpPoint);
+                if (mAdParams.pointDrawableResId != 0) {
+                    imageView.setImageResource(mAdParams.pointDrawableResId);
+                } else {
+                    Drawable pointDrawable = new BuildViewAdImpl.SelectorPointDrawable(
+                            Color.WHITE, 20);
+                    imageView.setImageDrawable(pointDrawable);
+                }
+                mLlIndicator.addView(imageView);
+            }
+            addView(mLlIndicator);
+            pageSelectedToPoint(0);
+        }
+    }
+
+    private void pageSelectedToPoint(int position) {
+        if (!mAdParams.isShowIndicator || mLlIndicator == null) return;
+        int childCount = mLlIndicator.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childAt = mLlIndicator.getChildAt(i);
+            boolean selected = i == position;
+            childAt.setSelected(selected);
+            childAt.requestLayout();
+        }
     }
 
     @Override
@@ -76,6 +135,22 @@ public class BodyAdView extends WrapViewPage implements AdView {
     @Override
     public View getView() {
         return this;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        position = position % mViews.size();
+        pageSelectedToPoint(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     private class PageAdapter extends PagerAdapter {
@@ -96,7 +171,7 @@ public class BodyAdView extends WrapViewPage implements AdView {
                 @Override
                 public void onClick(View v) {
                     if (mImageClickListener != null) {
-                        int position = getCurrentItem() % mViews.size();
+                        int position = mViewPager.getCurrentItem() % mViews.size();
                         mImageClickListener.onItemClick(v, position);
                     }
                 }
