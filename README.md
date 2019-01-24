@@ -17,6 +17,10 @@
 ```xml
  compile 'com.mylhyl:circleDialog:latestVersion'
 ```
+如果版本号后面有-alpha，那说明最后一个版本是预览版，可能存在bug谨慎使用，稳定版则没有-alpha后缀  
+例如  
+稳定版：compile 'com.mylhyl:circleDialog:3.0.5'  
+预览版：compile 'com.mylhyl:circleDialog:3.0.5-alpha'
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
 
