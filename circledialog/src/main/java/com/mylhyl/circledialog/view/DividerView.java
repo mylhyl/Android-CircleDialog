@@ -31,4 +31,8 @@ final class DividerView extends View {
         else
             setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
     }
+
+    public void setBgColor(int bgColor) {
+        setBackgroundColor(bgColor);
+    }
 }

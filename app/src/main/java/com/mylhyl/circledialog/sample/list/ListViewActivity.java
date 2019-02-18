@@ -1,5 +1,7 @@
 package com.mylhyl.circledialog.sample.list;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -36,6 +38,10 @@ public class ListViewActivity extends AppCompatActivity {
 
     ActionMenuView mActionMenuView;
     private Toolbar mToolbar;
+
+    public static void gotoActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, ListViewActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

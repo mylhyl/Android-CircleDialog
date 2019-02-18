@@ -23,8 +23,10 @@ import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
+import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
+import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
@@ -35,6 +37,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -46,6 +49,8 @@ import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
+
+import java.util.List;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -771,16 +776,99 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setAdImageResId(@DrawableRes int imageResId) {
-            newAdParams();
-            mCircleParams.adParams.imageResId = imageResId;
+        public Builder setCloseResId(@DrawableRes int closeResId) {
+            setCloseResId(closeResId, 0);
             return this;
+        }
+
+        public Builder setCloseResId(@DrawableRes int closeResId, int closeSize) {
+            newCloseParams();
+            mCircleParams.closeParams.closeResId = closeResId;
+            mCircleParams.closeParams.closeSize = closeSize;
+            return this;
+        }
+
+        private void newCloseParams() {
+            if (mCircleParams.closeParams == null) {
+                mCircleParams.closeParams = new CloseParams();
+            }
+        }
+
+        public Builder setClosePadding(int[] closePadding) {
+            newCloseParams();
+            mCircleParams.closeParams.closePadding = closePadding;
+            return this;
+        }
+
+        public Builder setCloseGravity(@CloseParams.CloseGravity int closeGravity) {
+            newCloseParams();
+            mCircleParams.closeParams.closeGravity = closeGravity;
+            return this;
+        }
+
+        public Builder setCloseConnector(int width, int height) {
+            newCloseParams();
+            mCircleParams.closeParams.connectorWidth = width;
+            mCircleParams.closeParams.connectorHeight = height;
+            return this;
+        }
+
+        public Builder setCloseConnector(int width, int height, int color) {
+            newCloseParams();
+            mCircleParams.closeParams.connectorWidth = width;
+            mCircleParams.closeParams.connectorHeight = height;
+            mCircleParams.closeParams.connectorColor = color;
+            return this;
+        }
+
+        public Builder setAdResId(@DrawableRes int resId, OnAdItemClickListener listener) {
+            newAdParams();
+            return setAdResId(new int[]{resId}, listener);
         }
 
         private void newAdParams() {
             if (mCircleParams.adParams == null) {
                 mCircleParams.adParams = new AdParams();
             }
+        }
+
+        public Builder setAdResId(@DrawableRes int[] resIds, OnAdItemClickListener listener) {
+            newAdParams();
+            mCircleParams.adParams.resIds = resIds;
+            mCircleParams.adItemClickListener = listener;
+            return this;
+        }
+
+        public Builder setAdUrl(String url, OnAdItemClickListener listener) {
+            return setAdUrl(new String[]{url}, listener);
+        }
+
+        public Builder setAdUrl(String[] urls, OnAdItemClickListener listener) {
+            newAdParams();
+            mCircleParams.adParams.urls = urls;
+            mCircleParams.adItemClickListener = listener;
+            return this;
+        }
+
+        public Builder setAdUrl(List<String> urls, OnAdItemClickListener listener) {
+            return setAdUrl(urls.toArray(new String[urls.size()]), listener);
+        }
+
+        public Builder setAdIndicator(boolean show) {
+            newAdParams();
+            mCircleParams.adParams.isShowIndicator = show;
+            return this;
+        }
+
+        public Builder setAdIndicatorPoint(@DrawableRes int resId) {
+            newAdParams();
+            mCircleParams.adParams.pointDrawableResId = resId;
+            return this;
+        }
+
+        public Builder setImageLoadEngine(ImageLoadEngine loadImageListener) {
+            mCircleParams.imageLoadEngine = loadImageListener;
+            return this;
         }
 
         public BaseCircleDialog show(FragmentManager manager) {
@@ -790,9 +878,11 @@ public final class CircleDialog {
         }
 
         public BaseCircleDialog create() {
-            if (mCircleDialog == null)
+            if (mCircleDialog == null) {
                 mCircleDialog = new CircleDialog();
+            }
             return mCircleDialog.create(mCircleParams);
         }
+
     }
 }

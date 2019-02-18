@@ -18,9 +18,12 @@ import com.mylhyl.circledialog.view.BuildViewItemsRecyclerViewImpl;
 import com.mylhyl.circledialog.view.BuildViewLottieImpl;
 import com.mylhyl.circledialog.view.BuildViewPopupImpl;
 import com.mylhyl.circledialog.view.BuildViewProgressImpl;
+import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.CloseView;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
+import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -68,7 +71,28 @@ public class Controller {
         else if (mParams.adParams != null) {
             mCreateView = new BuildViewAdImpl(mContext, mParams);
             mCreateView.buildBodyView();
-            View bodyView = mCreateView.getBodyView();
+            AdView bodyView = mCreateView.getBodyView();
+            bodyView.regOnImageClickListener(new OnAdItemClickListener() {
+                @Override
+                public boolean onItemClick(View view, int position) {
+                    if (mParams.adItemClickListener != null) {
+                        boolean b = mParams.adItemClickListener.onItemClick(view, position);
+                        if (b) {
+                            mOnDialogInternalListener.dialogDismiss();
+                        }
+                    }
+                    return false;
+                }
+            });
+            CloseView closeView = mCreateView.buildCloseImgView();
+            if (closeView != null) {
+                closeView.regOnCloseClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnDialogInternalListener.dialogDismiss();
+                    }
+                });
+            }
         }
         //popup
         else if (mParams.popupParams != null) {
