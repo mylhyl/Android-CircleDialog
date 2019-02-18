@@ -6,6 +6,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -88,16 +89,19 @@ final class BodyInputView extends RelativeLayout implements InputView {
         mEditText.setHintTextColor(mInputParams.hintTextColor);
         mEditText.setTextSize(mInputParams.textSize);
         mEditText.setTextColor(mInputParams.textColor);
-        mEditText.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft
-                    , int oldTop, int oldRight, int oldBottom) {
-                int height = v.getHeight();
-                if (mInputParams.inputHeight > height) {
-                    mEditText.setHeight(mInputParams.inputHeight);
-                }
-            }
-        });
+
+        mEditText.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mEditText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        int height = mEditText.getMeasuredHeight();
+                        if (mInputParams.inputHeight > height) {
+                            mEditText.setHeight(mInputParams.inputHeight);
+                        }
+                    }
+                });
+
         mEditText.setGravity(mInputParams.gravity);
         if (!TextUtils.isEmpty(mInputParams.text)) {
             mEditText.setText(mInputParams.text);
