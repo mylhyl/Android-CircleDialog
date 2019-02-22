@@ -80,11 +80,10 @@ public final class BuildViewImpl implements BuildView {
     @Override
     public ItemsView buildItems() {
         if (mItemsView == null) {
-            if (mParams.itemListener != null || mParams.itemsParams.adapter != null)
-                mItemsView = new BodyItemsView(mContext, mParams);
-            else if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null)
+            if (mParams.rvItemListener != null || mParams.itemsParams.adapterRv != null)
                 mItemsView = new BodyItemsRvView(mContext, mParams);
-
+            else
+                mItemsView = new BodyItemsView(mContext, mParams);
             mRoot.addView(mItemsView.getView());
         }
         return mItemsView;
