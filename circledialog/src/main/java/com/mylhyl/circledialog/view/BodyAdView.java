@@ -94,9 +94,6 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             int pointLeftRightMargin = mAdParams.pointLeftRightMargin;
-            if (pointLeftRightMargin == 0) {
-                pointLeftRightMargin = 6;
-            }
             lpPoint.setMargins(pointLeftRightMargin, 0, pointLeftRightMargin, 0);
             for (int i = 0; i < mViews.size(); i++) {
                 ImageView imageView = new ImageView(getContext());
