@@ -10,7 +10,6 @@ import android.support.annotation.DrawableRes;
  */
 public class AdParams implements Parcelable {
 
-
     public static final Creator<AdParams> CREATOR = new Creator<AdParams>() {
         @Override
         public AdParams createFromParcel(Parcel source) {
@@ -39,7 +38,11 @@ public class AdParams implements Parcelable {
      */
     public @DrawableRes
     int pointDrawableResId;
-    public int pointLeftRightMargin;
+
+    /**
+     * 指示器点左右边距
+     */
+    public int pointLeftRightMargin = 6;
 
     public AdParams() {
     }
