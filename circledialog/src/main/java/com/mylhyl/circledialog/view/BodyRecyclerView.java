@@ -68,7 +68,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             mLayoutManager = new LinearLayoutManager(getContext()
                     , mItemsParams.linearLayoutManagerOrientation, false);
         } else if (mItemsParams.layoutManager instanceof StaggeredGridLayoutManager) {
-            StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) mItemsParams.layoutManager;
+            StaggeredGridLayoutManager staggeredGridLayoutManager =
+                    (StaggeredGridLayoutManager) mItemsParams.layoutManager;
             mLayoutManager = new StaggeredGridLayoutManagerWrapper(staggeredGridLayoutManager);
         } else if (mItemsParams.layoutManager instanceof GridLayoutManager) {
             GridLayoutManager gridLayoutManager = (GridLayoutManager) mItemsParams.layoutManager;
@@ -79,7 +80,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 mLayoutManager = new GridLayoutManagerWrapper(getContext(), gridLayoutManager);
             }
         } else if (mItemsParams.layoutManager instanceof LinearLayoutManager) {
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mItemsParams.layoutManager;
+            LinearLayoutManager linearLayoutManager =
+                    (LinearLayoutManager) mItemsParams.layoutManager;
             mLayoutManager = new LinearLayoutManagerWrapper(getContext(), linearLayoutManager);
         } else {
             mLayoutManager = mItemsParams.layoutManager;
@@ -89,15 +91,17 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
     }
 
     private void createItemDecoration() {
-        if (mItemsParams.dividerHeight > 0 && !(mLayoutManager instanceof LayoutManager)) {
+        if (mItemsParams.dividerHeight > 0 && (mLayoutManager instanceof LayoutManager)) {
             if (mLayoutManager instanceof GridLayoutManager
                     && mItemsParams.itemDecoration == null) {
-                mItemsParams.itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider)
+                mItemsParams.itemDecoration = new GridItemDecoration(
+                        new ColorDrawable(CircleColor.divider)
                         , mItemsParams.dividerHeight);
             } else if (mLayoutManager instanceof LinearLayoutManager
                     && mItemsParams.itemDecoration == null) {
                 int orientation = ((LinearLayoutManager) mLayoutManager).getOrientation();
-                mItemsParams.itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider)
+                mItemsParams.itemDecoration = new LinearItemDecoration(
+                        new ColorDrawable(CircleColor.divider)
                         , mItemsParams.dividerHeight, orientation);
             }
             addItemDecoration(mItemsParams.itemDecoration);
@@ -110,7 +114,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             mAdapter = new ItemsAdapter(getContext(), mItemsParams, mDialogParams, mLayoutManager);
             if (mLayoutManager instanceof GridLayoutManager) {
                 final GridLayoutManager gridLayoutManager = (GridLayoutManager) mLayoutManager;
-                if (gridLayoutManager.getSpanSizeLookup() instanceof GridLayoutManager.DefaultSpanSizeLookup) {
+                if (gridLayoutManager.getSpanSizeLookup() instanceof
+                        GridLayoutManager.DefaultSpanSizeLookup) {
                     gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                         @Override
                         public int getSpanSize(int position) {
@@ -225,9 +230,11 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         @Override
         public void onBindViewHolder(Holder holder, int position) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                holder.item.setBackground(new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress));
+                holder.item.setBackground(new CircleDrawableSelector(Color.TRANSPARENT
+                        , mBackgroundColorPress));
             } else {
-                holder.item.setBackgroundDrawable(new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress));
+                holder.item.setBackgroundDrawable(new CircleDrawableSelector(Color.TRANSPARENT
+                        , mBackgroundColorPress));
             }
             String label;
             T item = mItems.get(position);
@@ -288,7 +295,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             int childCount = parent.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final RecyclerView.LayoutParams params =
+                        (RecyclerView.LayoutParams) child.getLayoutParams();
                 final int left = child.getLeft() - params.leftMargin;
                 final int top = child.getBottom() + params.bottomMargin;
                 final int right = child.getRight() + params.rightMargin + mDividerHeight;
@@ -303,7 +311,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
 
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final RecyclerView.LayoutParams params =
+                        (RecyclerView.LayoutParams) child.getLayoutParams();
                 final int left = child.getRight() + params.rightMargin;
                 final int top = child.getTop() - params.topMargin;
                 final int right = left + mDividerHeight;
@@ -330,7 +339,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             }
         }
 
-        private static boolean isLastColumn(RecyclerView parent, int pos, int spanCount, int childCount) {
+        private static boolean isLastColumn(RecyclerView parent, int pos, int spanCount
+                , int childCount) {
             LayoutManager layoutManager = parent.getLayoutManager();
             if (layoutManager instanceof GridLayoutManager) {
                 // 如果是最后一列，则不需要绘制右边
@@ -355,7 +365,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             return false;
         }
 
-        private static boolean isLastRaw(RecyclerView parent, int pos, int spanCount, int childCount) {
+        private static boolean isLastRaw(RecyclerView parent, int pos, int spanCount
+                , int childCount) {
             LayoutManager layoutManager = parent.getLayoutManager();
             if (layoutManager instanceof GridLayoutManager) {
                 childCount = childCount - childCount % spanCount;
@@ -472,7 +483,8 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
     static class GridLayoutManagerWrapper extends GridLayoutManager {
 
         public GridLayoutManagerWrapper(Context context, GridLayoutManager layoutManager) {
-            super(context, layoutManager.getSpanCount(), layoutManager.getOrientation(), layoutManager.getReverseLayout());
+            super(context, layoutManager.getSpanCount(), layoutManager.getOrientation()
+                    , layoutManager.getReverseLayout());
         }
     }
 

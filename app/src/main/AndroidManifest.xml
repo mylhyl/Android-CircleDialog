@@ -18,14 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="circle_dialog_design_width"
-            android:value="1080"/>
-        <meta-data
-            android:name="circle_dialog_design_height"
-            android:value="1920"/>
-
         <activity android:name=".list.ListViewActivity"/>
     </application>
 
