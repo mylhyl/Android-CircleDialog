@@ -115,6 +115,10 @@ public class InputParams implements Parcelable {
      * 是否禁止输入表情
      */
     public boolean isEmojiInput;
+    /**
+     * 输入限制计数器中文是否算1个字符
+     */
+    public boolean isCounterAllEn;
 
     public InputParams() {
     }
@@ -142,6 +146,7 @@ public class InputParams implements Parcelable {
         this.counterColor = in.readInt();
         this.showSoftKeyboard = in.readByte() != 0;
         this.isEmojiInput = in.readByte() != 0;
+        this.isCounterAllEn = in.readByte() != 0;
     }
 
     @Override
@@ -173,5 +178,6 @@ public class InputParams implements Parcelable {
         dest.writeInt(this.counterColor);
         dest.writeByte(this.showSoftKeyboard ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isEmojiInput ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isCounterAllEn ? (byte) 1 : (byte) 0);
     }
 }

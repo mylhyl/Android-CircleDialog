@@ -6,11 +6,13 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.EmojiFilter;
+import com.mylhyl.circledialog.MaxLengthEnWatcher;
 import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -42,7 +44,7 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         this.params = params;
         DialogParams dialogParams = params.dialogParams;
         TitleParams titleParams = params.titleParams;
-        InputParams inputParams = params.inputParams;
+        final InputParams inputParams = params.inputParams;
         ButtonParams negativeParams = params.negativeParams;
         ButtonParams positiveParams = params.positiveParams;
 
@@ -91,7 +93,17 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
         mEditText.setHintTextColor(inputParams.hintTextColor);
         mEditText.setTextSize(inputParams.textSize);
         mEditText.setTextColor(inputParams.textColor);
-        mEditText.setHeight(inputParams.inputHeight);
+        mEditText.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mEditText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        int height = mEditText.getMeasuredHeight();
+                        if (inputParams.inputHeight > height) {
+                            mEditText.setHeight(inputParams.inputHeight);
+                        }
+                    }
+                });
         mEditText.setGravity(inputParams.gravity);
         if (!TextUtils.isEmpty(inputParams.text)) {
             mEditText.setText(inputParams.text);
@@ -137,9 +149,13 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
             mTvCounter.setTextColor(inputParams.counterColor);
 
-            mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
-                    , mEditText, mTvCounter, params));
-
+            if (inputParams.isCounterAllEn) {
+                mEditText.addTextChangedListener(new MaxLengthEnWatcher(inputParams.maxLen
+                        , mEditText, mTvCounter, params));
+            } else {
+                mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
+                        , mEditText, mTvCounter, params));
+            }
             addView(mTvCounter, layoutParamsCounter);
         }
 

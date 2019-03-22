@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setInputCounter(20)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
                         .configInput(params -> {
+//                            params.isCounterAllEn = true;
 //                            params.padding = new int[]{30, 30, 30, 30};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;

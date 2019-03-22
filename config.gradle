@@ -2,10 +2,10 @@ ext {
     android = [
             compileSdkVersion: 27,
             buildToolsVersion: "27.0.2",
-            minSdkVersion    : 15,
+            minSdkVersion    : 16,
             targetSdkVersion : 27,
             versionCode      : 1,
-            versionName      : "20190221"
+            versionName      : "20190322"
     ]
 
     dependVersion = [
@@ -21,6 +21,6 @@ ext {
     ]
 
     publish = [
-            version: "2.6.7-beta"
+            version: "2.6.8"
     ]
 }
