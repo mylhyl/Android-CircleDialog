@@ -53,6 +53,14 @@ public final class BuildViewImpl implements BuildView {
     }
 
     @Override
+    public View refreshTitle() {
+        if (mTitleView != null) {
+            mTitleView.refreshTitle();
+        }
+        return mTitleView;
+    }
+
+    @Override
     public View buildCustomBodyView() {
         if (mCustomBodyView == null) {
             View bodyView = LayoutInflater.from(mContext).inflate(mParams.bodyViewId, mRoot, false);

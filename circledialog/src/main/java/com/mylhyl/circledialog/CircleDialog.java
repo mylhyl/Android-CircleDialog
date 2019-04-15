@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -49,31 +50,32 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
  */
 
 public final class CircleDialog {
-    private AbsCircleDialog mDialog;
+    private AbsCircleDialog mAbsDialog;
 
     private CircleDialog() {
     }
 
     public DialogFragment create(CircleParams params) {
-        if (mDialog == null)
-            mDialog = AbsCircleDialog.newAbsCircleDialog(params);
-        else {
-            if (mDialog.getDialog() != null && mDialog.getDialog().isShowing()) {
-                mDialog.refreshView();
-            }
+        if (mAbsDialog != null) {
+            Dialog dialog = mAbsDialog.getDialog();
+            if (dialog != null && dialog.isShowing())
+                mAbsDialog.refreshView();
+        } else {
+            mAbsDialog = AbsCircleDialog.newAbsCircleDialog(params);
         }
-        return mDialog;
+        return mAbsDialog;
+
     }
 
     @Deprecated
     public void show(FragmentActivity activity) {
         if (activity == null)
             throw new NullPointerException("please call constructor Builder(FragmentActivity)");
-        mDialog.show(activity.getSupportFragmentManager(), "circleDialog");
+        mAbsDialog.show(activity.getSupportFragmentManager(), "circleDialog");
     }
 
     public void show(FragmentManager manager) {
-        mDialog.show(manager, "circleDialog");
+        mAbsDialog.show(manager, "circleDialog");
     }
 
     public static class Builder {

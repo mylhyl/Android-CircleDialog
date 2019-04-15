@@ -25,6 +25,13 @@ public interface BuildView {
      */
     View buildTitle();
 
+    /**
+     * 刷新标题
+     *
+     * @return
+     */
+    View refreshTitle();
+
     View buildCustomBodyView();
 
     /**

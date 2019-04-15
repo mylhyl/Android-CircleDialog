@@ -160,6 +160,7 @@ public class Controller {
     }
 
     public void refreshView() {
+        mCreateView.refreshTitle();
         mCreateView.refreshText();
         mCreateView.refreshItems();
         mCreateView.refreshProgress();

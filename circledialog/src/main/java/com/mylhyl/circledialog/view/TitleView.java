@@ -18,9 +18,13 @@ import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
  * Created by hupei on 2017/3/29.
  */
 final class TitleView extends ScaleLinearLayout {
+    private CircleParams mParams;
+    private ScaleTextView tvTitle;
+    private ScaleTextView tvSubTitle;
 
     public TitleView(Context context, CircleParams params) {
         super(context);
+        this.mParams = params;
         init(params);
     }
 
@@ -55,7 +59,7 @@ final class TitleView extends ScaleLinearLayout {
         }
         titleLayout.addView(ivTitleIcon);
         //标题
-        final ScaleTextView tvTitle = new ScaleTextView(getContext());
+        tvTitle = new ScaleTextView(getContext());
         tvTitle.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -71,7 +75,7 @@ final class TitleView extends ScaleLinearLayout {
         addView(titleLayout);
 
         //副标题
-        ScaleTextView tvSubTitle = null;
+
         if (subTitleParams != null) {
             tvSubTitle = new ScaleTextView(getContext());
             setSubTitleBg(tvSubTitle, subTitleParams.backgroundColor, dialogParams.backgroundColor);
@@ -125,5 +129,18 @@ final class TitleView extends ScaleLinearLayout {
         } else {
             tv.setBackgroundDrawable(new CircleDrawable(bg, 0));
         }
+    }
+
+    public void refreshTitle() {
+        if (mParams.titleParams == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if (tvTitle != null)
+                    tvTitle.setText(mParams.titleParams.text);
+                if (tvSubTitle != null)
+                    tvSubTitle.setText(mParams.subTitleParams.text);
+            }
+        });
     }
 }
