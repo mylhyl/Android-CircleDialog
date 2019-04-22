@@ -278,11 +278,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         progress++;
                         if (progress >= max) {
                             MainActivity.this.runOnUiThread(() -> {
-                                builder.setProgressText("下载完成").create();
+                                builder.setProgressText("下载完成").refresh();
                                 timer.cancel();
                             });
                         } else {
-                            builder.setProgress(max, progress).create();
+                            builder.setProgress(max, progress).refresh();
                         }
                     }
                 };
@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.disable = false;
                                 params.text = "确定";
                             }
-                        }).create();
+                        }).refresh();
 
                         if (time == 0)
                             handler.removeCallbacks(this);
