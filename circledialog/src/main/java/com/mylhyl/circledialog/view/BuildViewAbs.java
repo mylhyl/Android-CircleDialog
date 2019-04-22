@@ -104,31 +104,28 @@ abstract class BuildViewAbs implements BuildView {
     @Override
     public CloseView buildCloseImgView() {
         CloseParams closeParams = mParams.closeParams;
-        if (closeParams != null) {
-            CloseImgView closeView = new CloseImgView(mContext, closeParams);
-            LinearLayout.LayoutParams layoutParamsClose = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            //位置
-            if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
-                    || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_LEFT) {
-                layoutParamsClose.gravity = Gravity.LEFT;
-            } else if (closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
-                    || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_CENTER) {
-                layoutParamsClose.gravity = Gravity.CENTER_HORIZONTAL;
-            } else {
-                layoutParamsClose.gravity = Gravity.RIGHT;
-            }
-            closeView.setLayoutParams(layoutParamsClose);
-            if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
-                    || closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
-                    || closeParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
-                mRootCardViewByLinearLayout.addView(closeView, 0);
-            } else {
-                mRootCardViewByLinearLayout.addView(closeView);
-            }
-            return closeView;
+        CloseImgView closeView = new CloseImgView(mContext, closeParams);
+        LinearLayout.LayoutParams layoutParamsClose = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //位置
+        if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
+                || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_LEFT) {
+            layoutParamsClose.gravity = Gravity.LEFT;
+        } else if (closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
+                || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_CENTER) {
+            layoutParamsClose.gravity = Gravity.CENTER_HORIZONTAL;
+        } else {
+            layoutParamsClose.gravity = Gravity.RIGHT;
         }
-        return null;
+        closeView.setLayoutParams(layoutParamsClose);
+        if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
+                || closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
+                || closeParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
+            mRootCardViewByLinearLayout.addView(closeView, 0);
+        } else {
+            mRootCardViewByLinearLayout.addView(closeView);
+        }
+        return closeView;
     }
 
     protected final void addViewByBody(View child) {

@@ -44,22 +44,13 @@ public class Controller {
     }
 
     public void createView() {
-        //输入框
-        if (mParams.inputParams != null) {
-            mCreateView = new BuildViewInputImpl(mContext, mParams);
-            mCreateView.buildBodyView();
-            InputView inputView = mCreateView.getBodyView();
-            ButtonView buttonView = mCreateView.buildButton();
-            regNegativeListener(buttonView);
-            regNeutralListener(buttonView);
-            regPositiveInputListener(buttonView, inputView);
-        }
-        //lottie动画框
-        else if (mParams.lottieParams != null) {
+
+        // lottie动画框
+        if (mParams.lottieParams != null) {
             mCreateView = new BuildViewLottieImpl(mContext, mParams);
             mCreateView.buildBodyView();
         }
-        //自定义内容视图
+        // 自定义内容视图
         else if (mParams.bodyViewId != 0) {
             mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
             mCreateView.buildBodyView();
@@ -67,7 +58,7 @@ public class Controller {
             if (mParams.createBodyViewListener != null)
                 mParams.createBodyViewListener.onCreateBodyView(bodyView);
         }
-        //广告
+        // 广告
         else if (mParams.adParams != null) {
             mCreateView = new BuildViewAdImpl(mContext, mParams);
             mCreateView.buildBodyView();
@@ -84,8 +75,9 @@ public class Controller {
                     return false;
                 }
             });
-            CloseView closeView = mCreateView.buildCloseImgView();
-            if (closeView != null) {
+            // 上方x关闭按钮
+            if (mParams.closeParams != null) {
+                CloseView closeView = mCreateView.buildCloseImgView();
                 closeView.regOnCloseClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -94,7 +86,7 @@ public class Controller {
                 });
             }
         }
-        //popup
+        // popup
         else if (mParams.popupParams != null) {
             int[] screenSize = mOnDialogInternalListener.getScreenSize();
             int statusBarHeight = mOnDialogInternalListener.getStatusBarHeight();
@@ -114,65 +106,78 @@ public class Controller {
                     return false;
                 }
             });
+        }
+
+        // 列表
+        else if (mParams.itemsParams != null) {
+            //设置列表特殊的参数
+            DialogParams dialogParams = mParams.dialogParams;
+            //判断是否已经设置过
+            if (dialogParams.gravity == Gravity.CENTER) {
+                dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
+            }
+            //判断是否已经设置过
+            if (dialogParams.gravity == Gravity.BOTTOM && dialogParams.yOff == -1) {
+                dialogParams.yOff = 20;//底部与屏幕的距离
+            }
+            if (mParams.itemListViewType) {
+                mCreateView = new BuildViewItemsListViewImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                final ItemsView itemsView = mCreateView.getBodyView();
+                itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (mParams.itemListener != null) {
+                            boolean b = mParams.itemListener.onItemClick(parent, view, position, id);
+                            if (b) {
+                                mOnDialogInternalListener.dialogDismiss();
+                            }
+                        }
+                    }
+                });
+            } else {
+                mCreateView = new BuildViewItemsRecyclerViewImpl(mContext, mParams);
+                mCreateView.buildBodyView();
+                final ItemsView itemsView = mCreateView.getBodyView();
+                itemsView.regOnItemClickListener(new OnRvItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position) {
+                        if (mParams.rvItemListener != null) {
+                            boolean b = mParams.rvItemListener.onItemClick(view, position);
+                            if (b) {
+                                mOnDialogInternalListener.dialogDismiss();
+                            }
+                        }
+                        return false;
+                    }
+                });
+            }
+        }
+        // 进度条
+        else if (mParams.progressParams != null) {
+            mCreateView = new BuildViewProgressImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+        }
+        // 文本
+        else if (mParams.textParams != null) {
+            mCreateView = new BuildViewConfirmImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+        }
+        // 输入框
+        else if (mParams.inputParams != null) {
+            mCreateView = new BuildViewInputImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+        }
+
+        // 底部按钮
+        ButtonView buttonView = mCreateView.buildButton();
+        regNegativeListener(buttonView);
+        regNeutralListener(buttonView);
+        if (mParams.inputParams != null) {
+            InputView inputView = mCreateView.getBodyView();
+            //输入框确定按钮事件特殊性
+            regPositiveInputListener(buttonView, inputView);
         } else {
-            //列表
-            if (mParams.itemsParams != null) {
-                //设置列表特殊的参数
-                DialogParams dialogParams = mParams.dialogParams;
-                //判断是否已经设置过
-                if (dialogParams.gravity == Gravity.CENTER) {
-                    dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
-                }
-                //判断是否已经设置过
-                if (dialogParams.gravity == Gravity.BOTTOM && dialogParams.yOff == -1) {
-                    dialogParams.yOff = 20;//底部与屏幕的距离
-                }
-                if (mParams.itemListViewType) {
-                    mCreateView = new BuildViewItemsListViewImpl(mContext, mParams);
-                    mCreateView.buildBodyView();
-                    final ItemsView itemsView = mCreateView.getBodyView();
-                    itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if (mParams.itemListener != null) {
-                                boolean b = mParams.itemListener.onItemClick(parent, view, position, id);
-                                if (b) {
-                                    mOnDialogInternalListener.dialogDismiss();
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    mCreateView = new BuildViewItemsRecyclerViewImpl(mContext, mParams);
-                    mCreateView.buildBodyView();
-                    final ItemsView itemsView = mCreateView.getBodyView();
-                    itemsView.regOnItemClickListener(new OnRvItemClickListener() {
-                        @Override
-                        public boolean onItemClick(View view, int position) {
-                            if (mParams.rvItemListener != null) {
-                                boolean b = mParams.rvItemListener.onItemClick(view, position);
-                                if (b) {
-                                    mOnDialogInternalListener.dialogDismiss();
-                                }
-                            }
-                            return false;
-                        }
-                    });
-                }
-            }
-            //进度条
-            else if (mParams.progressParams != null) {
-                mCreateView = new BuildViewProgressImpl(mContext, mParams);
-                mCreateView.buildBodyView();
-            }
-            //文本
-            else {
-                mCreateView = new BuildViewConfirmImpl(mContext, mParams);
-                mCreateView.buildBodyView();
-            }
-            ButtonView buttonView = mCreateView.buildButton();
-            regNegativeListener(buttonView);
-            regNeutralListener(buttonView);
             regPositiveListener(buttonView);
         }
     }

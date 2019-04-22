@@ -64,11 +64,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框"
-                , "进度框", "等待框", "动态改变内容"
-                , "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)"
-                , "Rv换头像", "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图"
-                , "lottie动画框", "仿微博分享", "Rv Vertical", "Rv Horizontal", "广告"});
+        List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框"
+                , "动态改变内容", "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)", "Rv换头像"
+                , "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图", "lottie动画框", "仿微博分享"
+                , "Rv Vertical", "Rv Horizontal", "广告"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -91,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         , new OnAdItemClickListener() {
                             @Override
                             public boolean onItemClick(View view, int position) {
-                                Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT)
+                                        .show();
                                 return true;
                             }
                         })
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 "\n" +
                                 "● 节省企业短验成本")
                         .configText(params -> {
-                                params.gravity = Gravity.LEFT | Gravity.TOP;
+                            params.gravity = Gravity.LEFT | Gravity.TOP;
 //                            params.padding = new int[]{100, 0, 100, 50};
                         })
                         .setNegative("取消", null)
@@ -290,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 5:
                 dialogFragment = new CircleDialog.Builder()
+                        .setWidth(0.6f)
 //                        .configDialog(new ConfigDialog() {
 //                            @Override
 //                            public void onConfig(DialogParams params) {
@@ -504,7 +505,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configNegative(params -> params.topMargin = 0)
                         .show(getSupportFragmentManager());
                 rvAdapter.setOnItemClickListener((adapter1, view14, position14) -> {
-                    Toast.makeText(MainActivity.this, "点击的是：" + adapter1.getData().get(position14), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "点击的是：" + adapter1.getData().get(position14), Toast
+                            .LENGTH_SHORT).show();
                     dialogFragment.dismiss();
                 });
                 break;
@@ -573,7 +575,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         textView.setCompoundDrawablesWithIntrinsicBounds(null, item.getIcon(), null, null);
                         textView.setGravity(Gravity.CENTER);
                         TypedValue typedValue = new TypedValue();
-                        helper.itemView.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
+                        helper.itemView.getContext().getTheme().resolveAttribute(android.R.attr
+                                .selectableItemBackground, typedValue, true);
                         textView.setBackgroundResource(typedValue.resourceId);
                     }
                 };
