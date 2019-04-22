@@ -36,6 +36,7 @@
  * 依赖包：`appcompat-v7`、`cardview-v7`、`recyclerview-v7`
  * 继承基类`AbsBaseCircleDialog`背景为透明，自定义layout时按需求设置背景
  * v3版放弃百分比适配
+ * 3.0.9开始，刷新dialog方法由`create`改为`refresh`
 
 # 未完成功能
  * popup在item中智能识别弹出位置
