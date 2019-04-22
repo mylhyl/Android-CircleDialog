@@ -24,6 +24,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.engine.impl.Glide4ImageLoadEngine;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
@@ -209,6 +210,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                     return true;
                                 }
                         )
+//                        .setItemsViewBinder((CircleItemViewBinder<PictureTypeEntity>)
+//                                (itemView, pictureTypeEntity, position17) -> {
+//                                    if (position17 % 2 == 0) {
+//                                        itemView.setTextColor(Color.RED);
+//                                    }
+//                                })
                         .setNegative("取消", null)
 //                        .setNeutral("中间", null)
 //                        .setPositive("确定", null)
@@ -466,6 +473,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                     , Toast.LENGTH_SHORT).show();
                             return true;
                         })
+                        .setItemsViewBinder((CircleItemViewBinder<PictureTypeEntity>)
+                                (itemView, item, position17) -> {
+                                    if (position17 % 2 == 0) {
+                                        itemView.setTextColor(Color.RED);
+                                    }
+                                })
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;

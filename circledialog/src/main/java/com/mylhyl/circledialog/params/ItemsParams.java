@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.widget.BaseAdapter;
 
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -79,6 +80,7 @@ public class ItemsParams implements Parcelable {
     public int bottomMargin = CircleDimen.BUTTON_ITEMS_MARGIN;
 
     public int textGravity = Gravity.NO_GRAVITY;
+    public CircleItemViewBinder viewBinder;
 
     public ItemsParams() {
     }

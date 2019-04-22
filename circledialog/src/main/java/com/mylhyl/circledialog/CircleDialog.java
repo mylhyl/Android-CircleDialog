@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.BaseAdapter;
 
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
@@ -342,6 +343,12 @@ public final class CircleDialog {
             params.layoutManager = layoutManager;
             params.itemDecoration = itemDecoration;
             params.adapterRv = adapter;
+            return this;
+        }
+
+        public Builder setItemsViewBinder(CircleItemViewBinder viewBinder) {
+            newItemsParams();
+            mCircleParams.itemsParams.viewBinder = viewBinder;
             return this;
         }
 

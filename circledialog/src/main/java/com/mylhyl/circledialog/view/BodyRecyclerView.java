@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.callback.CircleItemLabel;
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
@@ -244,6 +245,11 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 label = item.toString();
             }
             holder.item.setText(String.valueOf(label));
+
+            CircleItemViewBinder viewBinder = mItemsParams.viewBinder;
+            if (viewBinder != null) {
+                viewBinder.onBinder(holder.item, item, position);
+            }
         }
 
         @Override
@@ -283,60 +289,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         public GridItemDecoration(Drawable divider, int dividerHeight) {
             mDivider = divider;
             mDividerHeight = dividerHeight;
-        }
-
-        @Override
-        public void onDraw(Canvas c, RecyclerView parent, State state) {
-            drawHorizontal(c, parent);
-            drawVertical(c, parent);
-        }
-
-        private void drawHorizontal(Canvas c, RecyclerView parent) {
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params =
-                        (RecyclerView.LayoutParams) child.getLayoutParams();
-                final int left = child.getLeft() - params.leftMargin;
-                final int top = child.getBottom() + params.bottomMargin;
-                final int right = child.getRight() + params.rightMargin + mDividerHeight;
-                final int bottom = top + mDividerHeight;
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-
-        private void drawVertical(Canvas c, RecyclerView parent) {
-            final int childCount = parent.getChildCount() - 1;
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-
-                final RecyclerView.LayoutParams params =
-                        (RecyclerView.LayoutParams) child.getLayoutParams();
-                final int left = child.getRight() + params.rightMargin;
-                final int top = child.getTop() - params.topMargin;
-                final int right = left + mDividerHeight;
-                final int bottom = child.getBottom() + params.bottomMargin;
-
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-            int spanCount = getSpanCount(parent);
-            int childCount = parent.getAdapter().getItemCount();
-            // 如果是最后一行，则不需要绘制底部
-            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
-                outRect.set(0, 0, mDividerHeight, 0);
-            }
-            // 如果是最后一列，则不需要绘制右边
-            else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
-                outRect.set(0, 0, 0, mDividerHeight);
-            } else {
-                outRect.set(0, 0, mDividerHeight, mDividerHeight);
-            }
         }
 
         private static boolean isLastColumn(RecyclerView parent, int pos, int spanCount
@@ -407,6 +359,60 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 spanCount = layoutManager.getItemCount();
             }
             return spanCount;
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, State state) {
+            drawHorizontal(c, parent);
+            drawVertical(c, parent);
+        }
+
+        private void drawHorizontal(Canvas c, RecyclerView parent) {
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params =
+                        (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int left = child.getLeft() - params.leftMargin;
+                final int top = child.getBottom() + params.bottomMargin;
+                final int right = child.getRight() + params.rightMargin + mDividerHeight;
+                final int bottom = top + mDividerHeight;
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        private void drawVertical(Canvas c, RecyclerView parent) {
+            final int childCount = parent.getChildCount() - 1;
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+
+                final RecyclerView.LayoutParams params =
+                        (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int left = child.getRight() + params.rightMargin;
+                final int top = child.getTop() - params.topMargin;
+                final int right = left + mDividerHeight;
+                final int bottom = child.getBottom() + params.bottomMargin;
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            // 如果是最后一行，则不需要绘制底部
+            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, mDividerHeight, 0);
+            }
+            // 如果是最后一列，则不需要绘制右边
+            else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, 0, mDividerHeight);
+            } else {
+                outRect.set(0, 0, mDividerHeight, mDividerHeight);
+            }
         }
     }
 
