@@ -332,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 })
 
                         .setTitle("动态改变内容")
+                        .setSubTitle("小标题")
                         .setText("3秒后更新其它内容")
                         .setOnDismissListener(dialog -> removeRunnable())
                         .show(getSupportFragmentManager());
@@ -339,7 +340,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 runnable = new Runnable() {
                     @Override
                     public void run() {
-                        builder.setText("已经更新内容").create();
+                        builder.setText("已经更新内容")
+                                .setTitle("标题也变了")
+                                .setSubTitle("小标题也变了")
+                                .refresh();
                     }
                 };
                 handler.postDelayed(runnable, 3000);
@@ -351,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 ListViewActivity.gotoActivity(this);
                 break;
             case 9:
-
                 builder = new CircleDialog.Builder()
                         .setTitle("标题")
                         .setText("提示框")

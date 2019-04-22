@@ -55,14 +55,12 @@ final class TitleView extends LinearLayout {
 
     private void createTitleLayout() {
         mTitleLayout = new RelativeLayout(getContext());
-        mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT
-                , LayoutParams.WRAP_CONTENT));
+        mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mTitleLayout.setGravity(mTitleParams.gravity);
         mTitleLayout.setPadding(50, 0, 50, 0);
 
         //如果标题没有背景色，则使用默认色
-        int bg = mTitleParams.backgroundColor != 0
-                ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
+        int bg = mTitleParams.backgroundColor != 0 ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
         mTitleLayout.setBackgroundColor(bg);
     }
 
@@ -130,5 +128,16 @@ final class TitleView extends LinearLayout {
         //如果标题没有背景色，则使用默认色
         int bg = tbg != 0 ? tbg : dbg;
         tvSubTitle.setBackgroundColor(bg);
+    }
+
+    public void refreshText() {
+        if (mTitleParams == null || mTitleView == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mTitleView.setText(mTitleParams.text);
+                if (mSubTitleView != null) mSubTitleView.setText(mSubTitleParams.text);
+            }
+        });
     }
 }

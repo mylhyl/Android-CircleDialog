@@ -62,14 +62,15 @@ public final class CircleDialog {
     private CircleDialog() {
     }
 
+    public void refresh() {
+        if (mBaseCircleDialog == null) return;
+        Dialog dialog = mBaseCircleDialog.getDialog();
+        if (dialog == null || !dialog.isShowing()) return;
+        mBaseCircleDialog.refreshView();
+    }
+
     public BaseCircleDialog create(CircleParams params) {
-        if (mBaseCircleDialog != null) {
-            Dialog dialog = mBaseCircleDialog.getDialog();
-            if (dialog != null && dialog.isShowing())
-                mBaseCircleDialog.refreshView();
-        } else {
-            mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
-        }
+        mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
         return mBaseCircleDialog;
     }
 
@@ -839,10 +840,24 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置广告框的单个图片url
+         *
+         * @param url      广告图片url路径
+         * @param listener 图片的点击监听器
+         * @return Builder
+         */
         public Builder setAdUrl(String url, OnAdItemClickListener listener) {
             return setAdUrl(new String[]{url}, listener);
         }
 
+        /**
+         * 设置广告框的多图片url
+         *
+         * @param urls     广告图片url路径数组
+         * @param listener 图片的点击监听器
+         * @return Builder
+         */
         public Builder setAdUrl(String[] urls, OnAdItemClickListener listener) {
             newAdParams();
             mCircleParams.adParams.urls = urls;
@@ -854,12 +869,24 @@ public final class CircleDialog {
             return setAdUrl(urls.toArray(new String[urls.size()]), listener);
         }
 
+        /**
+         * 广告框的指示器，内置样式，也可调用 {@link #setAdIndicatorPoint(int)}自定义
+         *
+         * @param show true 显示
+         * @return Builder
+         */
         public Builder setAdIndicator(boolean show) {
             newAdParams();
             mCircleParams.adParams.isShowIndicator = show;
             return this;
         }
 
+        /**
+         * 广告框指示器资源文件
+         *
+         * @param resId
+         * @return Builder
+         */
         public Builder setAdIndicatorPoint(@DrawableRes int resId) {
             newAdParams();
             mCircleParams.adParams.pointDrawableResId = resId;
@@ -884,5 +911,10 @@ public final class CircleDialog {
             return mCircleDialog.create(mCircleParams);
         }
 
+        public void refresh() {
+            if (mCircleDialog != null) {
+                mCircleDialog.refresh();
+            }
+        }
     }
 }

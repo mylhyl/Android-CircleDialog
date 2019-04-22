@@ -19,6 +19,8 @@ public interface BuildView {
 
     ButtonView buildButton();
 
+    void refreshTitle();
+
     void refreshContent();
 
     void refreshButton();

@@ -235,6 +235,7 @@ public class Controller {
     }
 
     public void refreshView() {
+        mCreateView.refreshTitle();
         mCreateView.refreshContent();
         mCreateView.refreshButton();
         //刷新时带动画
