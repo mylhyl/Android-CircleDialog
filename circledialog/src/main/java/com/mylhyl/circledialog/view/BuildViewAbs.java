@@ -32,6 +32,7 @@ abstract class BuildViewAbs implements BuildView {
     protected CircleParams mParams;
     protected ViewGroup mRoot;
     private LinearLayout mRootCardViewByLinearLayout;
+    private TitleView mTitleView;
     private ButtonView mButtonView;
 
     public BuildViewAbs(Context context, CircleParams params) {
@@ -41,15 +42,14 @@ abstract class BuildViewAbs implements BuildView {
 
     protected final void buildTitleView() {
         if (mParams.titleParams != null) {
-            TitleView titleView = new TitleView(mContext, mParams.dialogParams
-                    , mParams.titleParams, mParams.subTitleParams, mParams.createTitleListener);
-            mRootCardViewByLinearLayout.addView(titleView);
+            mTitleView = new TitleView(mContext, mParams.dialogParams, mParams.titleParams, mParams.subTitleParams
+                    , mParams.createTitleListener);
+            mRootCardViewByLinearLayout.addView(mTitleView);
         }
     }
 
     protected final View layoutInflaterFrom(int resource) {
-        return LayoutInflater.from(mContext)
-                .inflate(resource, mRootCardViewByLinearLayout, false);
+        return LayoutInflater.from(mContext).inflate(resource, mRootCardViewByLinearLayout, false);
     }
 
     protected void buildRootView() {
@@ -80,18 +80,21 @@ abstract class BuildViewAbs implements BuildView {
 
     @Override
     public ButtonView buildButton() {
-        if (mButtonView == null) {
-            mButtonView = new MultipleButton(mContext, mParams.dialogParams, mParams.negativeParams
-                    , mParams.positiveParams, mParams.neutralParams, mParams.createButtonListener);
-            if (!mButtonView.isEmpty()) {
-                DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
-                mRootCardViewByLinearLayout.addView(dividerView);
-            }
+        mButtonView = new MultipleButton(mContext, mParams.dialogParams, mParams.negativeParams
+                , mParams.positiveParams, mParams.neutralParams, mParams.createButtonListener);
+        if (!mButtonView.isEmpty()) {
+            DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
+            mRootCardViewByLinearLayout.addView(dividerView);
         }
-        if (mButtonView != null) {
-            mRootCardViewByLinearLayout.addView(mButtonView.getView());
-        }
+        mRootCardViewByLinearLayout.addView(mButtonView.getView());
         return mButtonView;
+    }
+
+    @Override
+    public void refreshTitle() {
+        if (mTitleView != null) {
+            mTitleView.refreshText();
+        }
     }
 
     @Override
@@ -104,31 +107,28 @@ abstract class BuildViewAbs implements BuildView {
     @Override
     public CloseView buildCloseImgView() {
         CloseParams closeParams = mParams.closeParams;
-        if (closeParams != null) {
-            CloseImgView closeView = new CloseImgView(mContext, closeParams);
-            LinearLayout.LayoutParams layoutParamsClose = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            //位置
-            if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
-                    || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_LEFT) {
-                layoutParamsClose.gravity = Gravity.LEFT;
-            } else if (closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
-                    || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_CENTER) {
-                layoutParamsClose.gravity = Gravity.CENTER_HORIZONTAL;
-            } else {
-                layoutParamsClose.gravity = Gravity.RIGHT;
-            }
-            closeView.setLayoutParams(layoutParamsClose);
-            if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
-                    || closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
-                    || closeParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
-                mRootCardViewByLinearLayout.addView(closeView, 0);
-            } else {
-                mRootCardViewByLinearLayout.addView(closeView);
-            }
-            return closeView;
+        CloseImgView closeView = new CloseImgView(mContext, closeParams);
+        LinearLayout.LayoutParams layoutParamsClose = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //位置
+        if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
+                || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_LEFT) {
+            layoutParamsClose.gravity = Gravity.LEFT;
+        } else if (closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
+                || closeParams.closeGravity == CloseParams.CLOSE_BOTTOM_CENTER) {
+            layoutParamsClose.gravity = Gravity.CENTER_HORIZONTAL;
+        } else {
+            layoutParamsClose.gravity = Gravity.RIGHT;
         }
-        return null;
+        closeView.setLayoutParams(layoutParamsClose);
+        if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
+                || closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
+                || closeParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
+            mRootCardViewByLinearLayout.addView(closeView, 0);
+        } else {
+            mRootCardViewByLinearLayout.addView(closeView);
+        }
+        return closeView;
     }
 
     protected final void addViewByBody(View child) {
