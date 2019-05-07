@@ -139,11 +139,10 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         if (mNegativeButton != null && mNegativeParams != null) {
             //右边没按钮则右下是圆角
             int rightRadius = (mNeutralButton == null && mPositiveButton == null) ? radius : 0;
-            int pxRightRadius = Controller.dp2px(getContext(), rightRadius);
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
                     ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                    , radius, pxRightRadius, pxRightRadius, radius);
+                    , radius, rightRadius, rightRadius, radius);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNegativeButton.setBackground(selectorBtn);
             } else {
@@ -153,11 +152,10 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         if (mPositiveButton != null && mPositiveParams != null) {
             //左边没按钮则左下是圆角
             int leftRadius = (mNegativeButton == null && mNeutralButton == null) ? radius : 0;
-            int pxLeftRadius = Controller.dp2px(getContext(), leftRadius);
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
                     ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                    , pxLeftRadius, radius, radius, pxLeftRadius);
+                    , leftRadius, radius, radius, leftRadius);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mPositiveButton.setBackground(selectorBtn);
             } else {

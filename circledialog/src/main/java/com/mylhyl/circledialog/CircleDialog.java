@@ -312,8 +312,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , @NonNull RecyclerView.LayoutManager layoutManager
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter, @NonNull RecyclerView.LayoutManager layoutManager
                 , @NonNull RecyclerView.ItemDecoration itemDecoration) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
@@ -666,6 +665,13 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置 Popup 三角的大小
+         *
+         * @param width  dp
+         * @param height dp
+         * @return Builder
+         */
         public Builder setPopupTriangleSize(int width, int height) {
             newPopupParams();
             mCircleParams.popupParams.triangleSize = new int[]{width, height};
@@ -676,7 +682,7 @@ public final class CircleDialog {
          * 显示三角 默认显示
          *
          * @param show false隐藏
-         * @return this Builder
+         * @return Builder
          */
         public Builder setPopupTriangleShow(boolean show) {
             newPopupParams();
@@ -701,8 +707,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager) {
+        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager) {
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;
             params.layoutManager = layoutManager;
@@ -710,8 +715,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager
+        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager
                 , RecyclerView.ItemDecoration itemDecoration) {
             newPopupParams();
             PopupParams params = mCircleParams.popupParams;
@@ -731,7 +735,7 @@ public final class CircleDialog {
          *
          * @param closeResId 资源文件resId
          * @param closeSize  大小 dp
-         * @return
+         * @return Builder
          */
         public Builder setCloseResId(@DrawableRes int closeResId, int closeSize) {
             newCloseParams();

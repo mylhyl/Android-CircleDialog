@@ -81,7 +81,7 @@ final class BodyListView extends ListView implements ItemsView {
 
         setSelector(bgItemNotRadius);
         setDivider(new ColorDrawable(CircleColor.divider));
-        setDividerHeight(mItemsParams.dividerHeight);
+        setDividerHeight(Controller.dp2px(getContext(),mItemsParams.dividerHeight));
 
         mAdapter = mItemsParams.adapter;
         if (mAdapter == null) {

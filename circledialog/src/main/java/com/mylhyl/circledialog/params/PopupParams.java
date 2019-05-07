@@ -79,11 +79,11 @@ public class PopupParams extends ItemsParams {
     int triangleGravity;
 
     /**
-     * 三角偏移量
+     * 三角偏移量 px
      */
     public int triangleOffSet;
     /**
-     * 三角大小 [width,height]
+     * 三角大小 [width,height] dp
      */
     public int[] triangleSize;
 
@@ -117,9 +117,8 @@ public class PopupParams extends ItemsParams {
         dest.writeIntArray(this.triangleSize);
     }
 
-    @IntDef({TRIANGLE_LEFT_TOP, TRIANGLE_LEFT_BOTTOM, TRIANGLE_LEFT_CENTER
-            , TRIANGLE_TOP_LEFT, TRIANGLE_TOP_RIGHT, TRIANGLE_TOP_CENTER
-            , TRIANGLE_RIGHT_TOP, TRIANGLE_RIGHT_BOTTOM, TRIANGLE_RIGHT_CENTER
+    @IntDef({TRIANGLE_LEFT_TOP, TRIANGLE_LEFT_BOTTOM, TRIANGLE_LEFT_CENTER, TRIANGLE_TOP_LEFT, TRIANGLE_TOP_RIGHT
+            , TRIANGLE_TOP_CENTER, TRIANGLE_RIGHT_TOP, TRIANGLE_RIGHT_BOTTOM, TRIANGLE_RIGHT_CENTER
             , TRIANGLE_BOTTOM_LEFT, TRIANGLE_BOTTOM_RIGHT, TRIANGLE_BOTTOM_CENTER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TriangleGravity {

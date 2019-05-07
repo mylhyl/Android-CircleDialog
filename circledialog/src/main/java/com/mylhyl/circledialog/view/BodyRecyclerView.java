@@ -125,13 +125,13 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                     && mItemsParams.itemDecoration == null) {
                 mItemsParams.itemDecoration = new GridItemDecoration(
                         new ColorDrawable(CircleColor.divider)
-                        , mItemsParams.dividerHeight);
+                        , Controller.dp2px(getContext(), mItemsParams.dividerHeight));
             } else if (mLayoutManager instanceof LinearLayoutManager
                     && mItemsParams.itemDecoration == null) {
                 int orientation = ((LinearLayoutManager) mLayoutManager).getOrientation();
                 mItemsParams.itemDecoration = new LinearItemDecoration(
                         new ColorDrawable(CircleColor.divider)
-                        , mItemsParams.dividerHeight, orientation);
+                        , Controller.dp2px(getContext(), mItemsParams.dividerHeight), orientation);
             }
             addItemDecoration(mItemsParams.itemDecoration);
         }
@@ -460,7 +460,9 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
             }
-        }        @Override
+        }
+
+        @Override
         public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
             if (mOrientation == LinearLayoutManager.VERTICAL)
                 outRect.set(0, 0, 0, mDividerHeight);
@@ -471,7 +473,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 }
             }
         }
-
 
 
         @Override
