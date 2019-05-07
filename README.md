@@ -19,8 +19,8 @@
 ```
 如果版本号后面有-alpha，那说明最后一个版本是预览版，可能存在bug谨慎使用，稳定版则没有-alpha后缀  
 例如  
-稳定版：compile 'com.mylhyl:circleDialog:3.0.5'  
-预览版：compile 'com.mylhyl:circleDialog:3.0.5-alpha'
+稳定版：compile 'com.mylhyl:circleDialog:x.x.x'
+预览版：compile 'com.mylhyl:circleDialog:x.x.x-alpha'
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
 
@@ -28,6 +28,7 @@
 
 # 使用
 * [v2版本](https://github.com/mylhyl/Android-CircleDialog/tree/v2)
+* [v3版本](https://github.com/mylhyl/Android-CircleDialog/tree/v3)
 * [教程](https://github.com/mylhyl/Android-CircleDialog/wiki)
 
 * [更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
@@ -35,8 +36,9 @@
 # 注意
  * 依赖包：`appcompat-v7`、`cardview-v7`、`recyclerview-v7`
  * 继承基类`AbsBaseCircleDialog`背景为透明，自定义layout时按需求设置背景
- * v3版放弃百分比适配
- * 3.0.9开始，刷新dialog方法由`create`改为`refresh`
+ * v3版本开始放弃百分比适配
+ * 3.0.9开始，刷新dialog界面的方法由`create`改为`refresh`
+ * v4版本开始，除字体大小保持原来的`sp`单位，偏移量`px`外，其它宽、高、间距、均改为了`dp`单位
 
 # 未完成功能
  * popup在item中智能识别弹出位置
