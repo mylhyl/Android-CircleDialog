@@ -11,16 +11,9 @@
 <img src="preview/gif.gif" width="240px"/>
 
 # 引入
-
-[ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  将`latestVersion`替换为左则`Download`图标后面的数字
-
 ```xml
- compile 'com.mylhyl:circleDialog:latestVersion'
+ compile 'com.mylhyl:circleDialog:3.0.10'
 ```
-如果版本号后面有-alpha，那说明最后一个版本是预览版，可能存在bug谨慎使用，稳定版则没有-alpha后缀  
-例如  
-稳定版：compile 'com.mylhyl:circleDialog:3.0.5'  
-预览版：compile 'com.mylhyl:circleDialog:3.0.5-alpha'
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
 
@@ -28,6 +21,7 @@
 
 # 使用
 * [v2版本](https://github.com/mylhyl/Android-CircleDialog/tree/v2)
+* [v3版本](https://github.com/mylhyl/Android-CircleDialog/tree/v3)
 * [教程](https://github.com/mylhyl/Android-CircleDialog/wiki)
 
 * [更多参数](https://github.com/mylhyl/Android-CircleDialog/tree/master/circledialog/src/main/java/com/mylhyl/circledialog/params)
