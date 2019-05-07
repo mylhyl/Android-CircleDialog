@@ -27,11 +27,11 @@ public class InputParams implements Parcelable {
         }
     };
     /**
-     * 输入框与body视图的距离
+     * 输入框与body视图的距离 dp
      */
     public int[] margins = CircleDimen.INPUT_MARGINS;
     /**
-     * 输入框的高度
+     * 输入框的高度 dp
      */
     public int inputHeight = CircleDimen.INPUT_HEIGHT;
     /**
@@ -47,7 +47,7 @@ public class InputParams implements Parcelable {
      */
     public int inputBackgroundResourceId;
     /**
-     * 输入框边框线条粗细
+     * 输入框边框线条粗细 dp
      */
     public int strokeWidth = 1;
     /**
@@ -63,11 +63,11 @@ public class InputParams implements Parcelable {
      */
     public int backgroundColor;
     /**
-     * 输入框字体大小
+     * 输入框字体大小 sp
      */
     public int textSize = CircleDimen.INPUT_TEXT_SIZE;
     /**
-     * 输入框字体颜色
+     * 输入框字体颜色 rgb
      */
     public int textColor = CircleColor.INPUT_TEXT;
     /**
@@ -83,7 +83,7 @@ public class InputParams implements Parcelable {
      */
     public String text;
     /**
-     * 内间距 [left, top, right, bottom]
+     * 内间距 [left, top, right, bottom] dp
      */
     public int[] padding = CircleDimen.INPUT_PADDING;
     /**
@@ -99,9 +99,12 @@ public class InputParams implements Parcelable {
      */
     public int maxLen;
     /**
-     * 外边距 [右，下]
+     * 计数器外边距 [右，下] dp
      */
     public int[] counterMargins = CircleDimen.INPUT_COUNTER_MARGINS;
+    /**
+     * 计数器字体颜色值 rgb
+     */
     public int counterColor = CircleColor.INPUT_COUNTER_TEXT;
     /**
      * 显示软键盘

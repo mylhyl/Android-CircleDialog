@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -39,6 +40,63 @@ final class BodyProgressView extends LinearLayout {
         init();
     }
 
+    /**
+     * 循环向上转型,获取对象的DeclaredField.
+     */
+    protected static Field getDeclaredField(final Object object, final String fieldName) {
+        return getDeclaredField(object.getClass(), fieldName);
+    }
+
+    /**
+     * 强制转换fileld可访问.
+     */
+    protected static void makeAccessible(Field field) {
+        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
+                .getDeclaringClass().getModifiers())) {
+            field.setAccessible(true);
+        }
+    }
+
+    /**
+     * 循环向上转型,获取类的DeclaredField.
+     */
+    @SuppressWarnings("unchecked")
+    protected static Field getDeclaredField(final Class clazz, final String fieldName) {
+        for (Class superClass = clazz; superClass != Object.class; superClass = superClass
+                .getSuperclass()) {
+            try {
+                return superClass.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();// Field不在当前类定义,继续向上转型
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 直接设置对象属性值,无视private/protected修饰符,不经过setter函数.
+     */
+    private static void setFieldValue(final Object object, final String fieldName, final Object
+            value) {
+        Field field = getDeclaredField(object, fieldName);
+        if (field == null)
+            throw new IllegalArgumentException("Could not find field [" + fieldName + "] on " +
+                    "target [" + object + "]");
+        makeAccessible(field);
+        try {
+            field.set(object, value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refreshProgress() {
+        mProgressBar.setMax(mProgressParams.max);
+        mProgressBar.setProgress(mProgressParams.progress);
+        mProgressBar.setSecondaryProgress(mProgressParams.progress + 10);
+        onProgressChanged();
+    }
+
     private void init() {
         setOrientation(LinearLayout.VERTICAL);
 
@@ -63,7 +121,8 @@ final class BodyProgressView extends LinearLayout {
         mTextView.setTypeface(mTextView.getTypeface(), mProgressParams.styleText);
         int[] padding = mProgressParams.padding;
         if (padding != null) {
-            mTextView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+            mTextView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
+                    , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
         }
         addView(mTextView);
 
@@ -123,69 +182,15 @@ final class BodyProgressView extends LinearLayout {
             mProgressParams.progressHeight = CircleDimen.PROGRESS_HEIGHT_SPINNER;
         }
 
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, mProgressParams
-                .progressHeight);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT
+                , Controller.dp2px(getContext(), mProgressParams.progressHeight));
         int[] margins = mProgressParams.margins;
-        if (margins != null)
-            layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
+        if (margins != null) {
+            layoutParams.setMargins(Controller.dp2px(getContext(), margins[0])
+                    , Controller.dp2px(getContext(), margins[1])
+                    , Controller.dp2px(getContext(), margins[2]), Controller.dp2px(getContext(), margins[3]));
+        }
         addView(mProgressBar, layoutParams);
-    }
-
-    /**
-     * 直接设置对象属性值,无视private/protected修饰符,不经过setter函数.
-     */
-    private static void setFieldValue(final Object object, final String fieldName, final Object
-            value) {
-        Field field = getDeclaredField(object, fieldName);
-        if (field == null)
-            throw new IllegalArgumentException("Could not find field [" + fieldName + "] on " +
-                    "target [" + object + "]");
-        makeAccessible(field);
-        try {
-            field.set(object, value);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 循环向上转型,获取对象的DeclaredField.
-     */
-    protected static Field getDeclaredField(final Object object, final String fieldName) {
-        return getDeclaredField(object.getClass(), fieldName);
-    }
-
-    /**
-     * 强制转换fileld可访问.
-     */
-    protected static void makeAccessible(Field field) {
-        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
-                .getDeclaringClass().getModifiers())) {
-            field.setAccessible(true);
-        }
-    }
-
-    /**
-     * 循环向上转型,获取类的DeclaredField.
-     */
-    @SuppressWarnings("unchecked")
-    protected static Field getDeclaredField(final Class clazz, final String fieldName) {
-        for (Class superClass = clazz; superClass != Object.class; superClass = superClass
-                .getSuperclass()) {
-            try {
-                return superClass.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();// Field不在当前类定义,继续向上转型
-            }
-        }
-        return null;
-    }
-
-    public void refreshProgress() {
-        mProgressBar.setMax(mProgressParams.max);
-        mProgressBar.setProgress(mProgressParams.progress);
-        mProgressBar.setSecondaryProgress(mProgressParams.progress + 10);
-        onProgressChanged();
     }
 
     private void onProgressChanged() {

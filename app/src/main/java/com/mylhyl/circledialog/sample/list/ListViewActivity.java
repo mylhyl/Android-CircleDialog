@@ -76,7 +76,7 @@ public class ListViewActivity extends AppCompatActivity {
                             @Override
                             public void onConfig(PopupParams params) {
                                 params.textGravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
-                                params.padding = new int[]{50, 0, 20, 0};
+                                params.padding = new int[]{19, 0, 8, 0};
                                 params.textColor = Color.WHITE;
                             }
                         })

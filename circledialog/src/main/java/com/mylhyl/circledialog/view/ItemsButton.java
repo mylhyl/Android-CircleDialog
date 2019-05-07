@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
@@ -41,8 +42,66 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         init();
     }
 
+    @Override
+    public void regNegativeListener(OnClickListener onClickListener) {
+        if (mNegativeButton != null) {
+            mNegativeButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    @Override
+    public void regPositiveListener(OnClickListener onClickListener) {
+        if (mPositiveButton != null) {
+            mPositiveButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    @Override
+    public void regNeutralListener(OnClickListener onClickListener) {
+        if (mNeutralButton != null) {
+            mNeutralButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    public void refreshText() {
+        if (mNegativeParams == null || mNegativeButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleNegativeStyle();
+            }
+        });
+
+        if (mPositiveParams == null || mPositiveButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handlePositiveStyle();
+            }
+        });
+
+
+        if (mNeutralParams == null || mNeutralButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleNeutralStyle();
+            }
+        });
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
+    }
+
     private void init() {
-        int radius = mDialogParams.radius;
+        int radius = Controller.dp2px(getContext(), mDialogParams.radius);
 
         int backgroundNegative = 0;
         int backgroundNeutral = 0;
@@ -80,10 +139,11 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         if (mNegativeButton != null && mNegativeParams != null) {
             //右边没按钮则右下是圆角
             int rightRadius = (mNeutralButton == null && mPositiveButton == null) ? radius : 0;
+            int pxRightRadius = Controller.dp2px(getContext(), rightRadius);
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
                     , mNegativeParams.backgroundColorPress != 0
                     ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                    , radius, rightRadius, rightRadius, radius);
+                    , radius, pxRightRadius, pxRightRadius, radius);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNegativeButton.setBackground(selectorBtn);
             } else {
@@ -93,10 +153,11 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         if (mPositiveButton != null && mPositiveParams != null) {
             //左边没按钮则左下是圆角
             int leftRadius = (mNegativeButton == null && mNeutralButton == null) ? radius : 0;
+            int pxLeftRadius = Controller.dp2px(getContext(), leftRadius);
             CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
                     , mPositiveParams.backgroundColorPress != 0
                     ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                    , leftRadius, radius, radius, leftRadius);
+                    , pxLeftRadius, radius, radius, pxLeftRadius);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mPositiveButton.setBackground(selectorBtn);
             } else {
@@ -129,7 +190,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的上距离
         if (mNegativeParams.topMargin > 0) {
-            params.topMargin = mNegativeParams.topMargin;
+            params.topMargin = Controller.dp2px(getContext(), mNegativeParams.topMargin);
         }
         mNegativeButton.setLayoutParams(params);
         handleNegativeStyle();
@@ -147,7 +208,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的上距离
         if (mNeutralParams.topMargin > 0) {
-            params.topMargin = mNeutralParams.topMargin;
+            params.topMargin = Controller.dp2px(getContext(), mNegativeParams.topMargin);
         }
         mNeutralButton.setLayoutParams(params);
         handleNeutralStyle();
@@ -160,7 +221,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的上距离
         if (mPositiveParams.topMargin > 0) {
-            params.topMargin = mPositiveParams.topMargin;
+            params.topMargin = Controller.dp2px(getContext(), mPositiveParams.topMargin);
         }
         mPositiveButton.setLayoutParams(params);
         handlePositiveStyle();
@@ -174,7 +235,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         mNegativeButton.setTextColor(mNegativeParams.disable ?
                 mNegativeParams.textColorDisable : mNegativeParams.textColor);
         mNegativeButton.setTextSize(mNegativeParams.textSize);
-        mNegativeButton.setHeight(mNegativeParams.height);
+        mNegativeButton.setHeight(Controller.dp2px(getContext(), mNegativeParams.height));
         mNegativeButton.setTypeface(mNegativeButton.getTypeface(), mNegativeParams.styleText);
     }
 
@@ -185,7 +246,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         mNeutralButton.setTextColor(mNeutralParams.disable ?
                 mNeutralParams.textColorDisable : mNeutralParams.textColor);
         mNeutralButton.setTextSize(mNeutralParams.textSize);
-        mNeutralButton.setHeight(mNeutralParams.height);
+        mNeutralButton.setHeight(Controller.dp2px(getContext(), mNeutralParams.height));
         mNeutralButton.setTypeface(mNeutralButton.getTypeface(), mNeutralParams.styleText);
     }
 
@@ -196,66 +257,7 @@ final class ItemsButton extends LinearLayout implements ButtonView {
         mPositiveButton.setTextColor(mPositiveParams.disable ?
                 mPositiveParams.textColorDisable : mPositiveParams.textColor);
         mPositiveButton.setTextSize(mPositiveParams.textSize);
-        mPositiveButton.setHeight(mPositiveParams.height);
+        mPositiveButton.setHeight(Controller.dp2px(getContext(), mPositiveParams.height));
         mPositiveButton.setTypeface(mPositiveButton.getTypeface(), mPositiveParams.styleText);
-    }
-
-    @Override
-    public void regNegativeListener(OnClickListener onClickListener) {
-        if (mNegativeButton != null) {
-            mNegativeButton.setOnClickListener(onClickListener);
-        }
-    }
-
-    @Override
-    public void regPositiveListener(OnClickListener onClickListener) {
-        if (mPositiveButton != null) {
-            mPositiveButton.setOnClickListener(onClickListener);
-        }
-    }
-
-    @Override
-    public void regNeutralListener(OnClickListener onClickListener) {
-        if (mNeutralButton != null) {
-            mNeutralButton.setOnClickListener(onClickListener);
-        }
-    }
-
-
-    public void refreshText() {
-        if (mNegativeParams == null || mNegativeButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handleNegativeStyle();
-            }
-        });
-
-        if (mPositiveParams == null || mPositiveButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handlePositiveStyle();
-            }
-        });
-
-
-        if (mNeutralParams == null || mNeutralButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handleNeutralStyle();
-            }
-        });
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
     }
 }

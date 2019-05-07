@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.Controller.OnDialogInternalListener;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.PopupParams;
@@ -190,9 +191,11 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             mTriangleLinearLayout = new LinearLayout(mContext);
             mTriangleLinearLayout.setGravity(mTriangleGravity);
             if (mTriangleDirection == Gravity.TOP || mTriangleDirection == Gravity.BOTTOM) {
-                mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams
+                        .WRAP_CONTENT));
             } else {
-                mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+                mTriangleLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams
+                        .MATCH_PARENT));
             }
             mTriangleView = new View(mContext);
             mTriangleLinearLayout.addView(mTriangleView);
@@ -253,8 +256,8 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                 triangleViewLayoutParams.height = triangleWidth;
             } else {
                 int[] triangleSize = popupParams.triangleSize;
-                triangleViewLayoutParams.width = triangleSize[0];
-                triangleViewLayoutParams.height = triangleSize[1];
+                triangleViewLayoutParams.width = Controller.dp2px(mContext, triangleSize[0]);
+                triangleViewLayoutParams.height = Controller.dp2px(mContext, triangleSize[1]);
             }
 
             if (bottom != 0 && oldBottom != 0 && bottom == oldBottom) {
@@ -309,13 +312,13 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         if (screenHeight - location[1] < popupHeight) {
 
         }
-
+        int pxTriangleOffSet = Controller.dp2px(mContext, triangleOffSet);
         int dialogX = triangleDirection == Gravity.TOP || triangleDirection == Gravity.BOTTOM
                 ? view.getWidth() / 2 : view.getWidth();
         if (triangleGravity == Gravity.LEFT) {
-            dialogX += location[0] - triangleSize / 2 - triangleOffSet;
+            dialogX += location[0] - triangleSize / 2 - pxTriangleOffSet;
         } else if (triangleGravity == Gravity.RIGHT) {
-            dialogX = screenWidth - location[0] - dialogX - triangleSize / 2 - triangleOffSet;
+            dialogX = screenWidth - location[0] - dialogX - triangleSize / 2 - pxTriangleOffSet;
         } else if (triangleGravity == Gravity.CENTER_HORIZONTAL) {
             dialogX = -1 * (screenWidth / 2 - location[0]) + dialogX;
         } else {
@@ -325,9 +328,9 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
 
         int dialogY;
         if (triangleGravity == Gravity.TOP) {
-            dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - triangleSize / 2 - triangleOffSet;
+            dialogY = location[1] - mStatusBarHeight + view.getHeight() / 2 - triangleSize / 2 - pxTriangleOffSet;
         } else if (triangleGravity == Gravity.BOTTOM) {
-            dialogY = screenHeight - location[1] - view.getHeight() / 2 - triangleSize / 2 - triangleOffSet;
+            dialogY = screenHeight - location[1] - view.getHeight() / 2 - triangleSize / 2 - pxTriangleOffSet;
         } else if (triangleGravity == Gravity.CENTER_VERTICAL) {
             dialogY = -1 * (screenHeight / 2 - location[1]) - mStatusBarHeight / 2 + view.getHeight() / 2;
         } else {

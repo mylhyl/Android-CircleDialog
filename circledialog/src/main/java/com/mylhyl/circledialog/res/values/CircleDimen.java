@@ -3,17 +3,17 @@ package com.mylhyl.circledialog.res.values;
 /**
  * Created by hupei on 2017/3/29.
  */
-public class CircleDimen {
+public final class CircleDimen {
 
     /**
      * 对话框圆角
      */
-    public static int DIALOG_RADIUS = 18;
+    public static int DIALOG_RADIUS = 7;
 
     /**
      * 标题文字内间距
      */
-    public static int[] TITLE_PADDING = {29, 29, 29, 0};
+    public static int[] TITLE_PADDING = {11, 11, 11, 0};
 
     /**
      * 标题字体大小
@@ -28,12 +28,12 @@ public class CircleDimen {
     /**
      * 副标题文字内间距
      */
-    public static int[] SUBTITLE_PADDING = {29, 29, 29, 0};
+    public static int[] SUBTITLE_PADDING = {11, 11, 11, 0};
 
     /**
      * 文本对话框的内间距
      */
-    public static int[] TEXT_PADDING = {29, 29, 29, 29};
+    public static int[] TEXT_PADDING = {11, 11, 11, 11};
 
     /**
      * 文本对话框的内容高度
@@ -53,87 +53,87 @@ public class CircleDimen {
     /**
      * 列表每行高度
      */
-    public static int ITEM_HEIGHT = 120;
+    public static int ITEM_HEIGHT = 46;
 
     /**
      * 列表文字内间距
      */
-    public static int[] ITEM_TEXT_PADDING = {12, 0, 12, 0};
+    public static int[] ITEM_TEXT_PADDING = {5, 0, 5, 0};
 
     /**
-     * 输入框的文体大小
+     * 输入框的文体大小 sp
      */
     public static int INPUT_TEXT_SIZE = 15;
 
     /**
-     * 底部按钮高度
+     * 底部按钮高度 dp
      */
-    public static int FOOTER_BUTTON_HEIGHT = 120;
+    public static int FOOTER_BUTTON_HEIGHT = 46;
 
     /**
-     * 底部按钮字体大小
+     * 底部按钮字体大小 sp
      */
     public static int FOOTER_BUTTON_TEXT_SIZE = 16;
 
     /**
      * 列表模式底部按钮与列表的距离
      */
-    public static int BUTTON_ITEMS_MARGIN = 15;
+    public static int BUTTON_ITEMS_MARGIN = 6;
 
     /**
-     * 输入框的高
+     * 输入框的高 dp
      */
-    public static int INPUT_HEIGHT = 200;
+    public static int INPUT_HEIGHT = 77;
 
     /**
      * 水平进度条高度
      */
-    public static int PROGRESS_HEIGHT_HORIZONTAL = 10;
+    public static int PROGRESS_HEIGHT_HORIZONTAL = 4;
 
     /**
      * 转换进度条高度
      */
-    public static int PROGRESS_HEIGHT_SPINNER = 47;
-    public static int[] PROGRESS_MARGINS = {12, 26, 12, 26};
-    public static int[] PROGRESS_TEXT_PADDING = {0, 0, 0, 26};
+    public static int PROGRESS_HEIGHT_SPINNER = 18;
+    public static int[] PROGRESS_MARGINS = {5, 10, 5, 10};
+    public static int[] PROGRESS_TEXT_PADDING = {0, 0, 0, 10};
 
     /**
-     * 输入框的边距
+     * 输入框与body视图的外边离 dp
      */
-    public static int[] INPUT_MARGINS = {29, 12, 29, 24};
+    public static int[] INPUT_MARGINS = {11, 5, 11, 9};
 
     /**
-     * 输入框的内间距
+     * 输入框的内间距 dp
      */
-    public static int[] INPUT_PADDING = {12, 12, 12, 12};
+    public static int[] INPUT_PADDING = {5, 5, 5, 5};
 
     /**
-     * 输入框计数器的边距
+     * 输入框计数器的边距 dp
      */
-    public static int[] INPUT_COUNTER_MARGINS = {6, 6};
+    public static int[] INPUT_COUNTER_MARGINS = {4, 2};
 
     /**
-     * 输入框计数器的字体大小
+     * 输入框计数器的字体大小 sp
      */
     public static int INPUT_COUNTER__TEXT_SIZE = 12;
 
     /**
      * lottie动画下文字的边距
      */
-    public static int[] LOTTIE_TEXT_MARGINS = {0, 35, 0, 18};
+    public static int[] LOTTIE_TEXT_MARGINS = {0, 14, 0, 7};
 
     /**
-     * lottie动画的高度
+     * lottie动画的高度 dp
      */
-    public static int LOTTIE_HEIGHT = 159;
+    public static int LOTTIE_HEIGHT = 61;
 
     /**
-     * lottie动画宽度
+     * lottie动画宽度 dp
      */
-    public static int LOTTIE_WIDTH = 159;
+    public static int LOTTIE_WIDTH = 61;
 
     /**
-     * 加载框文字大小
+     * 加载框文字大小 sp
      */
     public static int LOADING_TEXT_SIZE = 15;
 

@@ -36,6 +36,9 @@ public class ItemsParams implements Parcelable {
      * item高度
      */
     public int itemHeight = CircleDimen.ITEM_HEIGHT;
+    /**
+     * 分隔线 dp
+     */
     public int dividerHeight = 1;
     /**
      * item内间距

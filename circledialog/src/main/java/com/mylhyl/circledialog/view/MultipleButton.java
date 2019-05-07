@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
@@ -39,6 +40,65 @@ class MultipleButton extends LinearLayout implements ButtonView {
         mNeutralParams = neutralParams;
         mOnCreateButtonListener = createButtonListener;
         init();
+    }
+
+    @Override
+    public void regNegativeListener(OnClickListener onClickListener) {
+        if (mNegativeButton != null) {
+            mNegativeButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    @Override
+    public void regPositiveListener(OnClickListener onClickListener) {
+        if (mPositiveButton != null) {
+            mPositiveButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    @Override
+    public void regNeutralListener(OnClickListener onClickListener) {
+        if (mNeutralButton != null) {
+            mNeutralButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    @Override
+    public void refreshText() {
+        if (mNegativeParams == null || mNegativeButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleNegativeStyle();
+            }
+        });
+
+        if (mPositiveParams == null || mPositiveButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handlePositiveStyle();
+            }
+        });
+
+
+        if (mNeutralParams == null || mNeutralButton == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                handleNeutralStyle();
+            }
+        });
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
     }
 
     private void init() {
@@ -148,7 +208,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
         mNegativeButton.setTextColor(mNegativeParams.disable ?
                 mNegativeParams.textColorDisable : mNegativeParams.textColor);
         mNegativeButton.setTextSize(mNegativeParams.textSize);
-        mNegativeButton.setHeight(mNegativeParams.height);
+        mNegativeButton.setHeight(Controller.dp2px(getContext(), mNegativeParams.height));
         mNegativeButton.setTypeface(mNegativeButton.getTypeface(), mNegativeParams.styleText);
     }
 
@@ -159,7 +219,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
         mNeutralButton.setTextColor(mNeutralParams.disable ?
                 mNeutralParams.textColorDisable : mNeutralParams.textColor);
         mNeutralButton.setTextSize(mNeutralParams.textSize);
-        mNeutralButton.setHeight(mNeutralParams.height);
+        mNeutralButton.setHeight(Controller.dp2px(getContext(), mNeutralParams.height));
         mNeutralButton.setTypeface(mNeutralButton.getTypeface(), mNeutralParams.styleText);
     }
 
@@ -170,66 +230,7 @@ class MultipleButton extends LinearLayout implements ButtonView {
         mPositiveButton.setTextColor(mPositiveParams.disable ?
                 mPositiveParams.textColorDisable : mPositiveParams.textColor);
         mPositiveButton.setTextSize(mPositiveParams.textSize);
-        mPositiveButton.setHeight(mPositiveParams.height);
+        mPositiveButton.setHeight(Controller.dp2px(getContext(), mPositiveParams.height));
         mPositiveButton.setTypeface(mPositiveButton.getTypeface(), mPositiveParams.styleText);
-    }
-
-    @Override
-    public void regNegativeListener(OnClickListener onClickListener) {
-        if (mNegativeButton != null) {
-            mNegativeButton.setOnClickListener(onClickListener);
-        }
-    }
-
-    @Override
-    public void regPositiveListener(OnClickListener onClickListener) {
-        if (mPositiveButton != null) {
-            mPositiveButton.setOnClickListener(onClickListener);
-        }
-    }
-
-    @Override
-    public void regNeutralListener(OnClickListener onClickListener) {
-        if (mNeutralButton != null) {
-            mNeutralButton.setOnClickListener(onClickListener);
-        }
-    }
-
-    @Override
-    public void refreshText() {
-        if (mNegativeParams == null || mNegativeButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handleNegativeStyle();
-            }
-        });
-
-        if (mPositiveParams == null || mPositiveButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handlePositiveStyle();
-            }
-        });
-
-
-        if (mNeutralParams == null || mNeutralButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handleNeutralStyle();
-            }
-        });
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
     }
 }

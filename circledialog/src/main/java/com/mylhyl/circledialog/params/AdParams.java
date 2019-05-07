@@ -40,9 +40,9 @@ public class AdParams implements Parcelable {
     int pointDrawableResId;
 
     /**
-     * 指示器点左右边距
+     * 指示器点左右边距 dp
      */
-    public int pointLeftRightMargin = 6;
+    public int pointLeftRightMargin = 2;
 
     public AdParams() {
     }

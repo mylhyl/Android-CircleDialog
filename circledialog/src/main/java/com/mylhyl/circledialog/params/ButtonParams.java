@@ -25,7 +25,7 @@ public class ButtonParams implements Parcelable {
         }
     };
     /**
-     * 按钮框与顶部距离
+     * 按钮框与顶部距离 dp
      */
     public int topMargin;
     /**
@@ -33,11 +33,11 @@ public class ButtonParams implements Parcelable {
      */
     public int textColor = CircleColor.FOOTER_BUTTON_TEXT_POSITIVE;
     /**
-     * 按钮文本大小
+     * 按钮文本大小 sp
      */
     public int textSize = CircleDimen.FOOTER_BUTTON_TEXT_SIZE;
     /**
-     * 按钮高度
+     * 按钮高度 dp
      */
     public int height = CircleDimen.FOOTER_BUTTON_HEIGHT;
     /**

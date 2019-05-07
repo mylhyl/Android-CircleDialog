@@ -44,7 +44,7 @@ public class DialogParams implements Parcelable {
      */
     public float width = CircleDimen.DIALOG_WIDTH;
     /**
-     * 对话框与屏幕边距
+     * 对话框与屏幕边距 px
      */
     public int[] mPadding;
     /**
@@ -68,11 +68,11 @@ public class DialogParams implements Parcelable {
      */
     public int radius = CircleDimen.DIALOG_RADIUS;
     /**
-     * 对话框 x 坐标偏移
+     * 对话框 x 坐标偏移 px
      */
     public int xOff;
     /**
-     * 对话框 y 坐标偏移
+     * 对话框 y 坐标偏移 px
      */
     public int yOff = -1;
     /**

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.EmojiFilter;
 import com.mylhyl.circledialog.MaxLengthEnWatcher;
 import com.mylhyl.circledialog.MaxLengthWatcher;
@@ -54,11 +55,21 @@ final class BodyInputView extends RelativeLayout implements InputView {
         init();
     }
 
+    @Override
+    public EditText getInput() {
+        return mEditText;
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
     private void init() {
         int rlPaddingTop = mTitleParams == null ? mSubTitleParams == null
                 ? CircleDimen.TITLE_PADDING[1] : mSubTitleParams.padding[1]
                 : mTitleParams.padding[1];
-        setPadding(0, rlPaddingTop, 0, 0);
+        setPadding(0, Controller.dp2px(getContext(), rlPaddingTop), 0, 0);
 
         //如果标题没有背景色，则使用默认色
         int backgroundColor = mInputParams.backgroundColor != 0
@@ -97,7 +108,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
                         mEditText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         int height = mEditText.getMeasuredHeight();
                         if (mInputParams.inputHeight > height) {
-                            mEditText.setHeight(mInputParams.inputHeight);
+                            mEditText.setHeight(Controller.dp2px(getContext(), mInputParams.inputHeight));
                         }
                     }
                 });
@@ -110,11 +121,12 @@ final class BodyInputView extends RelativeLayout implements InputView {
 
         int backgroundResourceId = mInputParams.inputBackgroundResourceId;
         if (backgroundResourceId == 0) {
+            int strokeWidth = Controller.dp2px(getContext(), mInputParams.strokeWidth);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mEditText.setBackground(new InputDrawable(mInputParams.strokeWidth, mInputParams
+                mEditText.setBackground(new InputDrawable(strokeWidth, mInputParams
                         .strokeColor, mInputParams.inputBackgroundColor));
             } else {
-                mEditText.setBackgroundDrawable(new InputDrawable(mInputParams.strokeWidth,
+                mEditText.setBackgroundDrawable(new InputDrawable(strokeWidth,
                         mInputParams.strokeColor, mInputParams.inputBackgroundColor));
             }
         } else mEditText.setBackgroundResource(backgroundResourceId);
@@ -123,11 +135,14 @@ final class BodyInputView extends RelativeLayout implements InputView {
                 LayoutParams.WRAP_CONTENT);
         int[] margins = mInputParams.margins;
         if (margins != null) {
-            layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
+            layoutParams.setMargins(Controller.dp2px(getContext(), margins[0])
+                    , Controller.dp2px(getContext(), margins[1]), Controller.dp2px(getContext(), margins[2])
+                    , Controller.dp2px(getContext(), margins[3]));
         }
         int[] padding = mInputParams.padding;
         if (padding != null)
-            mEditText.setPadding(padding[0], padding[1], padding[2], padding[3]);
+            mEditText.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
+                    , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
         mEditText.setTypeface(mEditText.getTypeface(), mInputParams.styleText);
 
         addView(mEditText, layoutParams);
@@ -142,8 +157,8 @@ final class BodyInputView extends RelativeLayout implements InputView {
             layoutParamsCounter.addRule(ALIGN_BOTTOM, android.R.id.input);
             if (mInputParams.counterMargins != null) {
                 layoutParamsCounter.setMargins(0, 0
-                        , mInputParams.counterMargins[0]
-                        , mInputParams.counterMargins[1]);
+                        , Controller.dp2px(getContext(), mInputParams.counterMargins[0])
+                        , Controller.dp2px(getContext(), mInputParams.counterMargins[1]));
             }
             mTvCounter = new TextView(getContext());
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
@@ -158,16 +173,6 @@ final class BodyInputView extends RelativeLayout implements InputView {
             }
             addView(mTvCounter, layoutParamsCounter);
         }
-    }
-
-    @Override
-    public EditText getInput() {
-        return mEditText;
-    }
-
-    @Override
-    public View getView() {
-        return this;
     }
 
 }

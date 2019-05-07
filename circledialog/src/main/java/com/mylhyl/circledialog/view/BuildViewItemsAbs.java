@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
@@ -34,6 +35,15 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
     }
 
     @Override
+    public ButtonView buildButton() {
+        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams
+                , mParams.negativeParams, mParams.positiveParams, mParams.neutralParams
+                , mParams.createButtonListener);
+        mRoot.addView(itemsButton);
+        return itemsButton;
+    }
+
+    @Override
     protected void buildRootView() {
         LinearLayout rootItem = new LinearLayout(mContext);
         rootItem.setOrientation(LinearLayout.VERTICAL);
@@ -41,12 +51,12 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
         CardView cardView = new CardView(mContext);
         cardView.setCardElevation(0f);
         cardView.setCardBackgroundColor(Color.TRANSPARENT);
-        cardView.setRadius(mParams.dialogParams.radius);
+        cardView.setRadius(Controller.dp2px(mContext, mParams.dialogParams.radius));
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         //设置列表与按钮之间的下距离
-        layoutParams.bottomMargin = mParams.itemsParams.bottomMargin;
+        layoutParams.bottomMargin = Controller.dp2px(mContext, mParams.itemsParams.bottomMargin);
         cardView.setLayoutParams(layoutParams);
 
         rootItem.addView(cardView);
@@ -55,15 +65,6 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
         cardView.addView(rootCardViewByLinearLayout);
 
         mRoot = rootItem;
-    }
-
-    @Override
-    public ButtonView buildButton() {
-        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams
-                , mParams.negativeParams, mParams.positiveParams, mParams.neutralParams
-                , mParams.createButtonListener);
-        mRoot.addView(itemsButton);
-        return itemsButton;
     }
 
 }

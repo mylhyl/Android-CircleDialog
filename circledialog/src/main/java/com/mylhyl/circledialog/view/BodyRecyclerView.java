@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -48,6 +49,33 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         this.mItemsParams = itemsParams;
         this.mDialogParams = dialogParams;
         init();
+    }
+
+    @Override
+    public void refreshItems() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void regOnItemClickListener(AdapterView.OnItemClickListener listener) {
+
+    }
+
+    @Override
+    public void regOnItemClickListener(OnRvItemClickListener listener) {
+        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
+            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
+        }
+    }
+
+    @Override
+    public View getView() {
+        return this;
     }
 
     private void init() {
@@ -136,33 +164,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         setAdapter(mAdapter);
     }
 
-    @Override
-    public void refreshItems() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    @Override
-    public void regOnItemClickListener(AdapterView.OnItemClickListener listener) {
-
-    }
-
-    @Override
-    public void regOnItemClickListener(OnRvItemClickListener listener) {
-        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
-            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
-        }
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
     static class ItemsAdapter<T> extends Adapter<ItemsAdapter.Holder> {
         private OnRvItemClickListener mItemClickListener;
         private Context mContext;
@@ -198,15 +199,19 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                     textView.setLayoutParams(new LayoutParams(
                             LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                     if (mItemsParams.padding != null) {
-                        textView.setPadding(mItemsParams.padding[0], mItemsParams.padding[1]
-                                , mItemsParams.padding[2], mItemsParams.padding[3]);
+                        textView.setPadding(Controller.dp2px(mContext, mItemsParams.padding[0])
+                                , Controller.dp2px(mContext, mItemsParams.padding[1])
+                                , Controller.dp2px(mContext, mItemsParams.padding[2])
+                                , Controller.dp2px(mContext, mItemsParams.padding[3]));
                     } else {
                         textView.setPadding(10, 0, 10, 0);
                     }
                 } else {
                     if (mItemsParams.padding != null) {
-                        textView.setPadding(mItemsParams.padding[0], mItemsParams.padding[1]
-                                , mItemsParams.padding[2], mItemsParams.padding[3]);
+                        textView.setPadding(Controller.dp2px(mContext, mItemsParams.padding[0])
+                                , Controller.dp2px(mContext, mItemsParams.padding[1])
+                                , Controller.dp2px(mContext, mItemsParams.padding[2])
+                                , Controller.dp2px(mContext, mItemsParams.padding[3]));
                     }
                     textView.setLayoutParams(new LayoutParams(
                             LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -223,7 +228,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             textView.setTextColor(mItemsParams.textColor);
             if (mItemsParams.textGravity != Gravity.NO_GRAVITY)
                 textView.setGravity(mItemsParams.textGravity);
-            textView.setHeight(mItemsParams.itemHeight);
+            textView.setHeight(Controller.dp2px(mContext, mItemsParams.itemHeight));
             Holder holder = new Holder(textView, mItemClickListener);
             return holder;
         }
@@ -428,27 +433,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             this.mOrientation = orientation;
         }
 
-        @Override
-        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-            if (mOrientation == LinearLayoutManager.VERTICAL)
-                outRect.set(0, 0, 0, mDividerHeight);
-            else {
-                //最后一列不画
-                if (itemPosition != parent.getAdapter().getItemCount() - 1) {
-                    outRect.set(0, 0, mDividerHeight, 0);
-                }
-            }
-        }
-
-        @Override
-        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-            if (mOrientation == LinearLayoutManager.VERTICAL) {
-                drawVertical(c, parent);
-            } else {
-                drawHorizontal(c, parent);
-            }
-        }
-
         private void drawVertical(Canvas c, RecyclerView parent) {
             int left = parent.getPaddingLeft();
             int right = parent.getWidth() - parent.getPaddingRight();
@@ -476,7 +460,30 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 mDivider.setBounds(left, top, right, bottom);
                 mDivider.draw(c);
             }
+        }        @Override
+        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+            if (mOrientation == LinearLayoutManager.VERTICAL)
+                outRect.set(0, 0, 0, mDividerHeight);
+            else {
+                //最后一列不画
+                if (itemPosition != parent.getAdapter().getItemCount() - 1) {
+                    outRect.set(0, 0, mDividerHeight, 0);
+                }
+            }
         }
+
+
+
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            if (mOrientation == LinearLayoutManager.VERTICAL) {
+                drawVertical(c, parent);
+            } else {
+                drawHorizontal(c, parent);
+            }
+        }
+
+
     }
 
     static class LinearLayoutManagerWrapper extends LinearLayoutManager {

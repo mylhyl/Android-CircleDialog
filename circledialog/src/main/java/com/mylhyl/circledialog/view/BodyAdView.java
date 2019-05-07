@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.view.listener.AdView;
@@ -39,6 +40,32 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
         this.mAdParams = adParams;
         this.mImageLoadEngine = imageLoadEngine;
         init();
+    }
+
+    @Override
+    public void regOnImageClickListener(OnAdItemClickListener listener) {
+        mImageClickListener = listener;
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        position = position % mViews.size();
+        pageSelectedToPoint(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     private void init() {
@@ -93,7 +120,7 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
             LinearLayout.LayoutParams lpPoint = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-            int pointLeftRightMargin = mAdParams.pointLeftRightMargin;
+            int pointLeftRightMargin = Controller.dp2px(getContext(), mAdParams.pointLeftRightMargin);
             lpPoint.setMargins(pointLeftRightMargin, 0, pointLeftRightMargin, 0);
             for (int i = 0; i < mViews.size(); i++) {
                 ImageView imageView = new ImageView(getContext());
@@ -122,32 +149,6 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
             childAt.setSelected(selected);
             childAt.requestLayout();
         }
-    }
-
-    @Override
-    public void regOnImageClickListener(OnAdItemClickListener listener) {
-        mImageClickListener = listener;
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        position = position % mViews.size();
-        pageSelectedToPoint(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     private class PageAdapter extends PagerAdapter {

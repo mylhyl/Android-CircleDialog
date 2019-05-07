@@ -199,11 +199,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newTitleParams() {
-            if (mCircleParams.titleParams == null)
-                mCircleParams.titleParams = new TitleParams();
-        }
-
         public Builder setTitleIcon(@DrawableRes int icon) {
             newTitleParams();
             mCircleParams.titleParams.icon = icon;
@@ -233,11 +228,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newSubTitleParams() {
-            if (mCircleParams.subTitleParams == null)
-                mCircleParams.subTitleParams = new SubTitleParams();
-        }
-
         public Builder setSubTitleColor(@ColorInt int color) {
             newSubTitleParams();
             mCircleParams.subTitleParams.textColor = color;
@@ -254,12 +244,6 @@ public final class CircleDialog {
             newTextParams();
             mCircleParams.textParams.text = text;
             return this;
-        }
-
-        private void newTextParams() {
-            if (mCircleParams.textParams == null) {
-                mCircleParams.textParams = new TextParams();
-            }
         }
 
         public Builder setTextColor(@ColorInt int color) {
@@ -286,12 +270,6 @@ public final class CircleDialog {
             params.items = items;
             mCircleParams.itemListener = listener;
             return this;
-        }
-
-        private void newItemsParams() {
-            if (mCircleParams.itemsParams == null) {
-                mCircleParams.itemsParams = new ItemsParams();
-            }
         }
 
         public Builder setItems(@NonNull BaseAdapter adapter
@@ -370,12 +348,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newProgressParams() {
-            if (mCircleParams.progressParams == null) {
-                mCircleParams.progressParams = new ProgressParams();
-            }
-        }
-
         /**
          * 设置进度条样式
          *
@@ -437,12 +409,6 @@ public final class CircleDialog {
             newInputParams();
             mCircleParams.inputParams.text = text;
             return this;
-        }
-
-        private void newInputParams() {
-            if (mCircleParams.inputParams == null) {
-                mCircleParams.inputParams = new InputParams();
-            }
         }
 
         /**
@@ -547,11 +513,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newPositiveParams() {
-            if (mCircleParams.positiveParams == null)
-                mCircleParams.positiveParams = new ButtonParams();
-        }
-
         public Builder setOnCreateInputListener(OnCreateInputListener listener) {
             mCircleParams.createInputListener = listener;
             return this;
@@ -561,12 +522,6 @@ public final class CircleDialog {
             newLottieParams();
             mCircleParams.lottieParams.animationFileName = animationFileName;
             return this;
-        }
-
-        private void newLottieParams() {
-            if (mCircleParams.lottieParams == null) {
-                mCircleParams.lottieParams = new LottieParams();
-            }
         }
 
         public Builder setLottieAnimation(int animationResId) {
@@ -653,13 +608,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newNegativeParams() {
-            if (mCircleParams.negativeParams == null) {
-                mCircleParams.negativeParams = new ButtonParams();
-                mCircleParams.negativeParams.textColor = CircleColor.FOOTER_BUTTON_TEXT_NEGATIVE;
-            }
-        }
-
         /**
          * 配置取消按钮
          *
@@ -687,11 +635,6 @@ public final class CircleDialog {
             return this;
         }
 
-        private void newNeutralParams() {
-            if (mCircleParams.neutralParams == null)
-                mCircleParams.neutralParams = new ButtonParams();
-        }
-
         /**
          * 配置中间按钮
          *
@@ -715,12 +658,6 @@ public final class CircleDialog {
             params.anchorView = anchorView;
             params.triangleGravity = triangleGravity;
             return this;
-        }
-
-        private void newPopupParams() {
-            if (mCircleParams.popupParams == null) {
-                mCircleParams.popupParams = new PopupParams();
-            }
         }
 
         public Builder configPopup(@NonNull ConfigPopup configPopup) {
@@ -789,17 +726,18 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置关闭按钮图标资源文件id和大小
+         *
+         * @param closeResId 资源文件resId
+         * @param closeSize  大小 dp
+         * @return
+         */
         public Builder setCloseResId(@DrawableRes int closeResId, int closeSize) {
             newCloseParams();
             mCircleParams.closeParams.closeResId = closeResId;
             mCircleParams.closeParams.closeSize = closeSize;
             return this;
-        }
-
-        private void newCloseParams() {
-            if (mCircleParams.closeParams == null) {
-                mCircleParams.closeParams = new CloseParams();
-            }
         }
 
         public Builder setClosePadding(int[] closePadding) {
@@ -814,6 +752,13 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 连接线的宽高度，只有大于0才显示，默认是0
+         *
+         * @param width  dp
+         * @param height dp
+         * @return Builder
+         */
         public Builder setCloseConnector(int width, int height) {
             newCloseParams();
             mCircleParams.closeParams.connectorWidth = width;
@@ -821,6 +766,14 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 连接线的宽高度，只有大于0才显示，默认是0
+         *
+         * @param width
+         * @param height
+         * @param color  线的颜色值 rgb
+         * @return Builder
+         */
         public Builder setCloseConnector(int width, int height, int color) {
             newCloseParams();
             mCircleParams.closeParams.connectorWidth = width;
@@ -832,12 +785,6 @@ public final class CircleDialog {
         public Builder setAdResId(@DrawableRes int resId, OnAdItemClickListener listener) {
             newAdParams();
             return setAdResId(new int[]{resId}, listener);
-        }
-
-        private void newAdParams() {
-            if (mCircleParams.adParams == null) {
-                mCircleParams.adParams = new AdParams();
-            }
         }
 
         public Builder setAdResId(@DrawableRes int[] resIds, OnAdItemClickListener listener) {
@@ -921,6 +868,81 @@ public final class CircleDialog {
         public void refresh() {
             if (mCircleDialog != null) {
                 mCircleDialog.refresh();
+            }
+        }
+
+        private void newTitleParams() {
+            if (mCircleParams.titleParams == null)
+                mCircleParams.titleParams = new TitleParams();
+        }
+
+        private void newSubTitleParams() {
+            if (mCircleParams.subTitleParams == null)
+                mCircleParams.subTitleParams = new SubTitleParams();
+        }
+
+        private void newTextParams() {
+            if (mCircleParams.textParams == null) {
+                mCircleParams.textParams = new TextParams();
+            }
+        }
+
+        private void newItemsParams() {
+            if (mCircleParams.itemsParams == null) {
+                mCircleParams.itemsParams = new ItemsParams();
+            }
+        }
+
+        private void newProgressParams() {
+            if (mCircleParams.progressParams == null) {
+                mCircleParams.progressParams = new ProgressParams();
+            }
+        }
+
+        private void newInputParams() {
+            if (mCircleParams.inputParams == null) {
+                mCircleParams.inputParams = new InputParams();
+            }
+        }
+
+        private void newPositiveParams() {
+            if (mCircleParams.positiveParams == null)
+                mCircleParams.positiveParams = new ButtonParams();
+        }
+
+        private void newLottieParams() {
+            if (mCircleParams.lottieParams == null) {
+                mCircleParams.lottieParams = new LottieParams();
+            }
+        }
+
+        private void newNegativeParams() {
+            if (mCircleParams.negativeParams == null) {
+                mCircleParams.negativeParams = new ButtonParams();
+                mCircleParams.negativeParams.textColor = CircleColor.FOOTER_BUTTON_TEXT_NEGATIVE;
+            }
+        }
+
+        private void newNeutralParams() {
+            if (mCircleParams.neutralParams == null)
+                mCircleParams.neutralParams = new ButtonParams();
+        }
+
+        private void newPopupParams() {
+            if (mCircleParams.popupParams == null) {
+                mCircleParams.popupParams = new PopupParams();
+            }
+        }
+
+        private void newCloseParams() {
+            if (mCircleParams.closeParams == null) {
+                mCircleParams.closeParams = new CloseParams();
+            }
+        }
+
+        private void newAdParams() {
+            if (mCircleParams.adParams == null) {
+                mCircleParams.adParams = new AdParams();
             }
         }
     }

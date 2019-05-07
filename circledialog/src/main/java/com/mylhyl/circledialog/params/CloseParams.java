@@ -49,8 +49,12 @@ public class CloseParams implements Parcelable {
         }
     };
     public int closeResId;
+    /**
+     * 关闭图标的大小 dp
+     */
     public int closeSize;
     /**
+     * 关闭按钮的内间距 dp
      * int left, int top, int right, int bottom
      */
     public int[] closePadding;
@@ -60,15 +64,15 @@ public class CloseParams implements Parcelable {
     public @CloseGravity
     int closeGravity = CLOSE_TOP_RIGHT;
     /**
-     * 与边框的连接线宽度，默认0，只有大于0才显示
+     * 与边框的连接线宽度，默认0，只有大于0才显示 dp
      */
     public int connectorWidth;
     /**
-     * 与边框的连接线高度
+     * 与边框的连接线高度 dp
      */
     public int connectorHeight;
     /**
-     * 与边框的连接线颜色值RGB
+     * 与边框的连接线颜色值 RGB
      */
     public int connectorColor = 0xFFFFFFFF;
 

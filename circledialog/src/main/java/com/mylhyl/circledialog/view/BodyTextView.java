@@ -6,6 +6,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
@@ -26,6 +27,16 @@ final class BodyTextView extends AppCompatTextView {
         mTextParams = textParams;
         mOnCreateTextListener = onCreateTextListener;
         init();
+    }
+
+    public void refreshText() {
+        if (mTextParams == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                setText(mTextParams.text);
+            }
+        });
     }
 
     private void init() {
@@ -50,20 +61,13 @@ final class BodyTextView extends AppCompatTextView {
         setTypeface(getTypeface(), mTextParams.styleText);
 
         int[] padding = mTextParams.padding;
-        if (padding != null) setPadding(padding[0], padding[1], padding[2], padding[3]);
+        if (padding != null) {
+            setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
+                    , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
+        }
 
         if (mOnCreateTextListener != null) {
             mOnCreateTextListener.onCreateText(this);
         }
-    }
-
-    public void refreshText() {
-        if (mTextParams == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                setText(mTextParams.text);
-            }
-        });
     }
 }

@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -41,29 +42,6 @@ final class BodyListView extends ListView implements ItemsView {
         init();
     }
 
-    private void init() {
-
-        //如果没有背景色，则使用默认色
-        this.mBackgroundColor = mItemsParams.backgroundColor != 0
-                ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;
-        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
-                ? mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
-
-        setBackgroundColor(mBackgroundColor);
-
-        CircleDrawableSelector bgItemNotRadius = new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress);
-
-        setSelector(bgItemNotRadius);
-        setDivider(new ColorDrawable(CircleColor.divider));
-        setDividerHeight(mItemsParams.dividerHeight);
-
-        mAdapter = mItemsParams.adapter;
-        if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(getContext(), mItemsParams);
-        }
-        setAdapter(mAdapter);
-    }
-
     @Override
     public void refreshItems() {
         post(new Runnable() {
@@ -87,6 +65,29 @@ final class BodyListView extends ListView implements ItemsView {
     @Override
     public View getView() {
         return this;
+    }
+
+    private void init() {
+
+        //如果没有背景色，则使用默认色
+        this.mBackgroundColor = mItemsParams.backgroundColor != 0
+                ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;
+        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
+                ? mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
+
+        setBackgroundColor(mBackgroundColor);
+
+        CircleDrawableSelector bgItemNotRadius = new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress);
+
+        setSelector(bgItemNotRadius);
+        setDivider(new ColorDrawable(CircleColor.divider));
+        setDividerHeight(mItemsParams.dividerHeight);
+
+        mAdapter = mItemsParams.adapter;
+        if (mAdapter == null) {
+            mAdapter = new ItemsAdapter(getContext(), mItemsParams);
+        }
+        setAdapter(mAdapter);
     }
 
     static class ItemsAdapter<T> extends BaseAdapter {
@@ -136,10 +137,12 @@ final class BodyListView extends ListView implements ItemsView {
                 textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
-                textView.setHeight(mItemsParams.itemHeight);
+                textView.setHeight(Controller.dp2px(mContext, mItemsParams.itemHeight));
                 if (mItemsParams.padding != null) {
-                    textView.setPadding(mItemsParams.padding[0], mItemsParams.padding[1]
-                            , mItemsParams.padding[2], mItemsParams.padding[3]);
+                    textView.setPadding(Controller.dp2px(mContext, mItemsParams.padding[0])
+                            , Controller.dp2px(mContext, mItemsParams.padding[1])
+                            , Controller.dp2px(mContext, mItemsParams.padding[2])
+                            , Controller.dp2px(mContext, mItemsParams.padding[3]));
                 }
                 if (mItemsParams.textGravity != Gravity.NO_GRAVITY)
                     textView.setGravity(mItemsParams.textGravity);

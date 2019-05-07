@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
@@ -36,6 +37,17 @@ final class TitleView extends LinearLayout {
         this.mSubTitleParams = subTitleParams;
         this.mOnCreateTitleListener = createTitleListener;
         init();
+    }
+
+    public void refreshText() {
+        if (mTitleParams == null || mTitleView == null) return;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mTitleView.setText(mTitleParams.text);
+                if (mSubTitleView != null) mSubTitleView.setText(mSubTitleParams.text);
+            }
+        });
     }
 
     private void init() {
@@ -90,14 +102,16 @@ final class TitleView extends LinearLayout {
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mTitleView.setLayoutParams(layoutParamsTitle);
-        if (mTitleParams.height != 0)
-            mTitleView.setHeight(mTitleParams.height);
+        if (mTitleParams.height != 0) {
+            mTitleView.setHeight(Controller.dp2px(getContext(), mTitleParams.height));
+        }
         mTitleView.setTextColor(mTitleParams.textColor);
         mTitleView.setTextSize(mTitleParams.textSize);
         mTitleView.setText(mTitleParams.text);
         int[] padding = mTitleParams.padding;
         if (padding != null)
-            mTitleView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+            mTitleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
+                    , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
         mTitleView.setTypeface(mTitleView.getTypeface(), mTitleParams.styleText);
         mTitleLayout.addView(mTitleView);
         addView(mTitleLayout);
@@ -111,14 +125,17 @@ final class TitleView extends LinearLayout {
             setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
             mSubTitleView.setGravity(mSubTitleParams.gravity);
             if (mSubTitleParams.height != 0) {
-                mSubTitleView.setHeight(mSubTitleParams.height);
+                mSubTitleView.setHeight(Controller.dp2px(getContext(), mSubTitleParams.height));
             }
             mSubTitleView.setTextColor(mSubTitleParams.textColor);
             mSubTitleView.setTextSize(mSubTitleParams.textSize);
             mSubTitleView.setText(mSubTitleParams.text);
             int[] padding = mSubTitleParams.padding;
-            if (padding != null)
-                mSubTitleView.setPadding(padding[0], padding[1], padding[2], padding[3]);
+            if (padding != null) {
+                mSubTitleView.setPadding(Controller.dp2px(getContext(), padding[0])
+                        , Controller.dp2px(getContext(), padding[1]), Controller.dp2px(getContext(), padding[2])
+                        , Controller.dp2px(getContext(), padding[3]));
+            }
             mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
             addView(mSubTitleView);
         }
@@ -128,16 +145,5 @@ final class TitleView extends LinearLayout {
         //如果标题没有背景色，则使用默认色
         int bg = tbg != 0 ? tbg : dbg;
         tvSubTitle.setBackgroundColor(bg);
-    }
-
-    public void refreshText() {
-        if (mTitleParams == null || mTitleView == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mTitleView.setText(mTitleParams.text);
-                if (mSubTitleView != null) mSubTitleView.setText(mSubTitleParams.text);
-            }
-        });
     }
 }

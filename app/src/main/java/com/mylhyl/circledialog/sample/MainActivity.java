@@ -47,7 +47,7 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
     //全局配置
     static {
-        CircleDimen.DIALOG_RADIUS = 20;
+        CircleDimen.DIALOG_RADIUS = 8;
         //CircleColor.
     }
 
@@ -101,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
                 .setAdIndicator(true)
 //                .setAdIndicatorPoint(R.drawable.selector_point)
-                .setCloseResId(R.mipmap.ic_close, 60)//暂时用px，项目中实际用的是dp，这里就不演示了
-                .setClosePadding(new int[]{20, 0, 0, 0})
+                .setCloseResId(R.mipmap.ic_close, 23)
+                .setClosePadding(new int[]{8, 0, 0, 0})
                 .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
-                .setCloseConnector(2, 50)
+                .setCloseConnector(1, 19)
                 .show(getSupportFragmentManager());
     }
 
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("提示人物是什么？")
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
-                        .setInputHeight(300)
+                        .setInputHeight(115)
                         .setInputShowKeyboard(true)
                         .setInputEmoji(true)
                         .setInputCounter(18)
@@ -403,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .setOnCreateTitleListener((titleIcon, title, subTitle) -> {
                             title.setText("重设标题");
-                            titleIcon.setPadding(0, 0, 30, 0);
+                            titleIcon.setPadding(0, 0, 12, 0);
                         })
                         .setSubTitle("副标题")
                         .configSubTitle(params -> {
@@ -536,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("单选")
-                        .configItems(params -> params.bottomMargin = 30)
+                        .configItems(params -> params.bottomMargin = 12)
                         .setItems(checkedAdapterR, (parent, view15, position15, id) -> {
                             checkedAdapterR.toggle(position15, objectsR[position15]);
                             return false;
@@ -585,7 +585,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                     @Override
                     protected void convert(BaseViewHolder helper, WeiBoItem item) {
                         TextView textView = helper.getView(android.R.id.text1);
-                        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
                         textView.setText(item.getTitle());
                         textView.setTextColor(Color.BLACK);
                         textView.setCompoundDrawablesWithIntrinsicBounds(null, item.getIcon(), null, null);
@@ -653,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("Rv Horizontal")
-                        .configItems(params -> params.dividerHeight = 5)
+                        .configItems(params -> params.dividerHeight = 2)
                         .setItems(rvListForH, new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                                 , (view13, position13) -> {
                                     Toast.makeText(MainActivity.this
@@ -668,16 +667,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 20:
                 new CircleDialog.Builder()
                         .setWidth(0.5f)
-                        .setCloseResId(R.mipmap.ic_close, 70)
+                        .setCloseResId(R.mipmap.ic_close, 27)
                         .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
-                        .setClosePadding(new int[]{0, 40, 0, 0})
-                        .setAdResId(R.mipmap.ic_zfbxcc, new OnAdItemClickListener() {
-                            @Override
-                            public boolean onItemClick(View view, int position) {
-                                Toast.makeText(MainActivity.this, "点击了"
-                                        , Toast.LENGTH_SHORT).show();
-                                return true;
-                            }
+                        .setClosePadding(new int[]{0, 15, 0, 0})
+                        .setAdResId(R.mipmap.ic_zfbxcc, (view18, position18) -> {
+                            Toast.makeText(MainActivity.this, "点击了"
+                                    , Toast.LENGTH_SHORT).show();
+                            return true;
                         })
                         .show(getSupportFragmentManager());
                 break;

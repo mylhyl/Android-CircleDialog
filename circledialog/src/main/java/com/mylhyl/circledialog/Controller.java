@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -30,7 +31,7 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
  * Created by hupei on 2017/3/29.
  */
 
-public class Controller {
+public final class Controller {
 
     private Context mContext;
     private CircleParams mParams;
@@ -41,6 +42,11 @@ public class Controller {
         this.mContext = context;
         this.mParams = params;
         this.mOnDialogInternalListener = dialogInternalListener;
+    }
+
+    public static int dp2px(Context context, float value) {
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value
+                , context.getResources().getDisplayMetrics()) + 0.5f);
     }
 
     public void createView() {
@@ -182,6 +188,29 @@ public class Controller {
         }
     }
 
+    public void refreshView() {
+        mCreateView.refreshTitle();
+        mCreateView.refreshContent();
+        mCreateView.refreshButton();
+        //刷新时带动画
+        if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
+            getView().post(new Runnable() {
+                @Override
+                public void run() {
+                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
+                            .dialogParams
+                            .refreshAnimation);
+                    if (animation != null) {
+                        getView().startAnimation(animation);
+                    }
+                }
+            });
+    }
+
+    View getView() {
+        return mCreateView.getRootView();
+    }
+
     private void regNegativeListener(final ButtonView viewButton) {
         viewButton.regNegativeListener(new View.OnClickListener() {
             @Override
@@ -232,29 +261,6 @@ public class Controller {
                 mOnDialogInternalListener.dialogDismiss();
             }
         });
-    }
-
-    public void refreshView() {
-        mCreateView.refreshTitle();
-        mCreateView.refreshContent();
-        mCreateView.refreshButton();
-        //刷新时带动画
-        if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
-            getView().post(new Runnable() {
-                @Override
-                public void run() {
-                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
-                            .dialogParams
-                            .refreshAnimation);
-                    if (animation != null) {
-                        getView().startAnimation(animation);
-                    }
-                }
-            });
-    }
-
-    View getView() {
-        return mCreateView.getRootView();
     }
 
     public interface OnDialogInternalListener {

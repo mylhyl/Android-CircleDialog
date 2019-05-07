@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.mylhyl.circledialog.BuildView;
 import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.CloseView;
@@ -38,39 +39,6 @@ abstract class BuildViewAbs implements BuildView {
     public BuildViewAbs(Context context, CircleParams params) {
         this.mContext = context;
         this.mParams = params;
-    }
-
-    protected final void buildTitleView() {
-        if (mParams.titleParams != null) {
-            mTitleView = new TitleView(mContext, mParams.dialogParams, mParams.titleParams, mParams.subTitleParams
-                    , mParams.createTitleListener);
-            mRootCardViewByLinearLayout.addView(mTitleView);
-        }
-    }
-
-    protected final View layoutInflaterFrom(int resource) {
-        return LayoutInflater.from(mContext).inflate(resource, mRootCardViewByLinearLayout, false);
-    }
-
-    protected void buildRootView() {
-        CardView cardView = buildCardView();
-        buildLinearLayout();
-        cardView.addView(mRootCardViewByLinearLayout);
-        mRoot = cardView;
-    }
-
-    protected CardView buildCardView() {
-        CardView cardView = new CardView(mContext);
-        cardView.setCardElevation(0f);
-        cardView.setCardBackgroundColor(Color.TRANSPARENT);
-        cardView.setRadius(mParams.dialogParams.radius);
-        return cardView;
-    }
-
-    protected LinearLayout buildLinearLayout() {
-        mRootCardViewByLinearLayout = new LinearLayout(mContext);
-        mRootCardViewByLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        return mRootCardViewByLinearLayout;
     }
 
     @Override
@@ -131,7 +99,40 @@ abstract class BuildViewAbs implements BuildView {
         return closeView;
     }
 
+    protected final void buildTitleView() {
+        if (mParams.titleParams != null) {
+            mTitleView = new TitleView(mContext, mParams.dialogParams, mParams.titleParams, mParams.subTitleParams
+                    , mParams.createTitleListener);
+            mRootCardViewByLinearLayout.addView(mTitleView);
+        }
+    }
+
+    protected final View layoutInflaterFrom(int resource) {
+        return LayoutInflater.from(mContext).inflate(resource, mRootCardViewByLinearLayout, false);
+    }
+
     protected final void addViewByBody(View child) {
         mRootCardViewByLinearLayout.addView(child);
+    }
+
+    protected void buildRootView() {
+        CardView cardView = buildCardView();
+        buildLinearLayout();
+        cardView.addView(mRootCardViewByLinearLayout);
+        mRoot = cardView;
+    }
+
+    protected CardView buildCardView() {
+        CardView cardView = new CardView(mContext);
+        cardView.setCardElevation(0f);
+        cardView.setCardBackgroundColor(Color.TRANSPARENT);
+        cardView.setRadius(Controller.dp2px(mContext, mParams.dialogParams.radius));
+        return cardView;
+    }
+
+    protected LinearLayout buildLinearLayout() {
+        mRootCardViewByLinearLayout = new LinearLayout(mContext);
+        mRootCardViewByLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        return mRootCardViewByLinearLayout;
     }
 }

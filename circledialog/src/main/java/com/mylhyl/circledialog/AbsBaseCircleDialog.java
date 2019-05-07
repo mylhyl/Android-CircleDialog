@@ -126,44 +126,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         }
     }
 
-    /**
-     * 对话框配置
-     *
-     * @param dialog
-     */
-    private void setDialogGravity(Dialog dialog) {
-        Window window = dialog.getWindow();
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        int screenWidth = mSystemBarConfig.getScreenWidth();
-        if (mWidth > 0 && mWidth <= 1) {
-            wlp.width = (int) (screenWidth * mWidth);//宽度按屏幕大小的百分比设置
-        } else {
-            wlp.width = (int) mWidth;
-        }
-        wlp.gravity = mGravity;
-        wlp.x = mX;
-        wlp.y = mY;
-        //边距
-        if (mPadding != null) {
-            int[] padding = mPadding;
-            wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            window.getDecorView().setPadding(padding[0], padding[1], padding[2], padding[3]);
-        }
-        window.setAttributes(wlp);
-        //动画
-        if (mAnimStyle != 0) {
-            window.setWindowAnimations(mAnimStyle);
-        }
-
-        //背景灰暗
-        if (isDimEnabled) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        }
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -194,15 +156,19 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = createView(getContext(), inflater, container);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(new CircleDrawable(mBackgroundColor, mRadius));
+            view.setBackground(new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius)));
         } else {
-            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, mRadius));
+            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius)));
         }
         view.setAlpha(mAlpha);
         return view;
     }
 
     public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
+
+    public SystemBarConfig getSystemBarConfig() {
+        return mSystemBarConfig;
+    }
 
     /**
      * 设置对话框位置
@@ -336,7 +302,41 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    public SystemBarConfig getSystemBarConfig() {
-        return mSystemBarConfig;
+    /**
+     * 对话框配置
+     *
+     * @param dialog
+     */
+    private void setDialogGravity(Dialog dialog) {
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        int screenWidth = mSystemBarConfig.getScreenWidth();
+        if (mWidth > 0 && mWidth <= 1) {
+            wlp.width = (int) (screenWidth * mWidth);//宽度按屏幕大小的百分比设置
+        } else {
+            wlp.width = (int) mWidth;
+        }
+        wlp.gravity = mGravity;
+        wlp.x = mX;
+        wlp.y = mY;
+        //边距
+        if (mPadding != null) {
+            int[] padding = mPadding;
+            wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            window.getDecorView().setPadding(padding[0], padding[1], padding[2], padding[3]);
+        }
+        window.setAttributes(wlp);
+        //动画
+        if (mAnimStyle != 0) {
+            window.setWindowAnimations(mAnimStyle);
+        }
+
+        //背景灰暗
+        if (isDimEnabled) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }
     }
 }
