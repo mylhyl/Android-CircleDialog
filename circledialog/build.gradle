@@ -25,12 +25,12 @@ android {
 }
 
 dependencies {
-    compileOnly rootProject.ext.dependencies.appcompatV7
-    compileOnly rootProject.ext.dependencies.recyclerview
-    compileOnly rootProject.ext.dependencies.cardview
-    compileOnly rootProject.ext.dependencies.lottie
-    compileOnly rootProject.ext.dependencies.glide
-    compileOnly rootProject.ext.dependencies.picasso
+    compileOnly rootProject.ext.desp.appcompat
+    compileOnly rootProject.ext.desp.recyclerview
+    compileOnly rootProject.ext.desp.cardview
+    compileOnly rootProject.ext.desp.lottie
+    compileOnly rootProject.ext.desp.glide
+    compileOnly rootProject.ext.desp.picasso
 }
 
 publish {

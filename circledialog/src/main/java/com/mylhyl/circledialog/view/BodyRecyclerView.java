@@ -53,12 +53,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
 
     @Override
     public void refreshItems() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
