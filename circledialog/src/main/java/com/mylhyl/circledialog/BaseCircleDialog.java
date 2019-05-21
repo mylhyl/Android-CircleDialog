@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,9 +18,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
@@ -59,7 +58,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
     private float mAlpha = 1f;//对话框透明度，范围：0-1；1不透明
     private int mX, mY;
-    private View.OnLayoutChangeListener mOnLayoutChangeListener;
 
     public BaseCircleDialog() {
     }
@@ -75,35 +73,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
         }
         view.setAlpha(mAlpha);
         return view;
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (mMaxHeight > 0) {
-            mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    int height = v.getHeight();
-                    DisplayMetrics dm = getDisplayMetrics();
-                    int maxHeight = (int) (dm.heightPixels * mMaxHeight);
-                    if (height > maxHeight) {
-                        view.setLayoutParams(new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                                , maxHeight));
-                    }
-                }
-            };
-            view.addOnLayoutChangeListener(mOnLayoutChangeListener);
-        }
-    }
-
-    @NonNull
-    private DisplayMetrics getDisplayMetrics() {
-        //获取屏幕宽
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return dm;
     }
 
     public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
@@ -143,16 +112,28 @@ public abstract class BaseCircleDialog extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        View view = getView();
-        if (view != null && mOnLayoutChangeListener != null) {
-            view.removeOnLayoutChangeListener(mOnLayoutChangeListener);
-        }
         super.onDismiss(dialog);
         remove();
     }
 
     @Override
     public void onStart() {
+        if (getView() != null && mMaxHeight > 0) {
+            getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int height = getView().getHeight();
+                    int screenHeight = getDisplayMetrics().heightPixels;
+                    int maxHeight = (int) (screenHeight * mMaxHeight);
+                    if (height > maxHeight) {
+                        getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        getView().setLayoutParams(new FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+                    }
+                }
+            });
+        }
+
         Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside);
@@ -178,36 +159,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
         outState.putFloat(SAVED_ALPHA, mAlpha);
         outState.putInt(SAVED_X, mX);
         outState.putInt(SAVED_Y, mY);
-    }
-
-    /**
-     * 对话框配置
-     *
-     * @param dialog
-     */
-    private void setDialogGravity(Dialog dialog) {
-        Window window = dialog.getWindow();
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        DisplayMetrics dm = getDisplayMetrics();
-        wlp.width = (int) (dm.widthPixels * mWidth);//宽度按屏幕大小的百分比设置
-        wlp.gravity = mGravity;
-        wlp.x = mX;
-        wlp.y = mY;
-        //边距
-        if (mPadding != null) {
-            int[] padding = mPadding;
-            wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            window.getDecorView().setPadding(ScaleUtils.scaleValue(padding[0]), ScaleUtils
-                    .scaleValue(padding[1]), ScaleUtils.scaleValue(padding[2]), ScaleUtils
-                    .scaleValue(padding[3]));
-        }
-        //动画
-        if (mAnimStyle != 0) window.setWindowAnimations(mAnimStyle);
-
-        if (isDimEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        else window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        window.setAttributes(wlp);
     }
 
     public void remove() {
@@ -285,7 +236,6 @@ public abstract class BaseCircleDialog extends DialogFragment {
         mAnimStyle = animStyle;
     }
 
-
     /**
      * 设置背景是否昏暗，默认true
      *
@@ -335,4 +285,43 @@ public abstract class BaseCircleDialog extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
+
+    @NonNull
+    private DisplayMetrics getDisplayMetrics() {
+        //获取屏幕宽
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm;
+    }
+
+    /**
+     * 对话框配置
+     *
+     * @param dialog
+     */
+    private void setDialogGravity(Dialog dialog) {
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        DisplayMetrics dm = getDisplayMetrics();
+        wlp.width = (int) (dm.widthPixels * mWidth);//宽度按屏幕大小的百分比设置
+        wlp.gravity = mGravity;
+        wlp.x = mX;
+        wlp.y = mY;
+        //边距
+        if (mPadding != null) {
+            int[] padding = mPadding;
+            wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            window.getDecorView().setPadding(ScaleUtils.scaleValue(padding[0]), ScaleUtils
+                    .scaleValue(padding[1]), ScaleUtils.scaleValue(padding[2]), ScaleUtils
+                    .scaleValue(padding[3]));
+        }
+        //动画
+        if (mAnimStyle != 0) window.setWindowAnimations(mAnimStyle);
+
+        if (isDimEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        else window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.setAttributes(wlp);
+    }
+
 }
