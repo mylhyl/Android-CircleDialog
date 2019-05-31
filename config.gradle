@@ -4,18 +4,18 @@ ext {
             minSdkVersion    : 21,
             targetSdkVersion : 27,
             versionCode      : 1,
-            versionName      : "20190507"
+            versionName      : "20190514"
     ]
 
-    dependVersion = [
+    despVersion = [
             support: "27.1.1"
     ]
 
-    dependencies = [
+    desp = [
             // support
-            appcompatV7  : "com.android.support:appcompat-v7:${dependVersion.support}",
-            recyclerview : "com.android.support:recyclerview-v7:${dependVersion.support}",
-            cardview     : "com.android.support:cardview-v7:${dependVersion.support}",
+            appcompat  : "com.android.support:appcompat-v7:${despVersion.support}",
+            recyclerview : "com.android.support:recyclerview-v7:${despVersion.support}",
+            cardview     : "com.android.support:cardview-v7:${despVersion.support}",
             leakcanary   : "com.squareup.leakcanary:leakcanary-android:1.5.4",
             lottie       : "com.airbnb.android:lottie:2.5.4",
             baseRvAdapter: "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40",

@@ -787,8 +787,8 @@ public final class CircleDialog {
         /**
          * 连接线的宽高度，只有大于0才显示，默认是0
          *
-         * @param width  宽
-         * @param height 高
+         * @param width
+         * @param height
          * @param color  线的颜色值 rgb
          * @return Builder
          */
@@ -856,7 +856,7 @@ public final class CircleDialog {
         /**
          * 广告框指示器资源文件
          *
-         * @param resId int resId
+         * @param resId
          * @return Builder
          */
         public Builder setAdIndicatorPoint(@DrawableRes int resId) {

@@ -44,12 +44,7 @@ final class BodyListView extends ListView implements ItemsView {
 
     @Override
     public void refreshItems() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -81,7 +76,7 @@ final class BodyListView extends ListView implements ItemsView {
 
         setSelector(bgItemNotRadius);
         setDivider(new ColorDrawable(CircleColor.divider));
-        setDividerHeight(Controller.dp2px(getContext(),mItemsParams.dividerHeight));
+        setDividerHeight(Controller.dp2px(getContext(), mItemsParams.dividerHeight));
 
         mAdapter = mItemsParams.adapter;
         if (mAdapter == null) {

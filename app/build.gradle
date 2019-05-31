@@ -30,11 +30,11 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':circledialog')
-    implementation rootProject.ext.dependencies.appcompatV7
-    implementation rootProject.ext.dependencies.recyclerview
-    implementation rootProject.ext.dependencies.cardview
-    implementation rootProject.ext.dependencies.lottie
-    implementation rootProject.ext.dependencies.baseRvAdapter
+    implementation rootProject.ext.desp.appcompat
+    implementation rootProject.ext.desp.recyclerview
+    implementation rootProject.ext.desp.cardview
+    implementation rootProject.ext.desp.lottie
+    implementation rootProject.ext.desp.baseRvAdapter
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'

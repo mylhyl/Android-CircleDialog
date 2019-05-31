@@ -65,30 +65,17 @@ class MultipleButton extends LinearLayout implements ButtonView {
 
     @Override
     public void refreshText() {
-        if (mNegativeParams == null || mNegativeButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handleNegativeStyle();
-            }
-        });
+        if (mNegativeParams != null && mNegativeButton != null) {
+            handleNegativeStyle();
+        }
 
-        if (mPositiveParams == null || mPositiveButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handlePositiveStyle();
-            }
-        });
+        if (mPositiveParams != null && mPositiveButton != null) {
+            handlePositiveStyle();
+        }
 
-
-        if (mNeutralParams == null || mNeutralButton == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                handleNeutralStyle();
-            }
-        });
+        if (mNeutralParams != null && mNeutralButton != null) {
+            handleNeutralStyle();
+        }
     }
 
     @Override

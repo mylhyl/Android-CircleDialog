@@ -41,13 +41,10 @@ final class TitleView extends LinearLayout {
 
     public void refreshText() {
         if (mTitleParams == null || mTitleView == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mTitleView.setText(mTitleParams.text);
-                if (mSubTitleView != null) mSubTitleView.setText(mSubTitleParams.text);
-            }
-        });
+        mTitleView.setText(mTitleParams.text);
+        if (mSubTitleView != null) {
+            mSubTitleView.setText(mSubTitleParams.text);
+        }
     }
 
     private void init() {

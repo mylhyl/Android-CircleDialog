@@ -30,13 +30,9 @@ final class BodyTextView extends AppCompatTextView {
     }
 
     public void refreshText() {
-        if (mTextParams == null) return;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                setText(mTextParams.text);
-            }
-        });
+        if (mTextParams != null) {
+            setText(mTextParams.text);
+        }
     }
 
     private void init() {

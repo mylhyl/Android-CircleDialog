@@ -189,22 +189,21 @@ public final class Controller {
     }
 
     public void refreshView() {
-        mCreateView.refreshTitle();
-        mCreateView.refreshContent();
-        mCreateView.refreshButton();
-        //刷新时带动画
-        if (mParams.dialogParams.refreshAnimation != 0 && getView() != null)
-            getView().post(new Runnable() {
-                @Override
-                public void run() {
-                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
-                            .dialogParams
-                            .refreshAnimation);
+        getView().post(new Runnable() {
+            @Override
+            public void run() {
+                mCreateView.refreshTitle();
+                mCreateView.refreshContent();
+                mCreateView.refreshButton();
+                //刷新时带动画
+                if (mParams.dialogParams.refreshAnimation != 0 && getView() != null) {
+                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams.dialogParams.refreshAnimation);
                     if (animation != null) {
                         getView().startAnimation(animation);
                     }
                 }
-            });
+            }
+        });
     }
 
     View getView() {
