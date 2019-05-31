@@ -57,7 +57,7 @@ public final class Controller {
             mCreateView.buildBodyView();
         }
         // 自定义内容视图
-        else if (mParams.bodyViewId != 0) {
+        else if (mParams.bodyViewId != 0 || mParams.bodyView != null) {
             mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
             mCreateView.buildBodyView();
             View bodyView = mCreateView.getBodyView();

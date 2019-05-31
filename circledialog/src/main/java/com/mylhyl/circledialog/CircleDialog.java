@@ -399,6 +399,20 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置自定义等待框视图
+         *
+         * @param bodyView View
+         * @param listener listener
+         * @return Builder
+         * @since 4.0.1
+         */
+        public Builder setBodyView(View bodyView, OnCreateBodyViewListener listener) {
+            mCircleParams.bodyView = bodyView;
+            mCircleParams.createBodyViewListener = listener;
+            return this;
+        }
+
         public Builder setOnCreateProgressListener(OnCreateProgressListener listener) {
             mCircleParams.createProgressListener = listener;
             return this;

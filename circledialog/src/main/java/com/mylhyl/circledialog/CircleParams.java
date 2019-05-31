@@ -96,6 +96,7 @@ public class CircleParams implements Parcelable {
     public InputParams inputParams;
     public ButtonParams neutralParams;
     public int bodyViewId;
+    public View bodyView;
     public OnCreateBodyViewListener createBodyViewListener;
     public OnCreateProgressListener createProgressListener;
     public OnCreateLottieListener createLottieListener;
