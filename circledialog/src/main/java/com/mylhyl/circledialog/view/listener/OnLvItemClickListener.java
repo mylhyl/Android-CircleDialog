@@ -8,10 +8,10 @@ import android.widget.AdapterView;
  */
 public interface OnLvItemClickListener {
     /**
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
+     * @param parent   AdapterView
+     * @param view     View
+     * @param position int
+     * @param id       long
      * @return true关闭对话框 false不关闭
      */
     boolean onItemClick(AdapterView<?> parent, View view, int position, long id);

@@ -8,8 +8,8 @@ import android.view.View;
 
 public interface OnRvItemClickListener {
     /**
-     * @param view
-     * @param position
+     * @param view     View
+     * @param position int position
      * @return true关闭对话框 false不关闭
      */
     boolean onItemClick(View view, int position);
