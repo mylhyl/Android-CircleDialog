@@ -118,8 +118,8 @@ public final class Controller {
         else if (mParams.itemsParams != null) {
             //设置列表特殊的参数
             DialogParams dialogParams = mParams.dialogParams;
-            //判断是否已经设置过
-            if (dialogParams.gravity == Gravity.CENTER) {
+            // FIXME: hupei 2019/5/30 4.0.1修复 设置 dialogParams.gravity 无效的bug
+            if (dialogParams.gravity == Gravity.NO_GRAVITY) {
                 dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
             }
             //判断是否已经设置过
