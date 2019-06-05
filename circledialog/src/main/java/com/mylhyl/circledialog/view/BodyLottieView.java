@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.LottieParams;
-import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
 
 /**
  * Created by hupei on 2018/7/7.
@@ -21,32 +21,30 @@ import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
 final class BodyLottieView extends LinearLayout {
     private LottieAnimationView mLottieAnimationView;
     private TextView mTextView;
-    private DialogParams mDialogParams;
     private LottieParams mLottieParams;
-    private OnCreateLottieListener mOnCreateLottieListener;
 
-    public BodyLottieView(Context context, DialogParams dialogParams, LottieParams lottieParams
-            , OnCreateLottieListener onCreateLottieListener) {
+    public BodyLottieView(Context context, CircleParams circleParams) {
         super(context);
-        this.mDialogParams = dialogParams;
-        this.mLottieParams = lottieParams;
-        this.mOnCreateLottieListener = onCreateLottieListener;
-        init();
+        init(circleParams);
     }
 
-    private void init() {
+    private void init(CircleParams circleParams) {
+        this.mLottieParams = circleParams.lottieParams;
+        DialogParams dialogParams = circleParams.dialogParams;
+
         setOrientation(LinearLayout.VERTICAL);
 
         //如果没有背景色，则使用默认色
         int backgroundColor = mLottieParams.backgroundColor != 0
-                ? mLottieParams.backgroundColor : mDialogParams.backgroundColor;
-        setBackgroundColor(backgroundColor);
+                ? mLottieParams.backgroundColor : dialogParams.backgroundColor;
+
+        new BodyViewHelper(circleParams).handleBackground(this, backgroundColor);
 
         createLottieView();
         createText();
 
-        if (mOnCreateLottieListener != null) {
-            mOnCreateLottieListener.onCreateLottieView(mLottieAnimationView, mTextView);
+        if (circleParams.createLottieListener != null) {
+            circleParams.createLottieListener.onCreateLottieView(mLottieAnimationView, mTextView);
         }
     }
 

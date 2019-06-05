@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.EmojiFilter;
 import com.mylhyl.circledialog.MaxLengthEnWatcher;
@@ -22,7 +23,6 @@ import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.InputDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.view.listener.InputView;
-import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 
 import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT_SIZE;
@@ -33,27 +33,16 @@ import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT
 
 final class BodyInputView extends RelativeLayout implements InputView {
     private DialogParams mDialogParams;
-    private TitleParams mTitleParams;
-    private SubTitleParams mSubTitleParams;
     private InputParams mInputParams;
     private OnInputCounterChangeListener mOnInputCounterChangeListener;
-    private OnCreateInputListener mOnCreateInputListener;
     private EditText mEditText;
     private TextView mTvCounter;
 
-    public BodyInputView(Context context, DialogParams dialogParams, TitleParams titleParams
-            , SubTitleParams subTitleParams, InputParams inputParams
-            , OnInputCounterChangeListener onInputCounterChangeListener
-            , OnCreateInputListener onCreateInputListener) {
+    public BodyInputView(Context context, CircleParams circleParams) {
         super(context);
-        mDialogParams = dialogParams;
-        mTitleParams = titleParams;
-        mSubTitleParams = subTitleParams;
-        mInputParams = inputParams;
-        mOnInputCounterChangeListener = onInputCounterChangeListener;
-        mOnCreateInputListener = onCreateInputListener;
-        init();
+        init(circleParams);
     }
+
 
     @Override
     public EditText getInput() {
@@ -65,16 +54,23 @@ final class BodyInputView extends RelativeLayout implements InputView {
         return this;
     }
 
-    private void init() {
-        int rlPaddingTop = mTitleParams == null ? mSubTitleParams == null
-                ? CircleDimen.TITLE_PADDING[1] : mSubTitleParams.padding[1]
-                : mTitleParams.padding[1];
+    private void init(CircleParams circleParams) {
+        mDialogParams = circleParams.dialogParams;
+        mInputParams = circleParams.inputParams;
+        mOnInputCounterChangeListener = circleParams.inputCounterChangeListener;
+
+        TitleParams titleParams = circleParams.titleParams;
+        SubTitleParams subTitleParams = circleParams.subTitleParams;
+
+        int rlPaddingTop = titleParams == null ? subTitleParams == null
+                ? CircleDimen.TITLE_PADDING[1] : subTitleParams.padding[1]
+                : titleParams.padding[1];
         setPadding(0, Controller.dp2px(getContext(), rlPaddingTop), 0, 0);
 
         //如果标题没有背景色，则使用默认色
         int backgroundColor = mInputParams.backgroundColor != 0
                 ? mInputParams.backgroundColor : mDialogParams.backgroundColor;
-        setBackgroundColor(backgroundColor);
+        new BodyViewHelper(circleParams).handleBackground(this, backgroundColor);
 
         createInput();
 
@@ -84,8 +80,8 @@ final class BodyInputView extends RelativeLayout implements InputView {
             mEditText.setFilters(new InputFilter[]{new EmojiFilter()});
         }
 
-        if (mOnCreateInputListener != null) {
-            mOnCreateInputListener.onCreateText(this, mEditText, mTvCounter);
+        if (circleParams.createInputListener != null) {
+            circleParams.createInputListener.onCreateText(this, mEditText, mTvCounter);
         }
     }
 

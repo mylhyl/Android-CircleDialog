@@ -10,11 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.values.CircleDimen;
-import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -24,20 +24,14 @@ import java.lang.reflect.Modifier;
  */
 
 final class BodyProgressView extends LinearLayout {
-    private DialogParams mDialogParams;
     private ProgressParams mProgressParams;
-    private OnCreateProgressListener mOnCreateProgressListener;
     private ProgressBar mProgressBar;
     private TextView mTextView;
     private Handler mViewUpdateHandler;
 
-    public BodyProgressView(Context context, DialogParams dialogParams
-            , ProgressParams progressParams, OnCreateProgressListener onCreateProgressListener) {
+    public BodyProgressView(Context context, CircleParams circleParams) {
         super(context);
-        this.mDialogParams = dialogParams;
-        this.mProgressParams = progressParams;
-        this.mOnCreateProgressListener = onCreateProgressListener;
-        init();
+        init(circleParams);
     }
 
     /**
@@ -97,18 +91,22 @@ final class BodyProgressView extends LinearLayout {
         onProgressChanged();
     }
 
-    private void init() {
+    private void init(CircleParams circleParams) {
+        this.mProgressParams = circleParams.progressParams;
+        DialogParams dialogParams = circleParams.dialogParams;
+
         setOrientation(LinearLayout.VERTICAL);
 
-        //如果没有背景色，则使用默认色
+        //如果标题没有背景色，则使用默认色
         int backgroundColor = mProgressParams.backgroundColor != 0
-                ? mProgressParams.backgroundColor : mDialogParams.backgroundColor;
-        setBackgroundColor(backgroundColor);
+                ? mProgressParams.backgroundColor : dialogParams.backgroundColor;
+        new BodyViewHelper(circleParams).handleBackground(this, backgroundColor);
+
         createProgressBar();
         createText();
 
-        if (mOnCreateProgressListener != null) {
-            mOnCreateProgressListener.onCreateProgressView(mProgressBar, mTextView);
+        if (circleParams.createProgressListener != null) {
+            circleParams.createProgressListener.onCreateProgressView(mProgressBar, mTextView);
         }
     }
 

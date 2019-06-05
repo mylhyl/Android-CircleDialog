@@ -124,9 +124,19 @@ class MultipleButton extends LinearLayout implements ButtonView {
         }
 
         if (mNegativeButton != null && mNegativeParams != null) {
-            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNegative
-                    , mNegativeParams.backgroundColorPress != 0
-                    ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress);
+            CircleDrawableSelector selectorBtn;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                selectorBtn = new CircleDrawableSelector(backgroundNegative
+                        , mNegativeParams.backgroundColorPress != 0
+                        ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress);
+            } else {
+                selectorBtn = new CircleDrawableSelector(backgroundNegative
+                        , mNegativeParams.backgroundColorPress != 0
+                        ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress
+                        // 右边没按钮则右下是圆角
+                        , 0, 0, (mNeutralButton == null && mPositiveButton == null)
+                        ? mDialogParams.radius : 0, mDialogParams.radius);
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNegativeButton.setBackground(selectorBtn);
             } else {
@@ -134,9 +144,20 @@ class MultipleButton extends LinearLayout implements ButtonView {
             }
         }
         if (mPositiveButton != null && mPositiveParams != null) {
-            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundPositive
-                    , mPositiveParams.backgroundColorPress != 0
-                    ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress);
+            CircleDrawableSelector selectorBtn;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                selectorBtn = new CircleDrawableSelector(backgroundPositive
+                        , mPositiveParams.backgroundColorPress != 0
+                        ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress);
+            } else {
+                selectorBtn = new CircleDrawableSelector(backgroundPositive
+                        , mPositiveParams.backgroundColorPress != 0
+                        ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress
+                        // 左边没按钮则左下是圆角
+                        , 0, 0, mDialogParams.radius
+                        , (mNegativeButton == null && mNeutralButton == null) ? mDialogParams.radius : 0);
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mPositiveButton.setBackground(selectorBtn);
             } else {
@@ -144,10 +165,19 @@ class MultipleButton extends LinearLayout implements ButtonView {
             }
         }
         if (mNeutralButton != null && mNeutralParams != null) {
-            //左右没按钮则左下右下是圆角
-            CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundNeutral
-                    , mNeutralParams.backgroundColorPress != 0
-                    ? mNeutralParams.backgroundColorPress : mDialogParams.backgroundColorPress);
+            CircleDrawableSelector selectorBtn;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                selectorBtn = new CircleDrawableSelector(backgroundNeutral
+                        , mNeutralParams.backgroundColorPress != 0
+                        ? mNeutralParams.backgroundColorPress : mDialogParams.backgroundColorPress);
+            } else {
+                selectorBtn = new CircleDrawableSelector(backgroundNeutral
+                        , mNeutralParams.backgroundColorPress != 0
+                        ? mNeutralParams.backgroundColorPress : mDialogParams.backgroundColorPress
+                        // 左右没按钮则左下右下是圆角
+                        , 0, 0, mPositiveButton == null ? mDialogParams.radius : 0
+                        , mNegativeButton == null ? mDialogParams.radius : 0);
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mNeutralButton.setBackground(selectorBtn);
             } else {

@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -13,6 +14,7 @@ import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
+import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 
 /**
@@ -70,7 +72,11 @@ final class TitleView extends LinearLayout {
 
         //如果标题没有背景色，则使用默认色
         int bg = mTitleParams.backgroundColor != 0 ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
-        mTitleLayout.setBackgroundColor(bg);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mTitleLayout.setBackgroundColor(bg);
+        } else {
+            mTitleLayout.setBackground(new CircleDrawable(bg, mDialogParams.radius, mDialogParams.radius, 0, 0));
+        }
     }
 
     @NonNull

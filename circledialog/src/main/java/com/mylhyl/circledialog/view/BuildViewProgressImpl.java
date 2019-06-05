@@ -26,8 +26,7 @@ public final class BuildViewProgressImpl extends BuildViewAbs {
         buildTitleView();
 
         if (mBodyProgressView == null) {
-            mBodyProgressView = new BodyProgressView(mContext, mParams.dialogParams
-                    , mParams.progressParams, mParams.createProgressListener);
+            mBodyProgressView = new BodyProgressView(mContext, mParams);
             addViewByBody(mBodyProgressView);
         }
     }

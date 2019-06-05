@@ -164,14 +164,14 @@ public final class Controller {
             mCreateView = new BuildViewProgressImpl(mContext, mParams);
             mCreateView.buildBodyView();
         }
-        // 文本
-        else if (mParams.textParams != null) {
-            mCreateView = new BuildViewConfirmImpl(mContext, mParams);
-            mCreateView.buildBodyView();
-        }
         // 输入框
         else if (mParams.inputParams != null) {
             mCreateView = new BuildViewInputImpl(mContext, mParams);
+            mCreateView.buildBodyView();
+        }
+        // 文本
+        else {
+            mCreateView = new BuildViewConfirmImpl(mContext, mParams);
             mCreateView.buildBodyView();
         }
 

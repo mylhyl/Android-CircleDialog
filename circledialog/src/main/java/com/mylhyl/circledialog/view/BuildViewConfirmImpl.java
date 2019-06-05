@@ -25,8 +25,7 @@ public final class BuildViewConfirmImpl extends BuildViewAbs {
         buildRootView();
         buildTitleView();
         if (mBodyTextView == null) {
-            mBodyTextView = new BodyTextView(mContext, mParams.dialogParams, mParams.textParams
-                    , mParams.createTextListener);
+            mBodyTextView = new BodyTextView(mContext, mParams);
             addViewByBody(mBodyTextView);
         }
     }
