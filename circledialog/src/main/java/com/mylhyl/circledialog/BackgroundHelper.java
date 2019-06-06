@@ -32,7 +32,8 @@ public enum BackgroundHelper {
         if (Controller.SDK_LOLLIPOP) {
             view.setBackgroundColor(backgroundColor);
         } else {
-            handleBackground(view, backgroundColor);
+            CircleDrawable background = new CircleDrawable(backgroundColor, radius, radius, 0, 0);
+            handleBackground(view, background);
         }
     }
 
@@ -162,8 +163,8 @@ public enum BackgroundHelper {
         }
     }
 
-    public void handleBackground(View view, int backgroundColor) {
-        CircleDrawable background = new CircleDrawable(backgroundColor, radius, radius, 0, 0);
+    public void handleCircleBackground(View view, int backgroundColor) {
+        CircleDrawable background = new CircleDrawable(backgroundColor, radius, radius, radius, radius);
         if (Controller.SDK_JELLY_BEAN) {
             view.setBackground(background);
         } else {

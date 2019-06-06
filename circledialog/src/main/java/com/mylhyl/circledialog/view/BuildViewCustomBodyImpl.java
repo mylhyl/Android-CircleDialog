@@ -6,6 +6,14 @@ import android.view.View;
 import com.mylhyl.circledialog.CircleParams;
 
 /**
+ * view的层次结构
+ * <pre>
+ * CardView
+ *    ╚--LinearLayout
+ *          ╚--TitleView
+ *          ╚--BodyView
+ *          ╚--ButtonView
+ * </pre>
  * Created by hupei on 2018/8/14.
  */
 
@@ -14,11 +22,6 @@ public final class BuildViewCustomBodyImpl extends AbsBuildView {
 
     public BuildViewCustomBodyImpl(Context context, CircleParams params) {
         super(context, params);
-    }
-
-    @Override
-    public View getBodyView() {
-        return mCustomBodyView;
     }
 
     @Override
@@ -36,6 +39,11 @@ public final class BuildViewCustomBodyImpl extends AbsBuildView {
                 addViewByBody(mCustomBodyView);
             }
         }
+    }
+
+    @Override
+    public View getBodyView() {
+        return mCustomBodyView;
     }
 
     @Override

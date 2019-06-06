@@ -56,7 +56,15 @@ abstract class AbsBuildView implements BuildView {
         if (Controller.SDK_LOLLIPOP) {
             CardView cardView = createCardView();
             cardView.addView(mRootCardViewByLinearLayout);
-            mRoot = cardView;
+            if (mParams.closeParams == null) {
+                mRoot = cardView;
+            } else {
+                LinearLayout rootLayout = new LinearLayout(mContext);
+                rootLayout.setBackgroundColor(Color.TRANSPARENT);
+                rootLayout.setOrientation(LinearLayout.VERTICAL);
+                rootLayout.addView(cardView);
+                mRoot = rootLayout;
+            }
         } else {
             mRoot = mRootCardViewByLinearLayout;
         }
@@ -103,9 +111,9 @@ abstract class AbsBuildView implements BuildView {
         if (closeParams.closeGravity == CloseParams.CLOSE_TOP_LEFT
                 || closeParams.closeGravity == CloseParams.CLOSE_TOP_CENTER
                 || closeParams.closeGravity == CloseParams.CLOSE_TOP_RIGHT) {
-            mRootCardViewByLinearLayout.addView(closeView, 0);
+            mRoot.addView(closeView, 0);
         } else {
-            mRootCardViewByLinearLayout.addView(closeView);
+            mRoot.addView(closeView);
         }
         return closeView;
     }

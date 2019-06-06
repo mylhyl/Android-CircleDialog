@@ -5,6 +5,14 @@ import android.content.Context;
 import com.mylhyl.circledialog.CircleParams;
 
 /**
+ * view的层次结构
+ * <pre>
+ * CardView
+ *    ╚--LinearLayout
+ *          ╚--TitleView
+ *          ╚--BodyView
+ *          ╚--ButtonView
+ * </pre>
  * Created by hupei on 2018/8/14.
  */
 

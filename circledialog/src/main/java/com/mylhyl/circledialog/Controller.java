@@ -86,16 +86,6 @@ public final class Controller {
                     return false;
                 }
             });
-            // 上方x关闭按钮
-            if (mParams.closeParams != null) {
-                CloseView closeView = mCreateView.buildCloseImgView();
-                closeView.regOnCloseClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mOnDialogInternalListener.dialogDismiss();
-                    }
-                });
-            }
         }
         // popup
         else if (mParams.popupParams != null) {
@@ -178,6 +168,17 @@ public final class Controller {
         else {
             mCreateView = new BuildViewConfirmImpl(mContext, mParams);
             mCreateView.buildBodyView();
+        }
+
+        // 图标x关闭按钮
+        if (mParams.closeParams != null) {
+            CloseView closeView = mCreateView.buildCloseImgView();
+            closeView.regOnCloseClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnDialogInternalListener.dialogDismiss();
+                }
+            });
         }
 
         // 底部按钮

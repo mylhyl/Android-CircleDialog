@@ -18,22 +18,23 @@ public final class BuildViewAdImpl extends AbsBuildView {
     }
 
     @Override
-    public BodyAdView getBodyView() {
-        return mBodyAdView;
+    public void buildRootView() {
+        mRoot = createLinearLayout();
     }
 
     @Override
     public void buildBodyView() {
-        if (mParams.closeParams == null) {
-            buildRootView();
-        } else {
-            mRoot = createLinearLayout();
-        }
+        buildRootView();
         buildTitleView();
         if (mBodyAdView == null) {
             mBodyAdView = new BodyAdView(mContext, mParams.adParams, mParams.imageLoadEngine);
             addViewByBody(mBodyAdView);
         }
+    }
+
+    @Override
+    public BodyAdView getBodyView() {
+        return mBodyAdView;
     }
 
     @Override

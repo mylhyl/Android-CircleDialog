@@ -758,6 +758,12 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置关闭图标内间距
+         *
+         * @param closePadding left, top, right, bottom
+         * @return Builder
+         */
         public Builder setClosePadding(int[] closePadding) {
             newCloseParams();
             mCircleParams.closeParams.closePadding = closePadding;

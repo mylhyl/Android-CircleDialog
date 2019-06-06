@@ -58,57 +58,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     private int time = 30;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框"
-                , "动态改变内容", "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)", "Rv换头像"
-                , "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图", "lottie动画框", "仿微博分享"
-                , "Rv Vertical", "Rv Horizontal", "广告"});
-        BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
-                , listData) {
-            @Override
-            protected void convert(BaseViewHolder helper, String item) {
-                helper.setText(android.R.id.text1, item);
-            }
-        };
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-        List<String> urls = new ArrayList<>();
-        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
-        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
-        urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
-        urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
-        new CircleDialog.Builder()
-                .setWidth(0.8f)
-                .setImageLoadEngine(new Glide4ImageLoadEngine())
-                .setAdUrl(urls
-//                        "http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
-                        , new OnAdItemClickListener() {
-                            @Override
-                            public boolean onItemClick(View view, int position) {
-                                Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT)
-                                        .show();
-                                return true;
-                            }
-                        })
-//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
-//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
-//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
-                .setAdIndicator(true)
-//                .setAdIndicatorPoint(R.drawable.selector_point)
-                .setCloseResId(R.mipmap.ic_close, 23)
-                .setClosePadding(new int[]{8, 0, 0, 0})
-                .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
-                .setCloseConnector(1, 19)
-                .show(getSupportFragmentManager());
-    }
-
-    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
             case 0:
@@ -159,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 "\n" +
                                 "1、一键登录\n" +
                                 "\n" +
-                                "一键登录能力，即通过移动认证的网络认证能力，实现APP用户无需输入帐号密码，即可使用本机手机号码自动登录的能力。利用应用层无法截取的网络层号码认证能力验证号码的真实性，本机号码自动校验是现有短信验证方式的优化，能消除现有短信验证模式等待时间长、操作繁琐和容易泄露的痛点。\n" +
+                                "一键登录能力，即通过移动认证的网络认证能力，实现APP" +
+                                "用户无需输入帐号密码，即可使用本机手机号码自动登录的能力。利用应用层无法截取的网络层号码认证能力验证号码的真实性，本机号码自动校验是现有短信验证方式的优化，能消除现有短信验证模式等待时间长、操作繁琐和容易泄露的痛点。\n" +
                                 "\n" +
                                 "一键登录的能力优势\n" +
                                 "\n" +
@@ -297,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 5:
                 dialogFragment = new CircleDialog.Builder()
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelable(false)
                         .setWidth(0.6f)
 //                        .configDialog(new ConfigDialog() {
 //                            @Override
@@ -317,6 +269,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setProgressText("登录中...")
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
+
+                        // 图标x关闭按钮
+                        .setCloseResId(R.mipmap.ic_close, 18)
+                        .setCloseGravity(CloseParams.CLOSE_TOP_RIGHT)
+                        .setClosePadding(new int[]{0, 0, 3, 3})
+                        .setOnCancelListener(dialog -> Toast.makeText(MainActivity.this, "取消请求", Toast.LENGTH_SHORT).show())
+
                         .show(getSupportFragmentManager());
 //                new Handler().postDelayed(new Runnable() {
 //                    @Override
@@ -667,9 +626,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 20:
                 new CircleDialog.Builder()
                         .setWidth(0.5f)
-                        .setCloseResId(R.mipmap.ic_close, 27)
-                        .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
-                        .setClosePadding(new int[]{0, 15, 0, 0})
                         .setAdResId(R.mipmap.ic_zfbxcc, (view18, position18) -> {
                             Toast.makeText(MainActivity.this, "点击了"
                                     , Toast.LENGTH_SHORT).show();
@@ -677,7 +633,76 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
+            case 21:
+                List<String> urls = new ArrayList<>();
+                urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
+                urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
+                urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
+                new CircleDialog.Builder()
+                        .setWidth(0.5f)
+                        .setImageLoadEngine(new Glide4ImageLoadEngine())
+                        .setCloseResId(R.mipmap.ic_close, 27)
+                        .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
+                        .setClosePadding(new int[]{0, 15, 0, 0})
+                        .setAdUrl(urls, (view18, position18) -> {
+                            Toast.makeText(MainActivity.this, "点击了" + (position18 + 1)
+                                    , Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
+                        .show(getSupportFragmentManager());
+                break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框"
+                , "动态改变内容", "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)", "Rv换头像"
+                , "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图", "lottie动画框", "仿微博分享"
+                , "Rv Vertical", "Rv Horizontal", "无x广告", "有x广告"});
+        BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
+                , listData) {
+            @Override
+            protected void convert(BaseViewHolder helper, String item) {
+                helper.setText(android.R.id.text1, item);
+            }
+        };
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
+        List<String> urls = new ArrayList<>();
+        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
+        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
+        urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
+        urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
+        new CircleDialog.Builder()
+                .setWidth(0.8f)
+                .setImageLoadEngine(new Glide4ImageLoadEngine())
+                .setAdUrl(urls
+//                        "http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
+                        , new OnAdItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position) {
+                                Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT)
+                                        .show();
+                                return true;
+                            }
+                        })
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
+                .setAdIndicator(true)
+//                .setAdIndicatorPoint(R.drawable.selector_point)
+                .setCloseResId(R.mipmap.ic_close, 23)
+                .setClosePadding(new int[]{8, 0, 0, 0})
+                .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
+                .setCloseConnector(1, 19)
+                .show(getSupportFragmentManager());
     }
 
     private void removeRunnable() {
