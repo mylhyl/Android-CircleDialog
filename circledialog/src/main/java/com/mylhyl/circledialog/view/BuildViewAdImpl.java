@@ -27,7 +27,8 @@ public final class BuildViewAdImpl extends AbsBuildView {
         buildRootView();
         buildTitleView();
         if (mBodyAdView == null) {
-            mBodyAdView = new BodyAdView(mContext, mParams.adParams, mParams.imageLoadEngine);
+            mBodyAdView = new BodyAdView(mContext, mParams.adParams, mParams.imageLoadEngine,
+                    mParams.adPageChangeListener);
             addViewByBody(mBodyAdView);
         }
     }

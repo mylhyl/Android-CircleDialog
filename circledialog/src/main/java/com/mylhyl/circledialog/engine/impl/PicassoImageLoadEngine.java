@@ -9,6 +9,7 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by hupei on 2019/1/14 15:34.
  */
+@Deprecated
 public final class PicassoImageLoadEngine implements ImageLoadEngine {
     @Override
     public void loadImage(Context context, ImageView imageView, String url) {

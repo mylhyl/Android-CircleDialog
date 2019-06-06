@@ -11,6 +11,7 @@ import com.mylhyl.circledialog.engine.ImageLoadEngine;
 /**
  * Created by hupei on 2019/1/14 15:28.
  */
+@Deprecated
 public final class Glide4ImageLoadEngine implements ImageLoadEngine {
 
     @Override

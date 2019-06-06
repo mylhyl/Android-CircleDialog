@@ -19,6 +19,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -111,6 +112,7 @@ public class CircleParams implements Parcelable {
     public AdParams adParams;
     public ImageLoadEngine imageLoadEngine;
     public OnAdItemClickListener adItemClickListener;
+    public OnAdPageChangeListener adPageChangeListener;
 
     public CircleParams() {
     }

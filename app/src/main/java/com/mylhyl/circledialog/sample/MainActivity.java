@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.sample;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,15 +18,16 @@ import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
-import com.mylhyl.circledialog.engine.impl.Glide4ImageLoadEngine;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
@@ -37,6 +39,7 @@ import com.mylhyl.circledialog.sample.entities.WeiBoItem;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -640,7 +643,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
                 new CircleDialog.Builder()
                         .setWidth(0.5f)
-                        .setImageLoadEngine(new Glide4ImageLoadEngine())
+                        //.setImageLoadEngine(new Glide4ImageLoadEngine())
                         .setCloseResId(R.mipmap.ic_close, 27)
                         .setCloseGravity(CloseParams.CLOSE_BOTTOM_CENTER)
                         .setClosePadding(new int[]{0, 15, 0, 0})
@@ -648,6 +651,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             Toast.makeText(MainActivity.this, "点击了" + (position18 + 1)
                                     , Toast.LENGTH_SHORT).show();
                             return true;
+                        })
+                        .setAdPageChangeListener(new OnAdPageChangeListener() {
+                            @Override
+                            public void onPageSelected(Context context, ImageView imageView, String url, int position) {
+                                Glide.with(context).load(url).into(imageView);
+                            }
                         })
                         .show(getSupportFragmentManager());
                 break;
@@ -682,7 +691,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
         new CircleDialog.Builder()
                 .setWidth(0.8f)
-                .setImageLoadEngine(new Glide4ImageLoadEngine())
+//                .setImageLoadEngine(new Glide4ImageLoadEngine())
+                .setAdPageChangeListener(new OnAdPageChangeListener() {
+                    @Override
+                    public void onPageSelected(Context context, ImageView imageView, String url, int position) {
+                        Glide.with(context).load(url).into(imageView);
+                    }
+                })
                 .setAdUrl(urls
 //                        "http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
                         , new OnAdItemClickListener() {

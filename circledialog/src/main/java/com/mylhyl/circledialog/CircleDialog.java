@@ -39,6 +39,7 @@ import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -871,8 +872,19 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * @param loadImageListener
+         * @return
+         * @deprecated {{@link #setAdPageChangeListener(OnAdPageChangeListener)}}
+         */
+        @Deprecated
         public Builder setImageLoadEngine(ImageLoadEngine loadImageListener) {
             mCircleParams.imageLoadEngine = loadImageListener;
+            return this;
+        }
+
+        public Builder setAdPageChangeListener(OnAdPageChangeListener listener) {
+            mCircleParams.adPageChangeListener = listener;
             return this;
         }
 

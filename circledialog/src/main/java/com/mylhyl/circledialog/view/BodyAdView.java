@@ -18,6 +18,7 @@ import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,17 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
     private ImageLoadEngine mImageLoadEngine;
     private ViewPager mViewPager;
     private LinearLayout mLlIndicator;
-    private List<View> mViews;
+    private List<ImageView> mViews;
     private List<String> mUrls;
     private OnAdItemClickListener mImageClickListener;
+    private OnAdPageChangeListener mPageChangeListener;
 
-    public BodyAdView(Context context, AdParams adParams, ImageLoadEngine imageLoadEngine) {
+    public BodyAdView(Context context, AdParams adParams, ImageLoadEngine imageLoadEngine,
+                      OnAdPageChangeListener pageChangeListener) {
         super(context);
         this.mAdParams = adParams;
         this.mImageLoadEngine = imageLoadEngine;
+        this.mPageChangeListener = pageChangeListener;
         init();
     }
 
@@ -54,7 +58,10 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        if (mPageChangeListener != null) {
+            mPageChangeListener.onPageScrolled(getContext(), mViews.get(position), mUrls.get(position), position,
+                    positionOffset, positionOffsetPixels);
+        }
     }
 
     @Override
@@ -65,7 +72,9 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        if (mPageChangeListener != null) {
+            mPageChangeListener.onPageScrollStateChanged(state);
+        }
     }
 
     private void init() {
@@ -164,7 +173,7 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
                 return null;
             }
             final int finalPosition = position % mViews.size();
-            View view = mViews.get(finalPosition);
+            ImageView view = mViews.get(finalPosition);
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -175,7 +184,10 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
                 }
             });
             if (mUrls != null && !mUrls.isEmpty() && mImageLoadEngine != null) {
-                mImageLoadEngine.loadImage(getContext(), (ImageView) view, mUrls.get(finalPosition));
+                mImageLoadEngine.loadImage(getContext(), view, mUrls.get(finalPosition));
+            }
+            if (mUrls != null && !mUrls.isEmpty() && mPageChangeListener != null) {
+                mPageChangeListener.onPageSelected(getContext(), view, mUrls.get(finalPosition), finalPosition);
             }
             ViewParent viewParent = view.getParent();
             if (viewParent != null) {
