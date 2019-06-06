@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 
@@ -19,20 +17,20 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  * 对话框确定按钮与取消的视图
  * Created by hupei on 2017/3/30.
  */
-class MultipleButton extends LinearLayout implements ButtonView {
+abstract class AbsButton extends LinearLayout implements ButtonView {
 
+    protected ButtonParams mNegativeParams;
+    protected ButtonParams mPositiveParams;
+    protected ButtonParams mNeutralParams;
     private DialogParams mDialogParams;
-    private ButtonParams mNegativeParams;
-    private ButtonParams mPositiveParams;
-    private ButtonParams mNeutralParams;
     private OnCreateButtonListener mOnCreateButtonListener;
     private TextView mNegativeButton;
     private TextView mPositiveButton;
     private TextView mNeutralButton;
 
-    public MultipleButton(Context context, DialogParams dialogParams, ButtonParams negativeParams
-            , ButtonParams positiveParams, ButtonParams neutralParams
-            , OnCreateButtonListener createButtonListener) {
+    public AbsButton(Context context, DialogParams dialogParams, ButtonParams negativeParams,
+                     ButtonParams positiveParams, ButtonParams neutralParams,
+                     OnCreateButtonListener createButtonListener) {
         super(context);
         mDialogParams = dialogParams;
         mNegativeParams = negativeParams;
@@ -43,28 +41,28 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     @Override
-    public void regNegativeListener(OnClickListener onClickListener) {
+    public final void regNegativeListener(OnClickListener onClickListener) {
         if (mNegativeButton != null) {
             mNegativeButton.setOnClickListener(onClickListener);
         }
     }
 
     @Override
-    public void regPositiveListener(OnClickListener onClickListener) {
+    public final void regPositiveListener(OnClickListener onClickListener) {
         if (mPositiveButton != null) {
             mPositiveButton.setOnClickListener(onClickListener);
         }
     }
 
     @Override
-    public void regNeutralListener(OnClickListener onClickListener) {
+    public final void regNeutralListener(OnClickListener onClickListener) {
         if (mNeutralButton != null) {
             mNeutralButton.setOnClickListener(onClickListener);
         }
     }
 
     @Override
-    public void refreshText() {
+    public final void refreshText() {
         if (mNegativeParams != null && mNegativeButton != null) {
             handleNegativeStyle();
         }
@@ -79,28 +77,36 @@ class MultipleButton extends LinearLayout implements ButtonView {
     }
 
     @Override
-    public View getView() {
+    public final View getView() {
         return this;
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
         return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
     }
 
-    private void init() {
-        setOrientation(HORIZONTAL);
+    protected abstract void initView();
 
-        int backgroundNegative = 0;
-        int backgroundNeutral = 0;
-        int backgroundPositive = 0;
+    protected abstract void setNegativeButtonBackground(View view, int backgroundColor);
+
+    protected abstract void setNeutralButtonBackground(View view, int backgroundColor);
+
+    protected abstract void setPositiveButtonBackground(View view, int backgroundColor);
+
+    private void init() {
+
+        initView();
+
         if (mNegativeParams != null) {
             //取消按钮
             createNegative();
             //如果取消按钮没有背景色，则使用默认色
-            backgroundNegative = mNegativeParams.backgroundColor != 0
+            int backgroundColor = mNegativeParams.backgroundColor != 0
                     ? mNegativeParams.backgroundColor : mDialogParams.backgroundColor;
+            setNegativeButtonBackground(mNegativeButton, backgroundColor);
         }
+
         if (mNeutralParams != null) {
             if (mNegativeButton != null) {
                 //分隔线 当且仅当前面有按钮这个按钮不为空的时候才需要添加分割线
@@ -108,9 +114,11 @@ class MultipleButton extends LinearLayout implements ButtonView {
             }
             createNeutral();
             //如果取消按钮没有背景色，则使用默认色
-            backgroundNeutral = mNeutralParams.backgroundColor != 0
+            int backgroundColor = mNeutralParams.backgroundColor != 0
                     ? mNeutralParams.backgroundColor : mDialogParams.backgroundColor;
+            setNeutralButtonBackground(mNeutralButton, backgroundColor);
         }
+
         if (mPositiveParams != null) {
             if (mNeutralButton != null || mNegativeButton != null) {
                 //分隔线 当且仅当前面有按钮这个按钮不为空的时候才需要添加分割线
@@ -119,71 +127,11 @@ class MultipleButton extends LinearLayout implements ButtonView {
             //确定按钮
             createPositive();
             //如果取消按钮没有背景色，则使用默认色
-            backgroundPositive = mPositiveParams.backgroundColor != 0
+            int backgroundColor = mPositiveParams.backgroundColor != 0
                     ? mPositiveParams.backgroundColor : mDialogParams.backgroundColor;
+            setPositiveButtonBackground(mPositiveButton, backgroundColor);
         }
 
-        if (mNegativeButton != null && mNegativeParams != null) {
-            CircleDrawableSelector selectorBtn;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                selectorBtn = new CircleDrawableSelector(backgroundNegative
-                        , mNegativeParams.backgroundColorPress != 0
-                        ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress);
-            } else {
-                selectorBtn = new CircleDrawableSelector(backgroundNegative
-                        , mNegativeParams.backgroundColorPress != 0
-                        ? mNegativeParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                        // 右边没按钮则右下是圆角
-                        , 0, 0, (mNeutralButton == null && mPositiveButton == null)
-                        ? mDialogParams.radius : 0, mDialogParams.radius);
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mNegativeButton.setBackground(selectorBtn);
-            } else {
-                mNegativeButton.setBackgroundDrawable(selectorBtn);
-            }
-        }
-        if (mPositiveButton != null && mPositiveParams != null) {
-            CircleDrawableSelector selectorBtn;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                selectorBtn = new CircleDrawableSelector(backgroundPositive
-                        , mPositiveParams.backgroundColorPress != 0
-                        ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress);
-            } else {
-                selectorBtn = new CircleDrawableSelector(backgroundPositive
-                        , mPositiveParams.backgroundColorPress != 0
-                        ? mPositiveParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                        // 左边没按钮则左下是圆角
-                        , 0, 0, mDialogParams.radius
-                        , (mNegativeButton == null && mNeutralButton == null) ? mDialogParams.radius : 0);
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mPositiveButton.setBackground(selectorBtn);
-            } else {
-                mPositiveButton.setBackgroundDrawable(selectorBtn);
-            }
-        }
-        if (mNeutralButton != null && mNeutralParams != null) {
-            CircleDrawableSelector selectorBtn;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                selectorBtn = new CircleDrawableSelector(backgroundNeutral
-                        , mNeutralParams.backgroundColorPress != 0
-                        ? mNeutralParams.backgroundColorPress : mDialogParams.backgroundColorPress);
-            } else {
-                selectorBtn = new CircleDrawableSelector(backgroundNeutral
-                        , mNeutralParams.backgroundColorPress != 0
-                        ? mNeutralParams.backgroundColorPress : mDialogParams.backgroundColorPress
-                        // 左右没按钮则左下右下是圆角
-                        , 0, 0, mPositiveButton == null ? mDialogParams.radius : 0
-                        , mNegativeButton == null ? mDialogParams.radius : 0);
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mNeutralButton.setBackground(selectorBtn);
-            } else {
-                mNeutralButton.setBackgroundDrawable(selectorBtn);
-            }
-        }
         if (mOnCreateButtonListener != null) {
             mOnCreateButtonListener.onCreateButton(mNegativeButton, mPositiveButton, mNeutralButton);
         }

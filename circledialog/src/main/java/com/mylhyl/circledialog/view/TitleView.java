@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -10,11 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.BackgroundHelper;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 
 /**
@@ -71,12 +70,9 @@ final class TitleView extends LinearLayout {
         mTitleLayout.setPadding(50, 0, 50, 0);
 
         //如果标题没有背景色，则使用默认色
-        int bg = mTitleParams.backgroundColor != 0 ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTitleLayout.setBackgroundColor(bg);
-        } else {
-            mTitleLayout.setBackground(new CircleDrawable(bg, mDialogParams.radius, mDialogParams.radius, 0, 0));
-        }
+        int backgroundColor = mTitleParams.backgroundColor != 0
+                ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
+        BackgroundHelper.INSTANCE.handleTitleBackground(mTitleLayout, backgroundColor);
     }
 
     @NonNull
@@ -144,9 +140,9 @@ final class TitleView extends LinearLayout {
         }
     }
 
-    private void setSubTitleBg(TextView tvSubTitle, int tbg, int dbg) {
+    private void setSubTitleBg(TextView subTitle, int tbg, int dbg) {
         //如果标题没有背景色，则使用默认色
-        int bg = tbg != 0 ? tbg : dbg;
-        tvSubTitle.setBackgroundColor(bg);
+        int bgColor = tbg != 0 ? tbg : dbg;
+        subTitle.setBackgroundColor(bgColor);
     }
 }

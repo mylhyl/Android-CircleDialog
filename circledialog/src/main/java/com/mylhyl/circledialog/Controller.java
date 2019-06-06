@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -33,6 +34,9 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 public final class Controller {
 
+    public static final boolean SDK_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    public static final boolean SDK_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+
     private Context mContext;
     private CircleParams mParams;
     private BuildView mCreateView;
@@ -42,6 +46,7 @@ public final class Controller {
         this.mContext = context;
         this.mParams = params;
         this.mOnDialogInternalListener = dialogInternalListener;
+        BackgroundHelper.INSTANCE.init(context, params);
     }
 
     public static int dp2px(Context context, float value) {

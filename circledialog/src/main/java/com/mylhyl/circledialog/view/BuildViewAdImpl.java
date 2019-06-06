@@ -10,7 +10,7 @@ import com.mylhyl.circledialog.CircleParams;
  * 广告
  * Created by hupei on 2019/1/11 11:10.
  */
-public final class BuildViewAdImpl extends BuildViewAbs {
+public final class BuildViewAdImpl extends AbsBuildView {
     private BodyAdView mBodyAdView;
 
     public BuildViewAdImpl(Context context, CircleParams params) {
@@ -27,7 +27,7 @@ public final class BuildViewAdImpl extends BuildViewAbs {
         if (mParams.closeParams == null) {
             buildRootView();
         } else {
-            mRoot = buildLinearLayout();
+            mRoot = createLinearLayout();
         }
         buildTitleView();
         if (mBodyAdView == null) {

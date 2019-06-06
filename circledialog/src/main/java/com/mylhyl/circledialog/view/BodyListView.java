@@ -65,10 +65,10 @@ final class BodyListView extends ListView implements ItemsView {
     private void init() {
 
         //如果没有背景色，则使用默认色
-        this.mBackgroundColor = mItemsParams.backgroundColor != 0
-                ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;
-        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
-                ? mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
+        this.mBackgroundColor = mItemsParams.backgroundColor != 0 ?
+                mItemsParams.backgroundColor : mDialogParams.backgroundColor;
+        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0 ?
+                mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
 
         setBackgroundColor(mBackgroundColor);
 
@@ -134,13 +134,14 @@ final class BodyListView extends ListView implements ItemsView {
                 textView.setTextColor(mItemsParams.textColor);
                 textView.setHeight(Controller.dp2px(mContext, mItemsParams.itemHeight));
                 if (mItemsParams.padding != null) {
-                    textView.setPadding(Controller.dp2px(mContext, mItemsParams.padding[0])
-                            , Controller.dp2px(mContext, mItemsParams.padding[1])
-                            , Controller.dp2px(mContext, mItemsParams.padding[2])
-                            , Controller.dp2px(mContext, mItemsParams.padding[3]));
+                    textView.setPadding(Controller.dp2px(mContext, mItemsParams.padding[0]),
+                            Controller.dp2px(mContext, mItemsParams.padding[1]),
+                            Controller.dp2px(mContext, mItemsParams.padding[2]),
+                            Controller.dp2px(mContext, mItemsParams.padding[3]));
                 }
-                if (mItemsParams.textGravity != Gravity.NO_GRAVITY)
+                if (mItemsParams.textGravity != Gravity.NO_GRAVITY) {
                     textView.setGravity(mItemsParams.textGravity);
+                }
                 viewHolder.item = textView;
                 convertView = textView;
                 convertView.setTag(viewHolder);

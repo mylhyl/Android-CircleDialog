@@ -8,16 +8,11 @@ import com.mylhyl.circledialog.CircleParams;
  * Created by hupei on 2018/8/14.
  */
 
-public final class BuildViewProgressImpl extends BuildViewAbs {
+public final class BuildViewProgressImpl extends AbsBuildView {
     private BodyProgressView mBodyProgressView;
 
     public BuildViewProgressImpl(Context context, CircleParams params) {
         super(context, params);
-    }
-
-    @Override
-    public BodyProgressView getBodyView() {
-        return mBodyProgressView;
     }
 
     @Override
@@ -26,9 +21,15 @@ public final class BuildViewProgressImpl extends BuildViewAbs {
         buildTitleView();
 
         if (mBodyProgressView == null) {
-            mBodyProgressView = new BodyProgressView(mContext, mParams);
+            mBodyProgressView = new BodyProgressView(mContext, mParams.dialogParams, mParams.progressParams,
+                    mParams.createProgressListener);
             addViewByBody(mBodyProgressView);
         }
+    }
+
+    @Override
+    public BodyProgressView getBodyView() {
+        return mBodyProgressView;
     }
 
     @Override

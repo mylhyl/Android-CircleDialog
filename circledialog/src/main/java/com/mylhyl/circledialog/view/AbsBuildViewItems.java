@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -12,13 +11,22 @@ import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 
 /**
+ * view的层次结构
+ * <pre>
+ *      ╚--LinearLayout
+ *      ╚--CardView
+ *          ╚--LinearLayout
+ *              ╚--TitleView
+ *              ╚--BodyView
+ *      ╚--ButtonView
+ * </pre>
  * Created by hupei on 2017/3/29.
  */
 
-abstract class BuildViewItemsAbs extends BuildViewAbs {
+abstract class AbsBuildViewItems extends AbsBuildView {
     protected ItemsView mItemsView;
 
-    public BuildViewItemsAbs(Context context, CircleParams params) {
+    public AbsBuildViewItems(Context context, CircleParams params) {
         super(context, params);
     }
 
@@ -35,23 +43,11 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
     }
 
     @Override
-    public ButtonView buildButton() {
-        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams
-                , mParams.negativeParams, mParams.positiveParams, mParams.neutralParams
-                , mParams.createButtonListener);
-        mRoot.addView(itemsButton);
-        return itemsButton;
-    }
+    public void buildRootView() {
+        LinearLayout rootLayout = new LinearLayout(mContext);
+        rootLayout.setOrientation(LinearLayout.VERTICAL);
 
-    @Override
-    protected void buildRootView() {
-        LinearLayout rootItem = new LinearLayout(mContext);
-        rootItem.setOrientation(LinearLayout.VERTICAL);
-
-        CardView cardView = new CardView(mContext);
-        cardView.setCardElevation(0f);
-        cardView.setCardBackgroundColor(Color.TRANSPARENT);
-        cardView.setRadius(Controller.dp2px(mContext, mParams.dialogParams.radius));
+        CardView cardView = createCardView();
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
@@ -59,12 +55,21 @@ abstract class BuildViewItemsAbs extends BuildViewAbs {
         layoutParams.bottomMargin = Controller.dp2px(mContext, mParams.itemsParams.bottomMargin);
         cardView.setLayoutParams(layoutParams);
 
-        rootItem.addView(cardView);
+        rootLayout.addView(cardView);
 
-        LinearLayout rootCardViewByLinearLayout = buildLinearLayout();
+        LinearLayout rootCardViewByLinearLayout = createLinearLayout();
         cardView.addView(rootCardViewByLinearLayout);
 
-        mRoot = rootItem;
+        mRoot = rootLayout;
+    }
+
+    @Override
+    public ButtonView buildButton() {
+        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams
+                , mParams.negativeParams, mParams.positiveParams, mParams.neutralParams
+                , mParams.createButtonListener);
+        mRoot.addView(itemsButton);
+        return itemsButton;
     }
 
 }

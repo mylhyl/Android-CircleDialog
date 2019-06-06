@@ -110,15 +110,14 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
             mLlIndicator = new LinearLayout(getContext());
             mLlIndicator.setOrientation(LinearLayout.HORIZONTAL);
             mLlIndicator.setGravity(Gravity.CENTER_VERTICAL);
-            RelativeLayout.LayoutParams lpIndicator = new RelativeLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, 80);
+            RelativeLayout.LayoutParams lpIndicator = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 80);
             lpIndicator.addRule(RelativeLayout.CENTER_HORIZONTAL);
             lpIndicator.addRule(RelativeLayout.ALIGN_BOTTOM, android.R.id.list);
             mLlIndicator.setLayoutParams(lpIndicator);
 
 
-            LinearLayout.LayoutParams lpPoint = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams lpPoint = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
 
             int pointLeftRightMargin = Controller.dp2px(getContext(), mAdParams.pointLeftRightMargin);
             lpPoint.setMargins(pointLeftRightMargin, 0, pointLeftRightMargin, 0);
@@ -129,8 +128,7 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
                 if (mAdParams.pointDrawableResId != 0) {
                     imageView.setImageResource(mAdParams.pointDrawableResId);
                 } else {
-                    Drawable pointDrawable = new BuildViewAdImpl.SelectorPointDrawable(
-                            Color.WHITE, 20);
+                    Drawable pointDrawable = new BuildViewAdImpl.SelectorPointDrawable(Color.WHITE, 20);
                     imageView.setImageDrawable(pointDrawable);
                 }
                 mLlIndicator.addView(imageView);
@@ -141,7 +139,9 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
     }
 
     private void pageSelectedToPoint(int position) {
-        if (!mAdParams.isShowIndicator || mLlIndicator == null) return;
+        if (!mAdParams.isShowIndicator || mLlIndicator == null) {
+            return;
+        }
         int childCount = mLlIndicator.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = mLlIndicator.getChildAt(i);

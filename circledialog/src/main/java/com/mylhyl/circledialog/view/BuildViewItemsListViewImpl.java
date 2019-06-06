@@ -8,7 +8,7 @@ import com.mylhyl.circledialog.CircleParams;
  * Created by hupei on 2017/3/29.
  */
 
-public final class BuildViewItemsListViewImpl extends BuildViewItemsAbs {
+public final class BuildViewItemsListViewImpl extends AbsBuildViewItems {
 
     public BuildViewItemsListViewImpl(Context context, CircleParams params) {
         super(context, params);

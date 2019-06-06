@@ -11,13 +11,19 @@ import com.mylhyl.circledialog.view.listener.CloseView;
 
 public interface BuildView {
 
-    <T> T getBodyView();
+    void buildRootView();
+
+    void buildTitleView();
 
     void buildBodyView();
 
+    ButtonView buildButton();
+
+    CloseView buildCloseImgView();
+
     View getRootView();
 
-    ButtonView buildButton();
+    <T> T getBodyView();
 
     void refreshTitle();
 
@@ -25,5 +31,5 @@ public interface BuildView {
 
     void refreshButton();
 
-    CloseView buildCloseImgView();
+
 }

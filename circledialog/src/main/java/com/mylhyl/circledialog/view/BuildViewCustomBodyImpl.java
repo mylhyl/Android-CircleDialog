@@ -9,7 +9,7 @@ import com.mylhyl.circledialog.CircleParams;
  * Created by hupei on 2018/8/14.
  */
 
-public final class BuildViewCustomBodyImpl extends BuildViewAbs {
+public final class BuildViewCustomBodyImpl extends AbsBuildView {
     private View mCustomBodyView;
 
     public BuildViewCustomBodyImpl(Context context, CircleParams params) {

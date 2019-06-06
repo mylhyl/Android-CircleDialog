@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -155,11 +154,9 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = createView(getContext(), inflater, container);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius)));
-        } else {
-            view.setBackgroundDrawable(new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius)));
-        }
+        CircleDrawable circleDrawable = new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius));
+        BackgroundHelper.INSTANCE.handleBackground(view, circleDrawable);
+
         view.setAlpha(mAlpha);
         return view;
     }

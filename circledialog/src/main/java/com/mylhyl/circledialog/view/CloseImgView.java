@@ -37,14 +37,13 @@ public class CloseImgView extends LinearLayout implements CloseView {
         setOrientation(VERTICAL);
         setGravity(Gravity.CENTER_HORIZONTAL);
         if (mCloseParams.closePadding != null && mCloseParams.closePadding.length == 4)
-            setPadding(Controller.dp2px(getContext(), mCloseParams.closePadding[0])
-                    , Controller.dp2px(getContext(), mCloseParams.closePadding[1])
-                    , Controller.dp2px(getContext(), mCloseParams.closePadding[2])
-                    , Controller.dp2px(getContext(), mCloseParams.closePadding[3]));
+            setPadding(Controller.dp2px(getContext(), mCloseParams.closePadding[0]),
+                    Controller.dp2px(getContext(), mCloseParams.closePadding[1]),
+                    Controller.dp2px(getContext(), mCloseParams.closePadding[2]),
+                    Controller.dp2px(getContext(), mCloseParams.closePadding[3]));
         //关闭按钮
         mImageCloseView = new ImageView(getContext());
-        LayoutParams layoutParamsClose = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParamsClose = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         if (mCloseParams.closeSize != 0) {
             layoutParamsClose.width = layoutParamsClose.height = Controller.dp2px(getContext(), mCloseParams.closeSize);
         }
@@ -57,8 +56,8 @@ public class CloseImgView extends LinearLayout implements CloseView {
         if (mCloseParams.connectorWidth > 0) {
             DividerView dividerView = new DividerView(getContext());
             dividerView.setBgColor(mCloseParams.connectorColor);
-            addView(dividerView, new LayoutParams(Controller.dp2px(getContext(), mCloseParams.connectorWidth)
-                    , Controller.dp2px(getContext(), mCloseParams.connectorHeight)));
+            addView(dividerView, new LayoutParams(Controller.dp2px(getContext(), mCloseParams.connectorWidth),
+                    Controller.dp2px(getContext(), mCloseParams.connectorHeight)));
         }
         //位置
         if (mCloseParams.closeGravity == CloseParams.CLOSE_TOP_LEFT

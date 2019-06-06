@@ -2,13 +2,13 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.mylhyl.circledialog.BackgroundHelper;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.Controller.OnDialogInternalListener;
@@ -37,7 +37,7 @@ import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_TOP_RIGHT;
  * Created by hupei on 2018/8/15.
  */
 
-public final class BuildViewPopupImpl extends BuildViewAbs {
+public final class BuildViewPopupImpl extends AbsBuildView {
 
     private static final int GRAVITY_TOP_CENTER = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
     private static final int GRAVITY_BOTTOM_CENTER = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
@@ -65,11 +65,6 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         this.mDialogInternalListener = listener;
         this.mScreenSize = screenSize;
         this.mStatusBarHeight = statusBarHeight;
-    }
-
-    @Override
-    public ItemsView getBodyView() {
-        return mItemsView;
     }
 
     @Override
@@ -178,7 +173,7 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
         }
         dialogParams.yOff = dialogY;
 
-        LinearLayout rootLinearLayout = buildLinearLayout();
+        LinearLayout rootLinearLayout = createLinearLayout();
         rootLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         //箭头在左右情况，布局改为水平
         if (mTriangleDirection == Gravity.LEFT || mTriangleDirection == Gravity.RIGHT) {
@@ -201,13 +196,9 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
             int backgroundColor = popupParams.backgroundColor != 0
                     ? popupParams.backgroundColor : dialogParams.backgroundColor;
             Drawable triangleDrawable = new TriangleDrawable(mTriangleDirection, backgroundColor);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mTriangleView.setBackground(triangleDrawable);
-            } else {
-                mTriangleView.setBackgroundDrawable(triangleDrawable);
-            }
+            BackgroundHelper.INSTANCE.handleBackground(mTriangleView, triangleDrawable);
         }
-        CardView cardView = buildCardView();
+        CardView cardView = createCardView();
         cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
         mItemsView = new BodyRecyclerView(mContext, popupParams, dialogParams);
         final View recyclerView = mItemsView.getView();
@@ -235,6 +226,11 @@ public final class BuildViewPopupImpl extends BuildViewAbs {
                 handleAtLocation(dialogParams, popupParams, bottom, oldBottom, this);
             }
         });
+    }
+
+    @Override
+    public ItemsView getBodyView() {
+        return mItemsView;
     }
 
     @Override

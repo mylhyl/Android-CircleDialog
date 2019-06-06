@@ -8,7 +8,7 @@ import com.mylhyl.circledialog.CircleParams;
  * Created by hupei on 2018/8/14.
  */
 
-public final class BuildViewConfirmImpl extends BuildViewAbs {
+public final class BuildViewConfirmImpl extends AbsBuildView {
     private BodyTextView mBodyTextView;
 
     public BuildViewConfirmImpl(Context context, CircleParams params) {
@@ -16,18 +16,19 @@ public final class BuildViewConfirmImpl extends BuildViewAbs {
     }
 
     @Override
-    public BodyTextView getBodyView() {
-        return mBodyTextView;
-    }
-
-    @Override
     public void buildBodyView() {
         buildRootView();
         buildTitleView();
         if (mBodyTextView == null) {
-            mBodyTextView = new BodyTextView(mContext, mParams);
+            mBodyTextView = new BodyTextView(mContext, mParams.dialogParams, mParams.textParams,
+                    mParams.createTextListener);
             addViewByBody(mBodyTextView);
         }
+    }
+
+    @Override
+    public BodyTextView getBodyView() {
+        return mBodyTextView;
     }
 
     @Override
