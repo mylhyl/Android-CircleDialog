@@ -1,4 +1,9 @@
-# Android-CircleDialog 
+# Android-CircleDialog
+
+[![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![JCenter](https://img.shields.io/badge/-JCenter-5e5e5e.svg)](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
+
  * 基于`DialogFragment`封装，已封装的对话框类型有，常规对话框、列表框、输入框、进度框；
  每个对话框类型也支持自定义边框圆角、背景透明度、字体大小与色值
  * 初衷是掌握知识点，此库不一定适合你的产品整体风格，当然能够适合你的项目最好不过，有建议和不足之处欢迎骚扰
@@ -42,3 +47,20 @@
 
 # 未完成功能
  * popup在item中智能识别弹出位置
+
+License
+-------
+
+    Copyright 2017 scwang90
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
