@@ -1,11 +1,12 @@
 package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
-import android.support.annotation.IntDef;
 import android.view.View;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 import static com.mylhyl.circledialog.res.values.CircleDimen.ITEM_TEXT_PADDING;
 

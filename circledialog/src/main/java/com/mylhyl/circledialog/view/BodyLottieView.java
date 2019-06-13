@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -14,6 +13,8 @@ import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.LottieParams;
 import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by hupei on 2018/7/7.

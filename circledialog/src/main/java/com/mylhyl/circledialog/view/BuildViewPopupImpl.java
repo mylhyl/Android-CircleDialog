@@ -2,7 +2,6 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,6 +18,8 @@ import com.mylhyl.circledialog.view.listener.ItemsView;
 
 import java.util.LinkedList;
 import java.util.Queue;
+
+import androidx.cardview.widget.CardView;
 
 import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_CENTER;
 import static com.mylhyl.circledialog.params.PopupParams.TRIANGLE_BOTTOM_LEFT;

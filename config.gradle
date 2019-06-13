@@ -1,21 +1,22 @@
 ext {
+    date = new Date().format("yyMMdd")
     android = [
-            compileSdkVersion: 27,
+            compileSdkVersion: 28,
             minSdkVersion    : 16,
-            targetSdkVersion : 27,
+            targetSdkVersion : 28,
             versionCode      : 1,
-            versionName      : "20190514"
+            versionName      : "${date}"
     ]
 
     despVersion = [
-            support: "27.1.1"
+            support: "1.0.0"
     ]
 
     desp = [
             // support
-            appcompat  : "com.android.support:appcompat-v7:${despVersion.support}",
-            recyclerview : "com.android.support:recyclerview-v7:${despVersion.support}",
-            cardview     : "com.android.support:cardview-v7:${despVersion.support}",
+            appcompat    : "androidx.appcompat:appcompat:${despVersion.support}",
+            recyclerview : "androidx.recyclerview:recyclerview:${despVersion.support}",
+            cardview     : "androidx.cardview:cardview:${despVersion.support}",
             leakcanary   : "com.squareup.leakcanary:leakcanary-android:1.5.4",
             lottie       : "com.airbnb.android:lottie:2.5.4",
             baseRvAdapter: "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40",

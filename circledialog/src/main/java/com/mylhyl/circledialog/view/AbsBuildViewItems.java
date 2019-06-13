@@ -1,7 +1,6 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -9,6 +8,8 @@ import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
+
+import androidx.cardview.widget.CardView;
 
 /**
  * view的层次结构

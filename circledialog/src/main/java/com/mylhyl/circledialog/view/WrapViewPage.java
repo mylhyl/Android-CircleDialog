@@ -1,9 +1,10 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by hupei on 2019/1/16 10:42.

@@ -2,14 +2,14 @@ package com.mylhyl.circledialog.params;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.widget.BaseAdapter;
 
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * items 内容参数
@@ -72,7 +72,9 @@ public class ItemsParams implements Parcelable {
      * RecyclerView 布局管理
      */
     public RecyclerView.LayoutManager layoutManager;
-    public int linearLayoutManagerOrientation = LinearLayoutManager.VERTICAL;
+
+    @RecyclerView.Orientation
+    public int linearLayoutManagerOrientation = RecyclerView.VERTICAL;
     /**
      * RecyclerView 分隔线
      */

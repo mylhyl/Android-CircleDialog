@@ -1,17 +1,11 @@
 package com.mylhyl.circledialog.sample;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.SupportMenuInflater;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -47,6 +41,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.SupportMenuInflater;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
     //全局配置
     static {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     private Runnable runnable;
     private int time = 30;
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {

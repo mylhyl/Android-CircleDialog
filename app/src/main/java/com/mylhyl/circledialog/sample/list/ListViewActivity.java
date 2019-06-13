@@ -4,11 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ActionMenuView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +17,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.tabs.TabLayout;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigPopup;
@@ -34,6 +30,11 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ActionMenuView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 public class ListViewActivity extends AppCompatActivity {
 
     ActionMenuView mActionMenuView;
@@ -41,6 +42,42 @@ public class ListViewActivity extends AppCompatActivity {
 
     public static void gotoActivity(Activity activity) {
         activity.startActivity(new Intent(activity, ListViewActivity.class));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mActionMenuView = findViewById(R.id.toolbar_actionMenuView);
+        getMenuInflater().inflate(R.menu.work, mActionMenuView.getMenu());
+        mActionMenuView.setOnMenuItemClickListener(item -> onOptionsItemSelected(item));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        new CircleDialog.Builder()
+                .setPopup(mActionMenuView, PopupParams.TRIANGLE_TOP_RIGHT)
+                .setPopupItems(new String[]{"全部", "广东省", "香港", "湖南", "广西壮族自治区"}
+                        , new OnRvItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position) {
+                                return true;
+                            }
+                        })
+                .show(getSupportFragmentManager());
+        return true;
+    }
+
+    public void showMyDialog(View anchor) {
+        new CircleDialog.Builder()
+                .setPopup(anchor, PopupParams.TRIANGLE_TOP_CENTER)
+                .setPopupItems(new String[]{"1", "2", "3", "4"}
+                        , new OnRvItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position) {
+                                return true;
+                            }
+                        })
+                .show(getSupportFragmentManager());
     }
 
     @Override
@@ -412,42 +449,6 @@ public class ListViewActivity extends AppCompatActivity {
                         .show(getSupportFragmentManager());
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        mActionMenuView = findViewById(R.id.toolbar_actionMenuView);
-        getMenuInflater().inflate(R.menu.work, mActionMenuView.getMenu());
-        mActionMenuView.setOnMenuItemClickListener(item -> onOptionsItemSelected(item));
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        new CircleDialog.Builder()
-                .setPopup(mActionMenuView, PopupParams.TRIANGLE_TOP_RIGHT)
-                .setPopupItems(new String[]{"全部", "广东省", "香港", "湖南", "广西壮族自治区"}
-                        , new OnRvItemClickListener() {
-                            @Override
-                            public boolean onItemClick(View view, int position) {
-                                return true;
-                            }
-                        })
-                .show(getSupportFragmentManager());
-        return true;
-    }
-
-    public void showMyDialog(View anchor) {
-        new CircleDialog.Builder()
-                .setPopup(anchor, PopupParams.TRIANGLE_TOP_CENTER)
-                .setPopupItems(new String[]{"1", "2", "3", "4"}
-                        , new OnRvItemClickListener() {
-                            @Override
-                            public boolean onItemClick(View view, int position) {
-                                return true;
-                            }
-                        })
-                .show(getSupportFragmentManager());
     }
 
     static class MyAdapter extends BaseAdapter {
