@@ -20,12 +20,12 @@
 [ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  将`latestVersion`替换为左则`Download`图标后面的数字
 
 ```xml
- compile 'com.mylhyl:circleDialog:latestVersion'
+ implementation 'com.mylhyl:circleDialog:latestVersion'
 ```
 如果版本号后面有-alpha，那说明最后一个版本是预览版，可能存在bug谨慎使用，稳定版则没有-alpha后缀  
 例如  
-稳定版：compile 'com.mylhyl:circleDialog:x.x.x'
-预览版：compile 'com.mylhyl:circleDialog:x.x.x-alpha'
+稳定版：implementation 'com.mylhyl:circleDialog:x.x.x'  
+预览版：implementation 'com.mylhyl:circleDialog:x.x.x-alpha'
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
 
