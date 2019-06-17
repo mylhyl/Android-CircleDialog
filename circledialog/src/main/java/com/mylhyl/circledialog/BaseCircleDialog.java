@@ -76,7 +76,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         DialogParams dialogParams = mParams.dialogParams;
         setGravity(dialogParams.gravity);
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
@@ -98,6 +97,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
             setSoftInputMode();
         }
         setSystemUiVisibility(dialogParams.systemUiVisibility);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

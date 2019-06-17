@@ -19,6 +19,7 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -155,11 +156,16 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = createView(getContext(), inflater, container);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         CircleDrawable circleDrawable = new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius));
         BackgroundHelper.INSTANCE.handleBackground(view, circleDrawable);
 
         view.setAlpha(mAlpha);
-        return view;
     }
 
     public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
