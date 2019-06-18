@@ -795,8 +795,8 @@ public final class CircleDialog {
         /**
          * 连接线的宽高度，只有大于0才显示，默认是0
          *
-         * @param width
-         * @param height
+         * @param width  width
+         * @param height height
          * @param color  线的颜色值 rgb
          * @return Builder
          */
@@ -864,7 +864,7 @@ public final class CircleDialog {
         /**
          * 广告框指示器资源文件
          *
-         * @param resId
+         * @param resId resId
          * @return Builder
          */
         public Builder setAdIndicatorPoint(@DrawableRes int resId) {
@@ -874,13 +874,13 @@ public final class CircleDialog {
         }
 
         /**
-         * @param loadImageListener
-         * @return
+         * @param imageLoadEngine ImageLoadEngine
+         * @return Builder
          * @deprecated {{@link #setAdPageChangeListener(OnAdPageChangeListener)}}
          */
         @Deprecated
-        public Builder setImageLoadEngine(ImageLoadEngine loadImageListener) {
-            mCircleParams.imageLoadEngine = loadImageListener;
+        public Builder setImageLoadEngine(ImageLoadEngine imageLoadEngine) {
+            mCircleParams.imageLoadEngine = imageLoadEngine;
             return this;
         }
 
