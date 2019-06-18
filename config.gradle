@@ -1,11 +1,16 @@
 ext {
+
+    publish = [
+            version: "5.0.2"
+    ]
+
     date = new Date().format("yyMMdd")
     android = [
             compileSdkVersion: 28,
             minSdkVersion    : 16,
             targetSdkVersion : 28,
             versionCode      : 1,
-            versionName      : "${date}"
+            versionName      : "${publish.version}.${date}"
     ]
 
     despVersion = [
@@ -22,9 +27,5 @@ ext {
             baseRvAdapter: "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40",
             glide        : "com.github.bumptech.glide:glide:4.8.0",
             picasso      : "com.squareup.picasso:picasso:2.5.2"
-    ]
-
-    publish = [
-            version: "5.0.1"
     ]
 }
