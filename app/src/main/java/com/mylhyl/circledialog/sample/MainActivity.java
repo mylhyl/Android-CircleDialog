@@ -528,6 +528,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("副提示语")
                         .setWidth(0.7f)
                         .setLottieAnimation("loading.json")
+//                        .setLottieAnimation("loading/data.json")
+//                        .configLottie(params -> {
+//                            params.imageAssetsFolder="loading/images";
+//                        })
                         .setLottieLoop(true)
                         .playLottieAnimation()
                         .setLottieText("正在加载...")

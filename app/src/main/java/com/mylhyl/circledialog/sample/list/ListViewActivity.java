@@ -93,6 +93,35 @@ public class ListViewActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(new MyAdapter(this));
 
+        findViewById(R.id.top_toolbar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CircleDialog.Builder()
+                        .setWidth(1f)
+                        .setRadius(0)
+                        .configDialog(new ConfigDialog() {
+                            @Override
+                            public void onConfig(DialogParams params) {
+                                params.backgroundColor = Color.parseColor("#FCE3DC");
+                                params.isDimEnabled = false;
+                            }
+                        })
+                        .setPopup(mToolbar, PopupParams.TRIANGLE_TOP_LEFT)
+                        .setPopupTriangleShow(false)
+                        .configPopup(new ConfigPopup() {
+                            @Override
+                            public void onConfig(PopupParams params) {
+                                params.textGravity = Gravity.CENTER;
+                                params.padding = new int[]{8, 0, 8, 0};
+                                params.textColor = Color.parseColor("#212121");
+                            }
+                        })
+                        .setPopupItems(new String[]{"您的离线鉴权申请已审批通过，请进行数据更新请进行数据更新请进行数据更新！"}
+                                , null)
+                        .show(getSupportFragmentManager());
+            }
+        });
+
         findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
