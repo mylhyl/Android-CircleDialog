@@ -80,6 +80,13 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:text="自定义adapter"/>
+
+        <Button
+            android:id="@+id/top_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="toolbar下面"/>
     </RelativeLayout>
 
     <LinearLayout

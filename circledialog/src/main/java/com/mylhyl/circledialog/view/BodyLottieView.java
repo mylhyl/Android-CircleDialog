@@ -71,6 +71,9 @@ final class BodyLottieView extends LinearLayout {
         if (!TextUtils.isEmpty(mLottieParams.animationFileName)) {
             mLottieAnimationView.setAnimation(mLottieParams.animationFileName);
         }
+        if (!TextUtils.isEmpty(mLottieParams.imageAssetsFolder)) {
+            mLottieAnimationView.setImageAssetsFolder(mLottieParams.imageAssetsFolder);
+        }
         if (mLottieParams.autoPlay) {
             mLottieAnimationView.playAnimation();
         }

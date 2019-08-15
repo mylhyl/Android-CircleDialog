@@ -38,6 +38,7 @@ public class LottieParams implements Parcelable {
     public int lottieWidth = CircleDimen.LOTTIE_WIDTH;
     public int animationResId;
     public String animationFileName;
+    public String imageAssetsFolder;
     public boolean autoPlay;
     public boolean loop;
     /**
@@ -76,6 +77,7 @@ public class LottieParams implements Parcelable {
         this.lottieWidth = in.readInt();
         this.animationResId = in.readInt();
         this.animationFileName = in.readString();
+        this.imageAssetsFolder = in.readString();
         this.autoPlay = in.readByte() != 0;
         this.loop = in.readByte() != 0;
         this.text = in.readString();
@@ -99,6 +101,7 @@ public class LottieParams implements Parcelable {
         dest.writeInt(this.lottieWidth);
         dest.writeInt(this.animationResId);
         dest.writeString(this.animationFileName);
+        dest.writeString(this.imageAssetsFolder);
         dest.writeByte(this.autoPlay ? (byte) 1 : (byte) 0);
         dest.writeByte(this.loop ? (byte) 1 : (byte) 0);
         dest.writeString(this.text);
