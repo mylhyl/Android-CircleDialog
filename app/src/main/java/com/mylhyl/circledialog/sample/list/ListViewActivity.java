@@ -55,6 +55,12 @@ public class ListViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         new CircleDialog.Builder()
+                .configDialog(new ConfigDialog() {
+                    @Override
+                    public void onConfig(DialogParams params) {
+                        params.animStyle = R.style.dialogWindowAnim;
+                    }
+                })
                 .setPopup(mActionMenuView, PopupParams.TRIANGLE_TOP_RIGHT)
                 .setPopupItems(new String[]{"全部", "广东省", "香港", "湖南", "广西壮族自治区"}
                         , new OnRvItemClickListener() {
@@ -104,6 +110,8 @@ public class ListViewActivity extends AppCompatActivity {
                             public void onConfig(DialogParams params) {
                                 params.backgroundColor = Color.parseColor("#FCE3DC");
                                 params.isDimEnabled = false;
+                                //增加弹出动画
+                                params.animStyle = R.style.dialogWindowAnim;
                             }
                         })
                         .setPopup(mToolbar, PopupParams.TRIANGLE_TOP_LEFT)
@@ -133,6 +141,8 @@ public class ListViewActivity extends AppCompatActivity {
                             public void onConfig(DialogParams params) {
                                 params.backgroundColor = Color.parseColor("#8f8f8f");
                                 params.isDimEnabled = false;
+                                //增加弹出动画
+                                params.animStyle = R.style.dialogWindowAnim;
                             }
                         })
                         .setPopup(v, PopupParams.TRIANGLE_TOP_LEFT)
