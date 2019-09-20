@@ -72,13 +72,13 @@ public final class CircleDialog {
         mBaseCircleDialog.refreshView();
     }
 
-    public BaseCircleDialog create(CircleParams params) {
-        mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
-        return mBaseCircleDialog;
+    void show(FragmentManager manager) {
+        mBaseCircleDialog.show(manager, "circleDialog");
     }
 
-    public void show(FragmentManager manager) {
-        mBaseCircleDialog.show(manager, "circleDialog");
+    BaseCircleDialog create(CircleParams params) {
+        mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
+        return mBaseCircleDialog;
     }
 
     public static class Builder {
