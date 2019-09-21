@@ -50,6 +50,33 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         init();
     }
 
+    @Override
+    public void refreshItems() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void regOnItemClickListener(AdapterView.OnItemClickListener listener) {
+
+    }
+
+    @Override
+    public void regOnItemClickListener(OnRvItemClickListener listener) {
+        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
+            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
+        }
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
     private void init() {
         configBackground();
         createLayoutManager();
@@ -136,33 +163,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         setAdapter(mAdapter);
     }
 
-    @Override
-    public void refreshItems() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    @Override
-    public void regOnItemClickListener(AdapterView.OnItemClickListener listener) {
-
-    }
-
-    @Override
-    public void regOnItemClickListener(OnRvItemClickListener listener) {
-        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
-            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
-        }
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
     static class ItemsAdapter<T> extends Adapter<ItemsAdapter.Holder> {
         private OnRvItemClickListener mItemClickListener;
         private Context mContext;
@@ -183,7 +183,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 this.mItems = (List<T>) entity;
             } else if (entity != null && entity.getClass().isArray()) {
                 this.mItems = Arrays.asList((T[]) entity);
-            } else {
+            } else if (entity != null) {
                 throw new IllegalArgumentException("entity must be an Array or an Iterable.");
             }
         }
@@ -367,6 +367,22 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
             drawVertical(c, parent);
         }
 
+        @Override
+        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            // 如果是最后一行，则不需要绘制底部
+            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, mDividerHeight, 0);
+            }
+            // 如果是最后一列，则不需要绘制右边
+            else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, 0, mDividerHeight);
+            } else {
+                outRect.set(0, 0, mDividerHeight, mDividerHeight);
+            }
+        }
+
         private void drawHorizontal(Canvas c, RecyclerView parent) {
             int childCount = parent.getChildCount();
             for (int i = 0; i < childCount; i++) {
@@ -398,22 +414,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 mDivider.draw(c);
             }
         }
-
-        @Override
-        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-            int spanCount = getSpanCount(parent);
-            int childCount = parent.getAdapter().getItemCount();
-            // 如果是最后一行，则不需要绘制底部
-            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
-                outRect.set(0, 0, mDividerHeight, 0);
-            }
-            // 如果是最后一列，则不需要绘制右边
-            else if (isLastColumn(parent, itemPosition, spanCount, childCount)) {
-                outRect.set(0, 0, 0, mDividerHeight);
-            } else {
-                outRect.set(0, 0, mDividerHeight, mDividerHeight);
-            }
-        }
     }
 
     static class LinearItemDecoration extends RecyclerView.ItemDecoration {
@@ -429,6 +429,15 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         }
 
         @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            if (mOrientation == LinearLayoutManager.VERTICAL) {
+                drawVertical(c, parent);
+            } else {
+                drawHorizontal(c, parent);
+            }
+        }
+
+        @Override
         public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
             if (mOrientation == LinearLayoutManager.VERTICAL)
                 outRect.set(0, 0, 0, mDividerHeight);
@@ -437,15 +446,6 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
                 if (itemPosition != parent.getAdapter().getItemCount() - 1) {
                     outRect.set(0, 0, mDividerHeight, 0);
                 }
-            }
-        }
-
-        @Override
-        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-            if (mOrientation == LinearLayoutManager.VERTICAL) {
-                drawVertical(c, parent);
-            } else {
-                drawHorizontal(c, parent);
             }
         }
 

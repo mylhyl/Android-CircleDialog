@@ -41,29 +41,6 @@ final class BodyListView extends ListView implements ItemsView {
         init();
     }
 
-    private void init() {
-
-        //如果没有背景色，则使用默认色
-        this.mBackgroundColor = mItemsParams.backgroundColor != 0
-                ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;
-        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
-                ? mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
-
-        setBackgroundColor(mBackgroundColor);
-
-        CircleDrawableSelector bgItemNotRadius = new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress);
-
-        setSelector(bgItemNotRadius);
-        setDivider(new ColorDrawable(CircleColor.divider));
-        setDividerHeight(mItemsParams.dividerHeight);
-
-        mAdapter = mItemsParams.adapter;
-        if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(getContext(), mItemsParams);
-        }
-        setAdapter(mAdapter);
-    }
-
     @Override
     public void refreshItems() {
         post(new Runnable() {
@@ -89,6 +66,29 @@ final class BodyListView extends ListView implements ItemsView {
         return this;
     }
 
+    private void init() {
+
+        //如果没有背景色，则使用默认色
+        this.mBackgroundColor = mItemsParams.backgroundColor != 0
+                ? mItemsParams.backgroundColor : mDialogParams.backgroundColor;
+        this.mBackgroundColorPress = mItemsParams.backgroundColorPress != 0
+                ? mItemsParams.backgroundColorPress : mDialogParams.backgroundColorPress;
+
+        setBackgroundColor(mBackgroundColor);
+
+        CircleDrawableSelector bgItemNotRadius = new CircleDrawableSelector(Color.TRANSPARENT, mBackgroundColorPress);
+
+        setSelector(bgItemNotRadius);
+        setDivider(new ColorDrawable(CircleColor.divider));
+        setDividerHeight(mItemsParams.dividerHeight);
+
+        mAdapter = mItemsParams.adapter;
+        if (mAdapter == null) {
+            mAdapter = new ItemsAdapter(getContext(), mItemsParams);
+        }
+        setAdapter(mAdapter);
+    }
+
     static class ItemsAdapter<T> extends BaseAdapter {
         private Context mContext;
         private List<T> mItems;
@@ -103,7 +103,7 @@ final class BodyListView extends ListView implements ItemsView {
                 this.mItems = (List<T>) entity;
             } else if (entity != null && entity.getClass().isArray()) {
                 this.mItems = Arrays.asList((T[]) entity);
-            } else {
+            } else if (entity != null) {
                 throw new IllegalArgumentException("entity must be an Array or an Iterable.");
             }
         }
