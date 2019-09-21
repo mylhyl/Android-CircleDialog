@@ -99,7 +99,7 @@ final class BodyListView extends ListView implements ItemsView {
                 this.mItems = (List<T>) entity;
             } else if (entity != null && entity.getClass().isArray()) {
                 this.mItems = Arrays.asList((T[]) entity);
-            } else {
+            } else if (entity != null) {
                 throw new IllegalArgumentException("entity must be an Array or an Iterable.");
             }
         }
