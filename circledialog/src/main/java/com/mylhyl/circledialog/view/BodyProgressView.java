@@ -34,6 +34,56 @@ final class BodyProgressView extends ScaleLinearLayout {
         init(context, params);
     }
 
+    /**
+     * 直接设置对象属性值,无视private/protected修饰符,不经过setter函数.
+     */
+    private static void setFieldValue(final Object object, final String fieldName, final Object
+            value) {
+        Field field = getDeclaredField(object, fieldName);
+        if (field == null)
+            throw new IllegalArgumentException("Could not find field [" + fieldName + "] on " +
+                    "target [" + object + "]");
+        makeAccessible(field);
+        try {
+            field.set(object, value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 循环向上转型,获取对象的DeclaredField.
+     */
+    protected static Field getDeclaredField(final Object object, final String fieldName) {
+        return getDeclaredField(object.getClass(), fieldName);
+    }
+
+    /**
+     * 强制转换fileld可访问.
+     */
+    protected static void makeAccessible(Field field) {
+        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
+                .getDeclaringClass().getModifiers())) {
+            field.setAccessible(true);
+        }
+    }
+
+    /**
+     * 循环向上转型,获取类的DeclaredField.
+     */
+    @SuppressWarnings("unchecked")
+    protected static Field getDeclaredField(final Class clazz, final String fieldName) {
+        for (Class superClass = clazz; superClass != Object.class; superClass = superClass
+                .getSuperclass()) {
+            try {
+                return superClass.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();// Field不在当前类定义,继续向上转型
+            }
+        }
+        return null;
+    }
+
     private void init(Context context, CircleParams params) {
         setOrientation(LinearLayout.VERTICAL);
         DialogParams dialogParams = params.dialogParams;
@@ -129,23 +179,24 @@ final class BodyProgressView extends ScaleLinearLayout {
             textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
         addView(textView);
 
-        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL
-                && !TextUtils.isEmpty(mProgressParams.text)) {
+        if (!TextUtils.isEmpty(mProgressParams.text)) {
             mViewUpdateHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    int progress = mProgressBar.getProgress();
-                    int max = mProgressBar.getMax();
-                    int percent = (int) (((float) progress / (float) max) * 100);
-                    String args = percent + "%";
-                    if (mProgressParams.text.contains("%s"))
-                        textView.setText(String.format(mProgressParams.text, args));
-                    else textView.setText(mProgressParams.text + args);
+                    if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
+                        int progress = mProgressBar.getProgress();
+                        int max = mProgressBar.getMax();
+                        int percent = (int) (((float) progress / (float) max) * 100);
+                        String args = percent + "%";
+                        if (mProgressParams.text.contains("%s"))
+                            textView.setText(String.format(mProgressParams.text, args));
+                        else textView.setText(mProgressParams.text + args);
+                    } else {
+                        textView.setText(mProgressParams.text);
+                    }
                 }
             };
-        } else {
-            textView.setText(mProgressParams.text);
         }
 
         OnCreateProgressListener createProgressListener = params.createProgressListener;
@@ -154,60 +205,12 @@ final class BodyProgressView extends ScaleLinearLayout {
         }
     }
 
-    /**
-     * 直接设置对象属性值,无视private/protected修饰符,不经过setter函数.
-     */
-    private static void setFieldValue(final Object object, final String fieldName, final Object
-            value) {
-        Field field = getDeclaredField(object, fieldName);
-        if (field == null)
-            throw new IllegalArgumentException("Could not find field [" + fieldName + "] on " +
-                    "target [" + object + "]");
-        makeAccessible(field);
-        try {
-            field.set(object, value);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 循环向上转型,获取对象的DeclaredField.
-     */
-    protected static Field getDeclaredField(final Object object, final String fieldName) {
-        return getDeclaredField(object.getClass(), fieldName);
-    }
-
-    /**
-     * 强制转换fileld可访问.
-     */
-    protected static void makeAccessible(Field field) {
-        if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field
-                .getDeclaringClass().getModifiers())) {
-            field.setAccessible(true);
-        }
-    }
-
-    /**
-     * 循环向上转型,获取类的DeclaredField.
-     */
-    @SuppressWarnings("unchecked")
-    protected static Field getDeclaredField(final Class clazz, final String fieldName) {
-        for (Class superClass = clazz; superClass != Object.class; superClass = superClass
-                .getSuperclass()) {
-            try {
-                return superClass.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();// Field不在当前类定义,继续向上转型
-            }
-        }
-        return null;
-    }
-
     public void refreshProgress() {
-        mProgressBar.setMax(mProgressParams.max);
-        mProgressBar.setProgress(mProgressParams.progress);
-        mProgressBar.setSecondaryProgress(mProgressParams.progress + 10);
+        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
+            mProgressBar.setMax(mProgressParams.max);
+            mProgressBar.setProgress(mProgressParams.progress);
+            mProgressBar.setSecondaryProgress(mProgressParams.progress + 10);
+        }
         onProgressChanged();
     }
 
