@@ -21,6 +21,6 @@ ext {
     ]
 
     publish = [
-            version: "2.6.11"
+            version: "2.6.12"
     ]
 }

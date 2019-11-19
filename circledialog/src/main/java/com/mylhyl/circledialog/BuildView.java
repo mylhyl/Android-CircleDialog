@@ -28,7 +28,7 @@ public interface BuildView {
     /**
      * 刷新标题
      *
-     * @return
+     * @return 标题视图
      */
     View refreshTitle();
 

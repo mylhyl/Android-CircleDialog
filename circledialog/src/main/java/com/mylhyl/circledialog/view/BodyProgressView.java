@@ -180,6 +180,9 @@ final class BodyProgressView extends ScaleLinearLayout {
         addView(textView);
 
         if (!TextUtils.isEmpty(mProgressParams.text)) {
+
+            textView.setText(mProgressParams.text);
+
             mViewUpdateHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
