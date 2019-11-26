@@ -16,11 +16,8 @@
 <img src="preview/gif.gif" width="240px"/>
 
 # 引入
-
-[ ![Download](https://api.bintray.com/packages/mylhyl/maven/circleDialog/images/download.svg) ](https://bintray.com/mylhyl/maven/circleDialog/_latestVersion)  将`latestVersion`替换为左则`Download`图标后面的数字
-
 ```xml
- implementation 'com.mylhyl:circleDialog:latestVersion'
+ implementation 'com.mylhyl:circleDialog:5.0.6'
 ```
 如果版本号后面有-alpha，那说明最后一个版本是预览版，可能存在bug谨慎使用，稳定版则没有-alpha后缀  
 例如  
