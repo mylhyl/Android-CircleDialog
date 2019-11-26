@@ -2,7 +2,6 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -126,25 +125,30 @@ final class BodyProgressView extends LinearLayout {
                     Controller.dp2px(getContext(), padding[3]));
         }
         addView(mTextView);
-        mTextView.setText(mProgressParams.text);
 
-        if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL && !TextUtils.isEmpty(mProgressParams.text)) {
-            mViewUpdateHandler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
+        if (!TextUtils.isEmpty(mProgressParams.text)) {
+            mTextView.setText(mProgressParams.text);
+        }
+        mViewUpdateHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (mProgressParams.style == ProgressParams.STYLE_HORIZONTAL) {
                     int progress = mProgressBar.getProgress();
                     int max = mProgressBar.getMax();
                     int percent = (int) (((float) progress / (float) max) * 100);
                     String args = percent + "%";
-                    if (mProgressParams.text.contains("%s")) {
+                    if (mProgressParams.text.contains("%s"))
                         mTextView.setText(String.format(mProgressParams.text, args));
-                    } else {
-                        mTextView.setText(mProgressParams.text + args);
-                    }
+                    else mTextView.setText(mProgressParams.text + args);
+                } else {
+                    mTextView.setText(mProgressParams.text);
                 }
-            };
-        }
+            }
+        };
+
+
+        mTextView.setText(mProgressParams.text);
     }
 
     private void createProgressBar() {
