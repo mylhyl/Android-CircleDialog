@@ -1,6 +1,9 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -172,6 +175,13 @@ final class BodyProgressView extends LinearLayout {
                     mProgressBar.setIndeterminateDrawable(getContext().getResources().getDrawable(progressDrawableId));
             } else {
                 mProgressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyle);
+                // 旋转颜色
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (mProgressParams.indeterminateColor != 0) {
+                        ColorStateList colorStateList = ColorStateList.valueOf(mProgressParams.indeterminateColor);
+                        mProgressBar.setIndeterminateTintList(colorStateList);
+                    }
+                }
             }
             mProgressParams.progressHeight = CircleDimen.PROGRESS_HEIGHT_SPINNER;
         }

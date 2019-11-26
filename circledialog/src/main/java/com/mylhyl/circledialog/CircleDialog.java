@@ -2,9 +2,19 @@ package com.mylhyl.circledialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.BaseAdapter;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.FloatRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.callback.ConfigButton;
@@ -46,14 +56,6 @@ import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 import java.util.List;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.FloatRange;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -359,6 +361,20 @@ public final class CircleDialog {
         public Builder setProgressStyle(int style) {
             newProgressParams();
             mCircleParams.progressParams.style = style;
+            return this;
+        }
+
+        /**
+         * 设置圆形样式的颜色
+         *
+         * @param color RGB颜色值
+         * @return this Builder
+         * @since 5.0.5
+         */
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        public Builder setProgressColor(int color) {
+            newProgressParams();
+            mCircleParams.progressParams.indeterminateColor = color;
             return this;
         }
 

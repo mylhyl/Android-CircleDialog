@@ -22,6 +22,7 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
+import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
@@ -273,7 +274,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                            }
 //                        })
                         .setProgressText("登录中...")
+                        .configProgress(new ConfigProgress() {
+                            @Override
+                            public void onConfig(ProgressParams params) {
+                                params.indeterminateColor = Color.parseColor("#E9AD44");
+                            }
+                        })
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
+//                        .setProgressColor(getColor(R.color.colorAccent))
+//                        .setProgressColor(Color.parseColor("#E9AD44"))
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
 
                         // 图标x关闭按钮
