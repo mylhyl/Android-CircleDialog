@@ -1,8 +1,10 @@
 package com.mylhyl.circledialog.params;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -85,6 +87,13 @@ public class ProgressParams implements Parcelable {
      * {@linkplain Typeface#BOLD_ITALIC BOLD_ITALIC}
      */
     public int styleText = Typeface.NORMAL;
+    /**
+     * 只对圈圈颜色有效 RGB颜色值
+     *
+     * @since 5.0.5
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public int indeterminateColor;
 
     public ProgressParams() {
     }
@@ -102,6 +111,7 @@ public class ProgressParams implements Parcelable {
         this.textColor = in.readInt();
         this.textSize = in.readInt();
         this.styleText = in.readInt();
+        this.indeterminateColor = in.readInt();
     }
 
     @Override
@@ -123,5 +133,6 @@ public class ProgressParams implements Parcelable {
         dest.writeInt(this.textColor);
         dest.writeInt(this.textSize);
         dest.writeInt(this.styleText);
+        dest.writeInt(this.indeterminateColor);
     }
 }

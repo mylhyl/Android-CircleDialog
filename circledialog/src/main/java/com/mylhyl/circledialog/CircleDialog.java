@@ -2,11 +2,13 @@ package com.mylhyl.circledialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -58,8 +60,9 @@ public final class CircleDialog {
     public DialogFragment create(CircleParams params) {
         if (mAbsDialog != null) {
             Dialog dialog = mAbsDialog.getDialog();
-            if (dialog != null && dialog.isShowing())
+            if (dialog != null && dialog.isShowing()) {
                 mAbsDialog.refreshView();
+            }
         } else {
             mAbsDialog = AbsCircleDialog.newAbsCircleDialog(params);
         }
@@ -69,8 +72,9 @@ public final class CircleDialog {
 
     @Deprecated
     public void show(FragmentActivity activity) {
-        if (activity == null)
+        if (activity == null) {
             throw new NullPointerException("please call constructor Builder(FragmentActivity)");
+        }
         mAbsDialog.show(activity.getSupportFragmentManager(), "circleDialog");
     }
 
@@ -87,15 +91,15 @@ public final class CircleDialog {
             init();
         }
 
-        private void init() {
-            mCircleParams = new CircleParams();
-            mCircleParams.dialogParams = new DialogParams();
-        }
-
         @Deprecated
         public Builder(@NonNull FragmentActivity activity) {
             this.mActivity = activity;
             init();
+        }
+
+        private void init() {
+            mCircleParams = new CircleParams();
+            mCircleParams.dialogParams = new DialogParams();
         }
 
         /**
@@ -262,8 +266,9 @@ public final class CircleDialog {
             //判断是否已经设置过
             if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
                 mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.textParams == null)
+            if (mCircleParams.textParams == null) {
                 mCircleParams.textParams = new TextParams();
+            }
         }
 
         public Builder setTextColor(@ColorInt int color) {
@@ -298,11 +303,12 @@ public final class CircleDialog {
             if (dialogParams.gravity == Gravity.NO_GRAVITY)
                 dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
             //判断是否已经设置过
-            if (dialogParams.yOff == -1)
+            if (dialogParams.yOff == -1) {
                 dialogParams.yOff = 20;//底部与屏幕的距离
-
-            if (mCircleParams.itemsParams == null)
+            }
+            if (mCircleParams.itemsParams == null) {
                 mCircleParams.itemsParams = new ItemsParams();
+            }
         }
 
         public Builder setItems(@NonNull BaseAdapter adapter
@@ -322,8 +328,8 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
-                , OnRvItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager,
+                                OnRvItemClickListener listener) {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
@@ -332,8 +338,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager) {
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager) {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.layoutManager = layoutManager;
@@ -341,9 +346,8 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , RecyclerView.LayoutManager layoutManager
-                , RecyclerView.ItemDecoration itemDecoration) {
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager,
+                                RecyclerView.ItemDecoration itemDecoration) {
             newItemsParams();
             ItemsParams params = mCircleParams.itemsParams;
             params.layoutManager = layoutManager;
@@ -384,10 +388,12 @@ public final class CircleDialog {
 
         private void newProgressParams() {
             //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
+            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY) {
                 mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.progressParams == null)
+            }
+            if (mCircleParams.progressParams == null) {
                 mCircleParams.progressParams = new ProgressParams();
+            }
         }
 
         /**
@@ -408,6 +414,20 @@ public final class CircleDialog {
             ProgressParams progressParams = mCircleParams.progressParams;
             progressParams.max = max;
             progressParams.progress = progress;
+            return this;
+        }
+
+        /**
+         * 设置圆形样式的颜色
+         *
+         * @param color RGB颜色值
+         * @return this Builder
+         * @since 5.0.5
+         */
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        public Builder setProgressColor(int color) {
+            newProgressParams();
+            mCircleParams.progressParams.indeterminateColor = color;
             return this;
         }
 
@@ -455,10 +475,12 @@ public final class CircleDialog {
 
         private void newInputParams() {
             //判断是否已经设置过
-            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY)
+            if (mCircleParams.dialogParams.gravity == Gravity.NO_GRAVITY) {
                 mCircleParams.dialogParams.gravity = Gravity.CENTER;
-            if (mCircleParams.inputParams == null)
+            }
+            if (mCircleParams.inputParams == null) {
                 mCircleParams.inputParams = new InputParams();
+            }
         }
 
         public Builder autoInputShowKeyboard() {
@@ -623,8 +645,9 @@ public final class CircleDialog {
         }
 
         private void newPositiveParams() {
-            if (mCircleParams.positiveParams == null)
+            if (mCircleParams.positiveParams == null) {
                 mCircleParams.positiveParams = new ButtonParams();
+            }
         }
 
         /**
@@ -704,8 +727,9 @@ public final class CircleDialog {
         }
 
         private void newNeutralParams() {
-            if (mCircleParams.neutralParams == null)
+            if (mCircleParams.neutralParams == null) {
                 mCircleParams.neutralParams = new ButtonParams();
+            }
         }
 
         /**
@@ -733,8 +757,9 @@ public final class CircleDialog {
         }
 
         public DialogFragment create() {
-            if (mCircleDialog == null)
+            if (mCircleDialog == null) {
                 mCircleDialog = new CircleDialog();
+            }
             return mCircleDialog.create(mCircleParams);
         }
 

@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         .setProgressText("登录中...")
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
+                        .setProgressColor(getColor(R.color.colorPrimaryDark))
 //                        .setProgressDrawable(R.drawable.bg_progress_s)
                         .show(getSupportFragmentManager());
 //                new Handler().postDelayed(new Runnable() {
