@@ -218,7 +218,11 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
                 ScaleTextView textView = new ScaleTextView(mContext);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
-                textView.setHeight(mItemsParams.itemHeight);
+                textView.setMinHeight(mItemsParams.itemHeight);
+                int[] padding = mItemsParams.padding;
+                if (padding != null) {
+                    textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+                }
                 viewHolder.item = textView;
                 convertView = textView;
                 convertView.setTag(viewHolder);

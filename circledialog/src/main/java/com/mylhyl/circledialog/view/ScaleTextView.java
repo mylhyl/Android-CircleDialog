@@ -27,6 +27,12 @@ class ScaleTextView extends android.support.v7.widget.AppCompatTextView {
     }
 
     @Override
+    public void setMinHeight(int pixels) {
+        int dimenHeight = ScaleUtils.scaleValue(pixels);
+        super.setMinHeight(dimenHeight);
+    }
+
+    @Override
     public void setTextSize(float size) {
         int dimenTextSize = ScaleUtils.scaleValue((int) size);
         setTextSize(TypedValue.COMPLEX_UNIT_PX, dimenTextSize);
