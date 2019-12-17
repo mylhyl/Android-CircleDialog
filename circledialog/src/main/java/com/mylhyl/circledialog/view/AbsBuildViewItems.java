@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 
 import androidx.cardview.widget.CardView;
 
-import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.internal.CircleParams;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 

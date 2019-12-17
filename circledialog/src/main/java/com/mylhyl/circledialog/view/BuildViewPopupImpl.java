@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.mylhyl.circledialog.BackgroundHelper;
-import com.mylhyl.circledialog.CircleParams;
-import com.mylhyl.circledialog.Controller;
-import com.mylhyl.circledialog.Controller.OnDialogInternalListener;
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
+import com.mylhyl.circledialog.internal.Controller;
+import com.mylhyl.circledialog.internal.Controller.OnDialogInternalListener;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.res.drawable.TriangleDrawable;

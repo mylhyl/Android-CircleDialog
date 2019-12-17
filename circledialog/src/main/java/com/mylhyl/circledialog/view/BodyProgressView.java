@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.BackgroundHelper;
-import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.values.CircleDimen;

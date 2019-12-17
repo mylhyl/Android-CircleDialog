@@ -1,4 +1,4 @@
-package com.mylhyl.circledialog;
+package com.mylhyl.circledialog.internal;
 
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,8 +18,7 @@ public class MaxLengthEnWatcher implements TextWatcher {
     private TextView mTvCounter;
     private OnInputCounterChangeListener mOnInputCounterChangeListener;
 
-    public MaxLengthEnWatcher(int maxLen, EditText editText, TextView textView
-            , OnInputCounterChangeListener listener) {
+    public MaxLengthEnWatcher(int maxLen, EditText editText, TextView textView, OnInputCounterChangeListener listener) {
         this.mMaxLen = maxLen;
         this.mEditText = editText;
         this.mTvCounter = textView;
@@ -28,8 +27,7 @@ public class MaxLengthEnWatcher implements TextWatcher {
             String defText = mEditText.getText().toString();
             int currentLen = maxLen - defText.length();
             if (mOnInputCounterChangeListener != null) {
-                String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen
-                        , currentLen);
+                String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen, currentLen);
                 mTvCounter.setText(counterText == null ? "" : counterText);
             } else {
                 mTvCounter.setText(String.valueOf(currentLen));

@@ -14,6 +14,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 

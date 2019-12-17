@@ -1,4 +1,4 @@
-package com.mylhyl.circledialog;
+package com.mylhyl.circledialog.internal;
 
 import android.view.View;
 

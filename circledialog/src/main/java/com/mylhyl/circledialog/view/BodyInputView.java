@@ -10,11 +10,11 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.BackgroundHelper;
-import com.mylhyl.circledialog.Controller;
-import com.mylhyl.circledialog.EmojiFilter;
-import com.mylhyl.circledialog.MaxLengthEnWatcher;
-import com.mylhyl.circledialog.MaxLengthWatcher;
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.Controller;
+import com.mylhyl.circledialog.internal.EmojiFilter;
+import com.mylhyl.circledialog.internal.MaxLengthEnWatcher;
+import com.mylhyl.circledialog.internal.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.SubTitleParams;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 
-import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.internal.CircleParams;
 
 /**
  * 广告

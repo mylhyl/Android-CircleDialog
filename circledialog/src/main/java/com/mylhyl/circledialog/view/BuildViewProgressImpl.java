@@ -2,7 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 
-import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.internal.CircleParams;
 
 /**
  * Created by hupei on 2018/8/14.

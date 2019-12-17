@@ -28,6 +28,7 @@ import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.CloseParams;

@@ -3,7 +3,7 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.widget.LinearLayout;
 
-import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 
 import androidx.recyclerview.widget.LinearLayoutManager;

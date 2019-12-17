@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.view.listener.CloseView;
 

@@ -2,7 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 
-import com.mylhyl.circledialog.CircleParams;
+import com.mylhyl.circledialog.internal.CircleParams;
 
 /**
  * view的层次结构

@@ -5,8 +5,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.mylhyl.circledialog.BackgroundHelper;
-import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;

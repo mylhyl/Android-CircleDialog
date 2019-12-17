@@ -1,4 +1,4 @@
-package com.mylhyl.circledialog;
+package com.mylhyl.circledialog.internal;
 
 import android.os.Parcel;
 import android.os.Parcelable;

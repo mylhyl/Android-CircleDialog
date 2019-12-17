@@ -3,8 +3,8 @@ package com.mylhyl.circledialog.view;
 import android.content.Context;
 import android.view.View;
 
-import com.mylhyl.circledialog.BackgroundHelper;
-import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
