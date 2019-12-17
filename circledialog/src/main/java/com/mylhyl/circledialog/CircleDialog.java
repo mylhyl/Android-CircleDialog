@@ -178,17 +178,17 @@ public final class CircleDialog {
         }
 
         public Builder setOnDismissListener(DialogInterface.OnDismissListener listener) {
-            mCircleParams.dismissListener = listener;
+            mCircleParams.circleListeners.dismissListener = listener;
             return this;
         }
 
         public Builder setOnCancelListener(DialogInterface.OnCancelListener listener) {
-            mCircleParams.cancelListener = listener;
+            mCircleParams.circleListeners.cancelListener = listener;
             return this;
         }
 
         public Builder setOnShowListener(DialogInterface.OnShowListener listener) {
-            mCircleParams.showListener = listener;
+            mCircleParams.circleListeners.showListener = listener;
             return this;
         }
 
@@ -222,7 +222,7 @@ public final class CircleDialog {
         }
 
         public Builder setOnCreateTitleListener(@NonNull OnCreateTitleListener listener) {
-            mCircleParams.createTitleListener = listener;
+            mCircleParams.circleListeners.createTitleListener = listener;
             return this;
         }
 
@@ -263,7 +263,7 @@ public final class CircleDialog {
         }
 
         public Builder setOnCreateTextListener(OnCreateTextListener listener) {
-            mCircleParams.createTextListener = listener;
+            mCircleParams.circleListeners.createTextListener = listener;
             return this;
         }
 
@@ -272,7 +272,7 @@ public final class CircleDialog {
             mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
-            mCircleParams.itemListener = listener;
+            mCircleParams.circleListeners.itemListener = listener;
             return this;
         }
 
@@ -282,7 +282,7 @@ public final class CircleDialog {
             mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
             params.adapter = adapter;
-            mCircleParams.itemListener = listener;
+            mCircleParams.circleListeners.itemListener = listener;
             return this;
         }
 
@@ -291,7 +291,7 @@ public final class CircleDialog {
             mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
-            mCircleParams.rvItemListener = listener;
+            mCircleParams.circleListeners.rvItemListener = listener;
             return this;
         }
 
@@ -302,7 +302,7 @@ public final class CircleDialog {
             ItemsParams params = mCircleParams.itemsParams;
             params.items = items;
             params.layoutManager = layoutManager;
-            mCircleParams.rvItemListener = listener;
+            mCircleParams.circleListeners.rvItemListener = listener;
             return this;
         }
 
@@ -413,7 +413,7 @@ public final class CircleDialog {
          */
         public Builder setBodyView(@LayoutRes int bodyViewId, OnCreateBodyViewListener listener) {
             mCircleParams.bodyViewId = bodyViewId;
-            mCircleParams.createBodyViewListener = listener;
+            mCircleParams.circleListeners.createBodyViewListener = listener;
             return this;
         }
 
@@ -427,12 +427,12 @@ public final class CircleDialog {
          */
         public Builder setBodyView(View bodyView, OnCreateBodyViewListener listener) {
             mCircleParams.bodyView = bodyView;
-            mCircleParams.createBodyViewListener = listener;
+            mCircleParams.circleListeners.createBodyViewListener = listener;
             return this;
         }
 
         public Builder setOnCreateProgressListener(OnCreateProgressListener listener) {
-            mCircleParams.createProgressListener = listener;
+            mCircleParams.circleListeners.createProgressListener = listener;
             return this;
         }
 
@@ -507,7 +507,7 @@ public final class CircleDialog {
         public Builder setInputCounter(int maxLen, OnInputCounterChangeListener listener) {
             newInputParams();
             mCircleParams.inputParams.maxLen = maxLen;
-            mCircleParams.inputCounterChangeListener = listener;
+            mCircleParams.circleListeners.inputCounterChangeListener = listener;
             return this;
         }
 
@@ -540,12 +540,12 @@ public final class CircleDialog {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
-            mCircleParams.inputListener = listener;
+            mCircleParams.circleListeners.inputListener = listener;
             return this;
         }
 
         public Builder setOnCreateInputListener(OnCreateInputListener listener) {
-            mCircleParams.createInputListener = listener;
+            mCircleParams.circleListeners.createInputListener = listener;
             return this;
         }
 
@@ -593,7 +593,7 @@ public final class CircleDialog {
         }
 
         public Builder setOnCreateLottieListener(OnCreateLottieListener listener) {
-            mCircleParams.createLottieListener = listener;
+            mCircleParams.circleListeners.createLottieListener = listener;
             return this;
         }
 
@@ -608,7 +608,7 @@ public final class CircleDialog {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
-            mCircleParams.clickPositiveListener = listener;
+            mCircleParams.circleListeners.clickPositiveListener = listener;
             return this;
         }
 
@@ -635,7 +635,7 @@ public final class CircleDialog {
             newNegativeParams();
             ButtonParams params = mCircleParams.negativeParams;
             params.text = text;
-            mCircleParams.clickNegativeListener = listener;
+            mCircleParams.circleListeners.clickNegativeListener = listener;
             return this;
         }
 
@@ -662,7 +662,7 @@ public final class CircleDialog {
             newNeutralParams();
             ButtonParams params = mCircleParams.neutralParams;
             params.text = text;
-            mCircleParams.clickNeutralListener = listener;
+            mCircleParams.circleListeners.clickNeutralListener = listener;
             return this;
         }
 
@@ -679,7 +679,7 @@ public final class CircleDialog {
         }
 
         public Builder setOnCreateButtonListener(OnCreateButtonListener listener) {
-            mCircleParams.createButtonListener = listener;
+            mCircleParams.circleListeners.createButtonListener = listener;
             return this;
         }
 
@@ -725,7 +725,7 @@ public final class CircleDialog {
         public Builder setPopupItems(@NonNull Object items, OnRvItemClickListener listener) {
             newPopupParams();
             mCircleParams.popupParams.items = items;
-            mCircleParams.rvItemListener = listener;
+            mCircleParams.circleListeners.rvItemListener = listener;
             return this;
         }
 
@@ -735,7 +735,7 @@ public final class CircleDialog {
             PopupParams params = mCircleParams.popupParams;
             params.items = items;
             params.layoutManager = layoutManager;
-            mCircleParams.rvItemListener = listener;
+            mCircleParams.circleListeners.rvItemListener = listener;
             return this;
         }
 
@@ -832,7 +832,7 @@ public final class CircleDialog {
         public Builder setAdResId(@DrawableRes int[] resIds, OnAdItemClickListener listener) {
             newAdParams();
             mCircleParams.adParams.resIds = resIds;
-            mCircleParams.adItemClickListener = listener;
+            mCircleParams.circleListeners.adItemClickListener = listener;
             return this;
         }
 
@@ -857,7 +857,7 @@ public final class CircleDialog {
         public Builder setAdUrl(String[] urls, OnAdItemClickListener listener) {
             newAdParams();
             mCircleParams.adParams.urls = urls;
-            mCircleParams.adItemClickListener = listener;
+            mCircleParams.circleListeners.adItemClickListener = listener;
             return this;
         }
 
@@ -901,7 +901,7 @@ public final class CircleDialog {
         }
 
         public Builder setAdPageChangeListener(OnAdPageChangeListener listener) {
-            mCircleParams.adPageChangeListener = listener;
+            mCircleParams.circleListeners.adPageChangeListener = listener;
             return this;
         }
 

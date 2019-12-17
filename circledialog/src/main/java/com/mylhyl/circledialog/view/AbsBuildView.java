@@ -75,7 +75,7 @@ abstract class AbsBuildView implements BuildView {
     public void buildTitleView() {
         if (mParams.titleParams != null) {
             mTitleView = new TitleView(mContext, mParams.dialogParams, mParams.titleParams, mParams.subTitleParams,
-                    mParams.createTitleListener);
+                    mParams.circleListeners.createTitleListener);
             mRootCardViewByLinearLayout.addView(mTitleView);
         }
     }
@@ -83,7 +83,7 @@ abstract class AbsBuildView implements BuildView {
     @Override
     public ButtonView buildButton() {
         mButtonView = new ConfirmButton(mContext, mParams.dialogParams, mParams.negativeParams,
-                mParams.positiveParams, mParams.neutralParams, mParams.createButtonListener);
+                mParams.positiveParams, mParams.neutralParams, mParams.circleListeners.createButtonListener);
         if (!mButtonView.isEmpty()) {
             DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
             mRootCardViewByLinearLayout.addView(dividerView);

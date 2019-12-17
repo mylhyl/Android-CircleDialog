@@ -10,18 +10,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.mylhyl.circledialog.params.DialogParams;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.mylhyl.circledialog.params.DialogParams;
 
 /**
  * Created by hupei on 2017/3/29.
  */
 
-public final class BaseCircleDialog extends AbsBaseCircleDialog implements DialogInterface.OnShowListener
-        , Controller.OnDialogInternalListener {
+public final class BaseCircleDialog extends AbsBaseCircleDialog implements DialogInterface.OnShowListener,
+        Controller.OnDialogInternalListener {
 
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
@@ -50,11 +50,11 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (mParams != null && mParams.dismissListener != null) {
-            mParams.dismissListener.onDismiss(dialog);
+        if (mParams != null && mParams.circleListeners.dismissListener != null) {
+            mParams.circleListeners.dismissListener.onDismiss(dialog);
         }
-        if (mParams != null && mParams.cancelListener != null) {
-            mParams.cancelListener.onCancel(dialog);
+        if (mParams != null && mParams.circleListeners.cancelListener != null) {
+            mParams.circleListeners.cancelListener.onCancel(dialog);
         }
         mParams = null;
         mController = null;
@@ -64,14 +64,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(SAVED_PARAMS, mParams);
-    }
-
-    @Override
-    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(context.getApplicationContext(), mParams, this);
-        mController.createView();
-        View view = mController.getView();
-        return view;
     }
 
     @Override
@@ -92,12 +84,19 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
         setY(dialogParams.yOff);
-        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
-                && mController != null) {
+        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard && mController != null) {
             setSoftInputMode();
         }
         setSystemUiVisibility(dialogParams.systemUiVisibility);
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
+        mController = new Controller(context.getApplicationContext(), mParams, this);
+        mController.createView();
+        View view = mController.getView();
+        return view;
     }
 
     @Override
@@ -122,8 +121,8 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void onShow(DialogInterface dialog) {
-        if (mParams != null && mParams.showListener != null) {
-            mParams.showListener.onShow(dialog);
+        if (mParams != null && mParams.circleListeners.showListener != null) {
+            mParams.circleListeners.showListener.onShow(dialog);
         }
         if (mParams.popupParams != null && mParams.dialogParams.width != 0)
             resizeSize();
@@ -141,7 +140,9 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     public void refreshView() {
-        mController.refreshView();
+        if (mController != null) {
+            mController.refreshView();
+        }
     }
 
     @Override

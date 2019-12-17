@@ -66,8 +66,8 @@ public final class Controller {
             mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
             mCreateView.buildBodyView();
             View bodyView = mCreateView.getBodyView();
-            if (mParams.createBodyViewListener != null)
-                mParams.createBodyViewListener.onCreateBodyView(bodyView);
+            if (mParams.circleListeners.createBodyViewListener != null)
+                mParams.circleListeners.createBodyViewListener.onCreateBodyView(bodyView);
         }
         // 广告
         else if (mParams.adParams != null) {
@@ -77,8 +77,8 @@ public final class Controller {
             bodyView.regOnImageClickListener(new OnAdItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position) {
-                    if (mParams.adItemClickListener != null) {
-                        boolean b = mParams.adItemClickListener.onItemClick(view, position);
+                    if (mParams.circleListeners.adItemClickListener != null) {
+                        boolean b = mParams.circleListeners.adItemClickListener.onItemClick(view, position);
                         if (b) {
                             mOnDialogInternalListener.dialogDismiss();
                         }
@@ -98,8 +98,8 @@ public final class Controller {
             itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position) {
-                    if (mParams.rvItemListener != null) {
-                        boolean b = mParams.rvItemListener.onItemClick(view, position);
+                    if (mParams.circleListeners.rvItemListener != null) {
+                        boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
                         if (b) {
                             mOnDialogInternalListener.dialogDismiss();
                         }
@@ -113,7 +113,7 @@ public final class Controller {
         else if (mParams.itemsParams != null) {
             //设置列表特殊的参数
             DialogParams dialogParams = mParams.dialogParams;
-            // FIXME: hupei 2019/5/30 since 4.0.2修复 设置 dialogParams.gravity 无效的bug
+            // hupei 2019/5/30 since 4.0.2修复 设置 dialogParams.gravity 无效的bug
             if (dialogParams.gravity == Gravity.NO_GRAVITY) {
                 dialogParams.gravity = Gravity.BOTTOM;//默认底部显示
             }
@@ -128,8 +128,8 @@ public final class Controller {
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (mParams.itemListener != null) {
-                            boolean b = mParams.itemListener.onItemClick(parent, view, position, id);
+                        if (mParams.circleListeners.itemListener != null) {
+                            boolean b = mParams.circleListeners.itemListener.onItemClick(parent, view, position, id);
                             if (b) {
                                 mOnDialogInternalListener.dialogDismiss();
                             }
@@ -143,8 +143,8 @@ public final class Controller {
                 itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position) {
-                        if (mParams.rvItemListener != null) {
-                            boolean b = mParams.rvItemListener.onItemClick(view, position);
+                        if (mParams.circleListeners.rvItemListener != null) {
+                            boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
                             if (b) {
                                 mOnDialogInternalListener.dialogDismiss();
                             }
@@ -220,8 +220,8 @@ public final class Controller {
         viewButton.regNegativeListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mParams.clickNegativeListener != null) {
-                    mParams.clickNegativeListener.onClick(v);
+                if (mParams.circleListeners.clickNegativeListener != null) {
+                    mParams.circleListeners.clickNegativeListener.onClick(v);
                 }
                 mOnDialogInternalListener.dialogDismiss();
             }
@@ -232,8 +232,8 @@ public final class Controller {
         viewButton.regNeutralListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mParams.clickNeutralListener != null) {
-                    mParams.clickNeutralListener.onClick(v);
+                if (mParams.circleListeners.clickNeutralListener != null) {
+                    mParams.circleListeners.clickNeutralListener.onClick(v);
                 }
                 mOnDialogInternalListener.dialogDismiss();
             }
@@ -246,8 +246,8 @@ public final class Controller {
             public void onClick(View v) {
                 EditText editText = inputView.getInput();
                 String text = editText.getText().toString();
-                if (mParams.inputListener != null) {
-                    boolean b = mParams.inputListener.onClick(text, editText);
+                if (mParams.circleListeners.inputListener != null) {
+                    boolean b = mParams.circleListeners.inputListener.onClick(text, editText);
                     if (b) {
                         mOnDialogInternalListener.dialogDismiss();
                     }
@@ -260,8 +260,8 @@ public final class Controller {
         viewButton.regPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mParams.clickPositiveListener != null) {
-                    mParams.clickPositiveListener.onClick(v);
+                if (mParams.circleListeners.clickPositiveListener != null) {
+                    mParams.circleListeners.clickPositiveListener.onClick(v);
                 }
                 mOnDialogInternalListener.dialogDismiss();
             }

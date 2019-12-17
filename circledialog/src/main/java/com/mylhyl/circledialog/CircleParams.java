@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog;
 
-import android.content.DialogInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -18,19 +17,6 @@ import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
-import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
-import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
-import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
-import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
-import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
-import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
-import com.mylhyl.circledialog.view.listener.OnCreateProgressListener;
-import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
-import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
-import com.mylhyl.circledialog.view.listener.OnInputClickListener;
-import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
-import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
-import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
  * Created by hupei on 2017/3/30.
@@ -49,42 +35,6 @@ public class CircleParams implements Parcelable {
             return new CircleParams[size];
         }
     };
-    /**
-     * 确定按钮点击事件
-     */
-    public View.OnClickListener clickPositiveListener;
-    /**
-     * 中间按钮点击事件
-     */
-    public View.OnClickListener clickNeutralListener;
-    /**
-     * 取消按钮点击事件
-     */
-    public View.OnClickListener clickNegativeListener;
-    /**
-     * 输入框确定事件
-     */
-    public OnInputClickListener inputListener;
-    /**
-     * RecyclerView Item点击事件
-     */
-    public OnRvItemClickListener rvItemListener;
-    /**
-     * item 点击事件
-     */
-    public OnLvItemClickListener itemListener;
-    /**
-     * dialog 关闭事件
-     */
-    public DialogInterface.OnDismissListener dismissListener;
-    /**
-     * dialog 取消事件
-     */
-    public DialogInterface.OnCancelListener cancelListener;
-    /**
-     * dialog 显示事件
-     */
-    public DialogInterface.OnShowListener showListener;
     public DialogParams dialogParams;
     public TitleParams titleParams;
     public SubTitleParams subTitleParams;
@@ -97,24 +47,17 @@ public class CircleParams implements Parcelable {
     public InputParams inputParams;
     public ButtonParams neutralParams;
     public int bodyViewId;
-    public View bodyView;
-    public OnCreateBodyViewListener createBodyViewListener;
-    public OnCreateProgressListener createProgressListener;
-    public OnCreateLottieListener createLottieListener;
-    public OnCreateTitleListener createTitleListener;
-    public OnCreateTextListener createTextListener;
-    public OnCreateInputListener createInputListener;
-    public OnCreateButtonListener createButtonListener;
-    public OnInputCounterChangeListener inputCounterChangeListener;
     public PopupParams popupParams;
     public boolean itemListViewType;//true=ListView; false=RecyclerView
     public CloseParams closeParams;
     public AdParams adParams;
+
+    public View bodyView;
     public ImageLoadEngine imageLoadEngine;
-    public OnAdItemClickListener adItemClickListener;
-    public OnAdPageChangeListener adPageChangeListener;
+    public CircleListeners circleListeners = new CircleListeners();
 
     public CircleParams() {
+
     }
 
     protected CircleParams(Parcel in) {

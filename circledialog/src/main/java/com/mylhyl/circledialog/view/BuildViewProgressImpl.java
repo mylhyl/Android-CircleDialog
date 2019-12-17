@@ -22,7 +22,7 @@ public final class BuildViewProgressImpl extends AbsBuildView {
 
         if (mBodyProgressView == null) {
             mBodyProgressView = new BodyProgressView(mContext, mParams.dialogParams, mParams.progressParams,
-                    mParams.createProgressListener);
+                    mParams.circleListeners.createProgressListener);
             addViewByBody(mBodyProgressView);
         }
     }

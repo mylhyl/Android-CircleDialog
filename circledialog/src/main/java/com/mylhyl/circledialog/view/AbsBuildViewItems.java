@@ -4,12 +4,12 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.cardview.widget.CardView;
+
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
-
-import androidx.cardview.widget.CardView;
 
 /**
  * view的层次结构
@@ -66,9 +66,8 @@ abstract class AbsBuildViewItems extends AbsBuildView {
 
     @Override
     public ButtonView buildButton() {
-        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams
-                , mParams.negativeParams, mParams.positiveParams, mParams.neutralParams
-                , mParams.createButtonListener);
+        ItemsButton itemsButton = new ItemsButton(mContext, mParams.dialogParams, mParams.negativeParams,
+                mParams.positiveParams, mParams.neutralParams, mParams.circleListeners.createButtonListener);
         mRoot.addView(itemsButton);
         return itemsButton;
     }

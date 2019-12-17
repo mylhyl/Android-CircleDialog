@@ -30,7 +30,7 @@ public final class BuildViewLottieImpl extends AbsBuildView {
 
         if (mBodyLottieView == null) {
             mBodyLottieView = new BodyLottieView(mContext, mParams.dialogParams, mParams.lottieParams,
-                    mParams.createLottieListener);
+                    mParams.circleListeners.createLottieListener);
             addViewByBody(mBodyLottieView);
         }
     }
