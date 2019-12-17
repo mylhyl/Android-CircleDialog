@@ -212,7 +212,7 @@ public final class Controller {
         });
     }
 
-    View getView() {
+    public View getView() {
         return mCreateView.getRootView();
     }
 
