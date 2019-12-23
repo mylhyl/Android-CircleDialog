@@ -4,8 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.widget.BaseAdapter;
 
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -96,6 +98,8 @@ public class ItemsParams implements Parcelable {
      * 列表与底部按钮的距离
      */
     public int bottomMargin = -1;
+    public int textGravity = Gravity.NO_GRAVITY;
+    public CircleItemViewBinder viewBinder;
 
     public ItemsParams() {
     }

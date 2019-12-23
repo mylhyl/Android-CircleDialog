@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.callback.CircleItemLabel;
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -127,6 +130,11 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
 
     @Override
     public void onClick(View view, int which) {
+        if (mAdapter instanceof ItemsAdapter) {
+            ItemsAdapter itemsAdapter = (ItemsAdapter) this.mAdapter;
+            itemsAdapter.setCurPosition(which);
+            itemsAdapter.notifyDataSetChanged();
+        }
         if (mParams.itemListener != null) {
             mParams.itemListener.onItemClick((AdapterView<?>) view, view, which, which);
         }
@@ -176,6 +184,7 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
         private Context mContext;
         private List<T> mItems;
         private ItemsParams mItemsParams;
+        private int curPosition = -1;
 
         public ItemsAdapter(Context context, CircleParams params) {
             this.mContext = context;
@@ -189,6 +198,10 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
             } else {
                 throw new IllegalArgumentException("entity must be an Array or an Iterable.");
             }
+        }
+
+        public void setCurPosition(int curPosition) {
+            this.curPosition = curPosition;
         }
 
         @Override
@@ -218,10 +231,13 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
                 ScaleTextView textView = new ScaleTextView(mContext);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);
-                textView.setMinHeight(mItemsParams.itemHeight);
+                textView.setHeight(mItemsParams.itemHeight);
                 int[] padding = mItemsParams.padding;
                 if (padding != null) {
                     textView.setAutoPadding(padding[0], padding[1], padding[2], padding[3]);
+                }
+                if (mItemsParams.textGravity != Gravity.NO_GRAVITY) {
+                    textView.setGravity(mItemsParams.textGravity);
                 }
                 viewHolder.item = textView;
                 convertView = textView;
@@ -229,8 +245,25 @@ final class BodyItemsView extends ListView implements Controller.OnClickListener
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.item.setText(String.valueOf(getItem(position).toString()));
+            bindView(position, viewHolder);
             return convertView;
+        }
+
+        private void bindView(int position, ViewHolder viewHolder) {
+            T item = getItem(position);
+
+            String label;
+            if (item instanceof CircleItemLabel) {
+                label = ((CircleItemLabel) item).getItemLabel();
+            } else {
+                label = item.toString();
+            }
+            viewHolder.item.setText(label);
+
+            CircleItemViewBinder viewBinder = mItemsParams.viewBinder;
+            if (viewBinder != null) {
+                viewBinder.onBinder(viewHolder.item, item, position, curPosition);
+            }
         }
 
         class ViewHolder {

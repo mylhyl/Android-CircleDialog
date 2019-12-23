@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.callback.ConfigButton;
 import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
@@ -379,6 +380,19 @@ public final class CircleDialog {
         public Builder setItemsManualClose(boolean manualClose) {
             newItemsParams();
             mCircleParams.itemsParams.isManualClose = manualClose;
+            return this;
+        }
+
+        /**
+         * 设置item View Binder 回调
+         *
+         * @param viewBinder
+         * @return Builder
+         * @since 2.6.15
+         */
+        public Builder setItemsViewBinder(CircleItemViewBinder viewBinder) {
+            newItemsParams();
+            mCircleParams.itemsParams.viewBinder = viewBinder;
             return this;
         }
 

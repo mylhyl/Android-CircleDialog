@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
+import com.mylhyl.circledialog.callback.CircleItemLabel;
+import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.SelectorBtn;
@@ -68,7 +71,8 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
         if (itemsParams.layoutManager instanceof GridLayoutManager && itemDecoration == null) {
             itemDecoration = new GridItemDecoration(new ColorDrawable(CircleColor.divider), itemsParams.dividerHeight);
         } else if (itemsParams.layoutManager instanceof LinearLayoutManager && itemDecoration == null) {
-            itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider), itemsParams.dividerHeight);
+            itemDecoration = new LinearItemDecoration(new ColorDrawable(CircleColor.divider),
+                    itemsParams.dividerHeight);
         }
         addItemDecoration(itemDecoration);
 
@@ -112,18 +116,6 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
     }
 
     @Override
-    public void regOnItemClickListener(OnRvItemClickListener listener) {
-        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
-            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
-        }
-    }
-
-    @Override
-    public View getView() {
-        return this;
-    }
-
-    @Override
     public void refreshItems() {
         post(new Runnable() {
             @Override
@@ -139,197 +131,30 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
     }
 
     @Override
+    public void regOnItemClickListener(OnRvItemClickListener listener) {
+        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
+            ((ItemsAdapter) mAdapter).setOnItemClickListener(listener);
+        }
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
     public void onClick(View view, int which) {
+        if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
+            ItemsAdapter itemsAdapter = (ItemsAdapter) this.mAdapter;
+            itemsAdapter.setCurPosition(which);
+            itemsAdapter.notifyItemChanged(which);
+        }
         if (mParams.rvItemListener != null) {
             mParams.rvItemListener.onItemClick(view, which);
         }
     }
 
-    class LinearItemDecoration extends RecyclerView.ItemDecoration {
-
-        private Drawable mDivider;
-        private int mDividerHeight;
-
-        public LinearItemDecoration(Drawable divider, int dividerHeight) {
-            mDivider = divider;
-            mDividerHeight = dividerHeight;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(0, 0, 0, mDividerHeight);
-        }
-
-        @Override
-        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-            int left = parent.getPaddingLeft();
-            int right = parent.getWidth() - parent.getPaddingRight();
-
-            int childCount = parent.getChildCount() - 1;
-            for (int i = 0; i < childCount; i++) {
-                View child = parent.getChildAt(i);
-
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
-                int top = child.getBottom() + params.bottomMargin;
-                int bottom = top + mDividerHeight;
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-    }
-
-    public class GridItemDecoration extends RecyclerView.ItemDecoration {
-
-        private Drawable mDivider;
-        private int mDividerHeight;
-
-        public GridItemDecoration(Drawable divider, int dividerHeight) {
-            mDivider = divider;
-            mDividerHeight = dividerHeight;
-        }
-
-        @Override
-        public void onDraw(Canvas c, RecyclerView parent, State state) {
-            drawHorizontal(c, parent);
-            drawVertical(c, parent);
-        }
-
-        private void drawHorizontal(Canvas c, RecyclerView parent) {
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-                final int left = child.getLeft() - params.leftMargin;
-                final int right = child.getRight() + params.rightMargin + mDividerHeight;
-                final int top = child.getBottom() + params.bottomMargin;
-                final int bottom = top + mDividerHeight;
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-
-        private void drawVertical(Canvas c, RecyclerView parent) {
-            final int childCount = parent.getChildCount() - 1;
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-
-                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-                final int top = child.getTop() - params.topMargin;
-                final int bottom = child.getBottom() + params.bottomMargin;
-                final int left = child.getRight() + params.rightMargin;
-                final int right = left + mDividerHeight;
-
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-
-        private boolean isLastColum(RecyclerView parent, int pos, int spanCount, int childCount) {
-            LayoutManager layoutManager = parent.getLayoutManager();
-            if (layoutManager instanceof GridLayoutManager) {
-                // 如果是最后一列，则不需要绘制右边
-                if ((pos + 1) % spanCount == 0) {
-                    return true;
-                }
-            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                int orientation = ((StaggeredGridLayoutManager) layoutManager).getOrientation();
-                if (orientation == StaggeredGridLayoutManager.VERTICAL) {
-                    // 如果是最后一列，则不需要绘制右边
-                    if ((pos + 1) % spanCount == 0) {
-                        return true;
-                    }
-                } else {
-                    childCount = childCount - childCount % spanCount;
-                    // 如果是最后一列，则不需要绘制右边
-                    if (pos >= childCount) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private boolean isLastRaw(RecyclerView parent, int pos, int spanCount, int childCount) {
-            LayoutManager layoutManager = parent.getLayoutManager();
-            if (layoutManager instanceof GridLayoutManager) {
-                childCount = childCount - childCount % spanCount;
-                // 如果是最后一行，则不需要绘制底部
-                if (pos >= childCount) {
-                    return true;
-                }
-            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                int orientation = ((StaggeredGridLayoutManager) layoutManager).getOrientation();
-                // StaggeredGridLayoutManager 且纵向滚动
-                if (orientation == StaggeredGridLayoutManager.VERTICAL) {
-                    childCount = childCount - childCount % spanCount;
-                    // 如果是最后一行，则不需要绘制底部
-                    if (pos >= childCount) {
-                        return true;
-                    }
-                }
-                // StaggeredGridLayoutManager 且横向滚动
-                else {
-                    // 如果是最后一行，则不需要绘制底部
-                    if ((pos + 1) % spanCount == 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-            int spanCount = getSpanCount(parent);
-            int childCount = parent.getAdapter().getItemCount();
-            // 如果是最后一行，则不需要绘制底部
-            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
-                outRect.set(0, 0, mDividerHeight, 0);
-            }
-            // 如果是最后一列，则不需要绘制右边
-            else if (isLastColum(parent, itemPosition, spanCount, childCount)) {
-                outRect.set(0, 0, 0, mDividerHeight);
-            } else {
-                outRect.set(0, 0, mDividerHeight, mDividerHeight);
-            }
-        }
-
-        private int getSpanCount(RecyclerView parent) {
-            // 列数
-            int spanCount = -1;
-            LayoutManager layoutManager = parent.getLayoutManager();
-            if (layoutManager instanceof GridLayoutManager) {
-
-                spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
-            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-            }
-            return spanCount;
-        }
-    }
-
     static class ItemsAdapter<T> extends Adapter<ItemsAdapter.Holder> {
-
-        static class Holder extends RecyclerView.ViewHolder implements OnClickListener {
-            OnRvItemClickListener mItemClickListener;
-            TextView item;
-
-            public Holder(TextView itemView, OnRvItemClickListener listener) {
-                super(itemView);
-                item = itemView;
-                mItemClickListener = listener;
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(v, getAdapterPosition());
-                }
-            }
-        }
 
         private OnRvItemClickListener mItemClickListener;
         private Context mContext;
@@ -342,6 +167,7 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
         private SelectorBtn bgItemAllRadius;
         private SelectorBtn bgItemTopRadius;
         private SelectorBtn bgItemBottomRadius;
+        private int curPosition = -1;
 
         public ItemsAdapter(Context context, CircleParams params) {
             this.mContext = context;
@@ -372,6 +198,10 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
             }
         }
 
+        public void setCurPosition(int curPosition) {
+            this.curPosition = curPosition;
+        }
+
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
             ScaleTextView textView = new ScaleTextView(mContext);
@@ -390,6 +220,9 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
             textView.setTextSize(mItemsParams.textSize);
             textView.setTextColor(mItemsParams.textColor);
             textView.setHeight(mItemsParams.itemHeight);
+            if (mItemsParams.textGravity != Gravity.NO_GRAVITY) {
+                textView.setGravity(mItemsParams.textGravity);
+            }
             Holder holder = new Holder(textView, mItemClickListener);
             return holder;
         }
@@ -408,7 +241,25 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
                     llhBg(holder, position);
                 }
             }
-            holder.item.setText(String.valueOf(mItems.get(position).toString()));
+            T item = mItems.get(position);
+
+            String label;
+            if (item instanceof CircleItemLabel) {
+                label = ((CircleItemLabel) item).getItemLabel();
+            } else {
+                label = item.toString();
+            }
+            holder.item.setText(label);
+
+            CircleItemViewBinder viewBinder = mItemsParams.viewBinder;
+            if (viewBinder != null) {
+                viewBinder.onBinder(holder.item, item, position, curPosition);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return mItems == null ? 0 : mItems.size();
         }
 
         //LinearLayoutManager Vertical Background
@@ -505,13 +356,192 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
             }
         }
 
-        @Override
-        public int getItemCount() {
-            return mItems == null ? 0 : mItems.size();
-        }
-
         public void setOnItemClickListener(OnRvItemClickListener listener) {
             this.mItemClickListener = listener;
+        }
+
+        static class Holder extends RecyclerView.ViewHolder implements OnClickListener {
+            OnRvItemClickListener mItemClickListener;
+            TextView item;
+
+            public Holder(TextView itemView, OnRvItemClickListener listener) {
+                super(itemView);
+                item = itemView;
+                mItemClickListener = listener;
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(v, getAdapterPosition());
+                }
+            }
+        }
+    }
+
+    class LinearItemDecoration extends RecyclerView.ItemDecoration {
+
+        private Drawable mDivider;
+        private int mDividerHeight;
+
+        public LinearItemDecoration(Drawable divider, int dividerHeight) {
+            mDivider = divider;
+            mDividerHeight = dividerHeight;
+        }
+
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            int left = parent.getPaddingLeft();
+            int right = parent.getWidth() - parent.getPaddingRight();
+
+            int childCount = parent.getChildCount() - 1;
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + mDividerHeight;
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.set(0, 0, 0, mDividerHeight);
+        }
+    }
+
+    public class GridItemDecoration extends RecyclerView.ItemDecoration {
+
+        private Drawable mDivider;
+        private int mDividerHeight;
+
+        public GridItemDecoration(Drawable divider, int dividerHeight) {
+            mDivider = divider;
+            mDividerHeight = dividerHeight;
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, State state) {
+            drawHorizontal(c, parent);
+            drawVertical(c, parent);
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            // 如果是最后一行，则不需要绘制底部
+            if (isLastRaw(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, mDividerHeight, 0);
+            }
+            // 如果是最后一列，则不需要绘制右边
+            else if (isLastColum(parent, itemPosition, spanCount, childCount)) {
+                outRect.set(0, 0, 0, mDividerHeight);
+            } else {
+                outRect.set(0, 0, mDividerHeight, mDividerHeight);
+            }
+        }
+
+        private void drawHorizontal(Canvas c, RecyclerView parent) {
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int left = child.getLeft() - params.leftMargin;
+                final int right = child.getRight() + params.rightMargin + mDividerHeight;
+                final int top = child.getBottom() + params.bottomMargin;
+                final int bottom = top + mDividerHeight;
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        private void drawVertical(Canvas c, RecyclerView parent) {
+            final int childCount = parent.getChildCount() - 1;
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int top = child.getTop() - params.topMargin;
+                final int bottom = child.getBottom() + params.bottomMargin;
+                final int left = child.getRight() + params.rightMargin;
+                final int right = left + mDividerHeight;
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
+
+        private boolean isLastColum(RecyclerView parent, int pos, int spanCount, int childCount) {
+            LayoutManager layoutManager = parent.getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager) {
+                // 如果是最后一列，则不需要绘制右边
+                if ((pos + 1) % spanCount == 0) {
+                    return true;
+                }
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                int orientation = ((StaggeredGridLayoutManager) layoutManager).getOrientation();
+                if (orientation == StaggeredGridLayoutManager.VERTICAL) {
+                    // 如果是最后一列，则不需要绘制右边
+                    if ((pos + 1) % spanCount == 0) {
+                        return true;
+                    }
+                } else {
+                    childCount = childCount - childCount % spanCount;
+                    // 如果是最后一列，则不需要绘制右边
+                    if (pos >= childCount) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private boolean isLastRaw(RecyclerView parent, int pos, int spanCount, int childCount) {
+            LayoutManager layoutManager = parent.getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager) {
+                childCount = childCount - childCount % spanCount;
+                // 如果是最后一行，则不需要绘制底部
+                if (pos >= childCount) {
+                    return true;
+                }
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                int orientation = ((StaggeredGridLayoutManager) layoutManager).getOrientation();
+                // StaggeredGridLayoutManager 且纵向滚动
+                if (orientation == StaggeredGridLayoutManager.VERTICAL) {
+                    childCount = childCount - childCount % spanCount;
+                    // 如果是最后一行，则不需要绘制底部
+                    if (pos >= childCount) {
+                        return true;
+                    }
+                }
+                // StaggeredGridLayoutManager 且横向滚动
+                else {
+                    // 如果是最后一行，则不需要绘制底部
+                    if ((pos + 1) % spanCount == 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private int getSpanCount(RecyclerView parent) {
+            // 列数
+            int spanCount = -1;
+            LayoutManager layoutManager = parent.getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager) {
+
+                spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+            }
+            return spanCount;
         }
     }
 }
