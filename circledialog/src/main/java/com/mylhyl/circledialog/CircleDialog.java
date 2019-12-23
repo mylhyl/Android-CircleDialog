@@ -386,7 +386,7 @@ public final class CircleDialog {
         /**
          * 设置item View Binder 回调
          *
-         * @param viewBinder
+         * @param viewBinder 绑定器
          * @return Builder
          * @since 2.6.15
          */
