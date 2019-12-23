@@ -81,6 +81,13 @@ public class DialogParams implements Parcelable {
     public int backgroundColorPress = CircleColor.DIALOG_BACKGROUND_PRESS;
     public float maxHeight;//最大高度
 
+    /**
+     * 是否触发自动关闭对话框 true：手动；false：自动
+     *
+     * @since 2.6.15
+     */
+    public boolean isManualClose;
+
     public DialogParams() {
     }
 
@@ -100,6 +107,7 @@ public class DialogParams implements Parcelable {
         this.yOff = in.readInt();
         this.backgroundColorPress = in.readInt();
         this.maxHeight = in.readFloat();
+        this.isManualClose = in.readByte() != 0;
     }
 
     @Override
@@ -124,5 +132,6 @@ public class DialogParams implements Parcelable {
         dest.writeInt(this.yOff);
         dest.writeInt(this.backgroundColorPress);
         dest.writeFloat(this.maxHeight);
+        dest.writeByte(this.isManualClose ? (byte) 1 : (byte) 0);
     }
 }

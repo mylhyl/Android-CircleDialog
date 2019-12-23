@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.EditText;
 
 import com.mylhyl.circledialog.view.BuildViewImpl;
 import com.mylhyl.circledialog.view.listener.ButtonView;
@@ -17,8 +16,12 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
  * Created by hupei on 2017/3/29.
+ * <p>
+ * 变更记录
+ * <ul>
+ * <li>add: 2019/12/23 hupei since 2.6.15 增加是否触发自动关闭对话框</li>
+ * </ul>
  */
-
 public class Controller {
     /**
      * The identifier for the positive button.
@@ -58,8 +61,9 @@ public class Controller {
     }
 
     private void applyHeader() {
-        if (mParams.titleParams != null)
+        if (mParams.titleParams != null) {
             mCreateView.buildTitle();
+        }
     }
 
     private void applyBody() {
@@ -68,8 +72,9 @@ public class Controller {
             View bodyView = mCreateView.buildCustomBodyView();
             ButtonView buttonView = mCreateView.buildMultipleButton();
             applyButton(buttonView, null);
-            if (mParams.createBodyViewListener != null)
+            if (mParams.createBodyViewListener != null) {
                 mParams.createBodyViewListener.onCreateBodyView(bodyView);
+            }
         }
         //文本
         else if (mParams.textParams != null) {
@@ -85,8 +90,10 @@ public class Controller {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         mHandler.obtainMessage(position, itemsView).sendToTarget();
-                        if (!mParams.itemsParams.isManualClose)
-                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                        if (mParams.itemsParams.isManualClose || mParams.dialogParams.isManualClose) {
+                            return;
+                        }
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
             } else if (mParams.rvItemListener != null) {
@@ -94,8 +101,10 @@ public class Controller {
                     @Override
                     public void onItemClick(View view, int position) {
                         mHandler.obtainMessage(position, itemsView).sendToTarget();
-                        if (!mParams.itemsParams.isManualClose)
-                            mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                        if (mParams.itemsParams.isManualClose || mParams.dialogParams.isManualClose) {
+                            return;
+                        }
+                        mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
                     }
                 });
             }
@@ -123,40 +132,37 @@ public class Controller {
     }
 
     private void applyButton(final ButtonView viewButton, final View viewClick) {
-
         viewButton.regNegativeListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mHandler.obtainMessage(BUTTON_NEGATIVE, viewClick == null
-                        ? viewButton : viewClick).sendToTarget();
-                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                        .sendToTarget();
+                mHandler.obtainMessage(BUTTON_NEGATIVE, viewClick == null ? viewButton : viewClick).sendToTarget();
+                if (mParams.dialogParams.isManualClose) {
+                    return;
+                }
+                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
             }
         });
         viewButton.regPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mHandler.obtainMessage(BUTTON_POSITIVE, viewClick == null
-                        ? viewButton : viewClick).sendToTarget();
-                if (mParams.inputParams == null || !mParams.inputParams.isManualClose) {
-                    mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
+                mHandler.obtainMessage(BUTTON_POSITIVE, viewClick == null ? viewButton : viewClick).sendToTarget();
+                if ((mParams.inputParams != null && mParams.inputParams.isManualClose) ||
+                        mParams.dialogParams.isManualClose) {
+                    return;
                 }
+                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
             }
         });
         viewButton.regNeutralListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mHandler.obtainMessage(BUTTON_NEUTRAL, viewClick == null
-                        ? viewButton : viewClick).sendToTarget();
-                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog)
-                        .sendToTarget();
+                mHandler.obtainMessage(BUTTON_NEUTRAL, viewClick == null ? viewButton : viewClick).sendToTarget();
+                if (mParams.dialogParams.isManualClose) {
+                    return;
+                }
+                mHandler.obtainMessage(MSG_DISMISS_DIALOG, mDialog).sendToTarget();
             }
         });
-    }
-
-    EditText getInputEdit() {
-        if (mCreateView == null) return null;
-        return mCreateView.getInputView().getInput();
     }
 
     public void refreshView() {
@@ -170,10 +176,10 @@ public class Controller {
             getView().post(new Runnable() {
                 @Override
                 public void run() {
-                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams
-                            .dialogParams
-                            .refreshAnimation);
-                    if (animation != null) getView().startAnimation(animation);
+                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams.dialogParams.refreshAnimation);
+                    if (animation != null) {
+                        getView().startAnimation(animation);
+                    }
                 }
             });
     }
@@ -201,12 +207,6 @@ public class Controller {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case BUTTON_POSITIVE:
-                case BUTTON_NEGATIVE:
-                case BUTTON_NEUTRAL:
-                    ((OnClickListener) msg.obj).onClick((View) msg.obj, msg.what);
-                    break;
-
                 case MSG_DISMISS_DIALOG:
                     ((BaseCircleDialog) msg.obj).dismiss();
                     break;

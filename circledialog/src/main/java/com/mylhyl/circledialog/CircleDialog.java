@@ -179,6 +179,18 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置是否触发自动关闭对话框，默认自动
+         *
+         * @param manualClose true：手动；false：自动
+         * @return this Builder
+         * @since 2.6.15
+         */
+        public Builder setManualClose(boolean manualClose) {
+            mCircleParams.dialogParams.isManualClose = manualClose;
+            return this;
+        }
+
         public Builder setOnDismissListener(DialogInterface.OnDismissListener listener) {
             mCircleParams.dismissListener = listener;
             return this;
@@ -361,7 +373,9 @@ public final class CircleDialog {
          *
          * @param manualClose true=手动；false=自动
          * @return this Builder
+         * @deprecated {@link #setManualClose(boolean)}
          */
+        @Deprecated
         public Builder setItemsManualClose(boolean manualClose) {
             newItemsParams();
             mCircleParams.itemsParams.isManualClose = manualClose;
@@ -551,7 +565,9 @@ public final class CircleDialog {
          *
          * @param manualClose true=手动；false=自动
          * @return this Builder
+         * @deprecated {@link #setManualClose(boolean)}
          */
+        @Deprecated
         public Builder setInputManualClose(boolean manualClose) {
             newInputParams();
             mCircleParams.inputParams.isManualClose = manualClose;

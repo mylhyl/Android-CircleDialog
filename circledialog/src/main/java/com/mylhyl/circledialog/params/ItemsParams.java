@@ -26,56 +26,72 @@ public class ItemsParams implements Parcelable {
             return new ItemsParams[size];
         }
     };
+
     /**
      * 数据源：array or list
      */
     public Object items;
+
     /**
      * item高度
      */
     public int itemHeight = CircleDimen.ITEM_HEIGHT;
     public int dividerHeight = 1;
+
     /**
      * item内间距
      */
     public int[] padding;
+
     /**
      * item背景色
      */
     public int backgroundColor;
+
     /**
      * item字体色
      */
     public int textColor = CircleColor.ITEM_CONTENT_TEXT;
+
     /**
      * item字体大小
      */
     public int textSize = CircleDimen.ITEM_CONTENT_TEXT_SIZE;
+
     /**
      * 按下颜色值
      */
     public int backgroundColorPress;
+
     /**
-     * 是否触发自动关闭对话框
+     * 是否触发自动关闭对话框 true：手动；false：自动
+     *
+     * @deprecated {@link DialogParams#isManualClose}
      */
+    @Deprecated
     public boolean isManualClose;
+
     /**
      * ListView 适配器
      */
     public BaseAdapter adapter;
+
     /**
      * RecyclerView 适配器
      */
     public RecyclerView.Adapter adapterRv;
+
     /**
      * RecyclerView 布局管理
      */
     public RecyclerView.LayoutManager layoutManager;
     public int linearLayoutManagerOrientation = LinearLayoutManager.VERTICAL;
+
     /**
      * RecyclerView 分隔线
      */
     public RecyclerView.ItemDecoration itemDecoration;
+
     /**
      * 列表与底部按钮的距离
      */
