@@ -147,7 +147,7 @@ final class BodyItemsRvView extends RecyclerView implements Controller.OnClickLi
         if (mAdapter != null && mAdapter instanceof ItemsAdapter) {
             ItemsAdapter itemsAdapter = (ItemsAdapter) this.mAdapter;
             itemsAdapter.setCurPosition(which);
-            itemsAdapter.notifyItemChanged(which);
+            itemsAdapter.notifyDataSetChanged();
         }
         if (mParams.rvItemListener != null) {
             mParams.rvItemListener.onItemClick(view, which);
