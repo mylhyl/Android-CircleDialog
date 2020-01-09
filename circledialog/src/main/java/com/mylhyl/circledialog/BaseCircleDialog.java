@@ -52,11 +52,13 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (mParams != null && mParams.circleListeners.dismissListener != null) {
-            mParams.circleListeners.dismissListener.onDismiss(dialog);
-        }
-        if (mParams != null && mParams.circleListeners.cancelListener != null) {
-            mParams.circleListeners.cancelListener.onCancel(dialog);
+        if (mParams != null) {
+            if (mParams.circleListeners.dismissListener != null) {
+                mParams.circleListeners.dismissListener.onDismiss(dialog);
+            }
+            if (mParams.circleListeners.cancelListener != null) {
+                mParams.circleListeners.cancelListener.onCancel(dialog);
+            }
         }
         mParams = null;
         mController = null;
@@ -123,11 +125,14 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void onShow(DialogInterface dialog) {
-        if (mParams != null && mParams.circleListeners.showListener != null) {
-            mParams.circleListeners.showListener.onShow(dialog);
+        if (mParams != null) {
+            if (mParams.circleListeners.showListener != null) {
+                mParams.circleListeners.showListener.onShow(dialog);
+            }
+            if (mParams.popupParams != null && mParams.dialogParams.width != 0) {
+                resizeSize();
+            }
         }
-        if (mParams.popupParams != null && mParams.dialogParams.width != 0)
-            resizeSize();
     }
 
     void resizeSize() {

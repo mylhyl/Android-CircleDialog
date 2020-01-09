@@ -1,11 +1,8 @@
 package com.mylhyl.circledialog.params;
 
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.RequiresApi;
 
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -94,7 +91,6 @@ public class ProgressParams implements Parcelable {
      *
      * @since 5.0.5
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public int indeterminateColor;
 
     public ProgressParams() {
