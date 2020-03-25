@@ -68,7 +68,7 @@ public final class CircleDialog {
     private CircleDialog() {
     }
 
-    public void refresh() {
+    void refresh() {
         if (mBaseCircleDialog == null) return;
         Dialog dialog = mBaseCircleDialog.getDialog();
         if (dialog == null || !dialog.isShowing()) return;
@@ -76,7 +76,7 @@ public final class CircleDialog {
     }
 
     void show(FragmentManager manager) {
-        mBaseCircleDialog.show(manager, "circleDialog");
+        mBaseCircleDialog.show(manager);
     }
 
     BaseCircleDialog create(CircleParams params) {

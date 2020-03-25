@@ -25,6 +25,7 @@ import com.mylhyl.circledialog.params.DialogParams;
 public final class BaseCircleDialog extends AbsBaseCircleDialog implements DialogInterface.OnShowListener,
         Controller.OnDialogInternalListener {
 
+    private static final String CIRCLE_DIALOG = "circleDialog";
     private static final String SAVED_PARAMS = "circle:params";
     private CircleParams mParams;
     private Controller mController;
@@ -60,7 +61,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
                 mParams.circleListeners.cancelListener.onCancel(dialog);
             }
         }
-        mParams = null;
+        //mParams = null;
         mController = null;
     }
 
@@ -88,7 +89,8 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);
         setY(dialogParams.yOff);
-        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard && mController != null) {
+        if (mParams != null && mParams.inputParams != null &&
+                mParams.inputParams.showSoftKeyboard && mController != null) {
             setSoftInputMode();
         }
         setSystemUiVisibility(dialogParams.systemUiVisibility);
@@ -103,11 +105,15 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         return view;
     }
 
+    public void show(FragmentManager manager) {
+        show(manager, CIRCLE_DIALOG);
+    }
+
     @Override
     public void show(FragmentManager manager, String tag) {
         final FragmentTransaction transaction = manager.beginTransaction();
-        if (isAdded()) {
-            transaction.remove(this).commit();
+        if (isVisible() && isAdded()) {
+            transaction.remove(this).commitAllowingStateLoss();
         }
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.add(this, tag);
