@@ -60,6 +60,8 @@ public class TextParams implements Parcelable {
      */
     public int styleText = Typeface.NORMAL;
 
+    public CharSequence textCharSequence;
+
     public TextParams() {
     }
 

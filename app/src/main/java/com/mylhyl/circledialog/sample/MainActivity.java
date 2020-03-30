@@ -10,7 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -20,7 +24,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -79,7 +85,18 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 0:
                 new CircleDialog.Builder()
                         .setTitle("标题")
-                        .setText("提示框")
+                        .configText(new ConfigText() {
+                            @Override
+                            public void onConfig(TextParams params) {
+                                SpannableString spannableString = new SpannableString("我是红色");
+                                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF0000")), 2,
+                                        spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                params.textCharSequence = spannableString;
+//                                String text = "我是<font color='#FF0000'>红色</font>";
+//                                params.textCharSequence = Html.fromHtml(text);
+
+                            }
+                        })
                         .setPositive("确定", null)
                         .setOnShowListener(dialog ->
                                 Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show())

@@ -76,7 +76,11 @@ final class BodyTextView extends ScaleTextView {
         setMinHeight(textParams.height);
         setTextColor(textParams.textColor);
         setTextSize(textParams.textSize);
-        setText(textParams.text);
+        if (textParams.textCharSequence != null) {
+            setText(textParams.textCharSequence);
+        } else {
+            setText(textParams.text);
+        }
         setTypeface(getTypeface(), textParams.styleText);
 
         int[] padding = textParams.padding;
