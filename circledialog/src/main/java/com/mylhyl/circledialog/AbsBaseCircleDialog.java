@@ -14,11 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.mylhyl.circledialog.internal.BackgroundHelper;
-import com.mylhyl.circledialog.internal.Controller;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.values.CircleDimen;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
@@ -26,6 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.Controller;
+import com.mylhyl.circledialog.res.drawable.CircleDrawable;
+import com.mylhyl.circledialog.res.values.CircleDimen;
 
 /**
  * Created by hupei on 2017/3/29.
@@ -41,6 +41,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private static final String SAVED_PADDING = "circle:basePadding";
     private static final String SAVED_ANIM_STYLE = "circle:baseAnimStyle";
     private static final String SAVED_DIM_ENABLED = "circle:baseDimEnabled";
+    private static final String SAVED_DIM_AMOUNT = "circle:baseDimAmount";
     private static final String SAVED_BACKGROUND_COLOR = "circle:baseBackgroundColor";
     private static final String SAVED_RADIUS = "circle:baseRadius";
     private static final String SAVED_ALPHA = "circle:baseAlpha";
@@ -56,6 +57,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private int[] mPadding;//对话框与屏幕边缘距离
     private int mAnimStyle;//显示动画
     private boolean isDimEnabled = true;
+    private float mDimAmount = CircleDimen.DIM_AMOUNT; // 背景灰暗值
     private int mBackgroundColor = Color.TRANSPARENT;//对话框的背景色
     private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
     private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
@@ -80,6 +82,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             mPadding = savedInstanceState.getIntArray(SAVED_PADDING);
             mAnimStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE);
             isDimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED);
+            mDimAmount = savedInstanceState.getFloat(SAVED_DIM_AMOUNT);
             mBackgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR);
             mRadius = savedInstanceState.getInt(SAVED_RADIUS);
             mAlpha = savedInstanceState.getFloat(SAVED_ALPHA);
@@ -137,9 +140,12 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
         outState.putFloat(SAVED_WIDTH, mWidth);
         outState.putFloat(SAVED_HEIGHT_MAX, mMaxHeight);
-        if (mPadding != null) outState.putIntArray(SAVED_PADDING, mPadding);
+        if (mPadding != null) {
+            outState.putIntArray(SAVED_PADDING, mPadding);
+        }
         outState.putInt(SAVED_ANIM_STYLE, mAnimStyle);
         outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled);
+        outState.putFloat(SAVED_DIM_AMOUNT, mDimAmount);
         outState.putInt(SAVED_BACKGROUND_COLOR, mBackgroundColor);
         outState.putInt(SAVED_RADIUS, mRadius);
         outState.putFloat(SAVED_ALPHA, mAlpha);
@@ -254,6 +260,16 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     }
 
     /**
+     * 设置背景昏暗值
+     *
+     * @param dimAmount
+     * @see #setDimEnabled(boolean) true 才有效
+     */
+    protected void setDimAmount(@FloatRange(from = 0.0, to = 1.0) float dimAmount) {
+        this.mDimAmount = dimAmount;
+    }
+
+    /**
      * 设置对话框背景色
      *
      * @param color 颜色值
@@ -332,6 +348,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
             window.getDecorView().setPadding(padding[0], padding[1], padding[2], padding[3]);
         }
+        wlp.dimAmount = mDimAmount;
         window.setAttributes(wlp);
         //动画
         if (mAnimStyle != 0) {
@@ -344,5 +361,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
+
     }
 }

@@ -85,6 +85,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         }
         setAnimations(dialogParams.animStyle);
         setDimEnabled(dialogParams.isDimEnabled);
+        setDimAmount(dialogParams.dimAmount);
         setRadius(dialogParams.radius);
         setAlpha(dialogParams.alpha);
         setX(dialogParams.xOff);

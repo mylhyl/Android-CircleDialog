@@ -146,4 +146,9 @@ public final class CircleDimen {
      * 对话框宽度，范围：0-1；1整屏宽
      */
     public static float DIALOG_WIDTH = 0.9f;
+
+    /**
+     * 背景灰暗，范围：0-1
+     */
+    public static float DIM_AMOUNT = 0.6f;
 }
