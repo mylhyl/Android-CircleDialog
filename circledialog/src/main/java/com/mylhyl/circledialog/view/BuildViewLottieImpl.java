@@ -42,5 +42,8 @@ public final class BuildViewLottieImpl extends AbsBuildView {
 
     @Override
     public void refreshContent() {
+        if (mBodyLottieView != null) {
+            mBodyLottieView.refreshText();
+        }
     }
 }

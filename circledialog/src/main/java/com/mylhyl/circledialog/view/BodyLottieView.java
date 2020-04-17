@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.mylhyl.circledialog.internal.BackgroundHelper;
@@ -13,8 +15,6 @@ import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.LottieParams;
 import com.mylhyl.circledialog.view.listener.OnCreateLottieListener;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by hupei on 2018/7/7.
@@ -107,6 +107,28 @@ final class BodyLottieView extends LinearLayout {
                         Controller.dp2px(getContext(), textPadding[2]), Controller.dp2px(getContext(), textPadding[3]));
             }
             addView(mTextView, textLayoutParams);
+        }
+    }
+
+    public void refreshText() {
+        if (mLottieParams == null) {
+            return;
+        }
+        if (mLottieAnimationView != null) {
+            if (mLottieParams.animationResId != 0) {
+                mLottieAnimationView.setAnimation(mLottieParams.animationResId);
+            }
+            if (!TextUtils.isEmpty(mLottieParams.animationFileName)) {
+                mLottieAnimationView.setAnimation(mLottieParams.animationFileName);
+            }
+            if (!TextUtils.isEmpty(mLottieParams.imageAssetsFolder)) {
+                mLottieAnimationView.setImageAssetsFolder(mLottieParams.imageAssetsFolder);
+            }
+            mLottieAnimationView.playAnimation();
+        }
+
+        if (mTextView != null && !TextUtils.isEmpty(mLottieParams.text)) {
+            mTextView.setText(mLottieParams.text);
         }
     }
 }

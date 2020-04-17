@@ -550,6 +550,14 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 设置动画资源<br>
+         * 如果有目录，调用{@link #configLottie(ConfigLottie)} 方法，
+         * 配置{@link LottieParams#imageAssetsFolder imageAssetsFolder属性}
+         *
+         * @param animationFileName
+         * @return
+         */
         public Builder setLottieAnimation(String animationFileName) {
             newLottieParams();
             mCircleParams.lottieParams.animationFileName = animationFileName;

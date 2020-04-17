@@ -16,6 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.SupportMenuInflater;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
@@ -41,14 +49,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.SupportMenuInflater;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.OnItemClickListener {
     //全局配置
@@ -532,11 +532,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 16:
-                new CircleDialog.Builder()
-                        .setTitle("提示")
+                builder = new CircleDialog.Builder();
+                builder.setTitle("提示")
                         .setSubTitle("副提示语")
                         .setWidth(0.7f)
                         .setLottieAnimation("loading.json")
+
+                        // 有文件夹的
 //                        .setLottieAnimation("loading/data.json")
 //                        .configLottie(params -> {
 //                            params.imageAssetsFolder="loading/images";
@@ -545,6 +547,16 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .playLottieAnimation()
                         .setLottieText("正在加载...")
                         .show(getSupportFragmentManager());
+                handler = new Handler();
+                runnable = () ->
+                        builder
+//                                .setLottieAnimation("loading/data.json")
+//                                .configLottie(params ->
+//                                        params.imageAssetsFolder = "loading/images"
+//                                )
+                                .setLottieText("已经更新内容")
+                                .refresh();
+                handler.postDelayed(runnable, 3000);
                 break;
             case 17:
                 MenuInflater menuInflater = new SupportMenuInflater(this);
