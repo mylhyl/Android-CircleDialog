@@ -25,9 +25,13 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
+import com.mylhyl.circledialog.callback.ConfigSubTitle;
+import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.engine.impl.Glide4ImageLoadEngine;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.SubTitleParams;
+import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -114,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 0:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+                                params.isShowBottomDivider = true;
+                            }
+                        })
                         .setWidth(0.5f)
                         .setText("提示框")
                         .setPositive("确定", null)
@@ -134,6 +144,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .setTitle("移动认证简介")
                         .setSubTitle("更新日期:2019-01-16")
+                        .configSubTitle(new ConfigSubTitle() {
+                            @Override
+                            public void onConfig(SubTitleParams params) {
+                                params.isShowBottomDivider = true;
+                                params.padding = new int[]{50, 50, 50, 10};
+                            }
+                        })
                         .setText("一、移动认证简介\n" +
                                 "\n" +
                                 "1、什么是移动认证\n" +
@@ -159,7 +176,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 "\n" +
                                 "1、一键登录\n" +
                                 "\n" +
-                                "一键登录能力，即通过移动认证的网络认证能力，实现APP用户无需输入帐号密码，即可使用本机手机号码自动登录的能力。利用应用层无法截取的网络层号码认证能力验证号码的真实性，本机号码自动校验是现有短信验证方式的优化，能消除现有短信验证模式等待时间长、操作繁琐和容易泄露的痛点。\n" +
+                                "一键登录能力，即通过移动认证的网络认证能力，实现APP" +
+                                "用户无需输入帐号密码，即可使用本机手机号码自动登录的能力。利用应用层无法截取的网络层号码认证能力验证号码的真实性，本机号码自动校验是现有短信验证方式的优化，能消除现有短信验证模式等待时间长、操作繁琐和容易泄露的痛点。\n" +
                                 "\n" +
                                 "一键登录的能力优势\n" +
                                 "\n" +
@@ -196,6 +214,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                            params.gravity = Gravity.TOP;
                         })
                         .setTitle("标题")
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+                                params.isShowBottomDivider = true;
+                            }
+                        })
 //                        .setTitleColor(Color.BLUE)
                         .configTitle(params -> {
 //                                params.backgroundColor = Color.RED;

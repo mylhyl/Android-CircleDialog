@@ -28,8 +28,13 @@ import static com.mylhyl.circledialog.res.values.CircleDimen.INPUT_COUNTER__TEXT
 
 /**
  * Created by hupei on 2017/3/31.
+ * <p>
+ * 输入框
+ * <ul>
+ * 变更记录：
+ * <li>add: 2020/4/27 八阿哥 since 3.2.0 修复自动弹出键盘的问题</li>
+ * </ul>
  */
-
 final class BodyInputView extends RelativeLayout implements InputView {
     private DialogParams mDialogParams;
     private TitleParams mTitleParams;
@@ -64,7 +69,9 @@ final class BodyInputView extends RelativeLayout implements InputView {
         int backgroundColor = mInputParams.backgroundColor != 0
                 ? mInputParams.backgroundColor : mDialogParams.backgroundColor;
         setBackgroundColor(backgroundColor);
-
+        // fix: 2020/4/27 八阿哥 since 3.1.1 修复软键盘自动弹出的问题
+        setFocusable(true);
+        setFocusableInTouchMode(true);
         createInput();
 
         createCounter();
@@ -117,47 +124,49 @@ final class BodyInputView extends RelativeLayout implements InputView {
                 mEditText.setBackgroundDrawable(new InputDrawable(mInputParams.strokeWidth,
                         mInputParams.strokeColor, mInputParams.inputBackgroundColor));
             }
-        } else mEditText.setBackgroundResource(backgroundResourceId);
+        } else {
+            mEditText.setBackgroundResource(backgroundResourceId);
+        }
 
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         int[] margins = mInputParams.margins;
         if (margins != null) {
             layoutParams.setMargins(margins[0], margins[1], margins[2], margins[3]);
         }
-        int[] padding = mInputParams.padding;
-        if (padding != null)
-            mEditText.setPadding(padding[0], padding[1], padding[2], padding[3]);
         mEditText.setTypeface(mEditText.getTypeface(), mInputParams.styleText);
-
+        int[] padding = mInputParams.padding;
+        if (padding != null) {
+            mEditText.setPadding(padding[0], padding[1], padding[2], padding[3]);
+        }
         addView(mEditText, layoutParams);
     }
 
     private void createCounter() {
-        if (mInputParams.maxLen > 0) {
-            LayoutParams layoutParamsCounter = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT);
-            //右下
-            layoutParamsCounter.addRule(ALIGN_RIGHT, android.R.id.input);
-            layoutParamsCounter.addRule(ALIGN_BOTTOM, android.R.id.input);
-            if (mInputParams.counterMargins != null) {
-                layoutParamsCounter.setMargins(0, 0
-                        , mInputParams.counterMargins[0]
-                        , mInputParams.counterMargins[1]);
-            }
-            mTvCounter = new TextView(getContext());
-            mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
-            mTvCounter.setTextColor(mInputParams.counterColor);
-
-            if (mInputParams.isCounterAllEn) {
-                mEditText.addTextChangedListener(new MaxLengthEnWatcher(mInputParams.maxLen
-                        , mEditText, mTvCounter, mOnInputCounterChangeListener));
-            } else {
-                mEditText.addTextChangedListener(new MaxLengthWatcher(mInputParams.maxLen
-                        , mEditText, mTvCounter, mOnInputCounterChangeListener));
-            }
-            addView(mTvCounter, layoutParamsCounter);
+        if (mInputParams.maxLen <= 0) {
+            return;
         }
+        LayoutParams layoutParamsCounter = new LayoutParams(LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
+        //右下
+        layoutParamsCounter.addRule(ALIGN_RIGHT, android.R.id.input);
+        layoutParamsCounter.addRule(ALIGN_BOTTOM, android.R.id.input);
+        if (mInputParams.counterMargins != null) {
+            layoutParamsCounter.setMargins(0, 0
+                    , mInputParams.counterMargins[0]
+                    , mInputParams.counterMargins[1]);
+        }
+        mTvCounter = new TextView(getContext());
+        mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
+        mTvCounter.setTextColor(mInputParams.counterColor);
+
+        if (mInputParams.isCounterAllEn) {
+            mEditText.addTextChangedListener(new MaxLengthEnWatcher(mInputParams.maxLen
+                    , mEditText, mTvCounter, mOnInputCounterChangeListener));
+        } else {
+            mEditText.addTextChangedListener(new MaxLengthWatcher(mInputParams.maxLen
+                    , mEditText, mTvCounter, mOnInputCounterChangeListener));
+        }
+        addView(mTvCounter, layoutParamsCounter);
     }
 
     @Override
