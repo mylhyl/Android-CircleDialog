@@ -31,8 +31,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.callback.ConfigProgress;
+import com.mylhyl.circledialog.callback.ConfigSubTitle;
+import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
+import com.mylhyl.circledialog.params.SubTitleParams;
+import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -70,6 +74,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 0:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .configTitle(new ConfigTitle() {
+                            @Override
+                            public void onConfig(TitleParams params) {
+                                params.isShowBottomDivider = true;
+                            }
+                        })
                         .setWidth(0.5f)
                         .setText("提示框")
                         .setPositive("确定", null)
@@ -90,6 +100,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .setTitle("移动认证简介")
                         .setSubTitle("更新日期:2019-01-16")
+                        .configSubTitle(new ConfigSubTitle() {
+                            @Override
+                            public void onConfig(SubTitleParams params) {
+                                params.isShowBottomDivider = true;
+                            }
+                        })
                         .setText("一、移动认证简介\n" +
                                 "\n" +
                                 "1、什么是移动认证\n" +
@@ -195,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
                         .setInputHeight(115)
-                        .setInputShowKeyboard(true)
+//                        .setInputShowKeyboard(true)
                         .setInputEmoji(true)
                         .setInputCounter(18)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)

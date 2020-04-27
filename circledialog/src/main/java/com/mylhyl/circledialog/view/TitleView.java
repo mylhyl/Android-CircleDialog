@@ -7,6 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.mylhyl.circledialog.internal.BackgroundHelper;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -14,12 +17,14 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 /**
- * 对话框标题
  * Created by hupei on 2017/3/29.
+ * <p>
+ * 对话框标题
+ * <ul>
+ * 变更记录：
+ * <li>add: 2020/4/27 八阿哥 since 5.2.0 增加底部分隔线</li>
+ * </ul>
  */
 final class TitleView extends LinearLayout {
     private RelativeLayout mTitleLayout;
@@ -66,6 +71,8 @@ final class TitleView extends LinearLayout {
 
     private void createTitleLayout() {
         mTitleLayout = new RelativeLayout(getContext());
+        addView(mTitleLayout);
+
         mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mTitleLayout.setGravity(mTitleParams.gravity);
         mTitleLayout.setPadding(50, 0, 50, 0);
@@ -96,6 +103,8 @@ final class TitleView extends LinearLayout {
     @NonNull
     private void createTitle() {
         mTitleView = new TextView(getContext());
+        mTitleLayout.addView(mTitleView);
+
         mTitleView.setGravity(Gravity.CENTER);
         mTitleView.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
@@ -108,36 +117,49 @@ final class TitleView extends LinearLayout {
         mTitleView.setTextColor(mTitleParams.textColor);
         mTitleView.setTextSize(mTitleParams.textSize);
         mTitleView.setText(mTitleParams.text);
+        mTitleView.setTypeface(mTitleView.getTypeface(), mTitleParams.styleText);
+
         int[] padding = mTitleParams.padding;
-        if (padding != null)
+        if (padding != null) {
+            if (mTitleParams.isShowBottomDivider) {
+                padding[3] = padding[3] == 0 ? padding[1] : padding[3];
+                DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
+                addView(dividerView);
+            }
             mTitleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
                     , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
-        mTitleView.setTypeface(mTitleView.getTypeface(), mTitleParams.styleText);
-        mTitleLayout.addView(mTitleView);
-        addView(mTitleLayout);
+        }
     }
 
     @Nullable
     private void createSubTitle() {
-        if (mSubTitleParams != null) {
-            mSubTitleView = new TextView(getContext());
-            mSubTitleView.setGravity(Gravity.CENTER);
-            setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
-            mSubTitleView.setGravity(mSubTitleParams.gravity);
-            if (mSubTitleParams.height != 0) {
-                mSubTitleView.setHeight(Controller.dp2px(getContext(), mSubTitleParams.height));
+        if (mSubTitleParams == null) {
+            return;
+        }
+        mSubTitleView = new TextView(getContext());
+        addView(mSubTitleView);
+
+        mSubTitleView.setGravity(Gravity.CENTER);
+        setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
+        mSubTitleView.setGravity(mSubTitleParams.gravity);
+        if (mSubTitleParams.height != 0) {
+            mSubTitleView.setHeight(Controller.dp2px(getContext(), mSubTitleParams.height));
+        }
+        mSubTitleView.setTextColor(mSubTitleParams.textColor);
+        mSubTitleView.setTextSize(mSubTitleParams.textSize);
+        mSubTitleView.setText(mSubTitleParams.text);
+        mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
+
+        int[] padding = mSubTitleParams.padding;
+        if (padding != null) {
+            if (mSubTitleParams.isShowBottomDivider) {
+                padding[3] = padding[3] == 0 ? padding[1] : padding[3];
+                DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
+                addView(dividerView);
             }
-            mSubTitleView.setTextColor(mSubTitleParams.textColor);
-            mSubTitleView.setTextSize(mSubTitleParams.textSize);
-            mSubTitleView.setText(mSubTitleParams.text);
-            int[] padding = mSubTitleParams.padding;
-            if (padding != null) {
-                mSubTitleView.setPadding(Controller.dp2px(getContext(), padding[0])
-                        , Controller.dp2px(getContext(), padding[1]), Controller.dp2px(getContext(), padding[2])
-                        , Controller.dp2px(getContext(), padding[3]));
-            }
-            mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
-            addView(mSubTitleView);
+            mSubTitleView.setPadding(Controller.dp2px(getContext(), padding[0])
+                    , Controller.dp2px(getContext(), padding[1]), Controller.dp2px(getContext(), padding[2])
+                    , Controller.dp2px(getContext(), padding[3]));
         }
     }
 
