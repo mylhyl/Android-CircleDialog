@@ -12,7 +12,7 @@
 
 # 引入
 ```xml
- compile 'com.mylhyl:circleDialog:3.0.11'
+ compile 'com.mylhyl:circleDialog:3.1.0'
 ```
 
 [下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
