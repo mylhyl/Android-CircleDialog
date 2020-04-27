@@ -26,7 +26,7 @@ public class DialogParams implements Parcelable {
     /**
      * 对话框的位置
      */
-    public int gravity = Gravity.CENTER;
+    public int gravity = Gravity.NO_GRAVITY;
     /**
      * 是否触摸外部关闭
      */
