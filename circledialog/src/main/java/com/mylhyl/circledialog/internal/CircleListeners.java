@@ -71,6 +71,7 @@ public class CircleListeners {
      * dialog 显示事件
      */
     public static DialogInterface.OnShowListener showListener;
+    public static DialogInterface.OnKeyListener keyListener;
     public static OnCreateBodyViewListener createBodyViewListener;
     public static OnCreateProgressListener createProgressListener;
     public static OnCreateLottieListener createLottieListener;

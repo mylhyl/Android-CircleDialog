@@ -127,6 +127,9 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.setOnShowListener(this);
+            if (mParams != null) {
+                dialog.setOnKeyListener(mParams.circleListeners.keyListener);
+            }
         }
     }
 

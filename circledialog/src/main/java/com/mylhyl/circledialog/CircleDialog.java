@@ -193,6 +193,11 @@ public final class CircleDialog {
             return this;
         }
 
+        public Builder setOnKeyListener(DialogInterface.OnKeyListener listener) {
+            mCircleParams.circleListeners.keyListener = listener;
+            return this;
+        }
+
         public Builder configDialog(@NonNull ConfigDialog configDialog) {
             configDialog.onConfig(mCircleParams.dialogParams);
             return this;
