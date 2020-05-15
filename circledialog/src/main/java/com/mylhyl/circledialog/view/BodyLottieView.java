@@ -96,6 +96,9 @@ final class BodyLottieView extends LinearLayout {
                         Controller.dp2px(getContext(), textMargins[1]), Controller.dp2px(getContext(),
                                 textMargins[2]), Controller.dp2px(getContext(), textMargins[3]));
             }
+            if (mDialogParams.typeface != null) {
+                mTextView.setTypeface(mDialogParams.typeface);
+            }
             mTextView.setText(mLottieParams.text);
             mTextView.setTextSize(mLottieParams.textSize);
             mTextView.setTextColor(mLottieParams.textColor);

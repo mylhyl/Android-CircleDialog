@@ -114,6 +114,9 @@ final class BodyProgressView extends LinearLayout {
     private void createText() {
         //构建文本
         mTextView = new TextView(getContext());
+        if (mDialogParams.typeface != null) {
+            mTextView.setTypeface(mDialogParams.typeface);
+        }
         mTextView.setGravity(Gravity.CENTER);
         mTextView.setTextSize(mProgressParams.textSize);
         mTextView.setTextColor(mProgressParams.textColor);

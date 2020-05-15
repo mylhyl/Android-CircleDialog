@@ -1,5 +1,6 @@
 package com.mylhyl.circledialog.params;
 
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Gravity;
@@ -105,6 +106,8 @@ public class DialogParams implements Parcelable {
      * 延迟弹出
      */
     public int delayShow;
+
+    public Typeface typeface;
 
     public DialogParams() {
     }

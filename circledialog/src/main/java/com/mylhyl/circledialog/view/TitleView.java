@@ -105,6 +105,9 @@ final class TitleView extends LinearLayout {
         mTitleView = new TextView(getContext());
         mTitleLayout.addView(mTitleView);
 
+        if (mDialogParams.typeface != null) {
+            mTitleView.setTypeface(mDialogParams.typeface);
+        }
         mTitleView.setGravity(Gravity.CENTER);
         mTitleView.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
@@ -139,6 +142,9 @@ final class TitleView extends LinearLayout {
         mSubTitleView = new TextView(getContext());
         addView(mSubTitleView);
 
+        if (mDialogParams.typeface != null) {
+            mSubTitleView.setTypeface(mDialogParams.typeface);
+        }
         mSubTitleView.setGravity(Gravity.CENTER);
         setSubTitleBg(mSubTitleView, mSubTitleParams.backgroundColor, mDialogParams.backgroundColor);
         mSubTitleView.setGravity(mSubTitleParams.gravity);

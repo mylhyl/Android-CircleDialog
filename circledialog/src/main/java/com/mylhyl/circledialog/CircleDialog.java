@@ -2,6 +2,7 @@ package com.mylhyl.circledialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -916,6 +917,11 @@ public final class CircleDialog {
 
         public Builder setAdPageChangeListener(OnAdPageChangeListener listener) {
             mCircleParams.circleListeners.adPageChangeListener = listener;
+            return this;
+        }
+
+        public Builder setTypeface(Typeface typeface){
+            mCircleParams.dialogParams.typeface = typeface;
             return this;
         }
 

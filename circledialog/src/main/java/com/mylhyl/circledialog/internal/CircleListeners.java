@@ -84,5 +84,29 @@ public class CircleListeners {
     public static OnAdPageChangeListener adPageChangeListener;
 
     CircleListeners() {
+
+    }
+
+    public void clear() {
+        clickPositiveListener = null;
+        clickNeutralListener = null;
+        clickNegativeListener = null;
+        inputListener = null;
+        rvItemListener = null;
+        itemListener = null;
+        dismissListener = null;
+        cancelListener = null;
+        showListener = null;
+        keyListener = null;
+        createBodyViewListener = null;
+        createProgressListener = null;
+        createLottieListener = null;
+        createTitleListener = null;
+        createTextListener = null;
+        createInputListener = null;
+        createButtonListener = null;
+        inputCounterChangeListener = null;
+        adItemClickListener = null;
+        adPageChangeListener = null;
     }
 }

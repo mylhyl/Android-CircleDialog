@@ -105,6 +105,9 @@ final class BodyInputView extends RelativeLayout implements InputView {
         if (inputType != InputType.TYPE_NULL) {
             mEditText.setInputType(mInputParams.inputType);
         }
+        if (mDialogParams.typeface != null) {
+            mEditText.setTypeface(mDialogParams.typeface);
+        }
         mEditText.setHint(mInputParams.hintText);
         mEditText.setHintTextColor(mInputParams.hintTextColor);
         mEditText.setTextSize(mInputParams.textSize);
@@ -168,6 +171,9 @@ final class BodyInputView extends RelativeLayout implements InputView {
                     Controller.dp2px(getContext(), mInputParams.counterMargins[1]));
         }
         mTvCounter = new TextView(getContext());
+        if (mDialogParams.typeface != null) {
+            mTvCounter.setTypeface(mDialogParams.typeface);
+        }
         mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
         mTvCounter.setTextColor(mInputParams.counterColor);
 

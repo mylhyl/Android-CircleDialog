@@ -167,6 +167,9 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
     }
 
     private void handleNegativeStyle() {
+        if (mDialogParams.typeface != null) {
+            mNegativeButton.setTypeface(mDialogParams.typeface);
+        }
         mNegativeButton.setGravity(Gravity.CENTER);
         mNegativeButton.setText(mNegativeParams.text);
         mNegativeButton.setEnabled(!mNegativeParams.disable);
@@ -178,6 +181,9 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
     }
 
     private void handleNeutralStyle() {
+        if (mDialogParams.typeface != null) {
+            mNeutralButton.setTypeface(mDialogParams.typeface);
+        }
         mNeutralButton.setGravity(Gravity.CENTER);
         mNeutralButton.setText(mNeutralParams.text);
         mNeutralButton.setEnabled(!mNeutralParams.disable);
@@ -189,6 +195,9 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
     }
 
     private void handlePositiveStyle() {
+        if (mDialogParams.typeface != null) {
+            mPositiveButton.setTypeface(mDialogParams.typeface);
+        }
         mPositiveButton.setGravity(Gravity.CENTER);
         mPositiveButton.setText(mPositiveParams.text);
         mPositiveButton.setEnabled(!mPositiveParams.disable);

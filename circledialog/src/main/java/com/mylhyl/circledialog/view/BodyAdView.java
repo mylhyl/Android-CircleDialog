@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.mylhyl.circledialog.internal.Controller;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
@@ -20,9 +23,6 @@ import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * 广告
@@ -59,7 +59,7 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mPageChangeListener != null) {
+        if (mPageChangeListener != null && mUrls != null) {
             mPageChangeListener.onPageScrolled(getContext(), mViews.get(position), mUrls.get(position), position,
                     positionOffset, positionOffsetPixels);
         }

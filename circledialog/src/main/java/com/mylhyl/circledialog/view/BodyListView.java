@@ -11,9 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.callback.CircleItemLabel;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
+import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
@@ -80,7 +80,7 @@ final class BodyListView extends ListView implements ItemsView {
 
         mAdapter = mItemsParams.adapter;
         if (mAdapter == null) {
-            mAdapter = new ItemsAdapter(getContext(), mItemsParams);
+            mAdapter = new ItemsAdapter(getContext(), mDialogParams, mItemsParams);
         }
         setAdapter(mAdapter);
     }
@@ -89,9 +89,11 @@ final class BodyListView extends ListView implements ItemsView {
         private Context mContext;
         private List<T> mItems;
         private ItemsParams mItemsParams;
+        private DialogParams mDialogParams;
 
-        public ItemsAdapter(Context context, ItemsParams params) {
+        public ItemsAdapter(Context context, DialogParams dialogParams, ItemsParams params) {
             this.mContext = context;
+            this.mDialogParams = dialogParams;
             this.mItemsParams = params;
 
             Object entity = mItemsParams.items;
@@ -129,6 +131,9 @@ final class BodyListView extends ListView implements ItemsView {
             if (convertView == null) {
                 viewHolder = new ViewHolder();
                 TextView textView = new TextView(mContext);
+                if (mDialogParams.typeface != null) {
+                    textView.setTypeface(mDialogParams.typeface);
+                }
                 textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(mItemsParams.textSize);
                 textView.setTextColor(mItemsParams.textColor);

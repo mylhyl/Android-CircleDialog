@@ -5,13 +5,13 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.mylhyl.circledialog.internal.BackgroundHelper;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.view.listener.OnCreateTextListener;
-
-import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * 对话框纯文本视图
@@ -45,6 +45,10 @@ final class BodyTextView extends AppCompatTextView {
         }
         setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+
+        if (mDialogParams.typeface != null) {
+            setTypeface(mDialogParams.typeface);
+        }
         setGravity(mTextParams.gravity);
 
         // 如果标题没有背景色，则使用默认色

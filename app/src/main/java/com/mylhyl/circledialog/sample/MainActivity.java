@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     private Handler handler;
     private Runnable runnable;
     private int time = 30;
+    //private Typeface typeface;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         switch (position) {
             case 0:
                 new CircleDialog.Builder()
+                        //.setTypeface(typeface)
                         .setTitle("标题")
                         .configTitle(new ConfigTitle() {
                             @Override
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 1:
                 new CircleDialog.Builder()
+                        //.setTypeface(typeface)
                         .setMaxHeight(0.8f)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 items.add(new PictureTypeEntity(3, "小视频"));
 //                final String[] items = {"拍照", "从相册选择", "小视频"};
                 new CircleDialog.Builder()
+                        //.setTypeface(typeface)
                         .configDialog(params -> {
                             params.backgroundColorPress = Color.CYAN;
                             //增加弹出动画
@@ -204,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 3:
                 dialogFragment = new CircleDialog.Builder()
+                        //.setTypeface(typeface)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(true)
                         .setTitle("输入框")
@@ -242,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder();
                 builder.setCancelable(false).setCanceledOnTouchOutside(false)
+                        //.setTypeface(typeface)
                         .configDialog(params -> params.backgroundColor = Color.CYAN)
                         .setTitle("下载")
                         .setProgressText("已经下载")
@@ -270,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 5:
                 dialogFragment = new CircleDialog.Builder()
+                        //.setTypeface(typeface)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
                         .setWidth(0.6f)
@@ -327,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                        refreshAnimation.setRepeatMode(Animation.RESTART);
                     params.refreshAnimation = R.anim.refresh_animation;
                 })
-
+                       // .setTypeface(typeface)
                         .setTitle("动态改变内容")
                         .setSubTitle("小标题")
                         .setText("3秒后更新其它内容")
@@ -353,6 +360,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 9:
                 builder = new CircleDialog.Builder()
+                      //  .setTypeface(typeface)
                         .setTitle("标题")
                         .setText("提示框")
                         .configPositive(params -> params.disable = true)
@@ -385,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 10:
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setTitle("标题")
                         .setTitleIcon(R.mipmap.ic_launcher)
                         .configTitle(params -> {
@@ -424,6 +433,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapter = new CheckedAdapter(this, objects);
 
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("可多选")
@@ -455,6 +465,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                     }
                 });
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
                         .configItems(params -> params.dividerHeight = 0)
@@ -499,6 +510,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                 };
                 dialogFragment = new CircleDialog.Builder()
+                        //.setTypeface(typeface)
                         .setRadius(0)
                         .setWidth(1f)
 //                        .setMaxHeight(0.7f)
@@ -522,6 +534,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
 
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setMaxHeight(0.5f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
@@ -538,6 +551,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 15:
                 dialogFragment = new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setTitle("提示")
                         .setBodyView(R.layout.dialog_login_conn_pic, view16 -> {
                             CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
@@ -551,6 +565,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 builder = new CircleDialog.Builder();
                 builder.setTitle("提示")
                         .setSubTitle("副提示语")
+                       // .setTypeface(typeface)
                         .setWidth(0.7f)
                         .setLottieAnimation("loading.json")
 
@@ -609,6 +624,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                 dialogFragment = new CircleDialog.Builder()
                         .bottomFull()
+                       // .setTypeface(typeface)
                         .setTitle("分享到")
                         .configTitle(params -> params.gravity = Gravity.LEFT)
                         .configItems(params -> params.dividerHeight = 0)
@@ -628,6 +644,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 rvListForV.add(new PictureTypeEntity(8, "从相册选择3"));
                 rvListForV.add(new PictureTypeEntity(9, "小视频4"));
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
 //                        .setTitle("Rv Vertical")
@@ -655,6 +672,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 rvListForH.add(new PictureTypeEntity(9, "小视频4"));
 
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("Rv Horizontal")
@@ -672,6 +690,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 20:
                 new CircleDialog.Builder()
+                      //  .setTypeface(typeface)
                         .setWidth(0.5f)
                         .setAdResId(R.mipmap.ic_zfbxcc, (view18, position18) -> {
                             Toast.makeText(MainActivity.this, "点击了"
@@ -686,6 +705,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
                 urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
                 new CircleDialog.Builder()
+                       // .setTypeface(typeface)
                         .setWidth(0.5f)
                         //.setImageLoadEngine(new Glide4ImageLoadEngine())
                         .setCloseResId(R.mipmap.ic_close, 27)
@@ -704,6 +724,42 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
+            case 22:
+                List<String> urls1 = new ArrayList<>();
+                urls1.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
+                urls1.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
+                urls1.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
+                urls1.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
+                new CircleDialog.Builder()
+                        .setWidth(0.8f)
+//                .setImageLoadEngine(new Glide4ImageLoadEngine())
+                        .setAdPageChangeListener(new OnAdPageChangeListener() {
+                            @Override
+                            public void onPageSelected(Context context, ImageView imageView, String url, int position) {
+                                Glide.with(context).load(url).into(imageView);
+                            }
+                        })
+                        .setAdUrl(urls1
+//                        "http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
+                                , new OnAdItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position) {
+                                        Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT)
+                                                .show();
+                                        return true;
+                                    }
+                                })
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
+//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
+                        .setAdIndicator(true)
+//                .setAdIndicatorPoint(R.drawable.selector_point)
+                        .setCloseResId(R.mipmap.ic_close, 23)
+                        .setClosePadding(new int[]{8, 0, 0, 0})
+                        .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
+                        .setCloseConnector(1, 19)
+                        .show(getSupportFragmentManager());
+                break;
         }
     }
 
@@ -711,14 +767,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //typeface = Typeface.createFromAsset(getAssets(), "fonts/arial.ttf");
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框"
                 , "动态改变内容", "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)", "Rv换头像"
                 , "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图", "lottie动画框", "仿微博分享"
-                , "Rv Vertical", "Rv Horizontal", "无x广告", "有x广告"});
+                , "Rv Vertical", "Rv Horizontal", "无x广告", "有x广告(下)", "有x广告(左上)"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override
@@ -728,40 +784,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         };
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-        List<String> urls = new ArrayList<>();
-        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
-        urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
-        urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
-        urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
-        new CircleDialog.Builder()
-                .setWidth(0.8f)
-//                .setImageLoadEngine(new Glide4ImageLoadEngine())
-                .setAdPageChangeListener(new OnAdPageChangeListener() {
-                    @Override
-                    public void onPageSelected(Context context, ImageView imageView, String url, int position) {
-                        Glide.with(context).load(url).into(imageView);
-                    }
-                })
-                .setAdUrl(urls
-//                        "http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg"
-                        , new OnAdItemClickListener() {
-                            @Override
-                            public boolean onItemClick(View view, int position) {
-                                Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT)
-                                        .show();
-                                return true;
-                            }
-                        })
-//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg")
-//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg")
-//                .setAdUrl("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg")
-                .setAdIndicator(true)
-//                .setAdIndicatorPoint(R.drawable.selector_point)
-                .setCloseResId(R.mipmap.ic_close, 23)
-                .setClosePadding(new int[]{8, 0, 0, 0})
-                .setCloseGravity(CloseParams.CLOSE_TOP_LEFT)
-                .setCloseConnector(1, 19)
-                .show(getSupportFragmentManager());
     }
 
     private void removeRunnable() {
