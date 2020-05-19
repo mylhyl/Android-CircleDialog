@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.SupportMenuInflater;
 import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.callback.ConfigProgress;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     }
 
     private CircleDialog.Builder builder;
-    private DialogFragment dialogFragment;
+    private BaseCircleDialog dialogFragment;
     private Handler handler;
     private Runnable runnable;
     private int time = 30;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
             case 0:
-                new CircleDialog.Builder()
+                dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setTitle("标题")
                         .configTitle(new ConfigTitle() {
@@ -207,41 +207,46 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 3:
-                dialogFragment = new CircleDialog.Builder()
-                        //.setTypeface(typeface)
-                        .setCanceledOnTouchOutside(false)
-                        .setCancelable(true)
-                        .setTitle("输入框")
-                        .setSubTitle("提示人物是什么？")
-                        .setInputHint("请输入条件")
-                        .setInputText("默认文本")
-                        .setInputHeight(115)
+                if (dialogFragment == null) {
+                    dialogFragment = new CircleDialog.Builder()
+                            //.setTypeface(typeface)
+                            .setCanceledOnTouchOutside(false)
+                            .setCancelable(true)
+                            .setTitle("输入框")
+                            .setSubTitle("提示人物是什么？")
+                            .setInputHint("请输入条件")
+                            .setInputText("默认文本")
+                            .setInputHeight(115)
 //                        .setInputShowKeyboard(true)
-                        .setInputEmoji(true)
-                        .setInputCounter(18)
+                            .setInputEmoji(true)
+                            .setInputCounter(18)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
-                        .configInput(params -> {
+                            .configInput(params -> {
 //                            params.isCounterAllEn = true;
 //                            params.padding = new int[]{30, 30, 30, 30};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;
-                            //密码
+                                //密码
 //                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
 //                                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
-                            //文字加粗
-                            params.styleText = Typeface.BOLD;
-                        })
-                        .setNegative("取消", null)
-                        .setPositiveInput("确定", (text, v) -> {
-                            if (TextUtils.isEmpty(text)) {
-                                Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
-                                return false;
-                            } else {
-                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-                                return true;
-                            }
-                        })
-                        .show(getSupportFragmentManager());
+                                //文字加粗
+                                params.styleText = Typeface.BOLD;
+                            })
+                            .setNegative("取消", null)
+                            .setPositiveInput("确定", (text, v) -> {
+                                if (TextUtils.isEmpty(text)) {
+                                    Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                                    return false;
+                                } else {
+                                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                            })
+                            .show(getSupportFragmentManager());
+                } else {
+                    // 测试重复show
+                    dialogFragment.show(getSupportFragmentManager());
+                }
                 break;
             case 4:
                 final Timer timer = new Timer();
@@ -334,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                        refreshAnimation.setRepeatMode(Animation.RESTART);
                     params.refreshAnimation = R.anim.refresh_animation;
                 })
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setTitle("动态改变内容")
                         .setSubTitle("小标题")
                         .setText("3秒后更新其它内容")
@@ -360,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 9:
                 builder = new CircleDialog.Builder()
-                      //  .setTypeface(typeface)
+                        //  .setTypeface(typeface)
                         .setTitle("标题")
                         .setText("提示框")
                         .configPositive(params -> params.disable = true)
@@ -393,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 10:
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setTitle("标题")
                         .setTitleIcon(R.mipmap.ic_launcher)
                         .configTitle(params -> {
@@ -433,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapter = new CheckedAdapter(this, objects);
 
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
                         .setSubTitle("可多选")
@@ -465,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                     }
                 });
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setTitle("Rv换头像")
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
                         .configItems(params -> params.dividerHeight = 0)
@@ -534,7 +539,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
 
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setMaxHeight(0.5f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("带复选的ListView")
@@ -551,7 +556,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 15:
                 dialogFragment = new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setTitle("提示")
                         .setBodyView(R.layout.dialog_login_conn_pic, view16 -> {
                             CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
@@ -565,7 +570,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 builder = new CircleDialog.Builder();
                 builder.setTitle("提示")
                         .setSubTitle("副提示语")
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setWidth(0.7f)
                         .setLottieAnimation("loading.json")
 
@@ -624,7 +629,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                 dialogFragment = new CircleDialog.Builder()
                         .bottomFull()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setTitle("分享到")
                         .configTitle(params -> params.gravity = Gravity.LEFT)
                         .configItems(params -> params.dividerHeight = 0)
@@ -644,7 +649,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 rvListForV.add(new PictureTypeEntity(8, "从相册选择3"));
                 rvListForV.add(new PictureTypeEntity(9, "小视频4"));
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
 //                        .setTitle("Rv Vertical")
@@ -672,7 +677,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 rvListForH.add(new PictureTypeEntity(9, "小视频4"));
 
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("Rv Horizontal")
@@ -690,7 +695,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 20:
                 new CircleDialog.Builder()
-                      //  .setTypeface(typeface)
+                        //  .setTypeface(typeface)
                         .setWidth(0.5f)
                         .setAdResId(R.mipmap.ic_zfbxcc, (view18, position18) -> {
                             Toast.makeText(MainActivity.this, "点击了"
@@ -705,7 +710,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
                 urls.add("http://img.ivsky.com/img/tupian/pre/201803/24/qinwen_lianren-001.jpg");
                 new CircleDialog.Builder()
-                       // .setTypeface(typeface)
+                        // .setTypeface(typeface)
                         .setWidth(0.5f)
                         //.setImageLoadEngine(new Glide4ImageLoadEngine())
                         .setCloseResId(R.mipmap.ic_close, 27)
@@ -744,7 +749,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 , new OnAdItemClickListener() {
                                     @Override
                                     public boolean onItemClick(View view, int position) {
-                                        Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT)
+                                        Toast.makeText(MainActivity.this, "点击了第" + (position + 1) + "页",
+                                                Toast.LENGTH_SHORT)
                                                 .show();
                                         return true;
                                     }
