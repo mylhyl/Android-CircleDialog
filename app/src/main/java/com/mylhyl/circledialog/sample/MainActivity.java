@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -761,6 +764,62 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setCloseConnector(1, 19)
                         .show(getSupportFragmentManager());
                 break;
+            case 23:
+                CircleDialog.Builder builder = new CircleDialog.Builder();
+                dialogFragment = builder.setTitle("自定义body")
+                        .setSubTitle("按钮回调view")
+                        .configSubTitle(params -> params.isShowBottomDivider = true)
+                        .setBodyView(R.layout.dialog_login, view110 -> {
+                            EditText etUser = view110.findViewById(R.id.login_et_user);
+                            EditText etPwd = view110.findViewById(R.id.login_et_pwd);
+
+                            etUser.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                    builder.setPositiveDisable(TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText()))
+                                            .refresh();
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                }
+                            });
+                            etPwd.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                    builder.setPositiveDisable(TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText()))
+                                            .refresh();
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                }
+                            });
+                        })
+                        .setPositiveDisable(true)
+                        .setPositiveBody("登录", view19 -> {
+                            EditText etUser = view19.findViewById(R.id.login_et_user);
+                            EditText etPwd = view19.findViewById(R.id.login_et_pwd);
+                            TextView tvError = view19.findViewById(R.id.login_tv_error);
+
+                            if ("1".equals(etUser.getText().toString()) &&
+                                    "2".equals(etPwd.getText().toString())) {
+                                return true;
+                            }
+                            tvError.setText("用户或密码错误");
+                            return false;
+                        })
+                        .setNegative("取消", null)
+                        .show(getSupportFragmentManager());
+                break;
         }
     }
 
@@ -775,7 +834,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框"
                 , "动态改变内容", "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)", "Rv换头像"
                 , "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图", "lottie动画框", "仿微博分享"
-                , "Rv Vertical", "Rv Horizontal", "无x广告", "有x广告(下)", "有x广告(左上)"});
+                , "Rv Vertical", "Rv Horizontal", "无x广告", "有x广告(下)", "有x广告(左上)", "自定义body确定响应"});
         BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
                 , listData) {
             @Override

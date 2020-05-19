@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
+import com.mylhyl.circledialog.view.listener.OnBindBodyViewCallback;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -83,6 +84,8 @@ public class CircleListeners {
     public static OnAdItemClickListener adItemClickListener;
     public static OnAdPageChangeListener adPageChangeListener;
 
+    public static OnBindBodyViewCallback bindBodyViewCallback;
+
     CircleListeners() {
 
     }
@@ -108,5 +111,6 @@ public class CircleListeners {
         inputCounterChangeListener = null;
         adItemClickListener = null;
         adPageChangeListener = null;
+        bindBodyViewCallback = null;
     }
 }

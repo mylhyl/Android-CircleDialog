@@ -66,8 +66,9 @@ public final class Controller {
             mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
             mCreateView.buildBodyView();
             View bodyView = mCreateView.getBodyView();
-            if (mParams.circleListeners.createBodyViewListener != null)
+            if (mParams.circleListeners.createBodyViewListener != null) {
                 mParams.circleListeners.createBodyViewListener.onCreateBodyView(bodyView);
+            }
         }
         // 广告
         else if (mParams.adParams != null) {
@@ -185,11 +186,19 @@ public final class Controller {
         ButtonView buttonView = mCreateView.buildButton();
         regNegativeListener(buttonView);
         regNeutralListener(buttonView);
+        // 输入框确定
         if (mParams.inputParams != null) {
             InputView inputView = mCreateView.getBodyView();
             //输入框确定按钮事件特殊性
             regPositiveInputListener(buttonView, inputView);
-        } else {
+        }
+        // 自定义body确定
+        else if (mParams.bodyViewId != 0 || mParams.bodyView != null) {
+            View bodyView = mCreateView.getBodyView();
+            regPositiveBodyListener(buttonView, bodyView);
+        }
+        // 其它
+        else {
             regPositiveListener(buttonView);
         }
     }
@@ -248,6 +257,20 @@ public final class Controller {
                 String text = editText.getText().toString();
                 if (mParams.circleListeners.inputListener != null) {
                     boolean b = mParams.circleListeners.inputListener.onClick(text, editText);
+                    if (b) {
+                        mOnDialogInternalListener.dialogDismiss();
+                    }
+                }
+            }
+        });
+    }
+
+    private void regPositiveBodyListener(final ButtonView viewButton, final View bodyView) {
+        viewButton.regPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mParams.circleListeners.bindBodyViewCallback != null) {
+                    boolean b = mParams.circleListeners.bindBodyViewCallback.onBindBodyView(bodyView);
                     if (b) {
                         mOnDialogInternalListener.dialogDismiss();
                     }

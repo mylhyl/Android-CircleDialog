@@ -48,14 +48,17 @@ public class ButtonParams implements Parcelable {
      * 按钮文本
      */
     public String text;
+
     /**
-     * 是否禁用按钮
+     * 是否禁用按钮，true禁用
      */
     public boolean disable;
+
     /**
      * 禁用后的按钮文本颜色
      */
     public int textColorDisable = CircleColor.FOOTER_BUTTON_DISABLE;
+
     /**
      * 按下颜色值
      */

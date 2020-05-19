@@ -45,6 +45,7 @@ import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
+import com.mylhyl.circledialog.view.listener.OnBindBodyViewCallback;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -413,7 +414,7 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置自定义等待框视图
+         * 设置自定义内容视图
          *
          * @param bodyViewId resLayoutId
          * @param listener   listener
@@ -426,7 +427,7 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置自定义等待框视图
+         * 设置自定义内容视图
          *
          * @param bodyView View
          * @param listener listener
@@ -436,6 +437,44 @@ public final class CircleDialog {
         public Builder setBodyView(View bodyView, OnCreateBodyViewListener listener) {
             mCircleParams.bodyView = bodyView;
             mCircleParams.circleListeners.createBodyViewListener = listener;
+            return this;
+        }
+
+        /**
+         * 设置自定义内容视图
+         *
+         * @param bodyViewId resLayoutId
+         * @return Builder
+         */
+        public Builder setBodyView(@LayoutRes int bodyViewId) {
+            mCircleParams.bodyViewId = bodyViewId;
+            return this;
+        }
+
+        /**
+         * 设置自定义内容视图
+         *
+         * @param bodyView View
+         * @return Builder
+         * @since 4.0.2
+         */
+        public Builder setBodyView(View bodyView) {
+            mCircleParams.bodyView = bodyView;
+            return this;
+        }
+
+        /**
+         * 自定义框的确定按钮
+         *
+         * @param text     按钮文本
+         * @param callback 自定义body view回调
+         * @return this Builder
+         */
+        public Builder setPositiveBody(@NonNull String text, OnBindBodyViewCallback callback) {
+            newPositiveParams();
+            ButtonParams params = mCircleParams.positiveParams;
+            params.text = text;
+            mCircleParams.circleListeners.bindBodyViewCallback = callback;
             return this;
         }
 
@@ -627,6 +666,19 @@ public final class CircleDialog {
             mCircleParams.circleListeners.clickPositiveListener = listener;
             return this;
         }
+
+        /**
+         * 设置是否禁用确定按钮
+         *
+         * @param disable true禁用
+         * @return
+         */
+        public Builder setPositiveDisable(@NonNull boolean disable) {
+            newPositiveParams();
+            mCircleParams.positiveParams.disable = disable;
+            return this;
+        }
+
 
         /**
          * 配置确定按钮
