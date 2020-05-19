@@ -29,15 +29,16 @@ public final class BuildViewCustomBodyImpl extends AbsBuildView {
         buildRootView();
         buildTitleView();
 
-        if (mCustomBodyView == null) {
-            if (mParams.bodyViewId != 0) {
-                mCustomBodyView = layoutInflaterFrom(mParams.bodyViewId);
-            } else {
-                mCustomBodyView = mParams.bodyView;
-            }
-            if (mCustomBodyView != null) {
-                addViewByBody(mCustomBodyView);
-            }
+        if (mCustomBodyView != null) {
+            return;
+        }
+        if (mParams.bodyViewId != 0) {
+            mCustomBodyView = layoutInflaterFrom(mParams.bodyViewId);
+        } else {
+            mCustomBodyView = mParams.bodyView;
+        }
+        if (mCustomBodyView != null) {
+            addViewByBody(mCustomBodyView);
         }
     }
 

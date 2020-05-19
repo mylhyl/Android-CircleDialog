@@ -6,7 +6,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
+
+import androidx.cardview.widget.CardView;
 
 import com.mylhyl.circledialog.internal.BuildView;
 import com.mylhyl.circledialog.internal.CircleParams;
@@ -14,8 +17,6 @@ import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.CloseView;
-
-import androidx.cardview.widget.CardView;
 
 /**
  * view的层次结构
@@ -48,6 +49,10 @@ abstract class AbsBuildView implements BuildView {
     }
 
     protected final void addViewByBody(View child) {
+        ViewParent parent = child.getParent();
+        if (parent != null) {
+            ((ViewGroup) parent).removeView(child);
+        }
         mRootCardViewByLinearLayout.addView(child);
     }
 
