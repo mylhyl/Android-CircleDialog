@@ -207,46 +207,41 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .show(getSupportFragmentManager());
                 break;
             case 3:
-                if (dialogFragment == null) {
-                    dialogFragment = new CircleDialog.Builder()
-                            //.setTypeface(typeface)
-                            .setCanceledOnTouchOutside(false)
-                            .setCancelable(true)
-                            .setTitle("输入框")
-                            .setSubTitle("提示人物是什么？")
-                            .setInputHint("请输入条件")
-                            .setInputText("默认文本")
-                            .setInputHeight(115)
+                dialogFragment = new CircleDialog.Builder()
+                        //.setTypeface(typeface)
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelable(true)
+                        .setTitle("输入框")
+                        .setSubTitle("提示人物是什么？")
+                        .setInputHint("请输入条件")
+                        .setInputText("默认文本")
+                        .setInputHeight(115)
 //                        .setInputShowKeyboard(true)
-                            .setInputEmoji(true)
-                            .setInputCounter(18)
+                        .setInputEmoji(true)
+                        .setInputCounter(18)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
-                            .configInput(params -> {
+                        .configInput(params -> {
 //                            params.isCounterAllEn = true;
 //                            params.padding = new int[]{30, 30, 30, 30};
 //                                params.inputBackgroundResourceId = R.drawable.bg_input;
 //                                params.gravity = Gravity.CENTER;
-                                //密码
+                            //密码
 //                                params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
 //                                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
-                                //文字加粗
-                                params.styleText = Typeface.BOLD;
-                            })
-                            .setNegative("取消", null)
-                            .setPositiveInput("确定", (text, v) -> {
-                                if (TextUtils.isEmpty(text)) {
-                                    Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
-                                    return false;
-                                } else {
-                                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-                                    return true;
-                                }
-                            })
-                            .show(getSupportFragmentManager());
-                } else {
-                    // 测试重复show
-                    dialogFragment.show(getSupportFragmentManager());
-                }
+                            //文字加粗
+                            params.styleText = Typeface.BOLD;
+                        })
+                        .setNegative("取消", null)
+                        .setPositiveInput("确定", (text, v) -> {
+                            if (TextUtils.isEmpty(text)) {
+                                Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                                return false;
+                            } else {
+                                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
+                        })
+                        .show(getSupportFragmentManager());
                 break;
             case 4:
                 final Timer timer = new Timer();
