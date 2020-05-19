@@ -766,7 +766,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 23:
                 CircleDialog.Builder builder = new CircleDialog.Builder();
-                dialogFragment = builder.setTitle("自定义body")
+                builder.setTitle("自定义body")
                         .setSubTitle("按钮回调view")
                         .configSubTitle(params -> params.isShowBottomDivider = true)
                         .setBodyView(R.layout.dialog_login, view110 -> {
@@ -795,8 +795,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                                 @Override
                                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                    builder.setPositiveDisable(TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText()))
-                                            .refresh();
+                                    // 测试长度为3自动关闭
+                                    if (s.length() == 3) {
+                                        builder.dismiss();
+                                    } else {
+                                        builder.setPositiveDisable(TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText()))
+                                                .refresh();
+                                    }
                                 }
 
                                 @Override

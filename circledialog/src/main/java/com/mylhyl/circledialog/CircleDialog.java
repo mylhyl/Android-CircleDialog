@@ -70,23 +70,40 @@ public final class CircleDialog {
     private CircleDialog() {
     }
 
-    void refresh() {
-        if (mBaseCircleDialog == null) return;
-        Dialog dialog = mBaseCircleDialog.getDialog();
-        if (dialog == null || !dialog.isShowing()) return;
+    private void refresh() {
+        if (check()) {
+            return;
+        }
         mBaseCircleDialog.refreshView();
     }
 
-    void show(FragmentManager manager) {
+    private void dismiss() {
+        if (check()) {
+            return;
+        }
+        mBaseCircleDialog.dialogDismiss();
+    }
+
+    private void show(FragmentManager manager) {
         mBaseCircleDialog.show(manager);
     }
 
-    BaseCircleDialog create(CircleParams params) {
-        mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
-        return mBaseCircleDialog;
+    private BaseCircleDialog create(CircleParams params) {
+        return mBaseCircleDialog = BaseCircleDialog.newAbsCircleDialog(params);
     }
 
-    public static class Builder {
+    private boolean check() {
+        if (mBaseCircleDialog == null) {
+            return true;
+        }
+        Dialog dialog = mBaseCircleDialog.getDialog();
+        if (dialog == null || !dialog.isShowing()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static final class Builder {
         private CircleDialog mCircleDialog;
         private CircleParams mCircleParams;
 
@@ -994,6 +1011,12 @@ public final class CircleDialog {
         public void refresh() {
             if (mCircleDialog != null) {
                 mCircleDialog.refresh();
+            }
+        }
+
+        public void dismiss() {
+            if (mCircleDialog != null) {
+                mCircleDialog.dismiss();
             }
         }
 
