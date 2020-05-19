@@ -179,9 +179,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void dialogDismiss() {
-        if (mParams != null) {
-            mParams.circleListeners.clear();
-        }
         dismissAllowingStateLoss();
     }
 

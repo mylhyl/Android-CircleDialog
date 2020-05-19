@@ -91,6 +91,7 @@ public final class CircleDialog {
 
         public Builder() {
             mCircleParams = new CircleParams();
+            mCircleParams.circleListeners.clear();
             mCircleParams.dialogParams = new DialogParams();
         }
 
@@ -920,7 +921,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setTypeface(Typeface typeface){
+        public Builder setTypeface(Typeface typeface) {
             mCircleParams.dialogParams.typeface = typeface;
             return this;
         }
