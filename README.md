@@ -24,7 +24,7 @@
 稳定版：implementation 'com.mylhyl:circleDialog:x.x.x'  
 预览版：implementation 'com.mylhyl:circleDialog:x.x.x-alpha'
 
-[下载APK体验](https://fir.im/sbvq)或手机扫描下面二维码
+[下载APK体验](http://d.7short.com/sbvq)或手机扫描下面二维码
 
 <img src="preview/qrdown.png"/>
 
