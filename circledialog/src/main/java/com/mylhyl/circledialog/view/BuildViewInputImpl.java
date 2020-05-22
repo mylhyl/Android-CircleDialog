@@ -29,9 +29,7 @@ public final class BuildViewInputImpl extends AbsBuildView {
         buildTitleView();
 
         if (mBodyInputView == null) {
-            mBodyInputView = new BodyInputView(mContext, mParams.dialogParams, mParams.titleParams,
-                    mParams.subTitleParams, mParams.inputParams, mParams.circleListeners.inputCounterChangeListener,
-                    mParams.circleListeners.createInputListener);
+            mBodyInputView = new BodyInputView(mContext, mParams);
             addViewByBody(mBodyInputView.getView());
         }
     }

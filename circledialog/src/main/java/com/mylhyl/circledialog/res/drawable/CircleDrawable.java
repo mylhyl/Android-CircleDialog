@@ -12,8 +12,8 @@ public class CircleDrawable extends ShapeDrawable {
         this(backgroundColor, radius, radius, radius, radius);
     }
 
-    public CircleDrawable(int backgroundColor, int leftTopRadius, int rightTopRadius
-            , int rightBottomRadius, int leftBottomRadius) {
+    public CircleDrawable(int backgroundColor, int leftTopRadius, int rightTopRadius, int rightBottomRadius,
+                          int leftBottomRadius) {
         getPaint().setColor(backgroundColor);//内部填充颜色
         //圆角半径
         setShape(DrawableHelper.getRoundRectShape(leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius));

@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
+import com.mylhyl.circledialog.CircleViewHolder;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.view.BuildViewAdImpl;
 import com.mylhyl.circledialog.view.BuildViewConfirmImpl;
@@ -37,15 +38,16 @@ public final class Controller {
     public static final boolean SDK_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean SDK_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 
+    private CircleViewHolder mCircleViewHolder;
     private Context mContext;
     private CircleParams mParams;
     private BuildView mCreateView;
-    private OnDialogInternalListener mOnDialogInternalListener;
+    private OnDialogInternalListener mOnDialogListener;
 
-    public Controller(Context context, CircleParams params, OnDialogInternalListener dialogInternalListener) {
+    public Controller(Context context, CircleParams params, OnDialogInternalListener dialogListener) {
         this.mContext = context;
         this.mParams = params;
-        this.mOnDialogInternalListener = dialogInternalListener;
+        this.mOnDialogListener = dialogListener;
         BackgroundHelper.INSTANCE.init(context, params);
     }
 
@@ -54,7 +56,11 @@ public final class Controller {
                 , context.getResources().getDisplayMetrics()) + 0.5f);
     }
 
-    public void createView() {
+    public CircleViewHolder getViewHolder() {
+        return mCircleViewHolder;
+    }
+
+    public View createView() {
 
         // lottie动画框
         if (mParams.lottieParams != null) {
@@ -65,10 +71,6 @@ public final class Controller {
         else if (mParams.bodyViewId != 0 || mParams.bodyView != null) {
             mCreateView = new BuildViewCustomBodyImpl(mContext, mParams);
             mCreateView.buildBodyView();
-            View bodyView = mCreateView.getBodyView();
-            if (mParams.circleListeners.createBodyViewListener != null) {
-                mParams.circleListeners.createBodyViewListener.onCreateBodyView(bodyView);
-            }
         }
         // 广告
         else if (mParams.adParams != null) {
@@ -78,11 +80,12 @@ public final class Controller {
             bodyView.regOnImageClickListener(new OnAdItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position) {
-                    if (mParams.circleListeners.adItemClickListener != null) {
-                        boolean b = mParams.circleListeners.adItemClickListener.onItemClick(view, position);
-                        if (b) {
-                            mOnDialogInternalListener.dialogDismiss();
-                        }
+                    if (mParams.circleListeners.adItemClickListener == null) {
+                        return false;
+                    }
+                    boolean b = mParams.circleListeners.adItemClickListener.onItemClick(view, position);
+                    if (b) {
+                        mOnDialogListener.dialogDismiss();
                     }
                     return false;
                 }
@@ -90,20 +93,21 @@ public final class Controller {
         }
         // popup
         else if (mParams.popupParams != null) {
-            int[] screenSize = mOnDialogInternalListener.getScreenSize();
-            int statusBarHeight = mOnDialogInternalListener.getStatusBarHeight();
-            mCreateView = new BuildViewPopupImpl(mContext, mOnDialogInternalListener, mParams
+            int[] screenSize = mOnDialogListener.getScreenSize();
+            int statusBarHeight = mOnDialogListener.getStatusBarHeight();
+            mCreateView = new BuildViewPopupImpl(mContext, mOnDialogListener, mParams
                     , screenSize, statusBarHeight);
             mCreateView.buildBodyView();
-            final ItemsView itemsView = mCreateView.getBodyView();
+            ItemsView itemsView = mCreateView.getBodyView();
             itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position) {
-                    if (mParams.circleListeners.rvItemListener != null) {
-                        boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
-                        if (b) {
-                            mOnDialogInternalListener.dialogDismiss();
-                        }
+                    if (mParams.circleListeners.rvItemListener == null) {
+                        return false;
+                    }
+                    boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
+                    if (b) {
+                        mOnDialogListener.dialogDismiss();
                     }
                     return false;
                 }
@@ -125,30 +129,32 @@ public final class Controller {
             if (mParams.itemListViewType) {
                 mCreateView = new BuildViewItemsListViewImpl(mContext, mParams);
                 mCreateView.buildBodyView();
-                final ItemsView itemsView = mCreateView.getBodyView();
+                ItemsView itemsView = mCreateView.getBodyView();
                 itemsView.regOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (mParams.circleListeners.itemListener != null) {
-                            boolean b = mParams.circleListeners.itemListener.onItemClick(parent, view, position, id);
-                            if (b) {
-                                mOnDialogInternalListener.dialogDismiss();
-                            }
+                        if (mParams.circleListeners.itemListener == null) {
+                            return;
+                        }
+                        boolean b = mParams.circleListeners.itemListener.onItemClick(parent, view, position, id);
+                        if (b) {
+                            mOnDialogListener.dialogDismiss();
                         }
                     }
                 });
             } else {
                 mCreateView = new BuildViewItemsRecyclerViewImpl(mContext, mParams);
                 mCreateView.buildBodyView();
-                final ItemsView itemsView = mCreateView.getBodyView();
+                ItemsView itemsView = mCreateView.getBodyView();
                 itemsView.regOnItemClickListener(new OnRvItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position) {
-                        if (mParams.circleListeners.rvItemListener != null) {
-                            boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
-                            if (b) {
-                                mOnDialogInternalListener.dialogDismiss();
-                            }
+                        if (mParams.circleListeners.rvItemListener == null) {
+                            return false;
+                        }
+                        boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
+                        if (b) {
+                            mOnDialogListener.dialogDismiss();
                         }
                         return false;
                     }
@@ -177,7 +183,7 @@ public final class Controller {
             closeView.regOnCloseClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnDialogInternalListener.dialogDismiss();
+                    mOnDialogListener.dialogDismiss();
                 }
             });
         }
@@ -194,13 +200,13 @@ public final class Controller {
         }
         // 自定义body确定
         else if (mParams.bodyViewId != 0 || mParams.bodyView != null) {
-            View bodyView = mCreateView.getBodyView();
-            regPositiveBodyListener(buttonView, bodyView);
+            regPositiveBodyListener(buttonView);
         }
         // 其它
         else {
             regPositiveListener(buttonView);
         }
+        return getView();
     }
 
     public void refreshView() {
@@ -211,18 +217,23 @@ public final class Controller {
                 mCreateView.refreshContent();
                 mCreateView.refreshButton();
                 //刷新时带动画
-                if (mParams.dialogParams.refreshAnimation != 0 && getView() != null) {
-                    Animation animation = AnimationUtils.loadAnimation(mContext, mParams.dialogParams.refreshAnimation);
-                    if (animation != null) {
-                        getView().startAnimation(animation);
-                    }
+                if (mParams.dialogParams.refreshAnimation == 0 || getView() == null) {
+                    return;
+                }
+                Animation animation = AnimationUtils.loadAnimation(mContext, mParams.dialogParams.refreshAnimation);
+                if (animation != null) {
+                    getView().startAnimation(animation);
                 }
             }
         });
     }
 
-    public View getView() {
-        return mCreateView.getRootView();
+    private View getView() {
+        if (mCreateView == null) {
+            return null;
+        }
+        mCircleViewHolder = new CircleViewHolder(mCreateView.getRootView());
+        return mCircleViewHolder.getDialogView();
     }
 
     private void regNegativeListener(final ButtonView viewButton) {
@@ -232,7 +243,7 @@ public final class Controller {
                 if (mParams.circleListeners.clickNegativeListener != null) {
                     mParams.circleListeners.clickNegativeListener.onClick(v);
                 }
-                mOnDialogInternalListener.dialogDismiss();
+                mOnDialogListener.dialogDismiss();
             }
         });
     }
@@ -244,7 +255,7 @@ public final class Controller {
                 if (mParams.circleListeners.clickNeutralListener != null) {
                     mParams.circleListeners.clickNeutralListener.onClick(v);
                 }
-                mOnDialogInternalListener.dialogDismiss();
+                mOnDialogListener.dialogDismiss();
             }
         });
     }
@@ -255,25 +266,27 @@ public final class Controller {
             public void onClick(View v) {
                 EditText editText = inputView.getInput();
                 String text = editText.getText().toString();
-                if (mParams.circleListeners.inputListener != null) {
-                    boolean b = mParams.circleListeners.inputListener.onClick(text, editText);
-                    if (b) {
-                        mOnDialogInternalListener.dialogDismiss();
-                    }
+                if (mParams.circleListeners.inputListener == null) {
+                    return;
+                }
+                boolean b = mParams.circleListeners.inputListener.onClick(text, editText);
+                if (b) {
+                    mOnDialogListener.dialogDismiss();
                 }
             }
         });
     }
 
-    private void regPositiveBodyListener(final ButtonView viewButton, final View bodyView) {
+    private void regPositiveBodyListener(final ButtonView viewButton) {
         viewButton.regPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mParams.circleListeners.bindBodyViewCallback != null) {
-                    boolean b = mParams.circleListeners.bindBodyViewCallback.onBindBodyView(bodyView);
-                    if (b) {
-                        mOnDialogInternalListener.dialogDismiss();
-                    }
+                if (mParams.circleListeners.bindBodyViewCallback == null) {
+                    return;
+                }
+                boolean b = mParams.circleListeners.bindBodyViewCallback.onBindBodyView(mCircleViewHolder);
+                if (b) {
+                    mOnDialogListener.dialogDismiss();
                 }
             }
         });
@@ -286,7 +299,7 @@ public final class Controller {
                 if (mParams.circleListeners.clickPositiveListener != null) {
                     mParams.circleListeners.clickPositiveListener.onClick(v);
                 }
-                mOnDialogInternalListener.dialogDismiss();
+                mOnDialogListener.dialogDismiss();
             }
         });
     }

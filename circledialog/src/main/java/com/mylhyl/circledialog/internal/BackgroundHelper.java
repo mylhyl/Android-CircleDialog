@@ -45,26 +45,26 @@ public enum BackgroundHelper {
 
         if (Controller.SDK_LOLLIPOP) {
             view.setBackgroundColor(backgroundColor);
-        } else {
-            // 有标题没按钮则底部圆角
-            if (titleParams != null && negativeParams == null && positiveParams == null && neutralParams == null) {
-                CircleDrawable circleDrawable = new CircleDrawable(backgroundColor, 0, 0, radius, radius);
-                handleBackground(view, circleDrawable);
-            }
-            // 没标题有按钮则顶部圆角
-            else if (titleParams == null && (negativeParams != null || positiveParams != null || neutralParams != null)) {
-                CircleDrawable circleDrawable = new CircleDrawable(backgroundColor, radius, radius, 0, 0);
-                handleBackground(view, circleDrawable);
-            }
-            // 没标题没按钮则全部圆角
-            else if (titleParams == null && negativeParams == null && positiveParams == null && neutralParams == null) {
-                CircleDrawable circleDrawable = new CircleDrawable(backgroundColor, radius);
-                handleBackground(view, circleDrawable);
-            }
-            // 有标题有按钮则不用考虑圆角
-            else {
-                view.setBackgroundColor(backgroundColor);
-            }
+            return;
+        }
+        // 有标题没按钮则底部圆角
+        if (titleParams != null && negativeParams == null && positiveParams == null && neutralParams == null) {
+            CircleDrawable circleDrawable = new CircleDrawable(backgroundColor, 0, 0, radius, radius);
+            handleBackground(view, circleDrawable);
+        }
+        // 没标题有按钮则顶部圆角
+        else if (titleParams == null && (negativeParams != null || positiveParams != null || neutralParams != null)) {
+            CircleDrawable circleDrawable = new CircleDrawable(backgroundColor, radius, radius, 0, 0);
+            handleBackground(view, circleDrawable);
+        }
+        // 没标题没按钮则全部圆角
+        else if (titleParams == null && negativeParams == null && positiveParams == null && neutralParams == null) {
+            CircleDrawable circleDrawable = new CircleDrawable(backgroundColor, radius);
+            handleBackground(view, circleDrawable);
+        }
+        // 有标题有按钮则不用考虑圆角
+        else {
+            view.setBackgroundColor(backgroundColor);
         }
     }
 
@@ -122,10 +122,10 @@ public enum BackgroundHelper {
         ButtonParams negativeParams = circleParams.negativeParams;
         // 右边没按钮则右下是圆角
         int rightRadius = (circleParams.neutralParams == null && circleParams.positiveParams == null) ? radius : 0;
-        CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor
-                , negativeParams.backgroundColorPress != 0
-                ? negativeParams.backgroundColorPress : backgroundColorPress
-                , radius, rightRadius, rightRadius, radius);
+        CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor,
+                negativeParams.backgroundColorPress != 0 ?
+                        negativeParams.backgroundColorPress :
+                        backgroundColorPress, radius, rightRadius, rightRadius, radius);
 
         handleBackground(view, selectorBtn);
     }
@@ -134,10 +134,10 @@ public enum BackgroundHelper {
         ButtonParams positiveParams = circleParams.positiveParams;
         // 左边没按钮则左下是圆角
         int leftRadius = (circleParams.negativeParams == null && circleParams.neutralParams == null) ? radius : 0;
-        CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor
-                , positiveParams.backgroundColorPress != 0
-                ? positiveParams.backgroundColorPress : backgroundColorPress
-                , leftRadius, radius, radius, leftRadius);
+        CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor,
+                positiveParams.backgroundColorPress != 0 ?
+                        positiveParams.backgroundColorPress :
+                        backgroundColorPress, leftRadius, radius, radius, leftRadius);
 
         handleBackground(view, selectorBtn);
     }
@@ -147,10 +147,10 @@ public enum BackgroundHelper {
         // 左右没按钮则左下右下是圆角
         int leftRadius = circleParams.negativeParams == null ? radius : 0;
         int rightRadius = circleParams.positiveParams == null ? radius : 0;
-        CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor
-                , neutralParams.backgroundColorPress != 0
-                ? neutralParams.backgroundColorPress : backgroundColorPress
-                , leftRadius, rightRadius, rightRadius, leftRadius);
+        CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor,
+                neutralParams.backgroundColorPress != 0 ?
+                        neutralParams.backgroundColorPress :
+                        backgroundColorPress, leftRadius, rightRadius, rightRadius, leftRadius);
 
         handleBackground(view, selectorBtn);
     }

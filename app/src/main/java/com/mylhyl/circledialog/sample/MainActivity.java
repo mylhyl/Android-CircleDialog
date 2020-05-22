@@ -6,9 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuInflater;
@@ -34,12 +32,8 @@ import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
 import com.mylhyl.circledialog.callback.ConfigProgress;
-import com.mylhyl.circledialog.callback.ConfigSubTitle;
-import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.params.SubTitleParams;
-import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -79,16 +73,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setTitle("标题")
-                        .configTitle(new ConfigTitle() {
-                            @Override
-                            public void onConfig(TitleParams params) {
-                                params.isShowBottomDivider = true;
-                            }
-                        })
+                        .configTitle(params -> params.isShowBottomDivider = true)
                         .setWidth(0.5f)
                         .setText("提示框")
                         .setPositive("确定", null)
-                        .setOnShowListener(dialog ->
+                        .setOnShowListener((dialog, viewHolder) ->
                                 Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show())
                         .setOnCancelListener(dialog ->
                                 Toast.makeText(MainActivity.this, "取消了！", Toast.LENGTH_SHORT).show())
@@ -106,12 +95,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .setTitle("移动认证简介")
                         .setSubTitle("更新日期:2019-01-16")
-                        .configSubTitle(new ConfigSubTitle() {
-                            @Override
-                            public void onConfig(SubTitleParams params) {
-                                params.isShowBottomDivider = true;
-                            }
-                        })
+                        .configSubTitle(params -> params.isShowBottomDivider = true)
                         .setText("一、移动认证简介\n" +
                                 "\n" +
                                 "1、什么是移动认证\n" +
@@ -157,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .setNegative("取消", null)
                         .setPositive("确定", v ->
-                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show())
+                                Toast.makeText(MainActivity.this, "确定0", Toast.LENGTH_SHORT).show())
                         .configPositive(params -> params.backgroundColorPress = Color.RED)
                         .show(getSupportFragmentManager());
                 break;
@@ -556,10 +540,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         // .setTypeface(typeface)
                         .setTitle("提示")
-                        .setBodyView(R.layout.dialog_login_conn_pic, view16 -> {
+                        .setBodyView(R.layout.dialog_login_conn_pic, viewHolder -> {
                             CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
                                     , 0, 0, 0, 0);
-                            view16.setBackgroundDrawable(bgCircleDrawable);
+                            viewHolder.setBackgroundDrawable(bgCircleDrawable);
                         })
                         .setNegative("关闭", null)
                         .show(getSupportFragmentManager());
@@ -769,51 +753,31 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 builder.setTitle("自定义body")
                         .setSubTitle("按钮回调view")
                         .configSubTitle(params -> params.isShowBottomDivider = true)
-                        .setBodyView(R.layout.dialog_login, view110 -> {
-                            EditText etUser = view110.findViewById(R.id.login_et_user);
-                            EditText etPwd = view110.findViewById(R.id.login_et_pwd);
+                        .setBodyView(R.layout.dialog_login, viewHolder -> {
+                            EditText etUser = viewHolder.findViewById(R.id.login_et_user);
+                            EditText etPwd = viewHolder.findViewById(R.id.login_et_pwd);
 
-                            etUser.addTextChangedListener(new TextWatcher() {
-                                @Override
-                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                                }
-
-                                @Override
-                                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                    builder.setPositiveDisable(TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText()))
-                                            .refresh();
-                                }
-
-                                @Override
-                                public void afterTextChanged(Editable s) {
-                                }
-                            });
-                            etPwd.addTextChangedListener(new TextWatcher() {
-                                @Override
-                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                                }
-
-                                @Override
-                                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                    // 测试长度为3自动关闭
-                                    if (s.length() == 3) {
-                                        builder.dismiss();
-                                    } else {
-                                        builder.setPositiveDisable(TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText()))
-                                                .refresh();
-                                    }
-                                }
-
-                                @Override
-                                public void afterTextChanged(Editable s) {
+                            viewHolder.addTextChangedListener(etUser, (s, start, before, count) ->
+                                    builder.setPositiveDisable(
+                                            TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText())
+                                    ).refresh()
+                            );
+                            viewHolder.addTextChangedListener(etPwd, (s, start, before, count) -> {
+                                // 测试长度为3自动关闭
+                                if (s.length() == 3) {
+                                    builder.dismiss();
+                                } else {
+                                    builder.setPositiveDisable(
+                                            TextUtils.isEmpty(etUser.getText()) || TextUtils.isEmpty(etPwd.getText())
+                                    ).refresh();
                                 }
                             });
                         })
                         .setPositiveDisable(true)
-                        .setPositiveBody("登录", view19 -> {
-                            EditText etUser = view19.findViewById(R.id.login_et_user);
-                            EditText etPwd = view19.findViewById(R.id.login_et_pwd);
-                            TextView tvError = view19.findViewById(R.id.login_tv_error);
+                        .setPositiveBody("登录", viewHolder -> {
+                            EditText etUser = viewHolder.findViewById(R.id.login_et_user);
+                            EditText etPwd = viewHolder.findViewById(R.id.login_et_pwd);
+                            TextView tvError = viewHolder.findViewById(R.id.login_tv_error);
 
                             if ("1".equals(etUser.getText().toString()) &&
                                     "2".equals(etPwd.getText().toString())) {

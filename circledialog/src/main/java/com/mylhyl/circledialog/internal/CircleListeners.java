@@ -17,6 +17,7 @@ import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnShowListener;
 
 /**
  * Created by hupei on 2019/12/17.
@@ -31,86 +32,63 @@ public class CircleListeners {
     /**
      * 确定按钮点击事件
      */
-    public static View.OnClickListener clickPositiveListener;
+    public View.OnClickListener clickPositiveListener;
 
     /**
      * 中间按钮点击事件
      */
-    public static View.OnClickListener clickNeutralListener;
+    public View.OnClickListener clickNeutralListener;
 
     /**
      * 取消按钮点击事件
      */
-    public static View.OnClickListener clickNegativeListener;
+    public View.OnClickListener clickNegativeListener;
 
     /**
      * 输入框确定事件
      */
-    public static OnInputClickListener inputListener;
+    public OnInputClickListener inputListener;
 
     /**
      * RecyclerView Item点击事件
      */
-    public static OnRvItemClickListener rvItemListener;
+    public OnRvItemClickListener rvItemListener;
 
     /**
      * item 点击事件
      */
-    public static OnLvItemClickListener itemListener;
+    public OnLvItemClickListener itemListener;
 
     /**
      * dialog 关闭事件
      */
-    public static DialogInterface.OnDismissListener dismissListener;
+    public DialogInterface.OnDismissListener dismissListener;
 
     /**
      * dialog 取消事件
      */
-    public static DialogInterface.OnCancelListener cancelListener;
+    public DialogInterface.OnCancelListener cancelListener;
 
     /**
      * dialog 显示事件
      */
-    public static DialogInterface.OnShowListener showListener;
-    public static DialogInterface.OnKeyListener keyListener;
-    public static OnCreateBodyViewListener createBodyViewListener;
-    public static OnCreateProgressListener createProgressListener;
-    public static OnCreateLottieListener createLottieListener;
-    public static OnCreateTitleListener createTitleListener;
-    public static OnCreateTextListener createTextListener;
-    public static OnCreateInputListener createInputListener;
-    public static OnCreateButtonListener createButtonListener;
-    public static OnInputCounterChangeListener inputCounterChangeListener;
-    public static OnAdItemClickListener adItemClickListener;
-    public static OnAdPageChangeListener adPageChangeListener;
+    public OnShowListener showListener;
+    public DialogInterface.OnKeyListener keyListener;
+    public OnCreateBodyViewListener createBodyViewListener;
+    public OnCreateProgressListener createProgressListener;
+    public OnCreateLottieListener createLottieListener;
+    public OnCreateTitleListener createTitleListener;
+    public OnCreateTextListener createTextListener;
+    public OnCreateInputListener createInputListener;
+    public OnCreateButtonListener createButtonListener;
+    public OnInputCounterChangeListener inputCounterChangeListener;
+    public OnAdItemClickListener adItemClickListener;
+    public OnAdPageChangeListener adPageChangeListener;
 
-    public static OnBindBodyViewCallback bindBodyViewCallback;
+    public OnBindBodyViewCallback bindBodyViewCallback;
 
     CircleListeners() {
 
     }
 
-    public void clear() {
-        clickPositiveListener = null;
-        clickNeutralListener = null;
-        clickNegativeListener = null;
-        inputListener = null;
-        rvItemListener = null;
-        itemListener = null;
-        dismissListener = null;
-        cancelListener = null;
-        showListener = null;
-        keyListener = null;
-        createBodyViewListener = null;
-        createProgressListener = null;
-        createLottieListener = null;
-        createTitleListener = null;
-        createTextListener = null;
-        createInputListener = null;
-        createButtonListener = null;
-        inputCounterChangeListener = null;
-        adItemClickListener = null;
-        adPageChangeListener = null;
-        bindBodyViewCallback = null;
-    }
 }

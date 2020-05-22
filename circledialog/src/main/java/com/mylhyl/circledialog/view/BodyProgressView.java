@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
@@ -33,12 +34,11 @@ final class BodyProgressView extends LinearLayout {
     private TextView mTextView;
     private Handler mViewUpdateHandler;
 
-    public BodyProgressView(Context context, DialogParams dialogParams, ProgressParams progressParams,
-                            OnCreateProgressListener onCreateProgressListener) {
+    public BodyProgressView(Context context, CircleParams circleParams) {
         super(context);
-        this.mDialogParams = dialogParams;
-        this.mProgressParams = progressParams;
-        this.mOnCreateProgressListener = onCreateProgressListener;
+        this.mDialogParams = circleParams.dialogParams;
+        this.mProgressParams = circleParams.progressParams;
+        this.mOnCreateProgressListener = circleParams.circleListeners.createProgressListener;
         init();
     }
 
@@ -124,7 +124,8 @@ final class BodyProgressView extends LinearLayout {
         int[] padding = mProgressParams.padding;
         if (padding != null) {
             mTextView.setPadding(Controller.dp2px(getContext(), padding[0]),
-                    Controller.dp2px(getContext(), padding[1]), Controller.dp2px(getContext(), padding[2]),
+                    Controller.dp2px(getContext(), padding[1]),
+                    Controller.dp2px(getContext(), padding[2]),
                     Controller.dp2px(getContext(), padding[3]));
         }
         addView(mTextView);
@@ -198,7 +199,8 @@ final class BodyProgressView extends LinearLayout {
         int[] margins = mProgressParams.margins;
         if (margins != null) {
             layoutParams.setMargins(Controller.dp2px(getContext(), margins[0]),
-                    Controller.dp2px(getContext(), margins[1]), Controller.dp2px(getContext(), margins[2]),
+                    Controller.dp2px(getContext(), margins[1]),
+                    Controller.dp2px(getContext(), margins[2]),
                     Controller.dp2px(getContext(), margins[3]));
         }
         addView(mProgressBar, layoutParams);

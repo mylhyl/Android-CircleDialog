@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.mylhyl.circledialog.internal.BackgroundHelper;
-import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
+import com.mylhyl.circledialog.internal.CircleParams;
 
 /**
  * 对话框确定按钮与取消的视图
@@ -14,10 +12,8 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  */
 final class ConfirmButton extends AbsButton {
 
-    public ConfirmButton(Context context, DialogParams dialogParams, ButtonParams negativeParams,
-                         ButtonParams positiveParams, ButtonParams neutralParams,
-                         OnCreateButtonListener createButtonListener) {
-        super(context, dialogParams, negativeParams, positiveParams, neutralParams, createButtonListener);
+    public ConfirmButton(Context context, CircleParams circleParams) {
+        super(context, circleParams);
     }
 
     @Override

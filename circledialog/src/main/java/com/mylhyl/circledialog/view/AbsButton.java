@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -28,15 +29,13 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
     private TextView mPositiveButton;
     private TextView mNeutralButton;
 
-    public AbsButton(Context context, DialogParams dialogParams, ButtonParams negativeParams,
-                     ButtonParams positiveParams, ButtonParams neutralParams,
-                     OnCreateButtonListener createButtonListener) {
+    public AbsButton(Context context, CircleParams circleParams) {
         super(context);
-        mDialogParams = dialogParams;
-        mNegativeParams = negativeParams;
-        mPositiveParams = positiveParams;
-        mNeutralParams = neutralParams;
-        mOnCreateButtonListener = createButtonListener;
+        mDialogParams = circleParams.dialogParams;
+        mNegativeParams = circleParams.negativeParams;
+        mPositiveParams = circleParams.positiveParams;
+        mNeutralParams = circleParams.neutralParams;
+        mOnCreateButtonListener = circleParams.circleListeners.createButtonListener;
         init();
     }
 
@@ -139,6 +138,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
 
     private void createNegative() {
         mNegativeButton = new TextView(getContext());
+        mNegativeButton.setId(android.R.id.button1);
         mNegativeButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handleNegativeStyle();
@@ -152,6 +152,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
 
     private void createNeutral() {
         mNeutralButton = new TextView(getContext());
+        mNeutralButton.setId(android.R.id.button2);
         mNeutralButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handleNeutralStyle();
@@ -160,6 +161,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
 
     private void createPositive() {
         mPositiveButton = new TextView(getContext());
+        mPositiveButton.setId(android.R.id.button3);
         mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         handlePositiveStyle();

@@ -18,6 +18,8 @@ import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by hupei on 2017/3/29.
  */
@@ -76,7 +78,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         DialogParams dialogParams = mParams.dialogParams;
         setGravity(dialogParams.gravity);
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
-        setCanceledBack(dialogParams.cancelable);
+        setCancelable(dialogParams.cancelable);
         setWidth(dialogParams.width);
         setMaxHeight(dialogParams.maxHeight);
         int[] padding = dialogParams.mPadding;
@@ -101,9 +103,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     @Override
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
         mController = new Controller(context.getApplicationContext(), mParams, this);
-        mController.createView();
-        View view = mController.getView();
-        return view;
+        return mController.createView();
     }
 
     public void show(FragmentManager manager) {
@@ -112,7 +112,22 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public void show(FragmentManager manager, String tag) {
-        final FragmentTransaction transaction = manager.beginTransaction();
+        try {
+            Class<?> superclass = getClass().getSuperclass().getSuperclass();
+            Field dismissedField = superclass.getDeclaredField("mDismissed");
+            dismissedField.setAccessible(true);
+            dismissedField.set(this, false);
+
+            Field shownByMeField = superclass.getDeclaredField("mShownByMe");
+            shownByMeField.setAccessible(true);
+            shownByMeField.set(this, true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        FragmentTransaction transaction = manager.beginTransaction();
         if (isVisible() && isAdded()) {
             transaction.remove(this).commitAllowingStateLoss();
         }
@@ -122,26 +137,37 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     @Override
+    public void dismiss() {
+        dialogDismiss();
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Dialog dialog = getDialog();
-        if (dialog != null) {
-            dialog.setOnShowListener(this);
-            if (mParams != null) {
-                dialog.setOnKeyListener(mParams.circleListeners.keyListener);
-            }
+        if (dialog == null) {
+            return;
+        }
+        if (mParams == null) {
+            return;
+        }
+        dialog.setOnShowListener(this);
+        dialog.setOnKeyListener(mParams.circleListeners.keyListener);
+        if (mParams.circleListeners.createBodyViewListener != null) {
+            mParams.circleListeners.createBodyViewListener.onCreateBodyView(mController.getViewHolder());
         }
     }
 
     @Override
     public void onShow(DialogInterface dialog) {
-        if (mParams != null) {
-            if (mParams.circleListeners.showListener != null) {
-                mParams.circleListeners.showListener.onShow(dialog);
-            }
-            if (mParams.popupParams != null && mParams.dialogParams.width != 0) {
-                resizeSize();
-            }
+        if (mParams == null) {
+            return;
+        }
+        if (mParams.circleListeners.showListener != null) {
+            mParams.circleListeners.showListener.onShow(dialog, mController.getViewHolder());
+        }
+        if (mParams.popupParams != null && mParams.dialogParams.width != 0) {
+            resizeSize();
         }
     }
 

@@ -26,10 +26,11 @@ final class DividerView extends View {
         super(context);
         this.mOrientation = orientation;
         setBackgroundColor(CircleColor.divider);
-        if (mOrientation == DEFAULT_ORIENTATION)
+        if (mOrientation == DEFAULT_ORIENTATION) {
             setLayoutParams(new LinearLayout.LayoutParams(dividerHeight, LinearLayout.LayoutParams.MATCH_PARENT));
-        else
+        } else {
             setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
+        }
     }
 
     public void setBgColor(int bgColor) {

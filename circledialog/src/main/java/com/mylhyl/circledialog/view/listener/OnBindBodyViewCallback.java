@@ -1,6 +1,6 @@
 package com.mylhyl.circledialog.view.listener;
 
-import android.view.View;
+import com.mylhyl.circledialog.CircleViewHolder;
 
 /**
  * Created by hupei on 2018/6/13.
@@ -8,9 +8,9 @@ import android.view.View;
 public interface OnBindBodyViewCallback {
 
     /**
-     * @param view
+     * @param viewHolder
      * @return true关闭对话框 false不关闭
      */
-    boolean onBindBodyView(View view);
+    boolean onBindBodyView(CircleViewHolder viewHolder);
 
 }

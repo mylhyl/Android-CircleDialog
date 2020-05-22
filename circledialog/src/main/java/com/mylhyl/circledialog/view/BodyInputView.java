@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.internal.EmojiFilter;
 import com.mylhyl.circledialog.internal.MaxLengthEnWatcher;
@@ -46,17 +47,14 @@ final class BodyInputView extends RelativeLayout implements InputView {
     private EditText mEditText;
     private TextView mTvCounter;
 
-    public BodyInputView(Context context, DialogParams dialogParams, TitleParams titleParams,
-                         SubTitleParams subTitleParams, InputParams inputParams,
-                         OnInputCounterChangeListener onInputCounterChangeListener,
-                         OnCreateInputListener onCreateInputListener) {
+    public BodyInputView(Context context, CircleParams circleParams) {
         super(context);
-        mDialogParams = dialogParams;
-        mTitleParams = titleParams;
-        mSubTitleParams = subTitleParams;
-        mInputParams = inputParams;
-        mOnInputCounterChangeListener = onInputCounterChangeListener;
-        mOnCreateInputListener = onCreateInputListener;
+        mDialogParams = circleParams.dialogParams;
+        mTitleParams = circleParams.titleParams;
+        mSubTitleParams = circleParams.subTitleParams;
+        mInputParams = circleParams.inputParams;
+        mOnInputCounterChangeListener = circleParams.circleListeners.inputCounterChangeListener;
+        mOnCreateInputListener = circleParams.circleListeners.createInputListener;
         init();
     }
 
@@ -72,8 +70,9 @@ final class BodyInputView extends RelativeLayout implements InputView {
     }
 
     private void init() {
-        int rlPaddingTop = mTitleParams == null ? mSubTitleParams == null ?
-                CircleDimen.TITLE_PADDING[1] : mSubTitleParams.padding[1] : mTitleParams.padding[1];
+        int rlPaddingTop = mTitleParams == null ?
+                mSubTitleParams == null ? CircleDimen.TITLE_PADDING[1] : mSubTitleParams.padding[1] :
+                mTitleParams.padding[1];
         setPadding(0, Controller.dp2px(getContext(), rlPaddingTop), 0, 0);
 
         //如果标题没有背景色，则使用默认色
@@ -144,14 +143,17 @@ final class BodyInputView extends RelativeLayout implements InputView {
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         int[] margins = mInputParams.margins;
         if (margins != null) {
-            layoutParams.setMargins(Controller.dp2px(getContext(), margins[0])
-                    , Controller.dp2px(getContext(), margins[1]), Controller.dp2px(getContext(), margins[2])
-                    , Controller.dp2px(getContext(), margins[3]));
+            layoutParams.setMargins(Controller.dp2px(getContext(), margins[0]),
+                    Controller.dp2px(getContext(), margins[1]),
+                    Controller.dp2px(getContext(), margins[2]),
+                    Controller.dp2px(getContext(), margins[3]));
         }
         int[] padding = mInputParams.padding;
         if (padding != null) {
-            mEditText.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
-                    , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
+            mEditText.setPadding(Controller.dp2px(getContext(), padding[0]),
+                    Controller.dp2px(getContext(), padding[1]),
+                    Controller.dp2px(getContext(), padding[2]),
+                    Controller.dp2px(getContext(), padding[3]));
         }
         mEditText.setTypeface(mEditText.getTypeface(), mInputParams.styleText);
 
@@ -167,7 +169,8 @@ final class BodyInputView extends RelativeLayout implements InputView {
         layoutParamsCounter.addRule(ALIGN_RIGHT, android.R.id.input);
         layoutParamsCounter.addRule(ALIGN_BOTTOM, android.R.id.input);
         if (mInputParams.counterMargins != null) {
-            layoutParamsCounter.setMargins(0, 0, Controller.dp2px(getContext(), mInputParams.counterMargins[0]),
+            layoutParamsCounter.setMargins(0, 0,
+                    Controller.dp2px(getContext(), mInputParams.counterMargins[0]),
                     Controller.dp2px(getContext(), mInputParams.counterMargins[1]));
         }
         mTvCounter = new TextView(getContext());

@@ -15,6 +15,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.mylhyl.circledialog.engine.ImageLoadEngine;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.view.listener.AdView;
@@ -38,12 +39,11 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
     private OnAdItemClickListener mImageClickListener;
     private OnAdPageChangeListener mPageChangeListener;
 
-    public BodyAdView(Context context, AdParams adParams, ImageLoadEngine imageLoadEngine,
-                      OnAdPageChangeListener pageChangeListener) {
+    public BodyAdView(Context context, CircleParams circleParams) {
         super(context);
-        this.mAdParams = adParams;
-        this.mImageLoadEngine = imageLoadEngine;
-        this.mPageChangeListener = pageChangeListener;
+        this.mAdParams = circleParams.adParams;
+        this.mImageLoadEngine = circleParams.imageLoadEngine;
+        this.mPageChangeListener = circleParams.circleListeners.adPageChangeListener;
         init();
     }
 
@@ -113,39 +113,40 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
     }
 
     private void initIndicator() {
-        if (mAdParams.isShowIndicator) {
-            if (mLlIndicator != null) {
-                mLlIndicator.removeAllViews();
-            }
-            mLlIndicator = new LinearLayout(getContext());
-            mLlIndicator.setOrientation(LinearLayout.HORIZONTAL);
-            mLlIndicator.setGravity(Gravity.CENTER_VERTICAL);
-            RelativeLayout.LayoutParams lpIndicator = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 80);
-            lpIndicator.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            lpIndicator.addRule(RelativeLayout.ALIGN_BOTTOM, android.R.id.list);
-            mLlIndicator.setLayoutParams(lpIndicator);
-
-
-            LinearLayout.LayoutParams lpPoint = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            int pointLeftRightMargin = Controller.dp2px(getContext(), mAdParams.pointLeftRightMargin);
-            lpPoint.setMargins(pointLeftRightMargin, 0, pointLeftRightMargin, 0);
-            for (int i = 0; i < mViews.size(); i++) {
-                ImageView imageView = new ImageView(getContext());
-                imageView.setSelected(true);
-                imageView.setLayoutParams(lpPoint);
-                if (mAdParams.pointDrawableResId != 0) {
-                    imageView.setImageResource(mAdParams.pointDrawableResId);
-                } else {
-                    Drawable pointDrawable = new BuildViewAdImpl.SelectorPointDrawable(Color.WHITE, 20);
-                    imageView.setImageDrawable(pointDrawable);
-                }
-                mLlIndicator.addView(imageView);
-            }
-            addView(mLlIndicator);
-            pageSelectedToPoint(0);
+        if (!mAdParams.isShowIndicator) {
+            return;
         }
+        if (mLlIndicator != null) {
+            mLlIndicator.removeAllViews();
+        }
+        mLlIndicator = new LinearLayout(getContext());
+        mLlIndicator.setOrientation(LinearLayout.HORIZONTAL);
+        mLlIndicator.setGravity(Gravity.CENTER_VERTICAL);
+        RelativeLayout.LayoutParams lpIndicator = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 80);
+        lpIndicator.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        lpIndicator.addRule(RelativeLayout.ALIGN_BOTTOM, android.R.id.list);
+        mLlIndicator.setLayoutParams(lpIndicator);
+
+
+        LinearLayout.LayoutParams lpPoint = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        int pointLeftRightMargin = Controller.dp2px(getContext(), mAdParams.pointLeftRightMargin);
+        lpPoint.setMargins(pointLeftRightMargin, 0, pointLeftRightMargin, 0);
+        for (int i = 0; i < mViews.size(); i++) {
+            ImageView imageView = new ImageView(getContext());
+            imageView.setSelected(true);
+            imageView.setLayoutParams(lpPoint);
+            if (mAdParams.pointDrawableResId != 0) {
+                imageView.setImageResource(mAdParams.pointDrawableResId);
+            } else {
+                Drawable pointDrawable = new BuildViewAdImpl.SelectorPointDrawable(Color.WHITE, 20);
+                imageView.setImageDrawable(pointDrawable);
+            }
+            mLlIndicator.addView(imageView);
+        }
+        addView(mLlIndicator);
+        pageSelectedToPoint(0);
     }
 
     private void pageSelectedToPoint(int position) {

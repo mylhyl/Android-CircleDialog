@@ -35,7 +35,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
 
     private static final String SAVED_GRAVITY = "circle:baseGravity";
     private static final String SAVED_TOUCH_OUT = "circle:baseTouchOut";
-    private static final String SAVED_CANCELED_BACK = "circle:baseCanceledBack";
+    //private static final String SAVED_CANCELED_BACK = "circle:baseCanceledBack";
     private static final String SAVED_WIDTH = "circle:baseWidth";
     private static final String SAVED_HEIGHT_MAX = "circle:baseMaxHeight";
     private static final String SAVED_PADDING = "circle:basePadding";
@@ -51,7 +51,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private SystemBarConfig mSystemBarConfig;
     private int mGravity = Gravity.CENTER;//对话框的位置
     private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
-    private boolean mCanceledBack = true;//是否返回键关闭
+    //private boolean mCanceledBack = true;//是否返回键关闭
     private float mWidth = CircleDimen.DIALOG_WIDTH;//对话框宽度，范围：0-1；1整屏宽
     private float mMaxHeight;//对话框高度，范围：0-1；1整屏高
     private int[] mPadding;//对话框与屏幕边缘距离
@@ -76,7 +76,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         if (savedInstanceState != null) {
             mGravity = savedInstanceState.getInt(SAVED_GRAVITY);
             mCanceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT);
-            mCanceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK);
+            //mCanceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK);
             mWidth = savedInstanceState.getFloat(SAVED_WIDTH);
             mMaxHeight = savedInstanceState.getFloat(SAVED_HEIGHT_MAX);
             mPadding = savedInstanceState.getIntArray(SAVED_PADDING);
@@ -114,10 +114,10 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
                 }
             });
         }
-        final Dialog dialog = getDialog();
+        Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside);
-            dialog.setCancelable(mCanceledBack);
+            //dialog.setCancelable(mCanceledBack);
             setDialogGravity(dialog);//设置对话框布局
 
             if (mSystemUiVisibility != 0) {
@@ -137,7 +137,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_GRAVITY, mGravity);
         outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside);
-        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
+        //outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
         outState.putFloat(SAVED_WIDTH, mWidth);
         outState.putFloat(SAVED_HEIGHT_MAX, mMaxHeight);
         if (mPadding != null) {
@@ -201,14 +201,14 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         mCanceledOnTouchOutside = cancel;
     }
 
-    /**
-     * 设置对话框返回键关闭关闭
-     *
-     * @param cancel true允许
-     */
-    protected void setCanceledBack(boolean cancel) {
-        mCanceledBack = cancel;
-    }
+//    /**
+//     * 设置对话框返回键关闭关闭
+//     *
+//     * @param cancel true允许
+//     */
+//    protected void setCanceledBack(boolean cancel) {
+//        mCanceledBack = cancel;
+//    }
 
     /**
      * 设置对话框宽度

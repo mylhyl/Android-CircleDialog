@@ -4,10 +4,8 @@ import android.content.Context;
 import android.view.View;
 
 import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
-import com.mylhyl.circledialog.params.ButtonParams;
-import com.mylhyl.circledialog.params.DialogParams;
-import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 
 /**
  * 列表对话框的取消按钮视图
@@ -15,10 +13,8 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  */
 final class ItemsButton extends AbsButton {
 
-    public ItemsButton(Context context, DialogParams dialogParams, ButtonParams negativeParams,
-                       ButtonParams positiveParams, ButtonParams neutralParams,
-                       OnCreateButtonListener createButtonListener) {
-        super(context, dialogParams, negativeParams, positiveParams, neutralParams, createButtonListener);
+    public ItemsButton(Context context, CircleParams circleParams) {
+        super(context, circleParams);
     }
 
     @Override

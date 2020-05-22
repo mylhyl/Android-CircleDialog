@@ -28,11 +28,11 @@ public final class BuildViewLottieImpl extends AbsBuildView {
         buildRootView();
         buildTitleView();
 
-        if (mBodyLottieView == null) {
-            mBodyLottieView = new BodyLottieView(mContext, mParams.dialogParams, mParams.lottieParams,
-                    mParams.circleListeners.createLottieListener);
-            addViewByBody(mBodyLottieView);
+        if (mBodyLottieView != null) {
+            return;
         }
+        mBodyLottieView = new BodyLottieView(mContext, mParams);
+        addViewByBody(mBodyLottieView);
     }
 
     @Override

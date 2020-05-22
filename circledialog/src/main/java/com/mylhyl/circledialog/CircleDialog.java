@@ -57,6 +57,7 @@ import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnInputCounterChangeListener;
 import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnShowListener;
 
 import java.util.List;
 
@@ -109,7 +110,6 @@ public final class CircleDialog {
 
         public Builder() {
             mCircleParams = new CircleParams();
-            mCircleParams.circleListeners.clear();
             mCircleParams.dialogParams = new DialogParams();
         }
 
@@ -208,7 +208,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setOnShowListener(DialogInterface.OnShowListener listener) {
+        public Builder setOnShowListener(OnShowListener listener) {
             mCircleParams.circleListeners.showListener = listener;
             return this;
         }

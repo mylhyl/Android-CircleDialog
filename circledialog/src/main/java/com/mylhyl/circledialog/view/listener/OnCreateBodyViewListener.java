@@ -1,11 +1,10 @@
 package com.mylhyl.circledialog.view.listener;
 
-import android.view.View;
+import com.mylhyl.circledialog.CircleViewHolder;
 
 /**
  * Created by hupei on 2018/6/13.
  */
-
 public interface OnCreateBodyViewListener {
-    void onCreateBodyView(View view);
+    void onCreateBodyView(CircleViewHolder viewHolder);
 }

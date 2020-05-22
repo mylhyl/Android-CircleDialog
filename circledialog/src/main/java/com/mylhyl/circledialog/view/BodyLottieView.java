@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.LottieParams;
@@ -27,12 +28,11 @@ final class BodyLottieView extends LinearLayout {
     private LottieParams mLottieParams;
     private OnCreateLottieListener mOnCreateLottieListener;
 
-    public BodyLottieView(Context context, DialogParams dialogParams, LottieParams lottieParams,
-                          OnCreateLottieListener onCreateLottieListener) {
+    public BodyLottieView(Context context, CircleParams circleParams) {
         super(context);
-        this.mDialogParams = dialogParams;
-        this.mLottieParams = lottieParams;
-        this.mOnCreateLottieListener = onCreateLottieListener;
+        this.mDialogParams = circleParams.dialogParams;
+        this.mLottieParams = circleParams.lottieParams;
+        this.mOnCreateLottieListener = circleParams.circleListeners.createLottieListener;
         init();
     }
 
@@ -61,7 +61,8 @@ final class BodyLottieView extends LinearLayout {
         int[] margins = mLottieParams.margins;
         if (margins != null)
             layoutParams.setMargins(Controller.dp2px(getContext(), margins[0]),
-                    Controller.dp2px(getContext(), margins[1]), Controller.dp2px(getContext(), margins[2]),
+                    Controller.dp2px(getContext(), margins[1]),
+                    Controller.dp2px(getContext(), margins[2]),
                     Controller.dp2px(getContext(), margins[3]));
         layoutParams.gravity = Gravity.CENTER;
 
@@ -93,8 +94,9 @@ final class BodyLottieView extends LinearLayout {
             int[] textMargins = mLottieParams.textMargins;
             if (textMargins != null) {
                 textLayoutParams.setMargins(Controller.dp2px(getContext(), textMargins[0]),
-                        Controller.dp2px(getContext(), textMargins[1]), Controller.dp2px(getContext(),
-                                textMargins[2]), Controller.dp2px(getContext(), textMargins[3]));
+                        Controller.dp2px(getContext(), textMargins[1]),
+                        Controller.dp2px(getContext(), textMargins[2]),
+                        Controller.dp2px(getContext(), textMargins[3]));
             }
             if (mDialogParams.typeface != null) {
                 mTextView.setTypeface(mDialogParams.typeface);
@@ -107,7 +109,8 @@ final class BodyLottieView extends LinearLayout {
             if (textPadding != null) {
                 mTextView.setPadding(Controller.dp2px(getContext(), textPadding[0]),
                         Controller.dp2px(getContext(), textPadding[1]),
-                        Controller.dp2px(getContext(), textPadding[2]), Controller.dp2px(getContext(), textPadding[3]));
+                        Controller.dp2px(getContext(), textPadding[2]),
+                        Controller.dp2px(getContext(), textPadding[3]));
             }
             addView(mTextView, textLayoutParams);
         }

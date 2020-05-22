@@ -23,15 +23,16 @@ public class MaxLengthEnWatcher implements TextWatcher {
         this.mEditText = editText;
         this.mTvCounter = textView;
         this.mOnInputCounterChangeListener = listener;
-        if (mEditText != null) {
-            String defText = mEditText.getText().toString();
-            int currentLen = maxLen - defText.length();
-            if (mOnInputCounterChangeListener != null) {
-                String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen, currentLen);
-                mTvCounter.setText(counterText == null ? "" : counterText);
-            } else {
-                mTvCounter.setText(String.valueOf(currentLen));
-            }
+        if (mEditText == null) {
+            return;
+        }
+        String defText = mEditText.getText().toString();
+        int currentLen = maxLen - defText.length();
+        if (mOnInputCounterChangeListener != null) {
+            String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen, currentLen);
+            mTvCounter.setText(counterText == null ? "" : counterText);
+        } else {
+            mTvCounter.setText(String.valueOf(currentLen));
         }
     }
 

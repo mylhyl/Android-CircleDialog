@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
@@ -36,13 +37,12 @@ final class TitleView extends LinearLayout {
     private SubTitleParams mSubTitleParams;
     private OnCreateTitleListener mOnCreateTitleListener;
 
-    public TitleView(Context context, DialogParams dialogParams, TitleParams titleParams
-            , SubTitleParams subTitleParams, OnCreateTitleListener createTitleListener) {
+    public TitleView(Context context, CircleParams circleParams) {
         super(context);
-        this.mDialogParams = dialogParams;
-        this.mTitleParams = titleParams;
-        this.mSubTitleParams = subTitleParams;
-        this.mOnCreateTitleListener = createTitleListener;
+        this.mDialogParams = circleParams.dialogParams;
+        this.mTitleParams = circleParams.titleParams;
+        this.mSubTitleParams = circleParams.subTitleParams;
+        this.mOnCreateTitleListener = circleParams.circleListeners.createTitleListener;
         init();
     }
 
@@ -86,6 +86,7 @@ final class TitleView extends LinearLayout {
     @NonNull
     private void createTitleIcon() {
         mTitleIcon = new ImageView(getContext());
+        mTitleIcon.setId(android.R.id.icon);
         RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.title);
@@ -123,15 +124,16 @@ final class TitleView extends LinearLayout {
         mTitleView.setTypeface(mTitleView.getTypeface(), mTitleParams.styleText);
 
         int[] padding = mTitleParams.padding;
-        if (padding != null) {
-            if (mTitleParams.isShowBottomDivider) {
-                padding[3] = padding[3] == 0 ? padding[1] : padding[3];
-                DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
-                addView(dividerView);
-            }
-            mTitleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1])
-                    , Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
+        if (padding == null) {
+            return;
         }
+        if (mTitleParams.isShowBottomDivider) {
+            padding[3] = padding[3] == 0 ? padding[1] : padding[3];
+            DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
+            addView(dividerView);
+        }
+        mTitleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1]),
+                Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
     }
 
     @Nullable
@@ -140,6 +142,7 @@ final class TitleView extends LinearLayout {
             return;
         }
         mSubTitleView = new TextView(getContext());
+        mSubTitleView.setId(android.R.id.summary);
         addView(mSubTitleView);
 
         if (mDialogParams.typeface != null) {
@@ -157,16 +160,16 @@ final class TitleView extends LinearLayout {
         mSubTitleView.setTypeface(mSubTitleView.getTypeface(), mSubTitleParams.styleText);
 
         int[] padding = mSubTitleParams.padding;
-        if (padding != null) {
-            if (mSubTitleParams.isShowBottomDivider) {
-                padding[3] = padding[3] == 0 ? padding[1] : padding[3];
-                DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
-                addView(dividerView);
-            }
-            mSubTitleView.setPadding(Controller.dp2px(getContext(), padding[0])
-                    , Controller.dp2px(getContext(), padding[1]), Controller.dp2px(getContext(), padding[2])
-                    , Controller.dp2px(getContext(), padding[3]));
+        if (padding == null) {
+            return;
         }
+        if (mSubTitleParams.isShowBottomDivider) {
+            padding[3] = padding[3] == 0 ? padding[1] : padding[3];
+            DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
+            addView(dividerView);
+        }
+        mSubTitleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(),
+                padding[1]), Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
     }
 
     private void setSubTitleBg(TextView subTitle, int tbg, int dbg) {

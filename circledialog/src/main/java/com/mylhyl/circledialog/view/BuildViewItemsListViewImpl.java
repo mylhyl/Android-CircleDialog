@@ -18,10 +18,11 @@ public final class BuildViewItemsListViewImpl extends AbsBuildViewItems {
     public void buildBodyView() {
         buildRootView();
         buildTitleView();
-        if (mItemsView == null) {
-            mItemsView = new BodyListView(mContext, mParams.dialogParams, mParams.itemsParams);
-            addViewByBody(mItemsView.getView());
+        if (mItemsView != null) {
+            return;
         }
+        mItemsView = new BodyListView(mContext, mParams.dialogParams, mParams.itemsParams);
+        addViewByBody(mItemsView.getView());
     }
 
 }

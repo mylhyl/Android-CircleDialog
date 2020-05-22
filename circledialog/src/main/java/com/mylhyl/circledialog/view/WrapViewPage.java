@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
  * Created by hupei on 2019/1/16 10:42.
  */
 class WrapViewPage extends ViewPager {
+
     public WrapViewPage(@NonNull Context context) {
         super(context);
     }
@@ -20,8 +21,7 @@ class WrapViewPage extends ViewPager {
         //下面遍历所有child的高度
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
-            child.measure(widthMeasureSpec,
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             int h = child.getMeasuredHeight();
             if (h > height) //采用最大的view的高度。
                 height = h;

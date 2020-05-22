@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mylhyl.circledialog.internal.BackgroundHelper;
+import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -22,12 +23,11 @@ final class BodyTextView extends AppCompatTextView {
     private TextParams mTextParams;
     private OnCreateTextListener mOnCreateTextListener;
 
-    public BodyTextView(Context context, DialogParams dialogParams, TextParams textParams
-            , OnCreateTextListener onCreateTextListener) {
+    public BodyTextView(Context context, CircleParams circleParams) {
         super(context);
-        mDialogParams = dialogParams;
-        mTextParams = textParams;
-        mOnCreateTextListener = onCreateTextListener;
+        mDialogParams = circleParams.dialogParams;
+        mTextParams = circleParams.textParams;
+        mOnCreateTextListener = circleParams.circleListeners.createTextListener;
         init();
     }
 
@@ -43,8 +43,9 @@ final class BodyTextView extends AppCompatTextView {
             mTextParams.height = 0;
             mTextParams.padding = null;
         }
-        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                , ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        setId(android.R.id.text1);
+        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
 
         if (mDialogParams.typeface != null) {
             setTypeface(mDialogParams.typeface);
@@ -52,8 +53,8 @@ final class BodyTextView extends AppCompatTextView {
         setGravity(mTextParams.gravity);
 
         // 如果标题没有背景色，则使用默认色
-        int backgroundColor = mTextParams.backgroundColor != 0
-                ? mTextParams.backgroundColor : mDialogParams.backgroundColor;
+        int backgroundColor = mTextParams.backgroundColor != 0 ? mTextParams.backgroundColor :
+                mDialogParams.backgroundColor;
         BackgroundHelper.INSTANCE.handleBodyBackground(this, backgroundColor);
 
         setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -66,8 +67,10 @@ final class BodyTextView extends AppCompatTextView {
 
         int[] padding = mTextParams.padding;
         if (padding != null) {
-            setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1]),
-                    Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
+            setPadding(Controller.dp2px(getContext(), padding[0]),
+                    Controller.dp2px(getContext(), padding[1]),
+                    Controller.dp2px(getContext(), padding[2]),
+                    Controller.dp2px(getContext(), padding[3]));
         }
 
         if (mOnCreateTextListener != null) {

@@ -15,14 +15,6 @@ public class EmojiFilter implements InputFilter {
     public EmojiFilter() {
     }
 
-    @Override
-    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-        if (this.emojiPattern.matcher(source).find() || containsEmoji(source)) {
-            return "";
-        }
-        return source;
-    }
-
     /**
      * 检测是否有emoji表情
      *
@@ -33,7 +25,8 @@ public class EmojiFilter implements InputFilter {
         int len = source.length();
         for (int i = 0; i < len; i++) {
             char codePoint = source.charAt(i);
-            if (!isEmojiCharacter(codePoint)) { //如果不能匹配,则该字符是Emoji表情
+            // 如果不能匹配,则该字符是Emoji表情
+            if (!isEmojiCharacter(codePoint)) {
                 return true;
             }
         }
@@ -51,5 +44,13 @@ public class EmojiFilter implements InputFilter {
                 (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF)) ||
                 ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000)
                 && (codePoint <= 0x10FFFF));
+    }
+
+    @Override
+    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+        if (this.emojiPattern.matcher(source).find() || containsEmoji(source)) {
+            return "";
+        }
+        return source;
     }
 }

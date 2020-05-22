@@ -23,51 +23,54 @@ public class MaxLengthWatcher implements TextWatcher {
         this.mEditText = editText;
         this.mTvCounter = textView;
         this.mOnInputCounterChangeListener = listener;
-        if (mEditText != null) {
-            String defText = mEditText.getText().toString();
-            int currentLen = maxLen - chineseLength(defText);
-            if (mOnInputCounterChangeListener != null) {
-                String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen, currentLen);
-                mTvCounter.setText(counterText == null ? "" : counterText);
-            } else {
-                mTvCounter.setText(String.valueOf(currentLen));
-            }
+        if (mEditText == null) {
+            return;
+        }
+        String defText = mEditText.getText().toString();
+        int currentLen = maxLen - chineseLength(defText);
+        if (mOnInputCounterChangeListener != null) {
+            String counterText = mOnInputCounterChangeListener.onCounterChange(maxLen, currentLen);
+            mTvCounter.setText(counterText == null ? "" : counterText);
+        } else {
+            mTvCounter.setText(String.valueOf(currentLen));
         }
     }
 
     private int chineseLength(String str) {
         int valueLength = 0;
-        if (!TextUtils.isEmpty(str)) {
-            // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
-            for (int i = 0; i < str.length(); i++) {
-                // 获取一个字符
-                String temp = str.substring(i, i + 1);
-                // 判断是否为中文字符
-                if (isChinese(temp)) {
-                    // 中文字符长度为2
-                    valueLength += 2;
-                } else {
-                    // 其他字符长度为1
-                    valueLength += 1;
-                }
+        if (TextUtils.isEmpty(str)) {
+            return valueLength;
+        }
+        // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
+        for (int i = 0; i < str.length(); i++) {
+            // 获取一个字符
+            String temp = str.substring(i, i + 1);
+            // 判断是否为中文字符
+            if (isChinese(temp)) {
+                // 中文字符长度为2
+                valueLength += 2;
+            } else {
+                // 其他字符长度为1
+                valueLength += 1;
             }
         }
         return valueLength;
     }
 
     private boolean isChinese(String str) {
-        Boolean isChinese = true;
+        boolean isChinese = true;
         String chinese = "[\u0391-\uFFE5]";
-        if (!TextUtils.isEmpty(str)) {
-            // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
-            for (int i = 0; i < str.length(); i++) {
-                // 获取一个字符
-                String temp = str.substring(i, i + 1);
-                // 判断是否为中文字符
-                if (temp.matches(chinese)) {
-                } else {
-                    isChinese = false;
-                }
+        if (TextUtils.isEmpty(str)) {
+            return true;
+        }
+        // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
+        for (int i = 0; i < str.length(); i++) {
+            // 获取一个字符
+            String temp = str.substring(i, i + 1);
+            // 判断是否为中文字符
+            if (temp.matches(chinese)) {
+            } else {
+                isChinese = false;
             }
         }
         return isChinese;

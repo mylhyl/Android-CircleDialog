@@ -16,7 +16,7 @@ public class DialogLogout extends AbsBaseCircleDialog implements View.OnClickLis
 
     public static DialogLogout getInstance() {
         DialogLogout dialogFragment = new DialogLogout();
-        dialogFragment.setCanceledBack(false);
+        dialogFragment.setCancelable(false);
         dialogFragment.setCanceledOnTouchOutside(false);
         dialogFragment.bottomFull();
         return dialogFragment;
