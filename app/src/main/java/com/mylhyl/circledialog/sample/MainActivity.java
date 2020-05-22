@@ -541,9 +541,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         // .setTypeface(typeface)
                         .setTitle("提示")
                         .setBodyView(R.layout.dialog_login_conn_pic, viewHolder -> {
-                            CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
-                                    , 0, 0, 0, 0);
-                            viewHolder.setBackgroundDrawable(bgCircleDrawable);
+//                            CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
+//                                    , 0, 0, 0, 0);
+//                            viewHolder.setBackgroundDrawable(R.id.root_body, bgCircleDrawable);
                         })
                         .setNegative("关闭", null)
                         .show(getSupportFragmentManager());
