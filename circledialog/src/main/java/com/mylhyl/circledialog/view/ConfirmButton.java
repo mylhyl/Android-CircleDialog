@@ -22,18 +22,18 @@ final class ConfirmButton extends AbsButton {
     }
 
     @Override
-    protected void setNegativeButtonBackground(View view, int backgroundColor) {
-        BackgroundHelper.INSTANCE.handleNegativeButtonBackground(view, backgroundColor);
+    protected void setNegativeButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        BackgroundHelper.handleNegativeButtonBackground(view, backgroundColor, circleParams);
     }
 
     @Override
-    protected void setNeutralButtonBackground(View view, int backgroundColor) {
-        BackgroundHelper.INSTANCE.handleNeutralButtonBackground(view, backgroundColor);
+    protected void setNeutralButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        BackgroundHelper.handleNeutralButtonBackground(view, backgroundColor, circleParams);
     }
 
     @Override
-    protected void setPositiveButtonBackground(View view, int backgroundColor) {
-        BackgroundHelper.INSTANCE.handlePositiveButtonBackground(view, backgroundColor);
+    protected void setPositiveButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        BackgroundHelper.handlePositiveButtonBackground(view, backgroundColor, circleParams);
     }
 
 }

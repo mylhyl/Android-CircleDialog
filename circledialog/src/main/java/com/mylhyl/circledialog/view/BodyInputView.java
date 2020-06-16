@@ -49,13 +49,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
 
     public BodyInputView(Context context, CircleParams circleParams) {
         super(context);
-        mDialogParams = circleParams.dialogParams;
-        mTitleParams = circleParams.titleParams;
-        mSubTitleParams = circleParams.subTitleParams;
-        mInputParams = circleParams.inputParams;
-        mOnInputCounterChangeListener = circleParams.circleListeners.inputCounterChangeListener;
-        mOnCreateInputListener = circleParams.circleListeners.createInputListener;
-        init();
+        init(circleParams);
     }
 
 
@@ -69,7 +63,14 @@ final class BodyInputView extends RelativeLayout implements InputView {
         return this;
     }
 
-    private void init() {
+    private void init(CircleParams circleParams) {
+        mDialogParams = circleParams.dialogParams;
+        mTitleParams = circleParams.titleParams;
+        mSubTitleParams = circleParams.subTitleParams;
+        mInputParams = circleParams.inputParams;
+        mOnInputCounterChangeListener = circleParams.circleListeners.inputCounterChangeListener;
+        mOnCreateInputListener = circleParams.circleListeners.createInputListener;
+
         int rlPaddingTop = mTitleParams == null ?
                 mSubTitleParams == null ? CircleDimen.TITLE_PADDING[1] : mSubTitleParams.padding[1] :
                 mTitleParams.padding[1];
@@ -78,7 +79,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
         //如果标题没有背景色，则使用默认色
         int backgroundColor = mInputParams.backgroundColor != 0 ?
                 mInputParams.backgroundColor : mDialogParams.backgroundColor;
-        BackgroundHelper.INSTANCE.handleBodyBackground(this, backgroundColor);
+        BackgroundHelper.handleBodyBackground(this, backgroundColor, circleParams);
 
         // fix: 2020/4/27 八阿哥 since 5.2.0 修复软键盘自动弹出的问题
         setFocusableInTouchMode(true);
@@ -135,7 +136,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
             int strokeWidth = Controller.dp2px(getContext(), mInputParams.strokeWidth);
             InputDrawable inputDrawable = new InputDrawable(strokeWidth, mInputParams.strokeColor,
                     mInputParams.inputBackgroundColor);
-            BackgroundHelper.INSTANCE.handleBackground(mEditText, inputDrawable);
+            BackgroundHelper.handleBackground(mEditText, inputDrawable);
         } else {
             mEditText.setBackgroundResource(backgroundResourceId);
         }

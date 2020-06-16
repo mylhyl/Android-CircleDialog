@@ -222,7 +222,7 @@ class BodyRecyclerView extends RecyclerView implements ItemsView {
         public void onBindViewHolder(Holder holder, int position) {
             CircleDrawableSelector circleDrawableSelector = new CircleDrawableSelector(Color.TRANSPARENT,
                     mBackgroundColorPress);
-            BackgroundHelper.INSTANCE.handleBackground(holder.item, circleDrawableSelector);
+            BackgroundHelper.handleBackground(holder.item, circleDrawableSelector);
 
             String label;
             T item = mItems.get(position);

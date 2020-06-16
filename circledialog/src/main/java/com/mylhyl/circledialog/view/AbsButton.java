@@ -31,12 +31,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
 
     public AbsButton(Context context, CircleParams circleParams) {
         super(context);
-        mDialogParams = circleParams.dialogParams;
-        mNegativeParams = circleParams.negativeParams;
-        mPositiveParams = circleParams.positiveParams;
-        mNeutralParams = circleParams.neutralParams;
-        mOnCreateButtonListener = circleParams.circleListeners.createButtonListener;
-        init();
+        init(circleParams);
     }
 
     @Override
@@ -87,13 +82,18 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
 
     protected abstract void initView();
 
-    protected abstract void setNegativeButtonBackground(View view, int backgroundColor);
+    protected abstract void setNegativeButtonBackground(View view, int backgroundColor, CircleParams circleParams);
 
-    protected abstract void setNeutralButtonBackground(View view, int backgroundColor);
+    protected abstract void setNeutralButtonBackground(View view, int backgroundColor, CircleParams circleParams);
 
-    protected abstract void setPositiveButtonBackground(View view, int backgroundColor);
+    protected abstract void setPositiveButtonBackground(View view, int backgroundColor, CircleParams circleParams);
 
-    private void init() {
+    private void init(CircleParams circleParams) {
+        mDialogParams = circleParams.dialogParams;
+        mNegativeParams = circleParams.negativeParams;
+        mPositiveParams = circleParams.positiveParams;
+        mNeutralParams = circleParams.neutralParams;
+        mOnCreateButtonListener = circleParams.circleListeners.createButtonListener;
 
         initView();
 
@@ -103,7 +103,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
             //如果取消按钮没有背景色，则使用默认色
             int backgroundColor = mNegativeParams.backgroundColor != 0
                     ? mNegativeParams.backgroundColor : mDialogParams.backgroundColor;
-            setNegativeButtonBackground(mNegativeButton, backgroundColor);
+            setNegativeButtonBackground(mNegativeButton, backgroundColor, circleParams);
         }
 
         if (mNeutralParams != null) {
@@ -115,7 +115,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
             //如果取消按钮没有背景色，则使用默认色
             int backgroundColor = mNeutralParams.backgroundColor != 0
                     ? mNeutralParams.backgroundColor : mDialogParams.backgroundColor;
-            setNeutralButtonBackground(mNeutralButton, backgroundColor);
+            setNeutralButtonBackground(mNeutralButton, backgroundColor, circleParams);
         }
 
         if (mPositiveParams != null) {
@@ -128,7 +128,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
             //如果取消按钮没有背景色，则使用默认色
             int backgroundColor = mPositiveParams.backgroundColor != 0
                     ? mPositiveParams.backgroundColor : mDialogParams.backgroundColor;
-            setPositiveButtonBackground(mPositiveButton, backgroundColor);
+            setPositiveButtonBackground(mPositiveButton, backgroundColor, circleParams);
         }
 
         if (mOnCreateButtonListener != null) {

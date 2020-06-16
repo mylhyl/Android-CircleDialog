@@ -30,19 +30,21 @@ final class BodyLottieView extends LinearLayout {
 
     public BodyLottieView(Context context, CircleParams circleParams) {
         super(context);
+        init(circleParams);
+    }
+
+    private void init(CircleParams circleParams) {
+
         this.mDialogParams = circleParams.dialogParams;
         this.mLottieParams = circleParams.lottieParams;
         this.mOnCreateLottieListener = circleParams.circleListeners.createLottieListener;
-        init();
-    }
 
-    private void init() {
         setOrientation(LinearLayout.VERTICAL);
 
         // 如果没有背景色，则使用默认色
         int backgroundColor = mLottieParams.backgroundColor != 0 ?
                 mLottieParams.backgroundColor : mDialogParams.backgroundColor;
-        BackgroundHelper.INSTANCE.handleBodyBackground(this, backgroundColor);
+        BackgroundHelper.handleBodyBackground(this, backgroundColor, circleParams);
 
         createLottieView();
         createText();

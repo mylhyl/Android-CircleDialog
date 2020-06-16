@@ -32,7 +32,6 @@ import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 /**
  * Created by hupei on 2017/3/29.
  */
-
 public final class Controller {
 
     public static final boolean SDK_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
@@ -48,12 +47,11 @@ public final class Controller {
         this.mContext = context;
         this.mParams = params;
         this.mOnDialogListener = dialogListener;
-        BackgroundHelper.INSTANCE.init(context, params);
     }
 
     public static int dp2px(Context context, float value) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value
-                , context.getResources().getDisplayMetrics()) + 0.5f);
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value,
+                context.getResources().getDisplayMetrics()) + 0.5f);
     }
 
     public CircleViewHolder getViewHolder() {
@@ -84,7 +82,7 @@ public final class Controller {
                         return false;
                     }
                     boolean b = mParams.circleListeners.adItemClickListener.onItemClick(view, position);
-                    if (b) {
+                    if (b && !mParams.dialogParams.manualClose) {
                         mOnDialogListener.dialogDismiss();
                     }
                     return false;
@@ -106,7 +104,7 @@ public final class Controller {
                         return false;
                     }
                     boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
-                    if (b) {
+                    if (b && !mParams.dialogParams.manualClose) {
                         mOnDialogListener.dialogDismiss();
                     }
                     return false;
@@ -137,7 +135,7 @@ public final class Controller {
                             return;
                         }
                         boolean b = mParams.circleListeners.itemListener.onItemClick(parent, view, position, id);
-                        if (b) {
+                        if (b && !mParams.dialogParams.manualClose) {
                             mOnDialogListener.dialogDismiss();
                         }
                     }
@@ -153,7 +151,7 @@ public final class Controller {
                             return false;
                         }
                         boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
-                        if (b) {
+                        if (b && !mParams.dialogParams.manualClose) {
                             mOnDialogListener.dialogDismiss();
                         }
                         return false;
@@ -183,7 +181,9 @@ public final class Controller {
             closeView.regOnCloseClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnDialogListener.dialogDismiss();
+                    if (!mParams.dialogParams.manualClose) {
+                        mOnDialogListener.dialogDismiss();
+                    }
                 }
             });
         }
@@ -243,7 +243,9 @@ public final class Controller {
                 if (mParams.circleListeners.clickNegativeListener != null) {
                     mParams.circleListeners.clickNegativeListener.onClick(v);
                 }
-                mOnDialogListener.dialogDismiss();
+                if (!mParams.dialogParams.manualClose) {
+                    mOnDialogListener.dialogDismiss();
+                }
             }
         });
     }
@@ -255,7 +257,9 @@ public final class Controller {
                 if (mParams.circleListeners.clickNeutralListener != null) {
                     mParams.circleListeners.clickNeutralListener.onClick(v);
                 }
-                mOnDialogListener.dialogDismiss();
+                if (!mParams.dialogParams.manualClose) {
+                    mOnDialogListener.dialogDismiss();
+                }
             }
         });
     }
@@ -270,7 +274,7 @@ public final class Controller {
                     return;
                 }
                 boolean b = mParams.circleListeners.inputListener.onClick(text, editText);
-                if (b) {
+                if (b && !mParams.dialogParams.manualClose) {
                     mOnDialogListener.dialogDismiss();
                 }
             }
@@ -285,7 +289,7 @@ public final class Controller {
                     return;
                 }
                 boolean b = mParams.circleListeners.bindBodyViewCallback.onBindBodyView(mCircleViewHolder);
-                if (b) {
+                if (b && !mParams.dialogParams.manualClose) {
                     mOnDialogListener.dialogDismiss();
                 }
             }
@@ -299,7 +303,9 @@ public final class Controller {
                 if (mParams.circleListeners.clickPositiveListener != null) {
                     mParams.circleListeners.clickPositiveListener.onClick(v);
                 }
-                mOnDialogListener.dialogDismiss();
+                if (!mParams.dialogParams.manualClose) {
+                    mOnDialogListener.dialogDismiss();
+                }
             }
         });
     }

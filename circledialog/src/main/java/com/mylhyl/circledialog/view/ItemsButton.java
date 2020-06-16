@@ -32,18 +32,18 @@ final class ItemsButton extends AbsButton {
     }
 
     @Override
-    protected void setNegativeButtonBackground(View view, int backgroundColor) {
-        BackgroundHelper.INSTANCE.handleItemsNegativeButtonBackground(view, backgroundColor);
+    protected void setNegativeButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        BackgroundHelper.handleItemsNegativeButtonBackground(view, backgroundColor, circleParams);
     }
 
     @Override
-    protected void setNeutralButtonBackground(View view, int backgroundColor) {
-        BackgroundHelper.INSTANCE.handleItemsNeutralButtonBackground(view, backgroundColor);
+    protected void setNeutralButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        BackgroundHelper.handleItemsNeutralButtonBackground(view, backgroundColor, circleParams);
     }
 
     @Override
-    protected void setPositiveButtonBackground(View view, int backgroundColor) {
-        BackgroundHelper.INSTANCE.handleItemsPositiveButtonBackground(view, backgroundColor);
+    protected void setPositiveButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        BackgroundHelper.handleItemsPositiveButtonBackground(view, backgroundColor, circleParams);
     }
 
 }

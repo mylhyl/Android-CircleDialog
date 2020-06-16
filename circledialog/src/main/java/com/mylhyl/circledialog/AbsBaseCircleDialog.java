@@ -95,6 +95,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         remove();
+        mSystemBarConfig = null;
     }
 
     @Override
@@ -171,7 +172,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         CircleDrawable circleDrawable = new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius));
-        BackgroundHelper.INSTANCE.handleBackground(view, circleDrawable);
+        BackgroundHelper.handleBackground(view, circleDrawable);
 
         view.setAlpha(mAlpha);
     }

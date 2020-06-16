@@ -36,10 +36,7 @@ final class BodyProgressView extends LinearLayout {
 
     public BodyProgressView(Context context, CircleParams circleParams) {
         super(context);
-        this.mDialogParams = circleParams.dialogParams;
-        this.mProgressParams = circleParams.progressParams;
-        this.mOnCreateProgressListener = circleParams.circleListeners.createProgressListener;
-        init();
+        init(circleParams);
     }
 
     /**
@@ -95,13 +92,17 @@ final class BodyProgressView extends LinearLayout {
         onProgressChanged();
     }
 
-    private void init() {
+    private void init(CircleParams circleParams) {
+        this.mDialogParams = circleParams.dialogParams;
+        this.mProgressParams = circleParams.progressParams;
+        this.mOnCreateProgressListener = circleParams.circleListeners.createProgressListener;
+
         setOrientation(LinearLayout.VERTICAL);
 
         //如果没有背景色，则使用默认色
         int backgroundColor = mProgressParams.backgroundColor != 0 ?
                 mProgressParams.backgroundColor : mDialogParams.backgroundColor;
-        BackgroundHelper.INSTANCE.handleBodyBackground(this, backgroundColor);
+        BackgroundHelper.handleBodyBackground(this, backgroundColor, circleParams);
 
         createProgressBar();
         createText();

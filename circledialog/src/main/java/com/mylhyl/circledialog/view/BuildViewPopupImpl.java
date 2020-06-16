@@ -197,7 +197,7 @@ public final class BuildViewPopupImpl extends AbsBuildView {
             int backgroundColor = popupParams.backgroundColor != 0
                     ? popupParams.backgroundColor : dialogParams.backgroundColor;
             Drawable triangleDrawable = new TriangleDrawable(mTriangleDirection, backgroundColor);
-            BackgroundHelper.INSTANCE.handleBackground(mTriangleView, triangleDrawable);
+            BackgroundHelper.handleBackground(mTriangleView, triangleDrawable);
         }
         CardView cardView = createCardView();
         cardView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));

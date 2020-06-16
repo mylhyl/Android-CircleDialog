@@ -1,6 +1,5 @@
 package com.mylhyl.circledialog.internal;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -13,35 +12,25 @@ import com.mylhyl.circledialog.res.drawable.CircleDrawableSelector;
 /**
  * Created by hupei on 2019/6/5 17:22.
  */
+public class BackgroundHelper {
 
-public enum BackgroundHelper {
-    INSTANCE;
-
-    private CircleParams circleParams;
-    private int backgroundColorPress;
-    private int radius;
-
-    public void init(Context context, CircleParams circleParams) {
-        this.circleParams = circleParams;
-        DialogParams dialogParams = circleParams.dialogParams;
-        this.radius = Controller.dp2px(context, dialogParams.radius);
-        this.backgroundColorPress = dialogParams.backgroundColorPress;
-    }
-
-    public void handleTitleBackground(View view, int backgroundColor) {
+    public static void handleTitleBackground(View view, int backgroundColor, DialogParams dialogParams) {
         if (Controller.SDK_LOLLIPOP) {
             view.setBackgroundColor(backgroundColor);
         } else {
+            int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
             CircleDrawable background = new CircleDrawable(backgroundColor, radius, radius, 0, 0);
             handleBackground(view, background);
         }
     }
 
-    public void handleBodyBackground(View view, int backgroundColor) {
+    public static void handleBodyBackground(View view, int backgroundColor, CircleParams circleParams) {
         TitleParams titleParams = circleParams.titleParams;
         ButtonParams negativeParams = circleParams.negativeParams;
         ButtonParams positiveParams = circleParams.positiveParams;
         ButtonParams neutralParams = circleParams.neutralParams;
+
+        int radius = Controller.dp2px(view.getContext(), circleParams.dialogParams.radius);
 
         if (Controller.SDK_LOLLIPOP) {
             view.setBackgroundColor(backgroundColor);
@@ -68,32 +57,35 @@ public enum BackgroundHelper {
         }
     }
 
-    public void handleNegativeButtonBackground(View view, int backgroundColor) {
+    public static void handleNegativeButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        DialogParams dialogParams = circleParams.dialogParams;
         ButtonParams negativeParams = circleParams.negativeParams;
         CircleDrawableSelector selectorBtn;
         if (Controller.SDK_LOLLIPOP) {
             selectorBtn = new CircleDrawableSelector(backgroundColor, negativeParams.backgroundColorPress != 0 ?
-                    negativeParams.backgroundColorPress : backgroundColorPress);
+                    negativeParams.backgroundColorPress : dialogParams.backgroundColorPress);
         } else {
+            int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
             selectorBtn = new CircleDrawableSelector(backgroundColor, negativeParams.backgroundColorPress != 0 ?
-                    negativeParams.backgroundColorPress : backgroundColorPress,
+                    negativeParams.backgroundColorPress : dialogParams.backgroundColorPress,
                     // 右边没按钮则右下是圆角
                     0, 0,
                     (circleParams.neutralParams == null && circleParams.positiveParams == null) ? radius : 0, radius);
         }
-
         handleBackground(view, selectorBtn);
     }
 
-    public void handlePositiveButtonBackground(View view, int backgroundColor) {
+    public static void handlePositiveButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        DialogParams dialogParams = circleParams.dialogParams;
         ButtonParams positiveParams = circleParams.positiveParams;
         CircleDrawableSelector selectorBtn;
         if (Controller.SDK_LOLLIPOP) {
             selectorBtn = new CircleDrawableSelector(backgroundColor, positiveParams.backgroundColorPress != 0 ?
-                    positiveParams.backgroundColorPress : backgroundColorPress);
+                    positiveParams.backgroundColorPress : dialogParams.backgroundColorPress);
         } else {
+            int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
             selectorBtn = new CircleDrawableSelector(backgroundColor, positiveParams.backgroundColorPress != 0 ?
-                    positiveParams.backgroundColorPress : backgroundColorPress,
+                    positiveParams.backgroundColorPress : dialogParams.backgroundColorPress,
                     // 左边没按钮则左下是圆角
                     0, 0, radius,
                     (circleParams.negativeParams == null && circleParams.neutralParams == null) ? radius : 0);
@@ -102,15 +94,17 @@ public enum BackgroundHelper {
         handleBackground(view, selectorBtn);
     }
 
-    public void handleNeutralButtonBackground(View view, int backgroundColor) {
+    public static void handleNeutralButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        DialogParams dialogParams = circleParams.dialogParams;
         ButtonParams neutralParams = circleParams.neutralParams;
         CircleDrawableSelector selectorBtn;
         if (Controller.SDK_LOLLIPOP) {
             selectorBtn = new CircleDrawableSelector(backgroundColor, neutralParams.backgroundColorPress != 0 ?
-                    neutralParams.backgroundColorPress : backgroundColorPress);
+                    neutralParams.backgroundColorPress : dialogParams.backgroundColorPress);
         } else {
+            int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
             selectorBtn = new CircleDrawableSelector(backgroundColor, neutralParams.backgroundColorPress != 0 ?
-                    neutralParams.backgroundColorPress : backgroundColorPress,
+                    neutralParams.backgroundColorPress : dialogParams.backgroundColorPress,
                     // 左右没按钮则左下右下是圆角
                     0, 0, circleParams.positiveParams == null ? radius : 0,
                     circleParams.negativeParams == null ? radius : 0);
@@ -118,44 +112,50 @@ public enum BackgroundHelper {
         handleBackground(view, selectorBtn);
     }
 
-    public void handleItemsNegativeButtonBackground(View view, int backgroundColor) {
+    public static void handleItemsNegativeButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        DialogParams dialogParams = circleParams.dialogParams;
         ButtonParams negativeParams = circleParams.negativeParams;
+        int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
         // 右边没按钮则右下是圆角
         int rightRadius = (circleParams.neutralParams == null && circleParams.positiveParams == null) ? radius : 0;
         CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor,
                 negativeParams.backgroundColorPress != 0 ?
                         negativeParams.backgroundColorPress :
-                        backgroundColorPress, radius, rightRadius, rightRadius, radius);
+                        dialogParams.backgroundColorPress, radius, rightRadius, rightRadius, radius);
 
         handleBackground(view, selectorBtn);
     }
 
-    public void handleItemsPositiveButtonBackground(View view, int backgroundColor) {
+    public static void handleItemsPositiveButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        DialogParams dialogParams = circleParams.dialogParams;
         ButtonParams positiveParams = circleParams.positiveParams;
+        int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
         // 左边没按钮则左下是圆角
         int leftRadius = (circleParams.negativeParams == null && circleParams.neutralParams == null) ? radius : 0;
         CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor,
                 positiveParams.backgroundColorPress != 0 ?
                         positiveParams.backgroundColorPress :
-                        backgroundColorPress, leftRadius, radius, radius, leftRadius);
+                        dialogParams.backgroundColorPress, leftRadius, radius, radius, leftRadius);
 
         handleBackground(view, selectorBtn);
     }
 
-    public void handleItemsNeutralButtonBackground(View view, int backgroundColor) {
+    public static void handleItemsNeutralButtonBackground(View view, int backgroundColor, CircleParams circleParams) {
+        DialogParams dialogParams = circleParams.dialogParams;
         ButtonParams neutralParams = circleParams.neutralParams;
+        int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
         // 左右没按钮则左下右下是圆角
         int leftRadius = circleParams.negativeParams == null ? radius : 0;
         int rightRadius = circleParams.positiveParams == null ? radius : 0;
         CircleDrawableSelector selectorBtn = new CircleDrawableSelector(backgroundColor,
                 neutralParams.backgroundColorPress != 0 ?
                         neutralParams.backgroundColorPress :
-                        backgroundColorPress, leftRadius, rightRadius, rightRadius, leftRadius);
+                        dialogParams.backgroundColorPress, leftRadius, rightRadius, rightRadius, leftRadius);
 
         handleBackground(view, selectorBtn);
     }
 
-    public void handleBackground(View view, Drawable background) {
+    public static void handleBackground(View view, Drawable background) {
         if (Controller.SDK_JELLY_BEAN) {
             view.setBackground(background);
         } else {
@@ -163,7 +163,8 @@ public enum BackgroundHelper {
         }
     }
 
-    public void handleCircleBackground(View view, int backgroundColor) {
+    public static void handleCircleBackground(View view, int backgroundColor, DialogParams dialogParams) {
+        int radius = Controller.dp2px(view.getContext(), dialogParams.radius);
         CircleDrawable background = new CircleDrawable(backgroundColor, radius, radius, radius, radius);
         if (Controller.SDK_JELLY_BEAN) {
             view.setBackground(background);
@@ -171,4 +172,5 @@ public enum BackgroundHelper {
             view.setBackgroundDrawable(background);
         }
     }
+
 }

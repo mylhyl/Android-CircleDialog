@@ -1,7 +1,7 @@
 ext {
 
     publish = [
-            version: "5.3.1"
+            version: "5.3.3"
     ]
 
     date = new Date().format("yyMMdd")

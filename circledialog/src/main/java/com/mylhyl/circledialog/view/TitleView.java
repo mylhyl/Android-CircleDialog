@@ -80,7 +80,7 @@ final class TitleView extends LinearLayout {
         //如果标题没有背景色，则使用默认色
         int backgroundColor = mTitleParams.backgroundColor != 0
                 ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
-        BackgroundHelper.INSTANCE.handleTitleBackground(mTitleLayout, backgroundColor);
+        BackgroundHelper.handleTitleBackground(mTitleLayout, backgroundColor, mDialogParams);
     }
 
     @NonNull

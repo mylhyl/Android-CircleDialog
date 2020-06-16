@@ -25,19 +25,15 @@ final class BodyTextView extends AppCompatTextView {
 
     public BodyTextView(Context context, CircleParams circleParams) {
         super(context);
+        init(circleParams);
+    }
+
+    private void init(CircleParams circleParams) {
+
         mDialogParams = circleParams.dialogParams;
         mTextParams = circleParams.textParams;
         mOnCreateTextListener = circleParams.circleListeners.createTextListener;
-        init();
-    }
 
-    public void refreshText() {
-        if (mTextParams != null) {
-            setText(mTextParams.text);
-        }
-    }
-
-    private void init() {
         if (mTextParams == null) {
             mTextParams = new TextParams();
             mTextParams.height = 0;
@@ -55,7 +51,7 @@ final class BodyTextView extends AppCompatTextView {
         // 如果标题没有背景色，则使用默认色
         int backgroundColor = mTextParams.backgroundColor != 0 ? mTextParams.backgroundColor :
                 mDialogParams.backgroundColor;
-        BackgroundHelper.INSTANCE.handleBodyBackground(this, backgroundColor);
+        BackgroundHelper.handleBodyBackground(this, backgroundColor, circleParams);
 
         setMovementMethod(ScrollingMovementMethod.getInstance());
 
@@ -78,5 +74,10 @@ final class BodyTextView extends AppCompatTextView {
         }
     }
 
+    public void refreshText() {
+        if (mTextParams != null) {
+            setText(mTextParams.text);
+        }
+    }
 
 }

@@ -9,8 +9,9 @@ import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
 /**
- * 对话框参数
  * Created by hupei on 2017/3/30.
+ * <p>
+ * 对话框参数
  */
 public class DialogParams implements Parcelable {
 
@@ -25,77 +26,62 @@ public class DialogParams implements Parcelable {
             return new DialogParams[size];
         }
     };
-
     /**
      * 对话框的位置
      */
     public int gravity = Gravity.NO_GRAVITY;
-
     /**
      * 是否触摸外部关闭
      */
     public boolean canceledOnTouchOutside = true;
-
     /**
      * 返回键是否关闭
      */
     public boolean cancelable = true;
-
     /**
      * 对话框透明度，范围：0-1；1不透明
      */
     public float alpha = CircleDimen.DIALOG_ALPHA;
-
     /**
      * 对话框宽度，范围：0-1；1整屏宽
      */
     public float width = CircleDimen.DIALOG_WIDTH;
-
     /**
      * 对话框与屏幕边距 px
      */
     public int[] mPadding;
-
     /**
      * 对话框弹出动画,StyleRes
      */
     public int animStyle;
-
     /**
      * 对话框刷新动画，AnimRes
      */
     public int refreshAnimation;
-
     /**
      * 对话框背景是否昏暗，默认true
      */
     public boolean isDimEnabled = true;
-
     /**
      * 背景灰暗值，范围：0-1；0不灰暗
      */
     public float dimAmount = CircleDimen.DIM_AMOUNT;
-
     /**
      * 对话框的背景色
      */
     public int backgroundColor = CircleColor.DIALOG_BACKGROUND;
-
     /**
      * 对话框的圆角半径
      */
     public int radius = CircleDimen.DIALOG_RADIUS;
-
     /**
      * 对话框 x 坐标偏移 px
      */
     public int xOff;
-
     /**
      * 对话框 y 坐标偏移 px
      */
     public int yOff = -1;
-
     /**
      * 按下颜色值
      */
@@ -106,8 +92,8 @@ public class DialogParams implements Parcelable {
      * 延迟弹出
      */
     public int delayShow;
-
     public Typeface typeface;
+    public boolean manualClose; // true 手动关闭对话框，默认按钮事件响应后自动关闭
 
     public DialogParams() {
     }
@@ -131,6 +117,7 @@ public class DialogParams implements Parcelable {
         this.maxHeight = in.readFloat();
         this.systemUiVisibility = in.readInt();
         this.delayShow = in.readInt();
+        this.manualClose = in.readByte() != 0;
     }
 
     @Override
@@ -158,5 +145,6 @@ public class DialogParams implements Parcelable {
         dest.writeFloat(this.maxHeight);
         dest.writeInt(this.systemUiVisibility);
         dest.writeInt(this.delayShow);
+        dest.writeByte(this.manualClose ? (byte) 1 : (byte) 0);
     }
 }

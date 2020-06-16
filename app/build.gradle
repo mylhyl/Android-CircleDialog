@@ -35,9 +35,9 @@ dependencies {
     implementation rootProject.ext.desp.cardview
     implementation rootProject.ext.desp.lottie
     implementation rootProject.ext.desp.baseRvAdapter
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    androidTestImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
 //    implementation 'me.jessyan:autosize:1.1.2'

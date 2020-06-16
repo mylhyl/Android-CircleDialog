@@ -14,6 +14,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -111,6 +112,18 @@ public final class CircleDialog {
         public Builder() {
             mCircleParams = new CircleParams();
             mCircleParams.dialogParams = new DialogParams();
+        }
+
+        /**
+         * 是否手动关闭对话框，默认按钮事件响应后自动关闭
+         *
+         * @param manualClose
+         * @return
+         * @see {@link DialogFragment#dismissAllowingStateLoss() 手动关闭}
+         */
+        public Builder setManualClose(boolean manualClose) {
+            mCircleParams.dialogParams.manualClose = manualClose;
+            return this;
         }
 
         /**

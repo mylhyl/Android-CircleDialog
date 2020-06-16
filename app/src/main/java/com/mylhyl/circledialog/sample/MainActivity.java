@@ -31,8 +31,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
+import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.params.CloseParams;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.drawable.CircleDrawable;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setTitle("标题")
+                        //.setManualClose(true)
                         .configTitle(params -> params.isShowBottomDivider = true)
                         .setWidth(0.5f)
                         .setText("提示框")
