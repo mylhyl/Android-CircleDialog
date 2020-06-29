@@ -102,7 +102,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
 
     @Override
     public View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        mController = new Controller(context.getApplicationContext(), mParams, this);
+        mController = new Controller(context, mParams, this);
         return mController.createView();
     }
 
