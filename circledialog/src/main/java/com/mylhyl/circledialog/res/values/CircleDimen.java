@@ -105,6 +105,10 @@ public class CircleDimen {
     /**
      * 副标题文字内间距
      */
+    public static int[] TITLE_PADDING = {50, 50, 50, 50};
+    /**
+     * 副标题文字内间距
+     */
     public static int[] SUBTITLE_PADDING = {50, 0, 50, 0};
     /**
      * 对话框透明度，范围：0-1；1不透明

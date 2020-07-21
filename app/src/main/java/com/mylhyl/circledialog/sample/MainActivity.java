@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
             case 0:
                 new CircleDialog.Builder()
                         .setTitle("标题")
+                        .setSubTitle("我是副标题")
                         .configText(new ConfigText() {
                             @Override
                             public void onConfig(TextParams params) {
