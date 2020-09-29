@@ -163,7 +163,7 @@ final class BodyInputView extends RelativeLayout implements InputView {
 
     private void createCounter() {
         if (mInputParams.maxLen <= 0) {
-
+            return;
         }
         LayoutParams layoutParamsCounter = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         //右下
