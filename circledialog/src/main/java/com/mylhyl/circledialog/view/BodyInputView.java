@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.mylhyl.circledialog.CircleParams;
 import com.mylhyl.circledialog.Controller;
 import com.mylhyl.circledialog.EmojiFilter;
+import com.mylhyl.circledialog.MaxLengthByteWatcher;
 import com.mylhyl.circledialog.MaxLengthEnWatcher;
 import com.mylhyl.circledialog.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.ButtonParams;
@@ -148,12 +149,14 @@ final class BodyInputView extends ScaleRelativeLayout implements Controller.OnCl
             mTvCounter = new ScaleTextView(context);
             mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
             mTvCounter.setTextColor(inputParams.counterColor);
-
-            if (inputParams.isCounterAllEn) {
+            if (inputParams.maxLengthType == 1) {
+                mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
+                        , mEditText, mTvCounter, params));
+            } else if (inputParams.maxLengthType == 2) {
                 mEditText.addTextChangedListener(new MaxLengthEnWatcher(inputParams.maxLen
                         , mEditText, mTvCounter, params));
             } else {
-                mEditText.addTextChangedListener(new MaxLengthWatcher(inputParams.maxLen
+                mEditText.addTextChangedListener(new MaxLengthByteWatcher(inputParams.maxLen
                         , mEditText, mTvCounter, params));
             }
             addView(mTvCounter, layoutParamsCounter);
