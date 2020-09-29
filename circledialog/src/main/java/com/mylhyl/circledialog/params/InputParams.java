@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import android.text.InputType;
 import android.view.Gravity;
 
+import com.mylhyl.circledialog.internal.MaxLengthByteWatcher;
+import com.mylhyl.circledialog.internal.MaxLengthEnWatcher;
+import com.mylhyl.circledialog.internal.MaxLengthWatcher;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -116,8 +119,26 @@ public class InputParams implements Parcelable {
     public boolean isEmojiInput;
     /**
      * 输入限制计数器中文是否算1个字符
+     *
+     * @see #maxLengthType
+     * @deprecated since 2.6.19 后无效
      */
+    @Deprecated
     public boolean isCounterAllEn;
+    /**
+     * 输入长度最大限制计数类型
+     * <p>
+     * 默认按字节计算
+     * <p>
+     * {@link MaxLengthByteWatcher 0=按字节长度}
+     * <p>
+     * {@link MaxLengthWatcher 1=中文按长度2，其它按长度1算}
+     * <p>
+     * {@link MaxLengthEnWatcher 2=只算英文长度1}
+     *
+     * @since 2.6.19
+     */
+    public int maxLengthType;
 
     public InputParams() {
     }
@@ -145,6 +166,7 @@ public class InputParams implements Parcelable {
         this.showSoftKeyboard = in.readByte() != 0;
         this.isEmojiInput = in.readByte() != 0;
         this.isCounterAllEn = in.readByte() != 0;
+        this.maxLengthType = in.readInt();
     }
 
     @Override
@@ -176,5 +198,6 @@ public class InputParams implements Parcelable {
         dest.writeByte(this.showSoftKeyboard ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isEmojiInput ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isCounterAllEn ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.maxLengthType);
     }
 }

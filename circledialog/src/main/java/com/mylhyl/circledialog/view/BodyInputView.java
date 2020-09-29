@@ -14,6 +14,7 @@ import com.mylhyl.circledialog.internal.BackgroundHelper;
 import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.internal.EmojiFilter;
+import com.mylhyl.circledialog.internal.MaxLengthByteWatcher;
 import com.mylhyl.circledialog.internal.MaxLengthEnWatcher;
 import com.mylhyl.circledialog.internal.MaxLengthWatcher;
 import com.mylhyl.circledialog.params.DialogParams;
@@ -181,11 +182,14 @@ final class BodyInputView extends RelativeLayout implements InputView {
         mTvCounter.setTextSize(INPUT_COUNTER__TEXT_SIZE);
         mTvCounter.setTextColor(mInputParams.counterColor);
 
-        if (mInputParams.isCounterAllEn) {
+        if (mInputParams.maxLengthType == 1) {
+            mEditText.addTextChangedListener(new MaxLengthWatcher(mInputParams.maxLen, mEditText, mTvCounter,
+                    mOnInputCounterChangeListener));
+        } else if (mInputParams.maxLengthType == 2) {
             mEditText.addTextChangedListener(new MaxLengthEnWatcher(mInputParams.maxLen, mEditText, mTvCounter,
                     mOnInputCounterChangeListener));
         } else {
-            mEditText.addTextChangedListener(new MaxLengthWatcher(mInputParams.maxLen, mEditText, mTvCounter,
+            mEditText.addTextChangedListener(new MaxLengthByteWatcher(mInputParams.maxLen, mEditText, mTvCounter,
                     mOnInputCounterChangeListener));
         }
         addView(mTvCounter, layoutParamsCounter);

@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setInputHeight(115)
 //                        .setInputShowKeyboard(true)
                         .setInputEmoji(true)
-                        .setInputCounter(18)
+                        .setInputCounter(10)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
                         .configInput(params -> {
 //                            params.isCounterAllEn = true;
