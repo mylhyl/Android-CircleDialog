@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/login_et_radius"
+                android:topRightRadius="@dimen/login_et_radius" />
+            <solid android:color="@color/divider" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="@dimen/login_et_stroke"
+        android:left="@dimen/login_et_stroke"
+        android:right="@dimen/login_et_stroke"
+        android:top="@dimen/login_et_stroke">
+        <shape>
+            <corners
+                android:topLeftRadius="@dimen/login_et_radius"
+                android:topRightRadius="@dimen/login_et_radius" />
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+
+</layer-list>

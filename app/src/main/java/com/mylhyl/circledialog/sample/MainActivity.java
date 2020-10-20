@@ -30,14 +30,11 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.CircleViewHolder;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
-import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.params.CloseParams;
-import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.res.drawable.CircleDrawable;
-import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
@@ -60,18 +57,20 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         //CircleColor.
     }
 
+    private BaseQuickAdapter<FunItem, BaseViewHolder> adapter;
     private CircleDialog.Builder builder;
     private BaseCircleDialog dialogFragment;
     private Handler handler;
     private Runnable runnable;
-    private int time = 30;
     //private Typeface typeface;
+    private int time = 30;
 
     @SuppressLint("RestrictedApi")
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        switch (position) {
-            case 0:
+        FunItem funItem = (FunItem) adapter.getItem(position);
+        switch (funItem) {
+            case 提示框:
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setTitle("标题")
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 Toast.makeText(MainActivity.this, "取消了！", Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
-            case 1:
+            case 确定框:
                 new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setMaxHeight(0.8f)
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configPositive(params -> params.backgroundColorPress = Color.RED)
                         .show(getSupportFragmentManager());
                 break;
-            case 2:
+            case 换头像:
                 final List<PictureTypeEntity> items = new ArrayList<>();
                 items.add(new PictureTypeEntity(1, "拍照"));
                 items.add(new PictureTypeEntity(2, "从相册选择"));
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                        })
                         .show(getSupportFragmentManager());
                 break;
-            case 3:
+            case 输入框:
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setCanceledOnTouchOutside(false)
@@ -233,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
-            case 4:
+            case 进度框:
                 final Timer timer = new Timer();
                 builder = new CircleDialog.Builder();
                 builder.setCancelable(false).setCanceledOnTouchOutside(false)
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 };
                 timer.schedule(timerTask, 0, 50);
                 break;
-            case 5:
+            case 等待框:
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setCanceledOnTouchOutside(false)
@@ -312,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                    }
 //                }, 3000);
                 break;
-            case 6:
+            case 动态改变内容:
                 builder = new CircleDialog.Builder();
                 builder.configDialog(params -> {
                     params.gravity = Gravity.TOP;
@@ -342,13 +341,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 };
                 handler.postDelayed(runnable, 3000);
                 break;
-            case 7:
+            case 自定义dialog:
                 DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
                 break;
-            case 8:
+            case popup:
                 ListViewActivity.gotoActivity(this);
                 break;
-            case 9:
+            case 倒计时:
                 builder = new CircleDialog.Builder()
                         //  .setTypeface(typeface)
                         .setTitle("标题")
@@ -381,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 };
                 handler.postDelayed(runnable, 1000);
                 break;
-            case 10:
+            case 三个按钮:
                 new CircleDialog.Builder()
                         // .setTypeface(typeface)
                         .setTitle("标题")
@@ -418,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
-            case 11:
+            case 自定义ListAdapter多选:
                 final String[] objects = {"item0", "item1", "item2", "item3"};
                 final CheckedAdapter checkedAdapter = new CheckedAdapter(this, objects);
 
@@ -437,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 , Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
-            case 12:
+            case Rv换头像:
                 final List<PictureTypeEntity> list = new ArrayList<>();
                 list.add(new PictureTypeEntity(1, "拍照"));
                 list.add(new PictureTypeEntity(2, "从相册选择"));
@@ -473,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
-            case 13:
+            case 自定义RvAdapter:
                 String[] heads = {"Head1", "Head2"};
                 ArrayList<MySectionEntity> listData = new ArrayList<>();
                 for (int i = 0; i < heads.length; i++) {
@@ -518,7 +517,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                     dialogFragment.dismiss();
                 });
                 break;
-            case 14:
+            case 自定义ListAdapter单选:
                 final String[] objectsR = {"item0", "item1", "item2", "item3", "item4", "item5"
                         , "item6", "item7", "item8", "item9", "item10"};
                 final CheckedAdapter checkedAdapterR = new CheckedAdapter(this, objectsR, true);
@@ -539,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 , Toast.LENGTH_SHORT).show())
                         .show(getSupportFragmentManager());
                 break;
-            case 15:
+            case 自定义内容视图:
                 dialogFragment = new CircleDialog.Builder()
                         // .setTypeface(typeface)
                         .setTitle("提示")
@@ -551,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setNegative("关闭", null)
                         .show(getSupportFragmentManager());
                 break;
-            case 16:
+            case lottie动画框:
                 builder = new CircleDialog.Builder();
                 builder.setTitle("提示")
                         .setSubTitle("副提示语")
@@ -579,7 +578,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 .refresh();
                 handler.postDelayed(runnable, 3000);
                 break;
-            case 17:
+            case 仿微博分享:
                 MenuInflater menuInflater = new SupportMenuInflater(this);
                 MenuBuilder menuBuilder = new MenuBuilder(this);
                 menuInflater.inflate(R.menu.menu_share_grid, menuBuilder);
@@ -622,7 +621,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configItems(params -> params.bottomMargin = 0)
                         .show(getSupportFragmentManager());
                 break;
-            case 18:
+            case RvVertical:
                 final List<PictureTypeEntity> rvListForV = new ArrayList<>();
                 rvListForV.add(new PictureTypeEntity(1, "拍照"));
                 rvListForV.add(new PictureTypeEntity(2, "从相册选择"));
@@ -649,7 +648,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
-            case 19:
+            case RvHorizontal:
                 final List<PictureTypeEntity> rvListForH = new ArrayList<>();
                 rvListForH.add(new PictureTypeEntity(1, "拍照"));
                 rvListForH.add(new PictureTypeEntity(2, "从相册选择"));
@@ -678,7 +677,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
-            case 20:
+            case 广告无x:
                 new CircleDialog.Builder()
                         //  .setTypeface(typeface)
                         .setWidth(0.5f)
@@ -689,7 +688,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
-            case 21:
+            case 广告下有x:
                 List<String> urls = new ArrayList<>();
                 urls.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
                 urls.add("http://img.ivsky.com/img/tupian/pre/201801/16/qinwen_lianren-006.jpg");
@@ -714,7 +713,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
-            case 22:
+            case 广告左上有x:
                 List<String> urls1 = new ArrayList<>();
                 urls1.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-005.jpg");
                 urls1.add("http://img.ivsky.com/img/tupian/pre/201707/30/xingganyoumeilidemeinvtupian-007.jpg");
@@ -751,7 +750,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setCloseConnector(1, 19)
                         .show(getSupportFragmentManager());
                 break;
-            case 23:
+            case 自定义body输入框的响应: {
+
                 CircleDialog.Builder builder = new CircleDialog.Builder();
                 builder.setTitle("自定义body")
                         .setSubTitle("按钮回调view")
@@ -792,6 +792,40 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setNegative("取消", null)
                         .show(getSupportFragmentManager());
                 break;
+            }
+            case 密码确认框:
+                CircleDialog.Builder builder = new CircleDialog.Builder();
+                builder.setTitle("设置密码")
+                        .setSubTitle("请您牢记此密码")
+                        .configSubTitle(params -> params.isShowBottomDivider = false)
+                        .setBodyView(R.layout.dialog_verify_pwd, viewHolder -> {
+                            EditText etPwd = viewHolder.findViewById(R.id.verify_et_pwd);
+                            EditText etPwdConfirm = viewHolder.findViewById(R.id.verify_et_pwdConfirm);
+
+                            // 输入为空禁用确认按钮
+                            CircleViewHolder.TextWatcher textWatcher = (s, start, before, count) ->
+                                    builder.setPositiveDisable(TextUtils.isEmpty(etPwd.getText()) ||
+                                            TextUtils.isEmpty(etPwdConfirm.getText())
+                                    ).refresh();
+                            viewHolder.addTextChangedListener(etPwd, textWatcher)
+                                    .addTextChangedListener(etPwdConfirm, textWatcher);
+
+                        })
+                        .setPositiveDisable(true)
+                        .setPositiveBody("确定", viewHolder -> {
+                            EditText etPwd = viewHolder.findViewById(R.id.verify_et_pwd);
+                            EditText etPwdConfirm = viewHolder.findViewById(R.id.verify_et_pwdConfirm);
+                            TextView tvError = viewHolder.findViewById(R.id.login_tv_error);
+                            if (etPwd.getText().equals(etPwdConfirm.getText())) {
+                                // do something
+                                return true;
+                            }
+                            tvError.setText("二次密码不一致");
+                            return false;
+                        })
+                        .setNegative("取消", null)
+                        .show(getSupportFragmentManager());
+                break;
         }
     }
 
@@ -800,18 +834,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //typeface = Typeface.createFromAsset(getAssets(), "fonts/arial.ttf");
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        List<String> listData = Arrays.asList(new String[]{"提示框", "确定框", "换头像", "输入框", "进度框", "等待框"
-                , "动态改变内容", "自定义dialog", "popup", "倒计时", "三个按钮", "自定义List adapter(多选)", "Rv换头像"
-                , "自定义Rv adapter", "自定义List adapter(单选)", "自定义内容视图", "lottie动画框", "仿微博分享"
-                , "Rv Vertical", "Rv Horizontal", "无x广告", "有x广告(下)", "有x广告(左上)", "自定义body确定响应"});
-        BaseQuickAdapter adapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1
-                , listData) {
+        List<FunItem> listData = Arrays.asList(FunItem.values());
+        adapter = new BaseQuickAdapter<FunItem, BaseViewHolder>(android.R.layout.simple_list_item_1, listData) {
             @Override
-            protected void convert(BaseViewHolder helper, String item) {
-                helper.setText(android.R.id.text1, item);
+            protected void convert(BaseViewHolder helper, FunItem item) {
+                helper.setText(android.R.id.text1, item.name());
             }
         };
         recyclerView.setAdapter(adapter);
@@ -824,6 +854,12 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         }
         handler = null;
         runnable = null;
+    }
+
+    public enum FunItem {
+        提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 动态改变内容, 自定义dialog, popup, 倒计时, 三个按钮,
+        自定义ListAdapter多选, Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享,
+        RvVertical, RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
     }
 
 }
