@@ -24,9 +24,7 @@
 稳定版：implementation 'com.mylhyl:circleDialog:x.x.x'  
 预览版：implementation 'com.mylhyl:circleDialog:x.x.x-alpha'
 
-[下载APK体验](http://d.7short.com/sbvq)或手机扫描下面二维码
-
-<img src="preview/qrdown.png"/>
+[下载APK体验](https://www.90pan.com/b2136007)
 
 # 使用
 * [v2版本](https://github.com/mylhyl/Android-CircleDialog/tree/v2)
