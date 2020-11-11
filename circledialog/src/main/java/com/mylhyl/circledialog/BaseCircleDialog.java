@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
@@ -166,20 +164,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         if (mParams.circleListeners.showListener != null) {
             mParams.circleListeners.showListener.onShow(dialog, mController.getViewHolder());
         }
-        if (mParams.popupParams != null && mParams.dialogParams.width != 0) {
-            resizeSize();
-        }
-    }
-
-    void resizeSize() {
-        Dialog dialog = getDialog();
-        if (dialog == null) return;
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        int avg = getSystemBarConfig().getScreenWidth() / 3;
-        final float absoluteWidth = mParams.dialogParams.width;
-        wlp.width = absoluteWidth > avg ? (int) absoluteWidth : avg;
-        window.setAttributes(wlp);
     }
 
     public void refreshView() {
@@ -189,32 +173,8 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
     }
 
     @Override
-    public void dialogAtLocation(int x, int y) {
-        Dialog dialog = getDialog();
-        if (dialog == null) return;
-
-        setX(x);
-        setY(y);
-
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.x = x;
-        wlp.y = y;
-        window.setAttributes(wlp);
-    }
-
-    @Override
     public void dialogDismiss() {
         dismissAllowingStateLoss();
     }
 
-    @Override
-    public int[] getScreenSize() {
-        return getSystemBarConfig().getScreenSize();
-    }
-
-    @Override
-    public int getStatusBarHeight() {
-        return getSystemBarConfig().getStatusBarHeight();
-    }
 }

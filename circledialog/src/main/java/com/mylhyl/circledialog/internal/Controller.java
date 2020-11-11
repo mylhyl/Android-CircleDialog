@@ -19,7 +19,6 @@ import com.mylhyl.circledialog.view.BuildViewInputImpl;
 import com.mylhyl.circledialog.view.BuildViewItemsListViewImpl;
 import com.mylhyl.circledialog.view.BuildViewItemsRecyclerViewImpl;
 import com.mylhyl.circledialog.view.BuildViewLottieImpl;
-import com.mylhyl.circledialog.view.BuildViewPopupImpl;
 import com.mylhyl.circledialog.view.BuildViewProgressImpl;
 import com.mylhyl.circledialog.view.listener.AdView;
 import com.mylhyl.circledialog.view.listener.ButtonView;
@@ -89,29 +88,6 @@ public final class Controller {
                 }
             });
         }
-        // popup
-        else if (mParams.popupParams != null) {
-            int[] screenSize = mOnDialogListener.getScreenSize();
-            int statusBarHeight = mOnDialogListener.getStatusBarHeight();
-            mCreateView = new BuildViewPopupImpl(mContext, mOnDialogListener, mParams
-                    , screenSize, statusBarHeight);
-            mCreateView.buildBodyView();
-            ItemsView itemsView = mCreateView.getBodyView();
-            itemsView.regOnItemClickListener(new OnRvItemClickListener() {
-                @Override
-                public boolean onItemClick(View view, int position) {
-                    if (mParams.circleListeners.rvItemListener == null) {
-                        return false;
-                    }
-                    boolean b = mParams.circleListeners.rvItemListener.onItemClick(view, position);
-                    if (b && !mParams.dialogParams.manualClose) {
-                        mOnDialogListener.dialogDismiss();
-                    }
-                    return false;
-                }
-            });
-        }
-
         // 列表
         else if (mParams.itemsParams != null) {
             //设置列表特殊的参数
@@ -311,13 +287,6 @@ public final class Controller {
     }
 
     public interface OnDialogInternalListener {
-
-        void dialogAtLocation(int x, int y);
-
         void dialogDismiss();
-
-        int[] getScreenSize();
-
-        int getStatusBarHeight();
     }
 }

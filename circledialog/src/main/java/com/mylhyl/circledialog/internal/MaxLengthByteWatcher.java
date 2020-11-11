@@ -39,16 +39,13 @@ public class MaxLengthByteWatcher implements TextWatcher {
         }
     }
 
-    private int chineseLength(String str) {
+    private static int chineseLength(String str) {
         int valueLength = 0;
         if (TextUtils.isEmpty(str)) {
             return valueLength;
         }
-        // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
         for (int i = 0; i < str.length(); i++) {
-            // 获取一个字符
             String temp = str.substring(i, i + 1);
-            // 字节长度
             valueLength += temp.getBytes().length;
         }
         return valueLength;
@@ -68,10 +65,8 @@ public class MaxLengthByteWatcher implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         int editStart = mEditText.getSelectionStart();
         int editEnd = mEditText.getSelectionEnd();
-        // 先去掉监听器，否则会出现栈溢出
         mEditText.removeTextChangedListener(this);
         if (!TextUtils.isEmpty(editable)) {
-            //循环删除多出的字符
             while (chineseLength(editable.toString()) > mMaxLen) {
                 editable.delete(editStart - 1, editEnd);
                 editStart--;
@@ -87,7 +82,6 @@ public class MaxLengthByteWatcher implements TextWatcher {
         }
 
         mEditText.setSelection(editStart);
-        // 恢复监听器
         mEditText.addTextChangedListener(this);
     }
 }

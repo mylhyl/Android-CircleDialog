@@ -3,10 +3,10 @@ package com.mylhyl.circledialog.params;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.IntDef;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.IntDef;
 
 /**
  * Created by hupei on 2019/1/16 14:14.
@@ -17,10 +17,12 @@ public class CloseParams implements Parcelable {
      * 关闭按钮在上左
      */
     public static final int CLOSE_TOP_LEFT = 351;
+
     /**
      * 关闭按钮在上右
      */
     public static final int CLOSE_TOP_RIGHT = 353;
+
     /**
      * 关闭按钮在上中
      */
@@ -30,14 +32,17 @@ public class CloseParams implements Parcelable {
      * 关闭按钮在下左
      */
     public static final int CLOSE_BOTTOM_LEFT = 783;
+
     /**
      * 关闭按钮在下右
      */
     public static final int CLOSE_BOTTOM_RIGHT = 785;
+
     /**
      * 关闭按钮在下中
      */
     public static final int CLOSE_BOTTOM_CENTER = 781;
+
     public static final Parcelable.Creator<CloseParams> CREATOR = new Parcelable.Creator<CloseParams>() {
         @Override
         public CloseParams createFromParcel(Parcel source) {
@@ -50,28 +55,34 @@ public class CloseParams implements Parcelable {
         }
     };
     public int closeResId;
+
     /**
      * 关闭图标的大小 dp
      */
     public int closeSize;
+
     /**
      * 关闭按钮的内间距 dp
      * int left, int top, int right, int bottom
      */
     public int[] closePadding;
+
     /**
      * 关闭按钮位置
      */
     public @CloseGravity
     int closeGravity = CLOSE_TOP_RIGHT;
+
     /**
      * 与边框的连接线宽度，默认0，只有大于0才显示 dp
      */
     public int connectorWidth;
+
     /**
      * 与边框的连接线高度 dp
      */
     public int connectorHeight;
+
     /**
      * 与边框的连接线颜色值 RGB
      */

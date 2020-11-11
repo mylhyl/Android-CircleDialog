@@ -24,12 +24,10 @@ import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.callback.ConfigLottie;
-import com.mylhyl.circledialog.callback.ConfigPopup;
 import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigText;
 import com.mylhyl.circledialog.callback.ConfigTitle;
-import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
@@ -38,7 +36,6 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.LottieParams;
-import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -781,80 +778,6 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setPopup(View anchorView, @PopupParams.TriangleGravity int triangleGravity) {
-            newPopupParams();
-            PopupParams params = mCircleParams.popupParams;
-            params.anchorView = anchorView;
-            params.triangleGravity = triangleGravity;
-            return this;
-        }
-
-        public Builder configPopup(@NonNull ConfigPopup configPopup) {
-            newPopupParams();
-            configPopup.onConfig(mCircleParams.popupParams);
-            return this;
-        }
-
-        /**
-         * 设置 Popup 三角的大小
-         *
-         * @param width  dp
-         * @param height dp
-         * @return Builder
-         */
-        public Builder setPopupTriangleSize(int width, int height) {
-            newPopupParams();
-            mCircleParams.popupParams.triangleSize = new int[]{width, height};
-            return this;
-        }
-
-        /**
-         * 显示三角 默认显示
-         *
-         * @param show false隐藏
-         * @return Builder
-         */
-        public Builder setPopupTriangleShow(boolean show) {
-            newPopupParams();
-            mCircleParams.popupParams.triangleShow = show;
-            return this;
-        }
-
-        public Builder setPopupItems(@NonNull Object items, OnRvItemClickListener listener) {
-            newPopupParams();
-            mCircleParams.popupParams.items = items;
-            mCircleParams.circleListeners.rvItemListener = listener;
-            return this;
-        }
-
-        public Builder setPopupItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
-                , OnRvItemClickListener listener) {
-            newPopupParams();
-            PopupParams params = mCircleParams.popupParams;
-            params.items = items;
-            params.layoutManager = layoutManager;
-            mCircleParams.circleListeners.rvItemListener = listener;
-            return this;
-        }
-
-        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager) {
-            newPopupParams();
-            PopupParams params = mCircleParams.popupParams;
-            params.layoutManager = layoutManager;
-            params.adapterRv = adapter;
-            return this;
-        }
-
-        public Builder setPopupItems(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager
-                , RecyclerView.ItemDecoration itemDecoration) {
-            newPopupParams();
-            PopupParams params = mCircleParams.popupParams;
-            params.layoutManager = layoutManager;
-            params.itemDecoration = itemDecoration;
-            params.adapterRv = adapter;
-            return this;
-        }
-
         public Builder setCloseResId(@DrawableRes int closeResId) {
             setCloseResId(closeResId, 0);
             return this;
@@ -987,17 +910,6 @@ public final class CircleDialog {
             return this;
         }
 
-        /**
-         * @param imageLoadEngine ImageLoadEngine
-         * @return Builder
-         * @deprecated {{@link #setAdPageChangeListener(OnAdPageChangeListener)}}
-         */
-        @Deprecated
-        public Builder setImageLoadEngine(ImageLoadEngine imageLoadEngine) {
-            mCircleParams.imageLoadEngine = imageLoadEngine;
-            return this;
-        }
-
         public Builder setAdPageChangeListener(OnAdPageChangeListener listener) {
             mCircleParams.circleListeners.adPageChangeListener = listener;
             return this;
@@ -1088,12 +1000,6 @@ public final class CircleDialog {
         private void newNeutralParams() {
             if (mCircleParams.neutralParams == null)
                 mCircleParams.neutralParams = new ButtonParams();
-        }
-
-        private void newPopupParams() {
-            if (mCircleParams.popupParams == null) {
-                mCircleParams.popupParams = new PopupParams();
-            }
         }
 
         private void newCloseParams() {

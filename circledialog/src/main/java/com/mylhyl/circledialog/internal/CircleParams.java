@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.params.AdParams;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.CloseParams;
@@ -12,7 +11,6 @@ import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.params.LottieParams;
-import com.mylhyl.circledialog.params.PopupParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
@@ -21,7 +19,6 @@ import com.mylhyl.circledialog.params.TitleParams;
 /**
  * Created by hupei on 2017/3/30.
  */
-
 public class CircleParams implements Parcelable {
 
     public static final Creator<CircleParams> CREATOR = new Creator<CircleParams>() {
@@ -47,13 +44,11 @@ public class CircleParams implements Parcelable {
     public InputParams inputParams;
     public ButtonParams neutralParams;
     public int bodyViewId;
-    public PopupParams popupParams;
     public boolean itemListViewType;//true=ListView; false=RecyclerView
     public CloseParams closeParams;
     public AdParams adParams;
 
     public View bodyView;
-    public ImageLoadEngine imageLoadEngine;
     public CircleListeners circleListeners = new CircleListeners();
 
     public CircleParams() {
@@ -73,7 +68,6 @@ public class CircleParams implements Parcelable {
         this.inputParams = in.readParcelable(InputParams.class.getClassLoader());
         this.neutralParams = in.readParcelable(ButtonParams.class.getClassLoader());
         this.bodyViewId = in.readInt();
-        this.popupParams = in.readParcelable(PopupParams.class.getClassLoader());
         this.itemListViewType = in.readByte() != 0;
         this.closeParams = in.readParcelable(CloseParams.class.getClassLoader());
         this.adParams = in.readParcelable(AdParams.class.getClassLoader());
@@ -98,7 +92,6 @@ public class CircleParams implements Parcelable {
         dest.writeParcelable(this.inputParams, flags);
         dest.writeParcelable(this.neutralParams, flags);
         dest.writeInt(this.bodyViewId);
-        dest.writeParcelable(this.popupParams, flags);
         dest.writeByte(this.itemListViewType ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.closeParams, flags);
         dest.writeParcelable(this.adParams, flags);

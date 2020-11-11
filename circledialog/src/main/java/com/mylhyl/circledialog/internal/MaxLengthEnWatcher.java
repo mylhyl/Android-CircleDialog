@@ -50,10 +50,8 @@ public class MaxLengthEnWatcher implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         int editStart = mEditText.getSelectionStart();
         int editEnd = mEditText.getSelectionEnd();
-        // 先去掉监听器，否则会出现栈溢出
         mEditText.removeTextChangedListener(this);
         if (!TextUtils.isEmpty(editable)) {
-            //循环删除多出的字符
             while (editable.toString().length() > mMaxLen) {
                 editable.delete(editStart - 1, editEnd);
                 editStart--;
@@ -69,7 +67,6 @@ public class MaxLengthEnWatcher implements TextWatcher {
         }
 
         mEditText.setSelection(editStart);
-        // 恢复监听器
         mEditText.addTextChangedListener(this);
     }
 }

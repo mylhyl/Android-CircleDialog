@@ -40,7 +40,6 @@ import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.entities.WeiBoItem;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
-import com.mylhyl.circledialog.sample.list.ListViewActivity;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 
@@ -98,45 +97,27 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("移动认证简介")
                         .setSubTitle("更新日期:2019-01-16")
                         .configSubTitle(params -> params.isShowBottomDivider = true)
-                        .setText("一、移动认证简介\n" +
-                                "\n" +
-                                "1、什么是移动认证\n" +
-                                "\n" +
-                                "移动认证，基于运营商独有的网关能力+大数据能力，以手机号码作为开放的统一账号体系，为各类应用提供全面的用户账号使用和用户数据管理的一站式解决方案，实现身份认证、鉴权、管理的新型认证技术。目前已推出一键登录、本机号码校验两大产品，已为爱奇艺、支付宝、小米、同花顺等多款热门APP提供服务。\n" +
-                                "\n" +
-                                "1.jpg\n" +
-                                "\n" +
-                                "2、移动认证的特点\n" +
-                                "\n" +
-                                "● 以手机号码作为账号，通过确认手机号码，实现用户身份唯一性的认证。\n" +
-                                "\n" +
-                                "● 可使用户在应用注册登录环节，耗时仅1.5秒。\n" +
-                                "\n" +
-                                "● 适用于在移动手机客户端注册/登录/号码校验等多种场景。\n" +
-                                "\n" +
-                                "● 基于运营商网络认证结果，可避免短验或密码被拦截、攻击。\n" +
-                                "\n" +
-                                "3、移动认证能实现哪些能力\n" +
-                                "\n" +
-                                "目前已推出一键登录和本机号码校验两大产品。\n" +
-                                "二、移动认证能做什么\n" +
-                                "\n" +
-                                "1、一键登录\n" +
-                                "\n" +
-                                "一键登录能力，即通过移动认证的网络认证能力，实现APP" +
-                                "用户无需输入帐号密码，即可使用本机手机号码自动登录的能力。利用应用层无法截取的网络层号码认证能力验证号码的真实性，本机号码自动校验是现有短信验证方式的优化，能消除现有短信验证模式等待时间长、操作繁琐和容易泄露的痛点。\n" +
-                                "\n" +
-                                "一键登录的能力优势\n" +
-                                "\n" +
-                                "● 降低应用注册/登录门槛，减轻用户记忆负担，提高用户体验；\n" +
-                                "\n" +
-                                "● 降低对用户身份、通信行为等属性验证的繁琐步骤，助力企业完善风险管控系统\n" +
-                                "\n" +
-                                "● 取号成功率高达99.8%。\n" +
-                                "\n" +
-                                "● 两步完成注册登录，耗时仅需1.5秒。\n" +
-                                "\n" +
-                                "● 节省企业短验成本")
+                        .setText("一、移动认证简介" +
+                                "\n\n1、什么是移动认证" +
+                                "\n\n" +
+                                "移动认证，基于运营商独有的网关能力+大数据能力，以手机号码作为开放的统一账号体系，为各类应用提供全面的用户账号使用和用户数据管理的一站式解决方案，实现身份认证、鉴权、管理的新型认证技术。目前已推出一键登录、本机号码校验两大产品，已为爱奇艺、支付宝、小米、同花顺等多款热门APP提供服务。" +
+                                "\n\n2、移动认证的特点" +
+                                "\n\n● 以手机号码作为账号，通过确认手机号码，实现用户身份唯一性的认证。" +
+                                "\n\n● 可使用户在应用注册登录环节，耗时仅1.5秒。" +
+                                "\n\n● 适用于在移动手机客户端注册/登录/号码校验等多种场景。" +
+                                "\n\n● 基于运营商网络认证结果，可避免短验或密码被拦截、攻击。" +
+                                "\n\n3、移动认证能实现哪些能力" +
+                                "\n\n目前已推出一键登录和本机号码校验两大产品。" +
+                                "\n\n二、移动认证能做什么" +
+                                "\n\n1、一键登录" +
+                                "\n\n一键登录能力，即通过移动认证的网络认证能力，实现APP" +
+                                "用户无需输入帐号密码，即可使用本机手机号码自动登录的能力。利用应用层无法截取的网络层号码认证能力验证号码的真实性，本机号码自动校验是现有短信验证方式的优化，能消除现有短信验证模式等待时间长、操作繁琐和容易泄露的痛点。" +
+                                "\n\n一键登录的能力优势" +
+                                "\n\n● 降低应用注册/登录门槛，减轻用户记忆负担，提高用户体验；" +
+                                "\n\n● 降低对用户身份、通信行为等属性验证的繁琐步骤，助力企业完善风险管控系统" +
+                                "\n\n● 取号成功率高达99.8%。" +
+                                "\n\n● 两步完成注册登录，耗时仅需1.5秒。" +
+                                "\n\n● 节省企业短验成本")
                         .configText(params -> {
                             params.gravity = Gravity.LEFT | Gravity.TOP;
 //                            params.padding = new int[]{100, 0, 100, 50};
@@ -330,22 +311,15 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setOnDismissListener(dialog -> removeRunnable())
                         .show(getSupportFragmentManager());
                 handler = new Handler();
-                runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        builder.setText("已经更新内容")
-                                .setTitle("标题也变了")
-                                .setSubTitle("小标题也变了")
-                                .refresh();
-                    }
-                };
+                runnable = () -> builder.setText("已经更新内容")
+                        .setTitle("标题也变了")
+                        .setSubTitle("小标题也变了")
+                        .refresh();
                 handler.postDelayed(runnable, 3000);
                 break;
             case 自定义dialog:
-                DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
-                break;
-            case popup:
-                ListViewActivity.gotoActivity(this);
+//                DialogLogout.getInstance().show(getSupportFragmentManager(), "DialogLogout");
+                DialogLogin.getInstance().show(getSupportFragmentManager(), "DialogLogin");
                 break;
             case 倒计时:
                 builder = new CircleDialog.Builder()
@@ -542,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         // .setTypeface(typeface)
                         .setTitle("提示")
-                        .setBodyView(R.layout.dialog_login_conn_pic, viewHolder -> {
+                        .setBodyView(R.layout.body_login_conn_pic, viewHolder -> {
 //                            CircleDrawable bgCircleDrawable = new CircleDrawable(CircleColor.DIALOG_BACKGROUND
 //                                    , 0, 0, 0, 0);
 //                            viewHolder.setBackgroundDrawable(R.id.root_body, bgCircleDrawable);
@@ -756,7 +730,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 builder.setTitle("自定义body")
                         .setSubTitle("按钮回调view")
                         .configSubTitle(params -> params.isShowBottomDivider = true)
-                        .setBodyView(R.layout.dialog_login, viewHolder -> {
+                        .setBodyView(R.layout.body_login, viewHolder -> {
                             EditText etUser = viewHolder.findViewById(R.id.login_et_user);
                             EditText etPwd = viewHolder.findViewById(R.id.login_et_pwd);
 
@@ -798,7 +772,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 builder.setTitle("设置密码")
                         .setSubTitle("请您牢记此密码")
                         .configSubTitle(params -> params.isShowBottomDivider = false)
-                        .setBodyView(R.layout.dialog_verify_pwd, viewHolder -> {
+                        .setBodyView(R.layout.body_verify_pwd, viewHolder -> {
                             EditText etPwd = viewHolder.findViewById(R.id.verify_et_pwd);
                             EditText etPwdConfirm = viewHolder.findViewById(R.id.verify_et_pwdConfirm);
 
@@ -857,9 +831,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     }
 
     public enum FunItem {
-        提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 动态改变内容, 自定义dialog, popup, 倒计时, 三个按钮,
-        自定义ListAdapter多选, Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享,
-        RvVertical, RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
+        提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 动态改变内容, 自定义dialog, 倒计时, 三个按钮, 自定义ListAdapter多选,
+        Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享, RvVertical,
+        RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
     }
 
 }

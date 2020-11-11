@@ -36,38 +36,30 @@ public class MaxLengthWatcher implements TextWatcher {
         }
     }
 
-    private int chineseLength(String str) {
+    private static int chineseLength(String str) {
         int valueLength = 0;
         if (TextUtils.isEmpty(str)) {
             return valueLength;
         }
-        // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
         for (int i = 0; i < str.length(); i++) {
-            // 获取一个字符
             String temp = str.substring(i, i + 1);
-            // 判断是否为中文字符
             if (isChinese(temp)) {
-                // 中文字符长度为2
                 valueLength += 2;
             } else {
-                // 其他字符长度为1
                 valueLength += 1;
             }
         }
         return valueLength;
     }
 
-    private boolean isChinese(String str) {
+    private static boolean isChinese(String str) {
         boolean isChinese = true;
         String chinese = "[\u0391-\uFFE5]";
         if (TextUtils.isEmpty(str)) {
             return true;
         }
-        // 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1
         for (int i = 0; i < str.length(); i++) {
-            // 获取一个字符
             String temp = str.substring(i, i + 1);
-            // 判断是否为中文字符
             if (temp.matches(chinese)) {
             } else {
                 isChinese = false;
@@ -90,10 +82,8 @@ public class MaxLengthWatcher implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         int editStart = mEditText.getSelectionStart();
         int editEnd = mEditText.getSelectionEnd();
-        // 先去掉监听器，否则会出现栈溢出
         mEditText.removeTextChangedListener(this);
         if (!TextUtils.isEmpty(editable)) {
-            //循环删除多出的字符
             while (chineseLength(editable.toString()) > mMaxLen) {
                 editable.delete(editStart - 1, editEnd);
                 editStart--;
@@ -109,7 +99,6 @@ public class MaxLengthWatcher implements TextWatcher {
         }
 
         mEditText.setSelection(editStart);
-        // 恢复监听器
         mEditText.addTextChangedListener(this);
     }
 }

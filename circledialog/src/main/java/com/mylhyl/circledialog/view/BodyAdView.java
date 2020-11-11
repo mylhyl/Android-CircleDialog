@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.mylhyl.circledialog.engine.ImageLoadEngine;
 import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.AdParams;
@@ -31,7 +30,6 @@ import java.util.List;
  */
 final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPageChangeListener {
     private AdParams mAdParams;
-    private ImageLoadEngine mImageLoadEngine;
     private ViewPager mViewPager;
     private LinearLayout mLlIndicator;
     private List<ImageView> mViews;
@@ -42,7 +40,6 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
     public BodyAdView(Context context, CircleParams circleParams) {
         super(context);
         this.mAdParams = circleParams.adParams;
-        this.mImageLoadEngine = circleParams.imageLoadEngine;
         this.mPageChangeListener = circleParams.circleListeners.adPageChangeListener;
         init();
     }
@@ -185,9 +182,7 @@ final class BodyAdView extends RelativeLayout implements AdView, ViewPager.OnPag
                     }
                 }
             });
-            if (mUrls != null && !mUrls.isEmpty() && mImageLoadEngine != null) {
-                mImageLoadEngine.loadImage(getContext(), view, mUrls.get(finalPosition));
-            }
+
             if (mUrls != null && !mUrls.isEmpty() && mPageChangeListener != null) {
                 mPageChangeListener.onPageSelected(getContext(), view, mUrls.get(finalPosition), finalPosition);
             }

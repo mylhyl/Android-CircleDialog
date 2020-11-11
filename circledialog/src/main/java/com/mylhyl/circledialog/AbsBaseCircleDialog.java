@@ -164,8 +164,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = createView(getContext(), inflater, container);
-        return view;
+        return createView(getContext(), inflater, container);
     }
 
     @Override
@@ -178,10 +177,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     }
 
     public abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
-
-    public SystemBarConfig getSystemBarConfig() {
-        return mSystemBarConfig;
-    }
 
     /**
      * 设置对话框位置
@@ -201,15 +196,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     protected void setCanceledOnTouchOutside(boolean cancel) {
         mCanceledOnTouchOutside = cancel;
     }
-
-//    /**
-//     * 设置对话框返回键关闭关闭
-//     *
-//     * @param cancel true允许
-//     */
-//    protected void setCanceledBack(boolean cancel) {
-//        mCanceledBack = cancel;
-//    }
 
     /**
      * 设置对话框宽度
