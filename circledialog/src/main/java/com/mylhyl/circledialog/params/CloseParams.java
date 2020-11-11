@@ -96,6 +96,9 @@ public class CloseParams implements Parcelable {
         this.closeSize = in.readInt();
         this.closePadding = in.createIntArray();
         this.closeGravity = in.readInt();
+        this.connectorWidth = in.readInt();
+        this.connectorHeight = in.readInt();
+        this.connectorColor = in.readInt();
     }
 
     @Override
@@ -109,6 +112,9 @@ public class CloseParams implements Parcelable {
         dest.writeInt(this.closeSize);
         dest.writeIntArray(this.closePadding);
         dest.writeInt(this.closeGravity);
+        dest.writeInt(this.connectorWidth);
+        dest.writeInt(this.connectorHeight);
+        dest.writeInt(this.connectorColor);
     }
 
     @IntDef({CLOSE_TOP_LEFT, CLOSE_TOP_RIGHT, CLOSE_TOP_CENTER
