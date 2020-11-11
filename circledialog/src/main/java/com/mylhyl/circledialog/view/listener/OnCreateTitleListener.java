@@ -8,5 +8,10 @@ import android.widget.TextView;
  */
 
 public interface OnCreateTitleListener {
+    /**
+     * @param titleIcon 如果没有设置标题栏的图标，此对象的值为 null
+     * @param title
+     * @param subTitle
+     */
     void onCreateTitle(ImageView titleIcon, TextView title, TextView subTitle);
 }

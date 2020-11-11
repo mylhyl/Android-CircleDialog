@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.view;
 
 import android.content.Context;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,8 +29,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateTitleListener;
  * </ul>
  */
 final class TitleView extends LinearLayout {
-    private RelativeLayout mTitleLayout;
-    private ImageView mTitleIcon;
+
     private TextView mTitleView;
     private TextView mSubTitleView;
     private DialogParams mDialogParams;
@@ -47,7 +47,9 @@ final class TitleView extends LinearLayout {
     }
 
     public void refreshText() {
-        if (mTitleParams == null || mTitleView == null) return;
+        if (mTitleParams == null || mTitleView == null) {
+            return;
+        }
         mTitleView.setText(mTitleParams.text);
         if (mSubTitleView != null) {
             mSubTitleView.setText(mSubTitleParams.text);
@@ -57,83 +59,102 @@ final class TitleView extends LinearLayout {
     private void init() {
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setOrientation(LinearLayout.VERTICAL);
-        createTitleLayout();
-        //标题图标
-        createTitleIcon();
-        //标题
-        createTitle();
+
+        // 标题
+        mTitleView = createTitle();
+
+        ImageView titleIcon = null;
+        // 有图标
+        if (mTitleParams.icon != 0) {
+            RelativeLayout titleLayout = createTitleLayout();
+            addView(titleLayout);
+
+            // 标题图标
+            titleIcon = createTitleIcon();
+
+            titleLayout.addView(titleIcon);
+            titleLayout.addView(mTitleView);
+        }
+        // 没有图标
+        else {
+            mTitleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            mTitleView.setGravity(mTitleParams.gravity);
+
+            handleTitleBackground(mTitleView);
+            addView(mTitleView);
+        }
+
         //副标题
         createSubTitle();
+
         if (mOnCreateTitleListener != null) {
-            mOnCreateTitleListener.onCreateTitle(mTitleIcon, mTitleView, mSubTitleView);
+            mOnCreateTitleListener.onCreateTitle(titleIcon, mTitleView, mSubTitleView);
         }
     }
 
-    private void createTitleLayout() {
-        mTitleLayout = new RelativeLayout(getContext());
-        addView(mTitleLayout);
+    private RelativeLayout createTitleLayout() {
+        RelativeLayout titleLayout = new RelativeLayout(getContext());
+        titleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        titleLayout.setGravity(mTitleParams.gravity);
+        titleLayout.setPadding(50, 0, 50, 0);
+        handleTitleBackground(titleLayout);
 
-        mTitleLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        mTitleLayout.setGravity(mTitleParams.gravity);
-        mTitleLayout.setPadding(50, 0, 50, 0);
+        return titleLayout;
+    }
 
+    private void handleTitleBackground(View view) {
         //如果标题没有背景色，则使用默认色
         int backgroundColor = mTitleParams.backgroundColor != 0
                 ? mTitleParams.backgroundColor : mDialogParams.backgroundColor;
-        BackgroundHelper.handleTitleBackground(mTitleLayout, backgroundColor, mDialogParams);
+        BackgroundHelper.handleTitleBackground(view, backgroundColor, mDialogParams);
     }
 
     @NonNull
-    private void createTitleIcon() {
-        mTitleIcon = new ImageView(getContext());
-        mTitleIcon.setId(android.R.id.icon);
+    private ImageView createTitleIcon() {
+        ImageView titleIcon = new ImageView(getContext());
+        titleIcon.setId(android.R.id.icon);
         RelativeLayout.LayoutParams layoutParamsTitleIcon = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitleIcon.addRule(RelativeLayout.LEFT_OF, android.R.id.title);
         layoutParamsTitleIcon.addRule(RelativeLayout.CENTER_VERTICAL);
-        mTitleIcon.setLayoutParams(layoutParamsTitleIcon);
-        if (mTitleParams.icon != 0) {
-            mTitleIcon.setImageResource(mTitleParams.icon);
-            mTitleIcon.setVisibility(VISIBLE);
-        } else {
-            mTitleIcon.setVisibility(GONE);
-        }
-        mTitleLayout.addView(mTitleIcon);
+        titleIcon.setLayoutParams(layoutParamsTitleIcon);
+        titleIcon.setImageResource(mTitleParams.icon);
+        titleIcon.setVisibility(VISIBLE);
+        return titleIcon;
     }
 
     @NonNull
-    private void createTitle() {
-        mTitleView = new TextView(getContext());
-        mTitleLayout.addView(mTitleView);
+    private TextView createTitle() {
+        TextView titleView = new TextView(getContext());
 
         if (mDialogParams.typeface != null) {
-            mTitleView.setTypeface(mDialogParams.typeface);
+            titleView.setTypeface(mDialogParams.typeface);
         }
-        mTitleView.setGravity(Gravity.CENTER);
-        mTitleView.setId(android.R.id.title);
+        titleView.setGravity(Gravity.CENTER);
+        titleView.setId(android.R.id.title);
         RelativeLayout.LayoutParams layoutParamsTitle = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParamsTitle.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        mTitleView.setLayoutParams(layoutParamsTitle);
+        titleView.setLayoutParams(layoutParamsTitle);
         if (mTitleParams.height != 0) {
-            mTitleView.setHeight(Controller.dp2px(getContext(), mTitleParams.height));
+            titleView.setHeight(Controller.dp2px(getContext(), mTitleParams.height));
         }
-        mTitleView.setTextColor(mTitleParams.textColor);
-        mTitleView.setTextSize(mTitleParams.textSize);
-        mTitleView.setText(mTitleParams.text);
-        mTitleView.setTypeface(mTitleView.getTypeface(), mTitleParams.styleText);
+        titleView.setTextColor(mTitleParams.textColor);
+        titleView.setTextSize(mTitleParams.textSize);
+        titleView.setText(mTitleParams.text);
+        titleView.setTypeface(titleView.getTypeface(), mTitleParams.styleText);
 
         int[] padding = mTitleParams.padding;
-        if (padding == null) {
-            return;
+        if (padding != null) {
+            if (mTitleParams.isShowBottomDivider) {
+                padding[3] = padding[3] == 0 ? padding[1] : padding[3];
+                DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
+                addView(dividerView);
+            }
+            titleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1]),
+                    Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
         }
-        if (mTitleParams.isShowBottomDivider) {
-            padding[3] = padding[3] == 0 ? padding[1] : padding[3];
-            DividerView dividerView = new DividerView(getContext(), LinearLayout.HORIZONTAL);
-            addView(dividerView);
-        }
-        mTitleView.setPadding(Controller.dp2px(getContext(), padding[0]), Controller.dp2px(getContext(), padding[1]),
-                Controller.dp2px(getContext(), padding[2]), Controller.dp2px(getContext(), padding[3]));
+        return titleView;
     }
 
     @Nullable
