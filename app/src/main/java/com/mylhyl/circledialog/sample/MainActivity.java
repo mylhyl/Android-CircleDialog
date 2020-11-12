@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case 确定框:
                 new CircleDialog.Builder()
+                        .setCloseResId(R.mipmap.ic_close)
                         //.setTypeface(typeface)
                         .setMaxHeight(0.8f)
                         .setCanceledOnTouchOutside(false)
