@@ -44,6 +44,28 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         if (savedInstanceState != null) {
             mParams = savedInstanceState.getParcelable(SAVED_PARAMS);
         }
+        DialogParams dialogParams = mParams.dialogParams;
+        setGravity(dialogParams.gravity);
+        setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
+        setCanceledBack(dialogParams.cancelable);
+        setWidth(dialogParams.width);
+        setHeight(dialogParams.height);
+        setMaxHeight(dialogParams.maxHeight);
+        int[] padding = dialogParams.mPadding;
+        if (padding != null) {
+            setPadding(padding[0], padding[1], padding[2], padding[3]);
+        }
+        setAnimations(dialogParams.animStyle);
+        setDimEnabled(dialogParams.isDimEnabled);
+        setRadius(dialogParams.radius);
+        setAlpha(dialogParams.alpha);
+        setX(dialogParams.xOff);
+        setY(dialogParams.yOff);
+        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
+                && mController != null) {
+            setSoftInputMode();
+        }
+        setSystemUiVisibility(dialogParams.systemUiVisibility);
     }
 
     @Override
@@ -71,33 +93,6 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         mController.createView();
         View view = mController.getView();
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        DialogParams dialogParams = mParams.dialogParams;
-        setGravity(dialogParams.gravity);
-        setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
-        setCanceledBack(dialogParams.cancelable);
-        setWidth(dialogParams.width);
-        setHeight(dialogParams.height);
-        setMaxHeight(dialogParams.maxHeight);
-        int[] padding = dialogParams.mPadding;
-        if (padding != null) {
-            setPadding(padding[0], padding[1], padding[2], padding[3]);
-        }
-        setAnimations(dialogParams.animStyle);
-        setDimEnabled(dialogParams.isDimEnabled);
-        setRadius(dialogParams.radius);
-        setAlpha(dialogParams.alpha);
-        setX(dialogParams.xOff);
-        setY(dialogParams.yOff);
-        if (mParams != null && mParams.inputParams != null && mParams.inputParams.showSoftKeyboard
-                && mController != null) {
-            setSoftInputMode();
-        }
-        setSystemUiVisibility(dialogParams.systemUiVisibility);
     }
 
     @Override

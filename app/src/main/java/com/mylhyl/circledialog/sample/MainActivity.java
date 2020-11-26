@@ -121,6 +121,16 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setHeight(0.45f)
                         .setWidth(0.7f)
+//                        .bottomFull()
+//                        .setYoff(10)
+//                        .setRadius(50)
+//                        .configDialog(new ConfigDialog() {
+//                            @Override
+//                            public void onConfig(DialogParams params) {
+//                                params.isDimEnabled=false;
+//                            }
+//                        })
+//                        .setGravity(Gravity.TOP)
                         .setTitle("标题")
                         .configTitle(new ConfigTitle() {
                             @Override
