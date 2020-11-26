@@ -43,6 +43,7 @@ public class DialogParams implements Parcelable {
      * 对话框宽度，范围：0-1；1整屏宽
      */
     public float width = CircleDimen.DIALOG_WIDTH;
+    public float height; //高度
     /**
      * 对话框与屏幕边距
      */
@@ -79,7 +80,7 @@ public class DialogParams implements Parcelable {
      * 按下颜色值
      */
     public int backgroundColorPress = CircleColor.DIALOG_BACKGROUND_PRESS;
-    public float maxHeight;//最大高度
+    public float maxHeight;// 最大高度
     public int systemUiVisibility;
     /**
      * 延迟弹出
@@ -95,6 +96,7 @@ public class DialogParams implements Parcelable {
         this.cancelable = in.readByte() != 0;
         this.alpha = in.readFloat();
         this.width = in.readFloat();
+        this.height = in.readFloat();
         this.mPadding = in.createIntArray();
         this.animStyle = in.readInt();
         this.refreshAnimation = in.readInt();
@@ -121,6 +123,7 @@ public class DialogParams implements Parcelable {
         dest.writeByte(this.cancelable ? (byte) 1 : (byte) 0);
         dest.writeFloat(this.alpha);
         dest.writeFloat(this.width);
+        dest.writeFloat(this.height);
         dest.writeIntArray(this.mPadding);
         dest.writeInt(this.animStyle);
         dest.writeInt(this.refreshAnimation);

@@ -34,6 +34,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private static final String SAVED_TOUCH_OUT = "circle:baseTouchOut";
     private static final String SAVED_CANCELED_BACK = "circle:baseCanceledBack";
     private static final String SAVED_WIDTH = "circle:baseWidth";
+    private static final String SAVED_HEIGHT = "circle:baseHeight";
     private static final String SAVED_HEIGHT_MAX = "circle:baseMaxHeight";
     private static final String SAVED_PADDING = "circle:basePadding";
     private static final String SAVED_ANIM_STYLE = "circle:baseAnimStyle";
@@ -45,17 +46,18 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     private static final String SAVED_Y = "circle:baseY";
 
     private SystemBarConfig mSystemBarConfig;
-    private int mGravity = Gravity.CENTER;//对话框的位置
-    private boolean mCanceledOnTouchOutside = true;//是否触摸外部关闭
-    private boolean mCanceledBack = true;//是否返回键关闭
-    private float mWidth = CircleDimen.DIALOG_WIDTH;//对话框宽度，范围：0-1；1整屏宽
-    private float mMaxHeight;//对话框高度，范围：0-1；1整屏高
-    private int[] mPadding;//对话框与屏幕边缘距离
-    private int mAnimStyle;//显示动画
+    private int mGravity = Gravity.CENTER; // 对话框的位置
+    private boolean mCanceledOnTouchOutside = true; // 是否触摸外部关闭
+    private boolean mCanceledBack = true; // 是否返回键关闭
+    private float mWidth = CircleDimen.DIALOG_WIDTH; // 对话框宽度，范围：0-1；1整屏宽
+    private float mHeight; // 对话话高度，范围：0-1；1整屏高
+    private float mMaxHeight; // 对话框最大高度，范围：0-1；1整屏高
+    private int[] mPadding; // 对话框与屏幕边缘距离
+    private int mAnimStyle; // 显示动画
     private boolean isDimEnabled = true;
-    private int mBackgroundColor = Color.TRANSPARENT;//对话框的背景色
-    private int mRadius = CircleDimen.DIALOG_RADIUS;//对话框的圆角半径
-    private float mAlpha = CircleDimen.DIALOG_ALPHA;//对话框透明度，范围：0-1；1不透明
+    private int mBackgroundColor = Color.TRANSPARENT; // 对话框的背景色
+    private int mRadius = CircleDimen.DIALOG_RADIUS; // 对话框的圆角半径
+    private float mAlpha = CircleDimen.DIALOG_ALPHA; // 对话框透明度，范围：0-1；1不透明
     private int mX, mY;
     private int mSystemUiVisibility;
 
@@ -73,6 +75,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             mCanceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT);
             mCanceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK);
             mWidth = savedInstanceState.getFloat(SAVED_WIDTH);
+            mHeight = savedInstanceState.getFloat(SAVED_HEIGHT);
             mMaxHeight = savedInstanceState.getFloat(SAVED_HEIGHT_MAX);
             mPadding = savedInstanceState.getIntArray(SAVED_PADDING);
             mAnimStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE);
@@ -93,17 +96,25 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
 
     @Override
     public void onStart() {
-        if (getView() != null && mMaxHeight > 0) {
-            getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        final View view = getView();
+        if (view != null && (mMaxHeight > 0 || mHeight > 0)) {
+            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    int height = getView().getHeight();
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int viewHeight = view.getHeight();
                     int screenHeight = mSystemBarConfig.getScreenHeight();
-                    int maxHeight = (int) (screenHeight * mMaxHeight);
-                    if (height > maxHeight) {
-                        getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        getView().setLayoutParams(new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+
+                    if (mHeight > 0 && mHeight <= 1) {
+                        int height = (int) (screenHeight * mHeight);
+                        view.setLayoutParams(new FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.MATCH_PARENT, height));
+                    } else if (mMaxHeight > 0 && mMaxHeight <= 1) {
+                        int maxHeight = (int) (screenHeight * mMaxHeight);
+                        if (viewHeight > maxHeight) {
+                            view.setLayoutParams(new FrameLayout.LayoutParams(
+                                    FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+                        }
                     }
                 }
             });
@@ -124,6 +135,27 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             dialog.getWindow().getDecorView().setSystemUiVisibility(mSystemUiVisibility);
             dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_GRAVITY, mGravity);
+        outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside);
+        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
+        outState.putFloat(SAVED_WIDTH, mWidth);
+        outState.putFloat(SAVED_HEIGHT, mHeight);
+        outState.putFloat(SAVED_HEIGHT_MAX, mMaxHeight);
+        if (mPadding != null) {
+            outState.putIntArray(SAVED_PADDING, mPadding);
+        }
+        outState.putInt(SAVED_ANIM_STYLE, mAnimStyle);
+        outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled);
+        outState.putInt(SAVED_BACKGROUND_COLOR, mBackgroundColor);
+        outState.putInt(SAVED_RADIUS, mRadius);
+        outState.putFloat(SAVED_ALPHA, mAlpha);
+        outState.putInt(SAVED_X, mX);
+        outState.putInt(SAVED_Y, mY);
     }
 
     /**
@@ -164,27 +196,11 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(SAVED_GRAVITY, mGravity);
-        outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside);
-        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack);
-        outState.putFloat(SAVED_WIDTH, mWidth);
-        outState.putFloat(SAVED_HEIGHT_MAX, mMaxHeight);
-        if (mPadding != null) outState.putIntArray(SAVED_PADDING, mPadding);
-        outState.putInt(SAVED_ANIM_STYLE, mAnimStyle);
-        outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled);
-        outState.putInt(SAVED_BACKGROUND_COLOR, mBackgroundColor);
-        outState.putInt(SAVED_RADIUS, mRadius);
-        outState.putFloat(SAVED_ALPHA, mAlpha);
-        outState.putInt(SAVED_X, mX);
-        outState.putInt(SAVED_Y, mY);
-    }
-
     public void remove() {
         FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager == null) return;
+        if (fragmentManager == null) {
+            return;
+        }
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.remove(this);
         ft.addToBackStack(null);
@@ -239,6 +255,15 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
      */
     protected void setWidth(@FloatRange(from = 0.0, to = 1.0) float width) {
         mWidth = width;
+    }
+
+    /**
+     * 设置对话框宽度
+     *
+     * @param height 0.0 - 1.0
+     */
+    protected void setHeight(@FloatRange(from = 0.0, to = 1.0) float height) {
+        mHeight = height;
     }
 
     /**

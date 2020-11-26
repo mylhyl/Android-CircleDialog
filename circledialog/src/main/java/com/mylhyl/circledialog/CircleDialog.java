@@ -89,10 +89,11 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框位置
+         * 对话框位置
          *
          * @param gravity 位置
          * @return this Builder
+         * @see Gravity
          */
         public Builder setGravity(int gravity) {
             mCircleParams.dialogParams.gravity = gravity;
@@ -122,9 +123,9 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框宽度
+         * 对话框宽度
          *
-         * @param width 0.0 - 1.0
+         * @param width 范围值 0.0 - 1.0
          * @return this Builder
          */
         public Builder setWidth(@FloatRange(from = 0.0, to = 1.0) float width) {
@@ -133,9 +134,23 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框最大高度
+         * 对话框高度
+         * <p>
+         * 优先级高于{@link #setMaxHeight(float) setMaxHeight}
          *
-         * @param maxHeight 0.0 - 1.0
+         * @param height 范围值 0.0 - 1.0
+         * @return this Builder
+         * @since 3.2.1
+         */
+        public Builder setHeight(@FloatRange(from = 0.0, to = 1.0) float height) {
+            mCircleParams.dialogParams.height = height;
+            return this;
+        }
+
+        /**
+         * 对话框最大高度，如果实际高度小于 maxHeight 则高度为实际高度
+         *
+         * @param maxHeight 范围值 0.0 - 1.0
          * @return this Builder
          */
         public Builder setMaxHeight(@FloatRange(from = 0.0, to = 1.0) float maxHeight) {
@@ -144,7 +159,7 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框圆角
+         * 对话框圆角
          *
          * @param radius 半径
          * @return this Builder
@@ -155,9 +170,9 @@ public final class CircleDialog {
         }
 
         /**
-         * 设置对话框y 坐标偏移
+         * 对话框y轴的偏移量
          *
-         * @param yOff y 坐标偏移量，默认-1
+         * @param yOff
          * @return this Builder
          */
         public Builder setYoff(int yOff) {
@@ -165,6 +180,11 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 底部全屏宽
+         *
+         * @return
+         */
         public Builder bottomFull() {
             mCircleParams.dialogParams.gravity = Gravity.BOTTOM;
             mCircleParams.dialogParams.radius = 0;
@@ -210,6 +230,12 @@ public final class CircleDialog {
             return this;
         }
 
+        /**
+         * 标题栏字体颜色
+         *
+         * @param color rbg值
+         * @return Builder
+         */
         public Builder setTitleColor(@ColorInt int color) {
             newTitleParams();
             mCircleParams.titleParams.textColor = color;
@@ -238,6 +264,12 @@ public final class CircleDialog {
                 mCircleParams.subTitleParams = new SubTitleParams();
         }
 
+        /**
+         * 副标题字体颜色
+         *
+         * @param color rbg值
+         * @return Builder
+         */
         public Builder setSubTitleColor(@ColorInt int color) {
             newSubTitleParams();
             mCircleParams.subTitleParams.textColor = color;
@@ -294,8 +326,7 @@ public final class CircleDialog {
             }
         }
 
-        public Builder setItems(@NonNull BaseAdapter adapter
-                , OnLvItemClickListener listener) {
+        public Builder setItems(@NonNull BaseAdapter adapter, OnLvItemClickListener listener) {
             newItemsParams();
             mCircleParams.itemListViewType = true;
             ItemsParams params = mCircleParams.itemsParams;
@@ -313,8 +344,8 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager
-                , @NonNull OnRvItemClickListener listener) {
+        public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager,
+                                @NonNull OnRvItemClickListener listener) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
@@ -324,8 +355,8 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , @NonNull RecyclerView.LayoutManager layoutManager) {
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter,
+                                @NonNull RecyclerView.LayoutManager layoutManager) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
@@ -334,8 +365,7 @@ public final class CircleDialog {
             return this;
         }
 
-        public Builder setItems(@NonNull RecyclerView.Adapter adapter
-                , @NonNull RecyclerView.LayoutManager layoutManager
+        public Builder setItems(@NonNull RecyclerView.Adapter adapter, @NonNull RecyclerView.LayoutManager layoutManager
                 , @NonNull RecyclerView.ItemDecoration itemDecoration) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
@@ -491,7 +521,7 @@ public final class CircleDialog {
         /**
          * 输入框最大字符数量颜色
          *
-         * @param color 色值
+         * @param color rgb值
          * @return Builder
          */
         public Builder setInputCounterColor(@ColorInt int color) {

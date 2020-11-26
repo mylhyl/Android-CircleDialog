@@ -25,10 +25,12 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.CircleItemViewBinder;
+import com.mylhyl.circledialog.callback.ConfigDialog;
 import com.mylhyl.circledialog.callback.ConfigSubTitle;
 import com.mylhyl.circledialog.callback.ConfigTitle;
 import com.mylhyl.circledialog.engine.impl.Glide4ImageLoadEngine;
 import com.mylhyl.circledialog.params.CloseParams;
+import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TitleParams;
@@ -117,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
         switch (position) {
             case 0:
                 new CircleDialog.Builder()
+                        .setHeight(0.45f)
+                        .setWidth(0.7f)
                         .setTitle("标题")
                         .configTitle(new ConfigTitle() {
                             @Override
@@ -124,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                 params.isShowBottomDivider = true;
                             }
                         })
-                        .setWidth(0.5f)
                         .setText("提示框")
                         .setPositive("确定", null)
                         .setOnShowListener(dialog ->
@@ -143,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                            params.backgroundColorPress = Color.BLUE;
                         })
                         .setTitle("移动认证简介")
+//                        .setMaxHeight(0.6f)
                         .setSubTitle("更新日期:2019-01-16")
                         .configSubTitle(new ConfigSubTitle() {
                             @Override

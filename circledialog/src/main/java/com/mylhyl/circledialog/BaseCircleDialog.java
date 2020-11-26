@@ -81,6 +81,7 @@ public final class BaseCircleDialog extends AbsBaseCircleDialog implements Dialo
         setCanceledOnTouchOutside(dialogParams.canceledOnTouchOutside);
         setCanceledBack(dialogParams.cancelable);
         setWidth(dialogParams.width);
+        setHeight(dialogParams.height);
         setMaxHeight(dialogParams.maxHeight);
         int[] padding = dialogParams.mPadding;
         if (padding != null) {
