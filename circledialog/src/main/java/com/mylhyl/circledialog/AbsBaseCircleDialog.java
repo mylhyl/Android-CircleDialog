@@ -170,7 +170,7 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        CircleDrawable circleDrawable = new CircleDrawable(mBackgroundColor, Controller.dp2px(getContext(), mRadius));
+        CircleDrawable circleDrawable = new CircleDrawable(mBackgroundColor, mRadius);
         BackgroundHelper.handleBackground(view, circleDrawable);
 
         view.setAlpha(mAlpha);
@@ -271,7 +271,8 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
      * @param radius 半径
      */
     protected void setRadius(int radius) {
-        mRadius = radius;
+        mRadius = Controller.dp2px(getContext(), radius);
+        ;
     }
 
     /**
