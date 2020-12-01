@@ -135,7 +135,7 @@ public class Controller {
         viewButton.regNegativeListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mHandler.obtainMessage(BUTTON_NEGATIVE, viewClick == null ? viewButton : viewClick).sendToTarget();
+                mHandler.obtainMessage(BUTTON_NEGATIVE, viewButton).sendToTarget();
                 if (mParams.dialogParams.isManualClose) {
                     return;
                 }
@@ -156,7 +156,7 @@ public class Controller {
         viewButton.regNeutralListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mHandler.obtainMessage(BUTTON_NEUTRAL, viewClick == null ? viewButton : viewClick).sendToTarget();
+                mHandler.obtainMessage(BUTTON_NEUTRAL, viewButton).sendToTarget();
                 if (mParams.dialogParams.isManualClose) {
                     return;
                 }
