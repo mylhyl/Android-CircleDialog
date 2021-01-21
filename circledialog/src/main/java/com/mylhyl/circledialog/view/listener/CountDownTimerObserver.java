@@ -21,7 +21,7 @@ package com.mylhyl.circledialog.view.listener;
  * </ul>
  *
  * @author hupei
- * @since 3.5.6
+ * @since 5.3.6
  */
 public abstract class CountDownTimerObserver {
 

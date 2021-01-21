@@ -196,7 +196,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
         mPositiveButton.setId(android.R.id.button3);
         mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        // add: 2021/1/21 hupei since 3.5.6 倒计时
+        // add: 2021/1/21 hupei since 5.3.6 倒计时
         handlerCountDownTimer();
         handlePositiveStyle();
         addView(mPositiveButton);

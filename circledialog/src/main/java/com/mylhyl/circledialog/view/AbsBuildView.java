@@ -92,7 +92,7 @@ abstract class AbsBuildView implements BuildView {
         if (!mButtonView.isEmpty()) {
             DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
             mRootCardViewByLinearLayout.addView(dividerView);
-            // add: 2021/1/21 hupei since 3.5.6 倒计时
+            // add: 2021/1/21 hupei since 5.3.6 倒计时
             CountDownTimerObserver countDownTimerObserver = null;
             Object bodyView = getBodyView();
             if (bodyView instanceof BodyProgressView) {
