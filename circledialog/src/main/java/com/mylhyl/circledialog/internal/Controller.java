@@ -184,7 +184,6 @@ public final class Controller {
         }
         return getView();
     }
-
     public void refreshView() {
         getView().post(new Runnable() {
             @Override
@@ -216,6 +215,7 @@ public final class Controller {
         viewButton.regNegativeListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewButton.timerCancel();
                 if (mParams.circleListeners.clickNegativeListener != null) {
                     mParams.circleListeners.clickNegativeListener.onClick(v);
                 }
@@ -240,10 +240,26 @@ public final class Controller {
         });
     }
 
+    private void regPositiveListener(final ButtonView viewButton) {
+        viewButton.regPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewButton.timerRestart();
+                if (mParams.circleListeners.clickPositiveListener != null) {
+                    mParams.circleListeners.clickPositiveListener.onClick(v);
+                }
+                if (!mParams.dialogParams.manualClose) {
+                    mOnDialogListener.dialogDismiss();
+                }
+            }
+        });
+    }
+
     private void regPositiveInputListener(final ButtonView viewButton, final InputView inputView) {
         viewButton.regPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewButton.timerRestart();
                 EditText editText = inputView.getInput();
                 String text = editText.getText().toString();
                 if (mParams.circleListeners.inputListener == null) {
@@ -266,20 +282,6 @@ public final class Controller {
                 }
                 boolean b = mParams.circleListeners.bindBodyViewCallback.onBindBodyView(mCircleViewHolder);
                 if (b && !mParams.dialogParams.manualClose) {
-                    mOnDialogListener.dialogDismiss();
-                }
-            }
-        });
-    }
-
-    private void regPositiveListener(final ButtonView viewButton) {
-        viewButton.regPositiveListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mParams.circleListeners.clickPositiveListener != null) {
-                    mParams.circleListeners.clickPositiveListener.onClick(v);
-                }
-                if (!mParams.dialogParams.manualClose) {
                     mOnDialogListener.dialogDismiss();
                 }
             }

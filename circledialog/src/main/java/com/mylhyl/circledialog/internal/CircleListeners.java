@@ -3,6 +3,7 @@ package com.mylhyl.circledialog.internal;
 import android.content.DialogInterface;
 import android.view.View;
 
+import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 import com.mylhyl.circledialog.view.listener.OnBindBodyViewCallback;
@@ -84,7 +85,7 @@ public class CircleListeners {
     public OnInputCounterChangeListener inputCounterChangeListener;
     public OnAdItemClickListener adItemClickListener;
     public OnAdPageChangeListener adPageChangeListener;
-
+    public CountDownTimerObserver countDownTimerObserver;
     public OnBindBodyViewCallback bindBodyViewCallback;
 
     CircleListeners() {

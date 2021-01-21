@@ -1,6 +1,7 @@
 package com.mylhyl.circledialog.view;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,15 @@ import android.widget.TextView;
 
 import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
+import com.mylhyl.circledialog.internal.CountDownTimer;
 import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.view.listener.ButtonView;
+import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 对话框确定按钮与取消的视图
@@ -20,6 +26,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
  */
 abstract class AbsButton extends LinearLayout implements ButtonView {
 
+    private final List<CountDownTimerObserver> mCountDownTimerObservers = new ArrayList<>();
     protected ButtonParams mNegativeParams;
     protected ButtonParams mPositiveParams;
     protected ButtonParams mNeutralParams;
@@ -28,10 +35,18 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
     private TextView mNegativeButton;
     private TextView mPositiveButton;
     private TextView mNeutralButton;
+    private CountDownTimer mCountDownTimer;
 
     public AbsButton(Context context, CircleParams circleParams) {
         super(context);
         init(circleParams);
+    }
+
+    public void addCountDownTimerObserver(CountDownTimerObserver observer) {
+        if (observer == null || mCountDownTimerObservers.contains(observer)) {
+            return;
+        }
+        this.mCountDownTimerObservers.add(observer);
     }
 
     @Override
@@ -44,6 +59,7 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
     @Override
     public final void regPositiveListener(OnClickListener onClickListener) {
         if (mPositiveButton != null) {
+            timerRestart();
             mPositiveButton.setOnClickListener(onClickListener);
         }
     }
@@ -80,6 +96,20 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
         return mNegativeParams == null && mPositiveParams == null && mNeutralParams == null;
     }
 
+    @Override
+    public void timerRestart() {
+        if (mCountDownTimer != null) {
+            mCountDownTimer.restart();
+        }
+    }
+
+    @Override
+    public void timerCancel() {
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+    }
+
     protected abstract void initView();
 
     protected abstract void setNegativeButtonBackground(View view, int backgroundColor, CircleParams circleParams);
@@ -94,6 +124,8 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
         mPositiveParams = circleParams.positiveParams;
         mNeutralParams = circleParams.neutralParams;
         mOnCreateButtonListener = circleParams.circleListeners.createButtonListener;
+
+        addCountDownTimerObserver(circleParams.circleListeners.countDownTimerObserver);
 
         initView();
 
@@ -164,8 +196,41 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
         mPositiveButton.setId(android.R.id.button3);
         mPositiveButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        // add: 2021/1/21 hupei since 3.5.6 倒计时
+        handlerCountDownTimer();
         handlePositiveStyle();
         addView(mPositiveButton);
+    }
+
+    private void handlerCountDownTimer() {
+        if (mPositiveParams.countDownTime <= 0 || mPositiveParams.countDownInterval <= 0) {
+            return;
+        }
+        mCountDownTimer = new CountDownTimer(mPositiveParams.countDownTime, mPositiveParams.countDownInterval) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mPositiveParams.disable = true;
+                handlePositiveEnabled();
+                String textFormat = mPositiveParams.countDownText;
+                if (TextUtils.isEmpty(textFormat)) {
+                    textFormat = mPositiveParams.text.concat(ButtonParams.COUNT_DOWN_TEXT_FORMAT);
+                }
+                mPositiveButton.setText(String.format(textFormat, (millisUntilFinished / 1000) + 1));
+                for (CountDownTimerObserver observer : mCountDownTimerObservers) {
+                    observer.onTimerTick(millisUntilFinished);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                mPositiveParams.disable = false;
+                handlePositiveEnabled();
+                mPositiveButton.setText(mPositiveParams.text);
+                for (CountDownTimerObserver observer : mCountDownTimerObservers) {
+                    observer.onTimerFinish();
+                }
+            }
+        }.start();
     }
 
     private void handleNegativeStyle() {
@@ -202,11 +267,15 @@ abstract class AbsButton extends LinearLayout implements ButtonView {
         }
         mPositiveButton.setGravity(Gravity.CENTER);
         mPositiveButton.setText(mPositiveParams.text);
-        mPositiveButton.setEnabled(!mPositiveParams.disable);
-        mPositiveButton.setTextColor(mPositiveParams.disable ?
-                mPositiveParams.textColorDisable : mPositiveParams.textColor);
+        handlePositiveEnabled();
         mPositiveButton.setTextSize(mPositiveParams.textSize);
         mPositiveButton.setHeight(Controller.dp2px(getContext(), mPositiveParams.height));
         mPositiveButton.setTypeface(mPositiveButton.getTypeface(), mPositiveParams.styleText);
+    }
+
+    private void handlePositiveEnabled() {
+        mPositiveButton.setEnabled(!mPositiveParams.disable);
+        mPositiveButton.setTextColor(mPositiveParams.disable ?
+                mPositiveParams.textColorDisable : mPositiveParams.textColor);
     }
 }

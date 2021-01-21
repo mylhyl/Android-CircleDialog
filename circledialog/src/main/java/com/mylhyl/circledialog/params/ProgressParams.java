@@ -93,6 +93,11 @@ public class ProgressParams implements Parcelable {
      */
     public int indeterminateColor;
 
+    /**
+     * 超时文本，依赖于确定按钮的参数{@link ButtonParams#countDownTime}
+     */
+    public String timeoutText;
+
     public ProgressParams() {
     }
 
@@ -110,6 +115,7 @@ public class ProgressParams implements Parcelable {
         this.textSize = in.readInt();
         this.styleText = in.readInt();
         this.indeterminateColor = in.readInt();
+        this.timeoutText = in.readString();
     }
 
     @Override
@@ -132,5 +138,6 @@ public class ProgressParams implements Parcelable {
         dest.writeInt(this.textSize);
         dest.writeInt(this.styleText);
         dest.writeInt(this.indeterminateColor);
+        dest.writeString(this.timeoutText);
     }
 }

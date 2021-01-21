@@ -40,8 +40,10 @@ import com.mylhyl.circledialog.sample.entities.MySectionEntity;
 import com.mylhyl.circledialog.sample.entities.PictureTypeEntity;
 import com.mylhyl.circledialog.sample.entities.WeiBoItem;
 import com.mylhyl.circledialog.sample.list.CheckedAdapter;
+import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -292,6 +294,41 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                        dialogFragment.dismiss();
 //                    }
 //                }, 3000);
+                break;
+            case 重试等待框:
+                dialogFragment = new CircleDialog.Builder()
+                        .setManualClose(true)
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelable(false)
+                        .setWidth(0.6f)
+                        .setTitle("请稍后")
+
+//                        .setText("哈哈")
+
+                        // 进度框
+                        .setProgressText("正在发送...", "超时啦！请重试")
+                        .setProgressStyle(ProgressParams.STYLE_SPINNER)
+                        .setPositive("重试", v -> {
+                            Toast.makeText(MainActivity.this, "点了重试", Toast.LENGTH_SHORT).show();
+                        })
+
+                        // 输入框的倒计时
+//                        .setInputHint("输入")
+//                        .setPositiveInput("确定", new OnInputClickListener() {
+//                            @Override
+//                            public boolean onClick(String text, EditText editText) {
+//                                return false;
+//                            }
+//                        })
+                        .setNegative("取消", v -> dialogFragment.dialogDismiss())
+                        .setPositiveTime(10 * 1000, 1000, "再来(%d)", new CountDownTimerObserver() {
+
+                            @Override
+                            public void onTimerFinish() {
+                                Toast.makeText(MainActivity.this, "onTimerFinish", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show(getSupportFragmentManager());
                 break;
             case 动态改变内容:
                 builder = new CircleDialog.Builder();
@@ -832,9 +869,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     }
 
     public enum FunItem {
-        提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 动态改变内容, 自定义dialog, 倒计时, 三个按钮, 自定义ListAdapter多选,
-        Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享, RvVertical,
-        RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
+        提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 重试等待框, 动态改变内容, 自定义dialog, 倒计时, 三个按钮,
+        自定义ListAdapter多选, Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享,
+        RvVertical, RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
     }
 
 }

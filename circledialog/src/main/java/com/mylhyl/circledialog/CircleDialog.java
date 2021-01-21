@@ -41,6 +41,7 @@ import com.mylhyl.circledialog.params.SubTitleParams;
 import com.mylhyl.circledialog.params.TextParams;
 import com.mylhyl.circledialog.params.TitleParams;
 import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 import com.mylhyl.circledialog.view.listener.OnBindBodyViewCallback;
@@ -412,8 +413,20 @@ public final class CircleDialog {
          * @return this Builder
          */
         public Builder setProgressText(@NonNull String text) {
+            return setProgressText(text, "");
+        }
+
+        /**
+         * 设置进度条文本
+         *
+         * @param text        进度条文本，style = 水平样式时，支持String.format() 例如：已经下载%s
+         * @param timeoutText 超时文本 {@link #setPositive(String, long, long, View.OnClickListener)}
+         * @return this Builder
+         */
+        public Builder setProgressText(@NonNull String text, String timeoutText) {
             newProgressParams();
             mCircleParams.progressParams.text = text;
+            mCircleParams.progressParams.timeoutText = timeoutText;
             return this;
         }
 
@@ -879,6 +892,38 @@ public final class CircleDialog {
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
             mCircleParams.circleListeners.clickPositiveListener = listener;
+            return this;
+        }
+
+        /**
+         * 确定超时按钮
+         *
+         * @param countDownTime     倒计时时长
+         * @param countDownInterval 倒计时间隔
+         * @param observer          计时器观察者对象
+         * @return this Builder
+         */
+        public Builder setPositiveTime(long countDownTime, long countDownInterval, CountDownTimerObserver observer) {
+            return setPositiveTime(countDownTime, countDownInterval, "", observer);
+        }
+
+        /**
+         * 确定超时按钮
+         *
+         * @param countDownTime     倒计时时长
+         * @param countDownInterval 倒计时间隔
+         * @param countDownText     倒计时结束后的文本（支持占位符），如果为空则是：text + COUNT_DOWN_TEXT_FORMAT
+         * @param observer          计时器观察者对象
+         * @return this Builder
+         */
+        public Builder setPositiveTime(long countDownTime, long countDownInterval, String countDownText,
+                                       CountDownTimerObserver observer) {
+            newPositiveParams();
+            ButtonParams params = mCircleParams.positiveParams;
+            params.countDownTime = countDownTime;
+            params.countDownInterval = countDownInterval;
+            params.countDownText = countDownText;
+            mCircleParams.circleListeners.countDownTimerObserver = observer;
             return this;
         }
 

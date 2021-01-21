@@ -17,6 +17,7 @@ import com.mylhyl.circledialog.internal.Controller;
 import com.mylhyl.circledialog.params.CloseParams;
 import com.mylhyl.circledialog.view.listener.ButtonView;
 import com.mylhyl.circledialog.view.listener.CloseView;
+import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 
 /**
  * view的层次结构
@@ -86,11 +87,20 @@ abstract class AbsBuildView implements BuildView {
 
     @Override
     public ButtonView buildButton() {
-        mButtonView = new ConfirmButton(mContext, mParams);
+        ConfirmButton confirmButton = new ConfirmButton(mContext, mParams);
+        mButtonView = confirmButton;
         if (!mButtonView.isEmpty()) {
             DividerView dividerView = new DividerView(mContext, LinearLayout.HORIZONTAL);
             mRootCardViewByLinearLayout.addView(dividerView);
+            // add: 2021/1/21 hupei since 3.5.6 倒计时
+            CountDownTimerObserver countDownTimerObserver = null;
+            Object bodyView = getBodyView();
+            if (bodyView instanceof BodyProgressView) {
+                countDownTimerObserver = ((BodyProgressView) bodyView).getCountDownTimerObserver();
+            }
+            confirmButton.addCountDownTimerObserver(countDownTimerObserver);
         }
+
         mRootCardViewByLinearLayout.addView(mButtonView.getView());
         return mButtonView;
     }

@@ -12,7 +12,7 @@ import com.mylhyl.circledialog.res.values.CircleDimen;
  * Created by hupei on 2017/3/30.
  */
 public class ButtonParams implements Parcelable {
-
+    public static final String COUNT_DOWN_TEXT_FORMAT = "(%d)秒";
     public static final Creator<ButtonParams> CREATOR = new Creator<ButtonParams>() {
         @Override
         public ButtonParams createFromParcel(Parcel source) {
@@ -72,6 +72,21 @@ public class ButtonParams implements Parcelable {
      */
     public int styleText = Typeface.NORMAL;
 
+    /**
+     * 倒计时时长，毫秒，如果有效则默认禁用按钮 {@link #disable}
+     */
+    public long countDownTime;
+
+    /**
+     * 倒计时间隔，毫秒
+     */
+    public long countDownInterval;
+
+    /**
+     * 倒计时显示文本，也就是按钮的文本，支持占位符
+     */
+    public String countDownText;
+
     public ButtonParams() {
     }
 
@@ -86,6 +101,9 @@ public class ButtonParams implements Parcelable {
         this.textColorDisable = in.readInt();
         this.backgroundColorPress = in.readInt();
         this.styleText = in.readInt();
+        this.countDownTime = in.readLong();
+        this.countDownInterval = in.readLong();
+        this.countDownText = in.readString();
     }
 
     @Override
@@ -105,5 +123,8 @@ public class ButtonParams implements Parcelable {
         dest.writeInt(this.textColorDisable);
         dest.writeInt(this.backgroundColorPress);
         dest.writeInt(this.styleText);
+        dest.writeLong(this.countDownTime);
+        dest.writeLong(this.countDownInterval);
+        dest.writeString(this.countDownText);
     }
 }
