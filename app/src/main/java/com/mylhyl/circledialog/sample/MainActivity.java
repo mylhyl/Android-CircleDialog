@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setNegative("取消", null)
                         .setPositiveInput("确定", (text, v) -> {
                             if (TextUtils.isEmpty(text)) {
-                                Toast.makeText(MainActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                                v.setError("请输入内容");
                                 return false;
                             } else {
                                 Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
