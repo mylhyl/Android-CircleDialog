@@ -17,6 +17,7 @@ public class DialogLogin extends AbsBaseCircleDialog {
 
     public static DialogLogin getInstance() {
         DialogLogin dialogFragment = new DialogLogin();
+        dialogFragment.setRadius(10);
         dialogFragment.setBackgroundColor(CircleColor.DIALOG_BACKGROUND);
         return dialogFragment;
     }
