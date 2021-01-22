@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.mylhyl.circledialog.internal.BackgroundHelper;
 import com.mylhyl.circledialog.internal.CircleParams;
 import com.mylhyl.circledialog.internal.Controller;
+import com.mylhyl.circledialog.params.ButtonParams;
 import com.mylhyl.circledialog.params.DialogParams;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.values.CircleDimen;
@@ -102,8 +103,9 @@ final class BodyProgressView extends LinearLayout {
         this.mDialogParams = circleParams.dialogParams;
         this.mProgressParams = circleParams.progressParams;
         this.mOnCreateProgressListener = circleParams.circleListeners.createProgressListener;
+        ButtonParams positiveParams = circleParams.positiveParams;
         // add: 2021/1/21 hupei since 5.3.6 倒计时超时的文本
-        if (circleParams.positiveParams.countDownTime > 0 && circleParams.positiveParams.countDownInterval > 0) {
+        if (positiveParams != null && positiveParams.countDownTime > 0 && positiveParams.countDownInterval > 0) {
             mCountDownTimerObserver = new CountDownTimerObserver() {
                 @Override
                 public void onTimerTick(long millisUntilFinished) {
