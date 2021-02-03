@@ -26,6 +26,7 @@ import com.mylhyl.circledialog.view.listener.CloseView;
 import com.mylhyl.circledialog.view.listener.InputView;
 import com.mylhyl.circledialog.view.listener.ItemsView;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
+import com.mylhyl.circledialog.view.listener.OnButtonClickListener;
 import com.mylhyl.circledialog.view.listener.OnRvItemClickListener;
 
 /**
@@ -184,6 +185,7 @@ public final class Controller {
         }
         return getView();
     }
+
     public void refreshView() {
         getView().post(new Runnable() {
             @Override
@@ -216,10 +218,12 @@ public final class Controller {
             @Override
             public void onClick(View v) {
                 viewButton.timerCancel();
-                if (mParams.circleListeners.clickNegativeListener != null) {
-                    mParams.circleListeners.clickNegativeListener.onClick(v);
+                OnButtonClickListener listener = mParams.circleListeners.clickNegativeListener;
+                if (listener == null) {
+                    mOnDialogListener.dialogDismiss();
+                    return;
                 }
-                if (!mParams.dialogParams.manualClose) {
+                if (listener.onClick(v) && !mParams.dialogParams.manualClose) {
                     mOnDialogListener.dialogDismiss();
                 }
             }
@@ -230,10 +234,12 @@ public final class Controller {
         viewButton.regNeutralListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mParams.circleListeners.clickNeutralListener != null) {
-                    mParams.circleListeners.clickNeutralListener.onClick(v);
+                OnButtonClickListener listener = mParams.circleListeners.clickNeutralListener;
+                if (listener == null) {
+                    mOnDialogListener.dialogDismiss();
+                    return;
                 }
-                if (!mParams.dialogParams.manualClose) {
+                if (listener.onClick(v) && !mParams.dialogParams.manualClose) {
                     mOnDialogListener.dialogDismiss();
                 }
             }
@@ -245,10 +251,12 @@ public final class Controller {
             @Override
             public void onClick(View v) {
                 viewButton.timerRestart();
-                if (mParams.circleListeners.clickPositiveListener != null) {
-                    mParams.circleListeners.clickPositiveListener.onClick(v);
+                OnButtonClickListener listener = mParams.circleListeners.clickPositiveListener;
+                if (listener == null) {
+                    mOnDialogListener.dialogDismiss();
+                    return;
                 }
-                if (!mParams.dialogParams.manualClose) {
+                if (listener.onClick(v) && !mParams.dialogParams.manualClose) {
                     mOnDialogListener.dialogDismiss();
                 }
             }
@@ -263,6 +271,7 @@ public final class Controller {
                 EditText editText = inputView.getInput();
                 String text = editText.getText().toString();
                 if (mParams.circleListeners.inputListener == null) {
+                    mOnDialogListener.dialogDismiss();
                     return;
                 }
                 boolean b = mParams.circleListeners.inputListener.onClick(text, editText);
@@ -278,6 +287,7 @@ public final class Controller {
             @Override
             public void onClick(View v) {
                 if (mParams.circleListeners.bindBodyViewCallback == null) {
+                    mOnDialogListener.dialogDismiss();
                     return;
                 }
                 boolean b = mParams.circleListeners.bindBodyViewCallback.onBindBodyView(mCircleViewHolder);

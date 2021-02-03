@@ -36,9 +36,9 @@ abstract class AbsBuildView implements BuildView {
     protected Context mContext;
     protected CircleParams mParams;
     protected ViewGroup mRoot;
-    private LinearLayout mRootCardViewByLinearLayout;
+    protected LinearLayout mRootCardViewByLinearLayout;
     private TitleView mTitleView;
-    private ButtonView mButtonView;
+    protected ButtonView mButtonView;
 
     public AbsBuildView(Context context, CircleParams params) {
         this.mContext = context;

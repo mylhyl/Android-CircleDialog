@@ -7,6 +7,7 @@ import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 import com.mylhyl.circledialog.view.listener.OnBindBodyViewCallback;
+import com.mylhyl.circledialog.view.listener.OnButtonClickListener;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -33,17 +34,17 @@ public class CircleListeners {
     /**
      * 确定按钮点击事件
      */
-    public View.OnClickListener clickPositiveListener;
+    public OnButtonClickListener clickPositiveListener;
 
     /**
      * 中间按钮点击事件
      */
-    public View.OnClickListener clickNeutralListener;
+    public OnButtonClickListener clickNeutralListener;
 
     /**
      * 取消按钮点击事件
      */
-    public View.OnClickListener clickNegativeListener;
+    public OnButtonClickListener clickNegativeListener;
 
     /**
      * 输入框确定事件

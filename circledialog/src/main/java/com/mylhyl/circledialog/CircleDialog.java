@@ -45,6 +45,7 @@ import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
 import com.mylhyl.circledialog.view.listener.OnBindBodyViewCallback;
+import com.mylhyl.circledialog.view.listener.OnButtonClickListener;
 import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 import com.mylhyl.circledialog.view.listener.OnCreateButtonListener;
 import com.mylhyl.circledialog.view.listener.OnCreateInputListener;
@@ -420,7 +421,7 @@ public final class CircleDialog {
          * 设置进度条文本
          *
          * @param text        进度条文本，style = 水平样式时，支持String.format() 例如：已经下载%s
-         * @param timeoutText 超时文本 {@link #setPositive(String, long, long, View.OnClickListener)}
+         * @param timeoutText 超时文本 {@link #setPositive(String, OnButtonClickListener)}
          * @return this Builder
          */
         public Builder setProgressText(@NonNull String text, String timeoutText) {
@@ -887,7 +888,7 @@ public final class CircleDialog {
          * @param listener 事件
          * @return this Builder
          */
-        public Builder setPositive(@NonNull String text, View.OnClickListener listener) {
+        public Builder setPositive(@NonNull String text, OnButtonClickListener listener) {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
             params.text = text;
@@ -958,7 +959,7 @@ public final class CircleDialog {
          * @param listener 事件
          * @return this Builder
          */
-        public Builder setNegative(@NonNull String text, View.OnClickListener listener) {
+        public Builder setNegative(@NonNull String text, OnButtonClickListener listener) {
             newNegativeParams();
             ButtonParams params = mCircleParams.negativeParams;
             params.text = text;
@@ -985,7 +986,7 @@ public final class CircleDialog {
          * @param listener 事件
          * @return this Builder
          */
-        public Builder setNeutral(@NonNull String text, View.OnClickListener listener) {
+        public Builder setNeutral(@NonNull String text, OnButtonClickListener listener) {
             newNeutralParams();
             ButtonParams params = mCircleParams.neutralParams;
             params.text = text;

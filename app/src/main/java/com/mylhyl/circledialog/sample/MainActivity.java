@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuInflater;
@@ -43,7 +44,7 @@ import com.mylhyl.circledialog.sample.list.CheckedAdapter;
 import com.mylhyl.circledialog.view.listener.CountDownTimerObserver;
 import com.mylhyl.circledialog.view.listener.OnAdItemClickListener;
 import com.mylhyl.circledialog.view.listener.OnAdPageChangeListener;
-import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnButtonClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,8 +127,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                            params.padding = new int[]{100, 0, 100, 50};
                         })
                         .setNegative("取消", null)
-                        .setPositive("确定", v ->
-                                Toast.makeText(MainActivity.this, "确定0", Toast.LENGTH_SHORT).show())
+                        .setPositive("确定", v -> {
+                            Toast.makeText(MainActivity.this, "确定0", Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .configPositive(params -> params.backgroundColorPress = Color.RED)
                         .show(getSupportFragmentManager());
                 break;
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                })
                         .setNegative("取消", null)
 //                        .setNeutral("中间", null)
-//                        .setPositive("确定", null)
+                        .setPositive("确定", null)
 //                        .configNegative(new ConfigButton() {
 //                            @Override
 //                            public void onConfig(ButtonParams params) {
@@ -226,7 +229,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setProgressText("已经下载")
 //                        .setProgressText("已经下载%s了")
 //                        .setProgressDrawable(R.drawable.bg_progress_h)
-                        .setNegative("取消", v -> timer.cancel())
+                        .setNegative("取消", v -> {
+                            timer.cancel();
+                            return true;
+                        })
                         .show(getSupportFragmentManager());
                 TimerTask timerTask = new TimerTask() {
                     final int max = 222;
@@ -310,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setProgressStyle(ProgressParams.STYLE_SPINNER)
                         .setPositive("重试", v -> {
                             Toast.makeText(MainActivity.this, "点了重试", Toast.LENGTH_SHORT).show();
+                            return true;
                         })
 
                         // 输入框的倒计时
@@ -320,7 +327,13 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                return false;
 //                            }
 //                        })
-                        .setNegative("取消", v -> dialogFragment.dialogDismiss())
+                        .setNegative("取消", new OnButtonClickListener() {
+                            @Override
+                            public boolean onClick(View v) {
+                                dialogFragment.dialogDismiss();
+                                return true;
+                            }
+                        })
                         .setPositiveTime(10 * 1000, 1000, "再来(%d)", new CountDownTimerObserver() {
 
                             @Override
@@ -413,14 +426,20 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setText("提示框")
                         .configText(params -> params.styleText = Typeface.BOLD)
                         .setOnCreateTextListener(textBody -> textBody.setText("重新设置对话框内容"))
-                        .setNegative("取消", v ->
-                                Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show())
+                        .setNegative("取消", v -> {
+                            Toast.makeText(MainActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .configNegative(params -> params.styleText = Typeface.BOLD)
-                        .setNeutral("中间", v ->
-                                Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show())
+                        .setNeutral("中间", v -> {
+                            Toast.makeText(MainActivity.this, "中间", Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .configNeutral(params -> params.styleText = Typeface.BOLD)
-                        .setPositive("确定", v ->
-                                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show())
+                        .setPositive("确定", v -> {
+                            Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .configPositive(params -> params.styleText = Typeface.BOLD)
                         .setOnCreateButtonListener((negativeButton, positiveButton, neutralButton) -> {
                             negativeButton.setText("取消？");
@@ -429,23 +448,34 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         })
                         .show(getSupportFragmentManager());
                 break;
-            case 自定义ListAdapter多选:
+            case 自定义复选Adapter:
                 final String[] objects = {"item0", "item1", "item2", "item3"};
                 final CheckedAdapter checkedAdapter = new CheckedAdapter(this, objects);
 
                 new CircleDialog.Builder()
                         // .setTypeface(typeface)
-                        .configDialog(params -> params.backgroundColorPress = Color.CYAN)
-                        .setTitle("带复选的ListView")
+                        .setGravity(Gravity.CENTER)
+                        .setTitle("自定义复选adapter")
                         .setSubTitle("可多选")
                         .setItems(checkedAdapter, (parent, view12, position12, id) -> {
                                     checkedAdapter.toggle(position12, objects[position12]);
                                     return false;
                                 }
                         )
-                        .setPositive("确定", v -> Toast.makeText(MainActivity.this
-                                , "选择了：" + checkedAdapter.getSaveChecked().toString()
-                                , Toast.LENGTH_SHORT).show())
+                        .configItems(params -> {
+                            params.bottomMargin = 0; // 0底部按钮左上右上就没有圆角了
+                        })
+                        .setNegative("取消", null)
+                        .setPositive("确定", v -> {
+                            SparseArray<String> saveChecked = checkedAdapter.getSaveChecked();
+                            if (saveChecked.size() == 0) {
+                                Toast.makeText(MainActivity.this, "请选择", Toast.LENGTH_SHORT).show();
+                                return false;
+                            }
+                            String str = saveChecked.toString();
+                            Toast.makeText(MainActivity.this, "选择了：" + str, Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .show(getSupportFragmentManager());
                 break;
             case Rv换头像:
@@ -471,8 +501,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("副标题：请从以下中选择照片的方式进行提交")
                         .configItems(params -> params.dividerHeight = 0)
                         .setItems(list, gridLayoutManager, (view13, position13) -> {
-                            Toast.makeText(MainActivity.this, "点击了：" + list.get(position13)
-                                    , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "点击了：" + list.get(position13), Toast.LENGTH_SHORT).show();
                             return true;
                         })
                         .setItemsViewBinder((CircleItemViewBinder<PictureTypeEntity>)
@@ -545,9 +574,11 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             checkedAdapterR.toggle(position15, objectsR[position15]);
                             return false;
                         })
-                        .setPositive("确定", v -> Toast.makeText(MainActivity.this
-                                , "选择了：" + checkedAdapterR.getSaveChecked().toString()
-                                , Toast.LENGTH_SHORT).show())
+                        .setPositive("确定", v -> {
+                            String string = checkedAdapterR.getSaveChecked().toString();
+                            Toast.makeText(MainActivity.this, "选择了：" + string, Toast.LENGTH_SHORT).show();
+                            return true;
+                        })
                         .show(getSupportFragmentManager());
                 break;
             case 自定义内容视图:
@@ -870,7 +901,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
     public enum FunItem {
         提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 重试等待框, 动态改变内容, 自定义dialog, 倒计时, 三个按钮,
-        自定义ListAdapter多选, Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享,
+        自定义复选Adapter, Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享,
         RvVertical, RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
     }
 

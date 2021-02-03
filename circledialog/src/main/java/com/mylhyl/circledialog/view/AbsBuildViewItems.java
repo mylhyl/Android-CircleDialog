@@ -45,9 +45,13 @@ abstract class AbsBuildViewItems extends AbsBuildView {
 
     @Override
     public void buildRootView() {
+        if (mParams.itemsParams.bottomMargin == 0) {
+            super.buildRootView();
+            return;
+        }
+
         LinearLayout rootLayout = new LinearLayout(mContext);
         rootLayout.setOrientation(LinearLayout.VERTICAL);
-
         CardView cardView = createCardView();
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -66,9 +70,13 @@ abstract class AbsBuildViewItems extends AbsBuildView {
 
     @Override
     public ButtonView buildButton() {
+        if (mParams.itemsParams.bottomMargin == 0) {
+            return super.buildButton();
+        }
         ItemsButton itemsButton = new ItemsButton(mContext, mParams);
+        mButtonView = itemsButton;
         mRoot.addView(itemsButton);
-        return itemsButton;
+        return mButtonView;
     }
 
 }

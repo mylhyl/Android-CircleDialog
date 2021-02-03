@@ -4,6 +4,8 @@ import android.widget.EditText;
 
 /**
  * Created by hupei on 2017/3/30.
+ * <p>
+ * 输入框的确定按钮事件
  */
 public interface OnInputClickListener {
     /**
