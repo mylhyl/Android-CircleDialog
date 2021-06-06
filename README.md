@@ -1,3 +1,24 @@
+### JCenter迁移说明
+ `JCenter`服务已经宣布停止维护，对于`旧版本`大家可以使用阿里云镜像引用，以后`新版本`将会发布在`JitPack`
+ #### 1、旧版本阿里云镜像引用方式
+ 在项目根目录下的`build.gradle`文件中加入
+```
+ allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    }
+ }
+```
+ #### 1、新版本JitPack引用方式
+ 在项目根目录下的`build.gradle`文件中加入
+```
+ allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+ }
+```
+
 # Android-CircleDialog
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
