@@ -2,6 +2,7 @@ package com.mylhyl.circledialog.sample;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -72,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         FunItem funItem = (FunItem) adapter.getItem(position);
         switch (funItem) {
+            case fragment:
+                startActivity(new Intent(this, FgtAty.class));
+                break;
             case 提示框:
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
@@ -900,6 +904,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
     }
 
     public enum FunItem {
+        fragment,
         提示框, 确定框, 换头像, 输入框, 进度框, 等待框, 重试等待框, 动态改变内容, 自定义dialog, 倒计时, 三个按钮,
         自定义复选Adapter, Rv换头像, 自定义RvAdapter, 自定义ListAdapter单选, 自定义内容视图, lottie动画框, 仿微博分享,
         RvVertical, RvHorizontal, 广告无x, 广告下有x, 广告左上有x, 自定义body输入框的响应, 密码确认框
