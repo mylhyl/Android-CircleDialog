@@ -1,3 +1,24 @@
+### JCenter迁移说明
+ `JCenter`服务已经宣布停止维护，对于`旧版本`大家可以使用阿里云镜像引用，以后`新版本`将会发布在`JitPack`
+ #### 1、旧版本阿里云镜像引用方式
+ 在项目根目录下的`build.gradle`文件中加入
+```
+ allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    }
+ }
+```
+ #### 1、新版本JitPack引用方式
+ 在项目根目录下的`build.gradle`文件中加入
+```
+ allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+ }
+```
+
 # Android-CircleDialog
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -41,9 +62,6 @@
  * 3.0.9开始，刷新dialog界面的方法由`create`改为`refresh`
  * v4版本开始，除字体大小保持原来的`sp`单位，偏移量`px`外，其它宽、高、间距、均改为了`dp`单位
  * v5版本已经适配为`androidx`
-
-# 未完成功能
- * popup在item中智能识别弹出位置
 
 # 联系方式
  * 可能会因为工作忙碌原因没有及时回复，请联系我的个人微信号：`48025211`
