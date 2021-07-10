@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         .setCloseResId(R.mipmap.ic_close)
                         //.setTypeface(typeface)
-                        .setMaxHeight(0.8f)
+                        .setMaxHeight(0.7f)
                         .setCanceledOnTouchOutside(false)
                         .setCancelable(false)
                         .configDialog(params -> {
@@ -547,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         //.setTypeface(typeface)
                         .setRadius(0)
                         .setWidth(1f)
-//                        .setMaxHeight(0.7f)
+                        .setMaxHeight(0.6f)
                         .setYoff(0)
                         .setTitle("rvAdapter")
                         .setSubTitle("副标题哦！")
@@ -670,18 +670,14 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 break;
             case RvVertical:
                 final List<PictureTypeEntity> rvListForV = new ArrayList<>();
-                rvListForV.add(new PictureTypeEntity(1, "拍照"));
-                rvListForV.add(new PictureTypeEntity(2, "从相册选择"));
-                rvListForV.add(new PictureTypeEntity(3, "小视频"));
-                rvListForV.add(new PictureTypeEntity(4, "拍照1"));
-                rvListForV.add(new PictureTypeEntity(5, "从相册选择1"));
-                rvListForV.add(new PictureTypeEntity(6, "小视频1"));
-                rvListForV.add(new PictureTypeEntity(7, "拍照2"));
-                rvListForV.add(new PictureTypeEntity(8, "从相册选择3"));
-                rvListForV.add(new PictureTypeEntity(9, "小视频4"));
+                for (int i = 0; i < 3 * 11; i += 3) {
+                    rvListForV.add(new PictureTypeEntity(i, "拍照" + i));
+                    rvListForV.add(new PictureTypeEntity(i + 1, "从相册选择" + (i + 1)));
+                    rvListForV.add(new PictureTypeEntity(i + 2, "小视频" + (i + 2)));
+                }
                 new CircleDialog.Builder()
                         // .setTypeface(typeface)
-                        .setMaxHeight(0.7f)
+                        .setMaxHeight(0.5f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
 //                        .setTitle("Rv Vertical")
                         .configItems(params -> params.dividerHeight = 1)
@@ -709,7 +705,6 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 
                 new CircleDialog.Builder()
                         // .setTypeface(typeface)
-                        .setMaxHeight(0.7f)
                         .configDialog(params -> params.backgroundColorPress = Color.CYAN)
                         .setTitle("Rv Horizontal")
                         .configItems(params -> params.dividerHeight = 2)
