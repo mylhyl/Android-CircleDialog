@@ -38,7 +38,7 @@
 
 # 引入
 ```xml
- implementation 'com.mylhyl:circleDialog:5.3.7.1'
+ implementation 'com.github.mylhyl:Android-CircleDialog:5.3.8'
 ```
 如果版本号后面有-alpha，那说明最后一个版本是预览版，可能存在bug谨慎使用，稳定版则没有-alpha后缀  
 例如  
