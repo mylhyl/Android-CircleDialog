@@ -9,8 +9,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
@@ -98,21 +100,21 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
 
     @Override
     public void onStart() {
-//        if (getView() != null && mMaxHeight > 0) {
-//            getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//                @Override
-//                public void onGlobalLayout() {
-//                    int height = getView().getHeight();
-//                    int screenHeight = mSystemBarConfig.getScreenHeight();
-//                    int maxHeight = (int) (screenHeight * mMaxHeight);
-//                    if (height > maxHeight) {
-//                        getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                        getView().setLayoutParams(new FrameLayout.LayoutParams(
-//                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
-//                    }
-//                }
-//            });
-//        }
+        if (getView() != null && mMaxHeight > 0) {
+            getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int height = getView().getHeight();
+                    int screenHeight = mSystemBarConfig.getScreenHeight();
+                    int maxHeight = (int) (screenHeight * mMaxHeight);
+                    if (height > maxHeight) {
+                        getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        getView().setLayoutParams(new FrameLayout.LayoutParams(
+                                FrameLayout.LayoutParams.MATCH_PARENT, maxHeight));
+                    }
+                }
+            });
+        }
         Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside);
@@ -323,11 +325,6 @@ public abstract class AbsBaseCircleDialog extends DialogFragment {
             wlp.width = (int) (screenWidth * mWidth);//宽度按屏幕大小的百分比设置
         } else {
             wlp.width = (int) mWidth;
-        }
-        if (mMaxHeight > 0 && mMaxHeight <= 1) {
-            int screenHeight = mSystemBarConfig.getScreenHeight();
-            int maxHeight = (int) (screenHeight * mMaxHeight);
-            wlp.height = maxHeight;
         }
         wlp.gravity = mGravity;
         wlp.x = mX;

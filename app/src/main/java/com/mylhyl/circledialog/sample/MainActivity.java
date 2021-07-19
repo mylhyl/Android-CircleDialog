@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 dialogFragment = new CircleDialog.Builder()
                         //.setTypeface(typeface)
                         .setTitle("标题")
+                        .setMaxHeight(0.8f)
                         //.setManualClose(true)
                         .configTitle(params -> params.isShowBottomDivider = true)
                         .setWidth(0.5f)
@@ -723,6 +724,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                 new CircleDialog.Builder()
                         //  .setTypeface(typeface)
                         .setWidth(0.5f)
+                        .setCloseResId(R.mipmap.ic_close, 27)
+                        .setCloseGravity(CloseParams.CLOSE_TOP_RIGHT)
                         .setAdResId(R.mipmap.ic_zfbxcc, (view18, position18) -> {
                             Toast.makeText(MainActivity.this, "点击了"
                                     , Toast.LENGTH_SHORT).show();
