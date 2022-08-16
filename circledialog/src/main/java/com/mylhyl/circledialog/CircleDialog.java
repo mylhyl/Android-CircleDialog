@@ -361,7 +361,7 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull Object items, RecyclerView.LayoutManager layoutManager,
-                                @NonNull OnRvItemClickListener listener) {
+                @NonNull OnRvItemClickListener listener) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
@@ -372,7 +372,7 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull RecyclerView.Adapter adapter,
-                                @NonNull RecyclerView.LayoutManager layoutManager) {
+                @NonNull RecyclerView.LayoutManager layoutManager) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
@@ -382,8 +382,8 @@ public final class CircleDialog {
         }
 
         public Builder setItems(@NonNull RecyclerView.Adapter adapter,
-                                @NonNull RecyclerView.LayoutManager layoutManager,
-                                @NonNull RecyclerView.ItemDecoration itemDecoration) {
+                @NonNull RecyclerView.LayoutManager layoutManager,
+                @NonNull RecyclerView.ItemDecoration itemDecoration) {
             newItemsParams();
             mCircleParams.itemListViewType = false;
             ItemsParams params = mCircleParams.itemsParams;
@@ -897,6 +897,28 @@ public final class CircleDialog {
         }
 
         /**
+         * 确定按钮
+         *
+         * @param text     按钮文本
+         * @param listener 事件
+         * @return this Builder
+         * @deprecated
+         */
+        public Builder setPositive(@NonNull String text, final View.OnClickListener listener) {
+            newPositiveParams();
+            ButtonParams params = mCircleParams.positiveParams;
+            params.text = text;
+            mCircleParams.circleListeners.clickPositiveListener = new OnButtonClickListener() {
+                @Override
+                public boolean onClick(View v) {
+                    listener.onClick(v);
+                    return true;
+                }
+            };
+            return this;
+        }
+
+        /**
          * 确定超时按钮
          *
          * @param countDownTime     倒计时时长
@@ -918,7 +940,7 @@ public final class CircleDialog {
          * @return this Builder
          */
         public Builder setPositiveTime(long countDownTime, long countDownInterval, String countDownText,
-                                       CountDownTimerObserver observer) {
+                CountDownTimerObserver observer) {
             newPositiveParams();
             ButtonParams params = mCircleParams.positiveParams;
             params.countDownTime = countDownTime;
@@ -968,6 +990,28 @@ public final class CircleDialog {
         }
 
         /**
+         * 取消按钮
+         *
+         * @param text     按钮文本
+         * @param listener 事件
+         * @return this Builder
+         * @deprecated
+         */
+        public Builder setNegative(@NonNull String text, final View.OnClickListener listener) {
+            newNegativeParams();
+            ButtonParams params = mCircleParams.negativeParams;
+            params.text = text;
+            mCircleParams.circleListeners.clickNegativeListener = new OnButtonClickListener() {
+                @Override
+                public boolean onClick(View v) {
+                    listener.onClick(v);
+                    return true;
+                }
+            };
+            return this;
+        }
+
+        /**
          * 配置取消按钮
          *
          * @param configButton configButton
@@ -991,6 +1035,28 @@ public final class CircleDialog {
             ButtonParams params = mCircleParams.neutralParams;
             params.text = text;
             mCircleParams.circleListeners.clickNeutralListener = listener;
+            return this;
+        }
+
+        /**
+         * 中间按钮
+         *
+         * @param text     按钮文本
+         * @param listener 事件
+         * @return this Builder
+         * @deprecated
+         */
+        public Builder setNeutral(@NonNull String text, final View.OnClickListener listener) {
+            newNeutralParams();
+            ButtonParams params = mCircleParams.neutralParams;
+            params.text = text;
+            mCircleParams.circleListeners.clickNeutralListener = new OnButtonClickListener() {
+                @Override
+                public boolean onClick(View v) {
+                    listener.onClick(v);
+                    return true;
+                }
+            };
             return this;
         }
 
