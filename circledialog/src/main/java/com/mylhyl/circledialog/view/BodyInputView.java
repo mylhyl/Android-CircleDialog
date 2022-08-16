@@ -5,8 +5,10 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -102,6 +104,8 @@ final class BodyInputView extends RelativeLayout implements InputView {
     private void createInput() {
         mEditText = new EditText(getContext());
         mEditText.setId(android.R.id.input);
+        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         int inputType = mInputParams.inputType;
         if (inputType != InputType.TYPE_NULL) {
             mEditText.setInputType(mInputParams.inputType);
