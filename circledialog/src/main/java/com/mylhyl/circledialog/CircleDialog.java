@@ -13,6 +13,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -905,17 +906,16 @@ public final class CircleDialog {
          * @deprecated
          */
         public Builder setPositive(@NonNull String text, final View.OnClickListener listener) {
-            newPositiveParams();
-            ButtonParams params = mCircleParams.positiveParams;
-            params.text = text;
-            mCircleParams.circleListeners.clickPositiveListener = new OnButtonClickListener() {
+            return setPositive(text, new OnButtonClickListener() {
                 @Override
                 public boolean onClick(View v) {
-                    listener.onClick(v);
+                    if (listener != null) {
+                        listener.onClick(v);
+                    }
                     return true;
                 }
-            };
-            return this;
+            });
+
         }
 
         /**
@@ -997,18 +997,16 @@ public final class CircleDialog {
          * @return this Builder
          * @deprecated
          */
-        public Builder setNegative(@NonNull String text, final View.OnClickListener listener) {
-            newNegativeParams();
-            ButtonParams params = mCircleParams.negativeParams;
-            params.text = text;
-            mCircleParams.circleListeners.clickNegativeListener = new OnButtonClickListener() {
+        public Builder setNegative(@NonNull String text, @Nullable final View.OnClickListener listener) {
+            return setNegative(text, new OnButtonClickListener() {
                 @Override
                 public boolean onClick(View v) {
-                    listener.onClick(v);
+                    if (listener != null) {
+                        listener.onClick(v);
+                    }
                     return true;
                 }
-            };
-            return this;
+            });
         }
 
         /**
@@ -1047,17 +1045,15 @@ public final class CircleDialog {
          * @deprecated
          */
         public Builder setNeutral(@NonNull String text, final View.OnClickListener listener) {
-            newNeutralParams();
-            ButtonParams params = mCircleParams.neutralParams;
-            params.text = text;
-            mCircleParams.circleListeners.clickNeutralListener = new OnButtonClickListener() {
+            return setNeutral(text, new OnButtonClickListener() {
                 @Override
                 public boolean onClick(View v) {
-                    listener.onClick(v);
+                    if (listener != null) {
+                        listener.onClick(v);
+                    }
                     return true;
                 }
-            };
-            return this;
+            });
         }
 
         /**

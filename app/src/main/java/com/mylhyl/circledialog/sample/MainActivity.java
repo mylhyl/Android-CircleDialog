@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configTitle(params -> params.isShowBottomDivider = true)
                         .setWidth(0.5f)
                         .setText("提示框")
-                        .setPositive("确定", null)
+                        .setPositive("确定", (OnButtonClickListener) null)
                         .setOnShowListener((dialog, viewHolder) ->
                                 Toast.makeText(MainActivity.this, "显示了！", Toast.LENGTH_SHORT).show())
                         .setOnCancelListener(dialog ->
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             params.gravity = Gravity.LEFT | Gravity.TOP;
 //                            params.padding = new int[]{100, 0, 100, 50};
                         })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .setPositive("确定", v -> {
                             Toast.makeText(MainActivity.this, "确定0", Toast.LENGTH_SHORT).show();
                             return true;
@@ -174,9 +174,9 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                        itemView.setTextColor(Color.RED);
 //                                    }
 //                                })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
 //                        .setNeutral("中间", null)
-                        .setPositive("确定", null)
+                        .setPositive("确定", (OnButtonClickListener) null)
 //                        .configNegative(new ConfigButton() {
 //                            @Override
 //                            public void onConfig(ButtonParams params) {
@@ -196,10 +196,10 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("提示人物是什么？")
                         .setInputHint("请输入条件")
                         .setInputText("默认文本")
-                        .setInputHeight(115)
+//                        .setInputHeight(115)
 //                        .setInputShowKeyboard(true)
                         .setInputEmoji(true)
-                        .setInputCounter(10)
+                        .setInputCounter(2048)
 //                        .setInputCounter(20, (maxLen, currentLen) -> maxLen - currentLen + "/" + maxLen)
                         .configInput(params -> {
 //                            params.isCounterAllEn = true;
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             //文字加粗
                             params.styleText = Typeface.BOLD;
                         })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .setPositiveInput("确定", (text, v) -> {
                             if (TextUtils.isEmpty(text)) {
                                 v.setError("请输入内容");
@@ -383,8 +383,8 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setTitle("标题")
                         .setText("提示框")
                         .configPositive(params -> params.disable = true)
-                        .setPositive("确定(" + time + "s)", null)
-                        .setNegative("取消", null);
+                        .setPositive("确定(" + time + "s)", (OnButtonClickListener) null)
+                        .setNegative("取消", (OnButtonClickListener) null);
                 builder.setOnDismissListener(dialog -> removeRunnable());
                 dialogFragment = builder.show(getSupportFragmentManager());
 
@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .configItems(params -> {
                             params.bottomMargin = 0; // 0底部按钮左上右上就没有圆角了
                         })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .setPositive("确定", v -> {
                             SparseArray<String> saveChecked = checkedAdapter.getSaveChecked();
                             if (saveChecked.size() == 0) {
@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                         itemView.setTextColor(Color.RED);
                                     }
                                 })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .show(getSupportFragmentManager());
                 break;
             case 自定义RvAdapter:
@@ -554,7 +554,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                         .setSubTitle("副标题哦！")
                         .setItems(rvAdapter, new LinearLayoutManager(this))
                         .configItems(params -> params.bottomMargin = 0)
-                        .setNegative("关闭", null)
+                        .setNegative("关闭", (OnButtonClickListener) null)
                         .configNegative(params -> params.topMargin = 0)
                         .show(getSupportFragmentManager());
                 rvAdapter.setOnItemClickListener((adapter1, view14, position14) -> {
@@ -595,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
 //                                    , 0, 0, 0, 0);
 //                            viewHolder.setBackgroundDrawable(R.id.root_body, bgCircleDrawable);
                         })
-                        .setNegative("关闭", null)
+                        .setNegative("关闭", (OnButtonClickListener) null)
                         .show(getSupportFragmentManager());
                 break;
             case lottie动画框:
@@ -689,7 +689,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                             , Toast.LENGTH_SHORT).show();
                                     return true;
                                 })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .show(getSupportFragmentManager());
                 break;
             case RvHorizontal:
@@ -717,7 +717,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                                     return true;
                                 }
                         )
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .show(getSupportFragmentManager());
                 break;
             case 广告无x:
@@ -834,7 +834,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             tvError.setText("用户或密码错误");
                             return false;
                         })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .show(getSupportFragmentManager());
                 break;
             }
@@ -868,7 +868,7 @@ public class MainActivity extends AppCompatActivity implements BaseQuickAdapter.
                             tvError.setText("二次密码不一致");
                             return false;
                         })
-                        .setNegative("取消", null)
+                        .setNegative("取消", (OnButtonClickListener) null)
                         .show(getSupportFragmentManager());
                 break;
         }
